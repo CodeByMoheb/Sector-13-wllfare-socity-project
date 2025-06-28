@@ -1,0 +1,224 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "_Layout";
+}
+
+<style>
+    .register-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .register-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        overflow: hidden;
+        width: 100%;
+        max-width: 450px;
+    }
+    
+    .register-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+    }
+    
+    .register-body {
+        padding: 40px 30px;
+    }
+    
+    .form-floating {
+        margin-bottom: 20px;
+    }
+    
+    .form-control, .form-select {
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        padding: 12px 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .btn-register {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 12px;
+        font-weight: 600;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+    
+    .btn-login {
+        background: transparent;
+        border: 2px solid #667eea;
+        color: #667eea;
+        border-radius: 10px;
+        padding: 12px;
+        font-weight: 600;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-login:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .back-home {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .back-home:hover {
+        color: #f8f9fa;
+        transform: translateX(-5px);
+    }
+    
+    .validation-summary-errors {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .field-validation-error {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 5px;
+        display: block;
+    }
+    
+    .role-info {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-left: 4px solid #667eea;
+    }
+    
+    .role-info h6 {
+        color: #667eea;
+        margin-bottom: 10px;
+    }
+    
+    .role-info ul {
+        margin-bottom: 0;
+        padding-left: 20px;
+    }
+    
+    .role-info li {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+</style>
+
+<div class="register-container">
+    <a href="@Url.Action("Index", "Home")" class="back-home">
+        <i class="fas fa-arrow-left me-2"></i>Back to Home
+    </a>
+    
+    <div class="register-card">
+        <div class="register-header">
+            <i class="fas fa-user-plus fa-3x mb-3"></i>
+            <h2 class="mb-2">Join Our Community</h2>
+            <p class="mb-0">Create your Sector 13 Welfare Society account</p>
+        </div>
+        
+        <div class="register-body">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="validation-summary-errors">
+                    <ul class="mb-0">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
+            
+            <div class="role-info">
+                <h6><i class="fas fa-info-circle me-2"></i>Role Information</h6>
+                <ul>
+                    <li><strong>Member:</strong> Access to community updates and events</li>
+                    <li><strong>Manager:</strong> Manage operations and team coordination</li>
+                    <li><strong>Secretary:</strong> Handle records and communications</li>
+                    <li><strong>President:</strong> Leadership and decision making</li>
+                    <li><strong>Admin:</strong> Full system administration</li>
+                </ul>
+            </div>
+            
+            <form asp-action="Register" method="post">
+                <div class="form-floating">
+                    <input asp-for="Email" class="form-control" placeholder="Email" />
+                    <label asp-for="Email">Email</label>
+                    <span asp-validation-for="Email" class="field-validation-error"></span>
+                </div>
+                
+                <div class="form-floating">
+                    <input asp-for="Password" class="form-control" placeholder="Password" />
+                    <label asp-for="Password">Password</label>
+                    <span asp-validation-for="Password" class="field-validation-error"></span>
+                </div>
+                
+                <div class="form-floating">
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                    <label asp-for="ConfirmPassword">Confirm Password</label>
+                    <span asp-validation-for="ConfirmPassword" class="field-validation-error"></span>
+                </div>
+                
+                <div class="form-floating">
+                    <select asp-for="SelectedRole" class="form-select" asp-items="@(new SelectList(ViewBag.Roles))">
+                        <option value="">Select a role...</option>
+                    </select>
+                    <label asp-for="SelectedRole">Role</label>
+                    <span asp-validation-for="SelectedRole" class="field-validation-error"></span>
+                </div>
+                
+                <button type="submit" class="btn btn-register text-white mb-3">
+                    <i class="fas fa-user-plus me-2"></i>Create Account
+                </button>
+                
+                <a href="@Url.Action("Login", "Account")" class="btn btn-login">
+                    <i class="fas fa-sign-in-alt me-2"></i>Already have an account? Sign In
+                </a>
+            </form>
+            
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    <i class="fas fa-shield-alt me-1"></i>
+                    Your data is secure with us
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

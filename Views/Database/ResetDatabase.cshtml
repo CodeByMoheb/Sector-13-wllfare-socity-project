@@ -1,0 +1,130 @@
+@{
+    ViewData["Title"] = "Database Reset";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-danger text-white text-center">
+                    <h3 class="mb-0">
+                        <i class="fas fa-database me-2"></i>
+                        Database Reset Utility
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.Success == true)
+                    {
+                        <div class="alert alert-success">
+                            <h5><i class="fas fa-check-circle me-2"></i>Database Reset Completed Successfully!</h5>
+                            <p class="mb-0">All existing accounts have been removed and new test accounts have been created.</p>
+                        </div>
+
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h6 class="mb-0"><i class="fas fa-users me-2"></i>New Test Accounts Created:</h6>
+                            </div>
+                            <div class="card-body">
+                                @if (ViewBag.Results != null)
+                                {
+                                    foreach (var result in ViewBag.Results)
+                                    {
+                                        <div class="mb-2">
+                                            @Html.Raw(result)
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-3">
+                            <h6><i class="fas fa-info-circle me-2"></i>Test Credentials Summary:</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Admin:</strong> admin@sec13.com / Admin@123<br>
+                                    <strong>President:</strong> president@sec13.com / President@123<br>
+                                    <strong>Secretary:</strong> secretary@sec13.com / Secretary@123
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Manager:</strong> manager@sec13.com / Manager@123<br>
+                                    <strong>Member:</strong> member@sec13.com / Member@123
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Use the email address as both username and email for login
+                                </small>
+                            </div>
+                        </div>
+                    }
+                    else if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            <h5><i class="fas fa-exclamation-triangle me-2"></i>Error</h5>
+                            <p class="mb-0">@ViewBag.Error</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center mb-4">
+                            <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+                            <h4 class="mt-3 text-danger">⚠️ Warning</h4>
+                            <p class="text-muted">This action will permanently delete ALL existing user accounts and create new test accounts.</p>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <h6><i class="fas fa-info-circle me-2"></i>What will happen:</h6>
+                            <ul class="mb-0">
+                                <li>All existing user accounts will be permanently deleted</li>
+                                <li>All existing roles will be recreated</li>
+                                <li>5 new test accounts will be created (one for each role)</li>
+                                <li>Each account will have a simple password for testing</li>
+                            </ul>
+                        </div>
+
+                        <form method="post" asp-action="ResetDatabase" onsubmit="return confirm('Are you absolutely sure you want to reset the database? This action cannot be undone!');">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-danger btn-lg">
+                                    <i class="fas fa-trash me-2"></i>
+                                    Reset Database & Create Test Accounts
+                                </button>
+                                <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
+                    }
+
+                    <div class="mt-4 text-center">
+                        <a href="@Url.Action("ViewUsers", "Database")" class="btn btn-outline-primary">
+                            <i class="fas fa-eye me-2"></i>
+                            View Current Users
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+    }
+    
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+    
+    .btn {
+        border-radius: 10px;
+        font-weight: 500;
+    }
+    
+    .alert {
+        border-radius: 10px;
+        border: none;
+    }
+</style> 

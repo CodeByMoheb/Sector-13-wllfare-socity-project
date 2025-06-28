@@ -1,0 +1,138 @@
+@{
+    ViewData["Title"] = "User Management";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <i class="fas fa-users-cog me-2"></i>
+                        User Management
+                    </h2>
+                    <p class="card-text">Manage users and roles for Sector 13 Welfare Society.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Create Test Users</h6>
+                </div>
+                <div class="card-body">
+                    <p>This will create test users for each role with the password: <strong>Test@123</strong></p>
+                    <form method="post" asp-action="CreateTestUsers">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-plus me-2"></i>Create Test Users
+                        </button>
+                    </form>
+                    
+                    <hr>
+                    <h6>Test Users:</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <strong>Admin:</strong> admin@sec13.com / admin
+                        </li>
+                        <li class="list-group-item">
+                            <strong>President:</strong> president@sec13.com / president
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Secretary:</strong> secretary@sec13.com / secretary
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Manager:</strong> manager@sec13.com / manager
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Member:</strong> member@sec13.com / member
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Assign Role to User</h6>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-action="AssignRole">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">User Email:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role:</label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="">Select a role...</option>
+                                <option value="Admin">Admin</option>
+                                <option value="President">President</option>
+                                <option value="Secretary">Secretary</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Member">Member</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-user-tag me-2"></i>Assign Role
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("ListUsers")" class="btn btn-info btn-block">
+                                <i class="fas fa-list me-2"></i>View All Users
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Dashboard")" class="btn btn-primary btn-block">
+                                <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary btn-block">
+                                <i class="fas fa-home me-2"></i>Go to Home
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="/Identity/Account/Register" class="btn btn-success btn-block">
+                                <i class="fas fa-user-plus me-2"></i>Register New User
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

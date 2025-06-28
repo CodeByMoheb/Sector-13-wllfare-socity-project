@@ -1,0 +1,109 @@
+@model List<Sector_13_Welfare_Society___Digital_Management_System.Controllers.UserRoleInfo>
+@{
+    ViewData["Title"] = "Current Users";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">
+                            <i class="fas fa-users me-2"></i>
+                            Current Users in Database
+                        </h3>
+                        <a href="@Url.Action("ResetDatabase", "Database")" class="btn btn-danger">
+                            <i class="fas fa-trash me-2"></i>
+                            Reset Database
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Roles</th>
+                                        <th>User ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var user in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@user.UserName</strong>
+                                            </td>
+                                            <td>@user.Email</td>
+                                            <td>
+                                                @foreach (var role in user.Roles)
+                                                {
+                                                    <span class="badge bg-primary me-1">@role</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <small class="text-muted">@user.UserId</small>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="alert alert-info mt-3">
+                            <h6><i class="fas fa-info-circle me-2"></i>Total Users: @Model.Count</h6>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-user-slash text-muted" style="font-size: 4rem;"></i>
+                            <h4 class="mt-3 text-muted">No Users Found</h4>
+                            <p class="text-muted">The database appears to be empty or no users exist.</p>
+                            <a href="@Url.Action("ResetDatabase", "Database")" class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>
+                                Create Test Users
+                            </a>
+                        </div>
+                    }
+
+                    <div class="mt-4 text-center">
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+    }
+    
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+    
+    .btn {
+        border-radius: 10px;
+        font-weight: 500;
+    }
+    
+    .table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .badge {
+        font-size: 0.8em;
+    }
+</style> 

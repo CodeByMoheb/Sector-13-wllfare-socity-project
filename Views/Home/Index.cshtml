@@ -1,0 +1,240 @@
+@{
+    ViewData["Title"] = "Sector 13 Welfare Society";
+}
+
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 100px 0;
+        position: relative;
+    }
+    
+    .auth-buttons {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+    }
+    
+    .feature-card {
+        transition: transform 0.3s ease;
+        border: none;
+        border-radius: 15px;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stats-section {
+        background: #f8f9fa;
+        padding: 80px 0;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 30px 20px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .about-section {
+        padding: 80px 0;
+        background: white;
+    }
+    
+    .mission-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 0;
+    }
+    
+    .footer {
+        background: #2c3e50;
+        color: white;
+        padding: 40px 0;
+    }
+</style>
+
+<!-- Auth Buttons -->
+<div class="auth-buttons">
+    <a href="@Url.Action("Login", "Account")" class="btn btn-outline-light me-2">
+        <i class="fas fa-sign-in-alt me-2"></i>Login
+    </a>
+    <a href="@Url.Action("Register", "Account")" class="btn btn-light">
+        <i class="fas fa-user-plus me-2"></i>Register
+    </a>
+</div>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-heart me-3"></i>
+                    Sector 13 Welfare Society
+                </h1>
+                <p class="lead mb-4">Empowering communities through compassion, service, and digital innovation.</p>
+                <div class="d-flex gap-3">
+                    <a href="#about" class="btn btn-light btn-lg">Learn More</a>
+                    <a href="@Url.Action("Register", "Account")" class="btn btn-outline-light btn-lg">Join Us</a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-users fa-10x opacity-50"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold text-primary">Our Impact</h2>
+                <p class="lead text-muted">Making a difference in our community</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card">
+                    <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                    <h3 class="fw-bold text-primary">500+</h3>
+                    <p class="text-muted">Community Members</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card">
+                    <i class="fas fa-hands-helping fa-3x text-success mb-3"></i>
+                    <h3 class="fw-bold text-success">50+</h3>
+                    <p class="text-muted">Projects Completed</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card">
+                    <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                    <h3 class="fw-bold text-danger">1000+</h3>
+                    <p class="text-muted">Lives Touched</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card">
+                    <i class="fas fa-calendar-alt fa-3x text-info mb-3"></i>
+                    <h3 class="fw-bold text-info">10+</h3>
+                    <p class="text-muted">Years of Service</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section" id="about">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="display-5 fw-bold text-primary mb-4">About Sector 13 Welfare Society</h2>
+                <p class="lead mb-4">Founded with a vision to serve and uplift our community, we have been at the forefront of social development and community welfare initiatives.</p>
+                <p class="mb-4">We believe in the power of collective action and digital innovation to create sustainable positive change.</p>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="feature-card card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-graduation-cap fa-3x text-primary mb-3"></i>
+                                <h5>Education</h5>
+                                <p class="text-muted">Supporting students with scholarships</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="feature-card card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-heartbeat fa-3x text-success mb-3"></i>
+                                <h5>Healthcare</h5>
+                                <p class="text-muted">Medical camps and health programs</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="feature-card card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-home fa-3x text-info mb-3"></i>
+                                <h5>Housing</h5>
+                                <p class="text-muted">Assisting families with housing needs</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="feature-card card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-laptop fa-3x text-warning mb-3"></i>
+                                <h5>Digital Skills</h5>
+                                <p class="text-muted">Training in digital technologies</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section class="mission-section">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-4">Our Mission</h2>
+                <p class="lead mb-5">To create a sustainable, inclusive, and digitally empowered community where every individual has the opportunity to thrive.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <h5 class="mb-3">Sector 13 Welfare Society</h5>
+                <p>Empowering communities through digital innovation and compassionate service.</p>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <h5 class="mb-3">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#about" class="text-light">About Us</a></li>
+                    <li><a href="@Url.Action("Register", "Account")" class="text-light">Join Us</a></li>
+                    <li><a href="@Url.Action("Login", "Account")" class="text-light">Member Login</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 mb-4">
+                <h5 class="mb-3">Contact Info</h5>
+                <p><i class="fas fa-map-marker-alt me-2"></i>Sector 13, City, State</p>
+                <p><i class="fas fa-phone me-2"></i>+1 234 567 8900</p>
+                <p><i class="fas fa-envelope me-2"></i>info@sec13welfare.org</p>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col-12 text-center">
+                <p class="mb-0">&copy; 2024 Sector 13 Welfare Society. All rights reserved.</p>
+                <div class="mt-2">
+                    <small class="text-muted">
+                        <a href="@Url.Action("ResetDatabase", "Database")" class="text-light me-3">
+                            <i class="fas fa-database me-1"></i>Database Reset
+                        </a>
+                        <a href="@Url.Action("ViewUsers", "Database")" class="text-light">
+                            <i class="fas fa-users me-1"></i>View Users
+                        </a>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer> 

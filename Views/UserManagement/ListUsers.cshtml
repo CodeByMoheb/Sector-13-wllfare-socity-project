@@ -1,0 +1,118 @@
+@model List<Sector_13_Welfare_Society___Digital_Management_System.Controllers.UserRoleViewModel>
+@{
+    ViewData["Title"] = "User List";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-info text-white mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <i class="fas fa-users me-2"></i>
+                        User List
+                    </h2>
+                    <p class="card-text">All registered users and their assigned roles.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">Users and Roles</h6>
+                </div>
+                <div class="card-body">
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Roles</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var user in Model)
+                                    {
+                                        <tr>
+                                            <td>@user.UserId</td>
+                                            <td>@user.UserName</td>
+                                            <td>@user.Email</td>
+                                            <td>
+                                                @if (user.Roles != null && user.Roles.Any())
+                                                {
+                                                    foreach (var role in user.Roles)
+                                                    {
+                                                        <span class="badge bg-primary me-1">@role</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">No Role</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Index", "UserManagement")" class="btn btn-sm btn-warning">
+                                                    <i class="fas fa-edit"></i> Manage
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            No users found. Please create some users first.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">Quick Actions</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "UserManagement")" class="btn btn-primary btn-block">
+                                <i class="fas fa-cog me-2"></i>User Management
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Dashboard")" class="btn btn-success btn-block">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary btn-block">
+                                <i class="fas fa-home me-2"></i>Home
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="/Identity/Account/Register" class="btn btn-info btn-block">
+                                <i class="fas fa-user-plus me-2"></i>Register User
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

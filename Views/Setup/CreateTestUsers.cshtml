@@ -1,0 +1,142 @@
+@{
+    ViewData["Title"] = "Setup Test Users";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body text-center">
+                    <h2 class="card-title">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Test Users Setup
+                    </h2>
+                    <p class="card-text">Creating test users for Sector 13 Welfare Society</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            @ViewBag.Error
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (ViewBag.Results != null)
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-success">Setup Results</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            @foreach (var result in ViewBag.Results)
+                            {
+                                <div class="list-group-item">
+                                    @result
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Test User Credentials</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Role</th>
+                                        <th>Email</th>
+                                        <th>Username</th>
+                                        <th>Password</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="badge bg-primary">Admin</span></td>
+                                        <td>admin@sec13.com</td>
+                                        <td>admin</td>
+                                        <td>Test@123</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge bg-success">President</span></td>
+                                        <td>president@sec13.com</td>
+                                        <td>president</td>
+                                        <td>Test@123</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge bg-info">Secretary</span></td>
+                                        <td>secretary@sec13.com</td>
+                                        <td>secretary</td>
+                                        <td>Test@123</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge bg-warning">Manager</span></td>
+                                        <td>manager@sec13.com</td>
+                                        <td>manager</td>
+                                        <td>Test@123</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge bg-secondary">Member</span></td>
+                                        <td>member@sec13.com</td>
+                                        <td>member</td>
+                                        <td>Test@123</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Next Steps</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="/Identity/Account/Login" class="btn btn-primary btn-block">
+                                <i class="fas fa-sign-in-alt me-2"></i>Login
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Dashboard")" class="btn btn-success btn-block">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-info btn-block">
+                                <i class="fas fa-home me-2"></i>Home
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Index", "UserManagement")" class="btn btn-warning btn-block">
+                                <i class="fas fa-users-cog me-2"></i>User Management
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
