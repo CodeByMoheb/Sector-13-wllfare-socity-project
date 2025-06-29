@@ -109,8 +109,10 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 userRoles.Add(new UserRoleViewModel
                 {
                     UserId = user.Id,
-                    UserName = user.UserName,
-                    Email = user.Email,
+                    // UserName = user.UserName,
+                    // Email = user.Email,
+                     UserName = user.UserName ?? string.Empty,
+                    Email = user.Email ?? string.Empty,
                     Roles = roles.ToList()
                 });
             }
