@@ -1,0 +1,172 @@
+@{
+    ViewData["Title"] = "Gallery";
+}
+
+<style>
+    .gallery-navbar {
+        background: #fff;
+        border-bottom: 1.5px solid #e5e5e5;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        padding: 1rem 0;
+        margin-bottom: 2rem;
+    }
+    .gallery-nav-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 0 15px;
+    }
+    .gallery-breadcrumb {
+        font-size: 0.95rem;
+        color: #888;
+    }
+    .gallery-breadcrumb a {
+        color: #3498db;
+        text-decoration: none;
+        margin-right: 5px;
+    }
+    .gallery-breadcrumb span {
+        margin: 0 5px;
+    }
+    .gallery-nav {
+        display: flex;
+        gap: 0.7rem;
+        flex-wrap: wrap;
+    }
+    .gallery-nav-btn {
+        background: #f2f2f2;
+        color: #23272b;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 18px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+    }
+    .gallery-nav-btn.active, .gallery-nav-btn:hover {
+        background: #5b3fa2;
+        color: #fff;
+    }
+    .gallery-section {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 15px 40px 15px;
+    }
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 24px;
+    }
+    .gallery-item {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(44,62,80,0.06);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .gallery-item:hover {
+        box-shadow: 0 8px 32px rgba(44,62,80,0.12);
+        transform: translateY(-4px) scale(1.02);
+    }
+    .gallery-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: #eee;
+    }
+    .gallery-caption {
+        padding: 1rem;
+        text-align: center;
+        font-size: 1rem;
+        color: #444;
+    }
+    @@media (max-width: 600px) {
+        .gallery-grid {
+            grid-template-columns: 1fr;
+        }
+        .gallery-navbar, .gallery-section {
+            padding: 0 5px;
+        }
+    }
+</style>
+
+<div class="gallery-navbar">
+    <div class="gallery-nav-container">
+        <div class="gallery-breadcrumb">
+            <a href="@Url.Action("Index", "Home")">Home</a>
+            <span>&raquo;</span>
+            <span>Gallery</span>
+        </div>
+        <nav class="gallery-nav">
+            <button class="gallery-nav-btn active" data-filter="all">All</button>
+            <button class="gallery-nav-btn" data-filter="education">Education</button>
+            <button class="gallery-nav-btn" data-filter="food">Food</button>
+            <button class="gallery-nav-btn" data-filter="healthcare">Healthcare</button>
+            <button class="gallery-nav-btn" data-filter="winter">Winter Care</button>
+            <button class="gallery-nav-btn" data-filter="wash">WASH</button>
+            <button class="gallery-nav-btn" data-filter="iftar">Iftar & Suhoor</button>
+        </nav>
+    </div>
+</div>
+
+<section class="gallery-section">
+    <div class="gallery-grid" id="galleryGrid">
+        <!-- Example gallery items (replace with real images/content as needed) -->
+        <div class="gallery-item" data-category="education">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/education.jpg" class="gallery-img" alt="Education">
+            <div class="gallery-caption">Education Program</div>
+        </div>
+        <div class="gallery-item" data-category="food">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/food.jpg" class="gallery-img" alt="Food">
+            <div class="gallery-caption">Food Distribution</div>
+        </div>
+        <div class="gallery-item" data-category="healthcare">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/healthcare.jpg" class="gallery-img" alt="Healthcare">
+            <div class="gallery-caption">Healthcare Camp</div>
+        </div>
+        <div class="gallery-item" data-category="winter">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/winter.jpg" class="gallery-img" alt="Winter Care">
+            <div class="gallery-caption">Winter Care</div>
+        </div>
+        <div class="gallery-item" data-category="wash">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/wash.jpg" class="gallery-img" alt="WASH">
+            <div class="gallery-caption">WASH Program</div>
+        </div>
+        <div class="gallery-item" data-category="iftar">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/iftar.jpg" class="gallery-img" alt="Iftar & Suhoor">
+            <div class="gallery-caption">Iftar & Suhoor</div>
+        </div>
+        <!-- Add more items as needed -->
+    </div>
+</section>
+
+<script>
+    // Gallery filter logic
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterButtons = document.querySelectorAll('.gallery-nav-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const filter = this.getAttribute('data-filter');
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script> 
