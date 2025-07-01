@@ -20,7 +20,6 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         
 
 // In Controllers/HomeController.cs
-//gallery info
         public IActionResult Gallery()
         {
             return View();
