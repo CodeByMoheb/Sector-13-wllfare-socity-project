@@ -582,7 +582,7 @@
         }
         .program-img {
             width: 100%;
-            height: 180px;
+            height: 200px;
             object-fit: cover;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
@@ -661,7 +661,7 @@
         }
         .partner-logo {
             flex-shrink: 0; /* Prevent logos from shrinking */
-            background: #fff;
+            background: rgba(254, 255, 255, 0.76);
             border-radius: 8px;
             box-shadow: 0 2px 12px rgba(44,62,80,0.08);
             padding: 18px 28px;
@@ -739,7 +739,7 @@
             .footer-column {
                 min-width: 200px;
             }
-            .program-img { height: 150px; }
+            .program-img { height: 180px; }
             .partner-logo { min-width: 180px; padding: 12px 10px; }
             .partnerships-slider { gap: 18px; }
         }
@@ -914,12 +914,14 @@
             <ul class="nav-menu" style="display:flex;align-items:center;gap:1rem;list-style:none;margin:0;flex:1;justify-content:center;">
                 <li><a href="#home" class="nav-link active">HOME</a></li>
                 <li class="nav-item dropdown">
-                    <a href="#about" class="nav-link dropdown-toggle">ABOUT US</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#about-us-section" class="dropdown-item">About Us</a></li>
-                        <li><a href="#chairman-message" class="dropdown-item">Message of Chairman</a></li>
-                        <li><a href="#how-we-work" class="dropdown-item">How Do We Work</a></li>
-                        <li><a href="#where-we-work" class="dropdown-item">Where We Work</a></li>
+                    <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ABOUT US
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
+                        <li><a class="dropdown-item" href="@Url.Action("AboutUs", "Home")">About Us</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("MessageOfChairman", "Home")">Message of Chairman</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("HowDoWeWork", "Home")">How Do We Work</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("WhereWeWork", "Home")">Where We Work</a></li>
                     </ul>
                 </li>
                 <li><a href="#programs" class="nav-link">PROGRAMS</a></li>
@@ -1095,9 +1097,9 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="program-card h-100">
-                        <img src="https://uws.org.bd/wp-content/uploads/2023/07/education.jpg" alt="Education Programs" class="img-fluid rounded-top program-img">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwqb1ZJniEbDZUS2ZHhMxiPk-gugCdsmPo6g&s" alt="Education Programs" class="img-fluid rounded-top program-img">
                         <div class="program-card-body">
-                            <h4 class="fw-bold mb-2">Education Programs</h4>
+                            <h4 class="fw-bold mb-2 text-info"><i class="fas fa-user-graduate"></i> Education Programs</h4>
                             <p>Providing quality education and learning opportunities to underprivileged children and adults across Bangladesh.</p>
                             <a href="#" class="btn btn-primary mt-2">Learn More</a>
                         </div>
@@ -1105,9 +1107,9 @@
                 </div>
                 <div class="col-md-4">
                     <div class="program-card h-100">
-                        <img src="https://uws.org.bd/wp-content/uploads/2023/07/food.jpg" alt="Food Programs" class="img-fluid rounded-top program-img">
+                        <img src="https://ehsaasinternational.com/wp-content/uploads/2021/11/ehsaas-international-free-meals.jpg" alt="Food Programs" class="img-fluid rounded-top program-img">
                         <div class="program-card-body">
-                            <h4 class="fw-bold mb-2">Food Programs</h4>
+                            <h4 class="fw-bold mb-2 text-danger"><i class="fas fa-utensils"></i> Food Programs</h4>
                             <p>Ensuring food security through regular meal programs, food distribution, and nutrition support for vulnerable families.</p>
                             <a href="#" class="btn btn-primary mt-2">Learn More</a>
                         </div>
@@ -1115,9 +1117,9 @@
                 </div>
                 <div class="col-md-4">
                     <div class="program-card h-100">
-                        <img src="https://uws.org.bd/wp-content/uploads/2023/07/water.jpg" alt="Water & Sanitation" class="img-fluid rounded-top program-img">
+                        <img src="https://assets.telegraphindia.com/abp/2019/7/21/1606313133_5fbe64adce137_image.jpg" alt="Water & Sanitation" class="img-fluid rounded-top program-img">
                         <div class="program-card-body">
-                            <h4 class="fw-bold mb-2">Water & Sanitation</h4>
+                            <h4 class="fw-bold mb-2 text-success"><i class="fas fa-water"></i> Water & Sanitation</h4>
                             <p>Installing clean water systems, building sanitation facilities, and promoting hygiene practices in rural communities.</p>
                             <a href="#" class="btn btn-primary mt-2">Learn More</a>
                         </div>
@@ -1125,9 +1127,9 @@
                 </div>
                 <div class="col-md-4">
                     <div class="program-card h-100">
-                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1700000000/healthcare_placeholder.jpg" alt="Healthcare" class="img-fluid rounded-top program-img">
+                        <img src="https://southlondoncollege.org/wp-content/uploads/2025/02/NCFE-CACHE-Level-3-Diploma-in-Healthcare-Support-1.jpg" alt="Healthcare" class="img-fluid rounded-top program-img">
                         <div class="program-card-body">
-                            <h4 class="fw-bold mb-2">Healthcare Programs</h4>
+                            <h4 class="fw-bold mb-2 text-warning"><i class="fas fa-heartbeat"></i> Healthcare Programs</h4>
                             <p>Mobile medical camps, health awareness programs, and medical assistance for those who cannot afford treatment.</p>
                             <a href="#" class="btn btn-primary mt-2">Learn More</a>
                         </div>
@@ -1135,9 +1137,9 @@
                 </div>
                 <div class="col-md-4">
                     <div class="program-card h-100">
-                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1700000000/emergency_placeholder.jpg" alt="Emergency" class="img-fluid rounded-top program-img">
+                        <img src="https://crisisresponse.iom.int/sites/g/files/tmzbdl1481/files/styles/context_analysis_image_style/public/appeal/photos/Photo%203%20%2811%29.JPG?h=731c79a4" alt="Emergency" class="img-fluid rounded-top program-img">
                         <div class="program-card-body">
-                            <h4 class="fw-bold mb-2">Emergency Response</h4>
+                            <h4 class="fw-bold mb-2 text-primary"><i class="fas fa-ambulance"></i> Emergency Response</h4>
                             <p>Rapid response to disasters, providing immediate relief including shelter, food, and medical aid to affected communities.</p>
                             <a href="#" class="btn btn-primary mt-2">Learn More</a>
                         </div>
@@ -1145,9 +1147,9 @@
                 </div>
                 <div class="col-md-4">
                     <div class="program-card h-100">
-                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1700000000/clean_response_placeholder.jpg" alt="Clean Response" class="img-fluid rounded-top program-img">
+                        <img src="https://d3lzcn6mbbadaf.cloudfront.net/media/details/ANI-20231001123551.jpg" alt="Clean Response" class="img-fluid rounded-top program-img">
                         <div class="program-card-body">
-                            <h4 class="fw-bold mb-2">Sector13 Clean Response</h4>
+                            <h4 class="fw-bold mb-2 text-secondary"><i class="fas fa-broom"></i> Sector13 Clean Response</h4>
                             <p>Ensuring cleanliness in a busy urban area like Sector 13 in Dhaka, Bangladesh, is a continuous and complex challenge. Here's a "clean response".</p>
                             <a href="#" class="btn btn-primary mt-2">Learn More</a>
                         </div>
@@ -1167,24 +1169,24 @@
                 <button class="partnerships-arrow left-arrow" aria-label="Previous Partner"><i class="fas fa-chevron-left"></i></button>
                 <div class="partnerships-slider">
                     <div class="partner-logo">
-                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/embassy_uae.png" alt="Embassy of the United Arab Emirates in Dhaka">
-                        <p>Embassy of the United Arab Emirates in Dhaka</p>
+                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751356239/image-removebg-preview_1_uovvx9.png" alt="Embassy of the United Arab Emirates in Dhaka">
+                        <p>E-tex soft LTD</p>
                     </div>
                     <div class="partner-logo">
-                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/emirates_red_crescent.png" alt="Emirates Red Crescent">
-                        <p>Emirates Red Crescent</p>
+                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751352630/e-group-removebg-preview_dtlpdm.png" alt="Emirates Red Crescent">
+                        <p>Onestop Textile Ethical Solutions</p>
                     </div>
                     <div class="partner-logo">
-                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/hearts_4_mercy.png" alt="Hearts 4 Mercy">
-                        <p>Hearts 4 Mercy</p>
+                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751353263/Capture-removebg-preview_yym13u.png" alt="Hearts 4 Mercy">
+                        <p>E-tex</p>
                     </div>
                     <div class="partner-logo">
-                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/iltizam_relief_society.png" alt="Iltizam Relief Society">
-                        <p>Iltizam Relief Society</p>
+                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751353501/image-removebg-preview_pwctnj.png" alt="Iltizam Relief Society">
+                        <p>EPIC</p>
                     </div>
                     <div class="partner-logo">
-                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/dh_foundation.png" alt="DH Foundation Registered Charity Number 172015">
-                        <p>DH Foundation<br>Registered Charity Number 172015</p>
+                        <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751356446/image-removebg-preview_2_i30fin.png" alt="DH Foundation Registered Charity Number 172015">
+                        <p>Epic pharma</p>
                     </div>
                 </div>
                 <button class="partnerships-arrow right-arrow" aria-label="Next Partner"><i class="fas fa-chevron-right"></i></button>

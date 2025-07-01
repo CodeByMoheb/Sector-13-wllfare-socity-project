@@ -31,6 +31,17 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    About Us
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="MessageOfChairman">Message of Chairman</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="HowDoWeWork">How Do We Work</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="WhereWeWork">Where We Work</a></li>
+                                </ul>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                             </li>
