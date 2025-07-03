@@ -59,17 +59,18 @@
     }
     .gallery-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        grid-template-columns: repeat(4, 1fr); /* 4 columns for All view */
         gap: 24px;
     }
     .gallery-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
         background: #fff;
         border-radius: 10px;
         box-shadow: 0 2px 12px rgba(44,62,80,0.06);
         overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         transition: box-shadow 0.2s, transform 0.2s;
     }
     .gallery-item:hover {
@@ -82,15 +83,14 @@
         object-fit: cover;
         background: #eee;
     }
-    .gallery-caption {
-        padding: 1rem;
-        text-align: center;
-        font-size: 1rem;
-        color: #444;
+    @@media (max-width: 992px) {
+        .gallery-grid {
+            grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+        }
     }
     @@media (max-width: 600px) {
         .gallery-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr; /* 1 column on mobile */
         }
         .gallery-navbar, .gallery-section {
             padding: 0 5px;
@@ -122,38 +122,165 @@
         <!-- Example gallery items (replace with real images/content as needed) -->
         <div class="gallery-item" data-category="education">
             <img src="https://bdplatform4sdgs.net/wp-content/uploads/2017/02/Secondary-education-A-long-way-to-go.png" class="gallery-img" alt="Education">
-            <div class="gallery-caption">Education Program</div>
+        </div>
+        <div class="gallery-item" data-category="education">
+            <img src="https://bdplatform4sdgs.net/wp-content/uploads/2017/02/Secondary-education-A-long-way-to-go.png" class="gallery-img" alt="Education">
+        </div>
+        <div class="gallery-item" data-category="education">
+            <img src="https://bdplatform4sdgs.net/wp-content/uploads/2017/02/Secondary-education-A-long-way-to-go.png" class="gallery-img" alt="Education">
+        </div>
+        <div class="gallery-item" data-category="education">
+            <img src="https://bdplatform4sdgs.net/wp-content/uploads/2017/02/Secondary-education-A-long-way-to-go.png" class="gallery-img" alt="Education">
         </div>
         <div class="gallery-item" data-category="food">
             <img src="https://aman.org.bd/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-06-at-2.32.01-PM-1024x683.jpeg.webp" class="gallery-img" alt="Food">
-            <div class="gallery-caption">Food Distribution</div>
+        </div>
+        <div class="gallery-item" data-category="food">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/food.jpg" class="gallery-img" alt="Food">
+        </div>
+        <div class="gallery-item" data-category="food">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/food-2.jpg" class="gallery-img" alt="Food">
+        </div>
+        <div class="gallery-item" data-category="food">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/food-2.jpg" class="gallery-img" alt="Food">
         </div>
         <div class="gallery-item" data-category="healthcare">
             <img src="https://sakinafoundation.org/wp-content/uploads/2021/11/041ead7c-6943-4c5a-a617-ef7f00fe7dad.jpg" class="gallery-img" alt="Healthcare">
-            <div class="gallery-caption">Healthcare Camp</div>
+        </div>
+        <div class="gallery-item" data-category="healthcare">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/healthcare.jpg" class="gallery-img" alt="Healthcare">
+        </div>
+        <div class="gallery-item" data-category="healthcare">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/healthcare-2.jpg" class="gallery-img" alt="Healthcare">
+        </div>
+        <div class="gallery-item" data-category="healthcare">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/healthcare-2.jpg" class="gallery-img" alt="Healthcare">
         </div>
         <div class="gallery-item" data-category="winter">
             <img src="https://globalaid.org.uk/wp-content/uploads/2023/04/Winter-Clothes-Distribution-2022-3-e1687741097238.jpeg" class="gallery-img" alt="Winter Care">
-            <div class="gallery-caption">Winter Care</div>
         </div>
         <div class="gallery-item" data-category="winter">
             <img src="https://jibonbld.com/wp-content/uploads/2020/03/IMG-20200108-WA0057.jpg" class="gallery-img" alt="Winter Care">
-            <div class="gallery-caption">Winter Care</div>
+        </div>
+        <div class="gallery-item" data-category="winter">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/winter.jpg" class="gallery-img" alt="Winter Care">
+        </div>
+        <div class="gallery-item" data-category="winter">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/winter.jpg" class="gallery-img" alt="Winter Care">
         </div>
         <div class="gallery-item" data-category="wash">
             <img src="https://charity.org/wp-content/uploads/2023/06/Wateraid-1-23-1350x900-58c1fe8.jpg" class="gallery-img" alt="WASH">
-            <div class="gallery-caption">WASH Program</div>
+        </div>
+        <div class="gallery-item" data-category="wash">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/wash.jpg" class="gallery-img" alt="WASH">
+        </div>
+        <div class="gallery-item" data-category="wash">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/wash-2.jpg" class="gallery-img" alt="WASH">
+        </div>
+        <div class="gallery-item" data-category="wash">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/wash-2.jpg" class="gallery-img" alt="WASH">
         </div>
         <div class="gallery-item" data-category="iftar">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoiUC2gxoPCR5Ky0HfocVFGTsN4ZBVTw346A&s" class="gallery-img" alt="Iftar & Suhoor">
-            <div class="gallery-caption">Iftar & Suhoor</div>
+        </div>
+        <div class="gallery-item" data-category="iftar">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/iftar.jpg" class="gallery-img" alt="Iftar & Suhoor">
+        </div>
+        <div class="gallery-item" data-category="iftar">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/iftar-2.jpg" class="gallery-img" alt="Iftar & Suhoor">
+        </div>
+        <div class="gallery-item" data-category="iftar">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/iftar-2.jpg" class="gallery-img" alt="Iftar & Suhoor">
+        </div>
+        <!-- Education extra images -->
+        <div class="gallery-item" data-category="education">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/education.jpg" class="gallery-img" alt="Education">
+        </div>
+        <div class="gallery-item" data-category="education">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/education-2.jpg" class="gallery-img" alt="Education">
+        </div>
+        <!-- Food extra images -->
+        <div class="gallery-item" data-category="food">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/food.jpg" class="gallery-img" alt="Food">
+        </div>
+        <div class="gallery-item" data-category="food">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/food-2.jpg" class="gallery-img" alt="Food">
+        </div>
+        <!-- Healthcare extra images -->
+        <div class="gallery-item" data-category="healthcare">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/healthcare.jpg" class="gallery-img" alt="Healthcare">
+        </div>
+        <div class="gallery-item" data-category="healthcare">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/healthcare-2.jpg" class="gallery-img" alt="Healthcare">
+        </div>
+        <!-- Winter Care extra images -->
+        <div class="gallery-item" data-category="winter">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/winter.jpg" class="gallery-img" alt="Winter Care">
+        </div>
+        <div class="gallery-item" data-category="winter">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/winter-2.jpg" class="gallery-img" alt="Winter Care">
+        </div>
+        <!-- WASH extra images -->
+        <div class="gallery-item" data-category="wash">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/wash.jpg" class="gallery-img" alt="WASH">
+        </div>
+        <div class="gallery-item" data-category="wash">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/wash-2.jpg" class="gallery-img" alt="WASH">
+        </div>
+        <!-- Iftar & Suhoor extra images -->
+        <div class="gallery-item" data-category="iftar">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/iftar.jpg" class="gallery-img" alt="Iftar & Suhoor">
+        </div>
+        <div class="gallery-item" data-category="iftar">
+            <img src="https://uws.org.bd/wp-content/uploads/2023/07/iftar-2.jpg" class="gallery-img" alt="Iftar & Suhoor">
+        </div>
+        <!-- Education additional images -->
+        <div class="gallery-item" data-category="education">
+            <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Education">
+        </div>
+        <div class="gallery-item" data-category="education">
+            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Education">
+        </div>
+        <!-- Food additional images -->
+        <div class="gallery-item" data-category="food">
+            <img src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Food">
+        </div>
+        <div class="gallery-item" data-category="food">
+            <img src="https://images.unsplash.com/photo-1464306076886-debca5e8a6b0?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Food">
+        </div>
+        <!-- Healthcare additional images -->
+        <div class="gallery-item" data-category="healthcare">
+            <img src="https://images.unsplash.com/photo-1504439468489-c8920d796a29?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Healthcare">
+        </div>
+        <div class="gallery-item" data-category="healthcare">
+            <img src="https://images.unsplash.com/photo-1511174511562-5f97f4f4e0c8?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Healthcare">
+        </div>
+        <!-- Winter Care additional images -->
+        <div class="gallery-item" data-category="winter">
+            <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Winter Care">
+        </div>
+        <div class="gallery-item" data-category="winter">
+            <img src="https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Winter Care">
+        </div>
+        <!-- WASH additional images -->
+        <div class="gallery-item" data-category="wash">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="WASH">
+        </div>
+        <div class="gallery-item" data-category="wash">
+            <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="WASH">
+        </div>
+        <!-- Iftar & Suhoor additional images -->
+        <div class="gallery-item" data-category="iftar">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Iftar & Suhoor">
+        </div>
+        <div class="gallery-item" data-category="iftar">
+            <img src="https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80" class="gallery-img" alt="Iftar & Suhoor">
         </div>
         <!-- Add more items as needed -->
     </div>
 </section>
 
 <script>
-    // Gallery filter logic
     document.addEventListener('DOMContentLoaded', function () {
         const filterButtons = document.querySelectorAll('.gallery-nav-btn');
         const galleryItems = document.querySelectorAll('.gallery-item');
