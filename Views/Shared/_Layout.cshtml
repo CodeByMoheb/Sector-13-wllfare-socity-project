@@ -11,104 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
-    
-    <nav class="navbar">
-        <div class="nav-container" style="display:flex;align-items:center;justify-content:space-between;gap:24px;">
-            <div style="display:flex;align-items:center;gap:10px;">
-                <a href="@Url.Action("Index", "Home")" class="nav-logo">
-                    <img src="@Url.Content("~/Photos/logo.png")" alt="Logo">
-                    <span> উত্তরা সেক্টর ১৩</span>
-                </a>
-                <div class="hamburger">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </div>
-            </div>
-            <ul class="nav-menu" style="display:flex;align-items:center;gap:1rem;list-style:none;margin:0;flex:1;justify-content:center;">
-                <li><a href="#home" class="nav-link active">HOME</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        ABOUT US
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
-                        <li><a class="dropdown-item" href="@Url.Action("AboutUs", "Home")">About Us</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("MessageOfChairman", "Home")">Message of Chairman</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("HowDoWeWork", "Home")">How Do We Work</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("memberDirectory", "Home")">Member Directory</a></li>
-                    </ul>
-                </li>
-                <li><a href="#programs" class="nav-link">PROGRAMS</a></li>
-                <li><a href="@Url.Action("Gallery", "Home")" class="nav-link">GALLERY</a></li>
-                <li><a href="#contact" class="nav-link">CONTACT</a></li>
-                <li><a href="#donate" class="uws-donate-btn">DONATE</a></li>
-            </ul>
-
-            <div style="display:flex;align-items:center;gap:10px; margin-left: 2rem;">
-                <a href="@Url.Action("Login","Account")" class="uws-auth-btn">Login</a>
-                <a href="@Url.Action("Register","Account")" class="uws-auth-btn uws-register">Register</a>
-            </div>
-        </div>
-    </nav>
-
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderBody()
-    @await RenderSectionAsync("Scripts", required: false)
-
-     <footer class="main-footer">
-        <div class="footer-container">
-            <div class="footer-column about-uws">
-                <h3>About Sector13 Welfare Society</h3>
-                <p> Welfare Society is a non-profit and charitable organization that started its journey from Chittagong, Bangladesh with a view to improving the living standard of disadvantaged people.</p>
-            </div>
-
-            <div class="footer-column quick-links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#about-us-section">About us</a></li>
-                    <li><a href="#programs">Programs</a></li>
-                    <li><a href="#">Appeals</a></li>
-                    <li><a href="@Url.Action("Gallery", "Home")">Gallery</a></li>
-                    <li><a href="#">News</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-column contact-us">
-                <h3>Contact Us</h3>
-                <p><strong>Head Office</strong><br>123 Welfare St, Sector 13, Dhaka, Bangladesh</p>
-                <p><strong>General Enquiries:</strong> <a href="mailto:info@uws.org.bd">info@uws.org.bd</a></p>
-            </div>
-
-            <div class="footer-column brand-social">
-                <div class="footer-logo">
-                    <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/uws-logo.png" alt="United Welfare Society Logo">
-                </div>
-                <div class="social-icons">
-                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="footer-container">
-                <p>&copy; @@DateTime.Now.Year Sector13 Welfare Society. All rights reserved. Registered charity in Bangladesh. </p>
-            </div>
-        </div>
-    </footer>
-
-</body>
-</html>
-
-
-
-   <style>
+       <style>
         * {
             margin: 0;
             padding: 0;
@@ -137,6 +40,7 @@
         }
 
         /* Navigation */
+
         .navbar {
             position: fixed;
             top: 0;
@@ -168,14 +72,20 @@
 
         .nav-logo img {
             height: 70px;
-            width: 60px;
+            width: 80px;
         }
 
+           @@font-face {
+            font-family: 'Li Shadhinata';
+            src: url('/fonts/Li Shadhinata 2.0 Unicode.ttf') format('truetype');
+            font-weight: normal;
+        }
         .nav-logo span {
             color: #2c3e50;
-            font-weight: 700;
-            font-size: 0.8rem;
-            white-space: nowrap; /* Prevent "Welfare Society" from wrapping */
+            font-weight: 500;
+            font-size: 1.2rem;
+            white-space: nowrap; 
+          font-family: 'Li Shadhinata';
         }
 
         .nav-menu {
@@ -552,6 +462,101 @@
 
         }
     </style>
+    
+    <nav class="navbar">
+        <div class="nav-container" style="display:flex;align-items:center;justify-content:space-between;gap:24px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <a href="@Url.Action("Index", "Home")" class="nav-logo">
+                    <img src="@Url.Content("~/Photos/logo.png")" alt="Logo">
+                    <span> উত্তরা সেক্টর ১৩</span>
+                </a>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+            <ul class="nav-menu" style="display:flex;align-items:center;gap:1rem;list-style:none;margin:0;flex:1;justify-content:center;">
+                <li><a href="@Url.Action("Index", "Home")" class="nav-link active">HOME</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ABOUT US
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
+                        <li><a class="dropdown-item" href="@Url.Action("AboutUs", "Home")">About Us</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("MessageOfChairman", "Home")">Message of Chairman</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("HowDoWeWork", "Home")">How Do We Work</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("memberDirectory", "Home")">Member Directory</a></li>
+                    </ul>
+                </li>
+                <li><a href="#programs" class="nav-link">PROGRAMS</a></li>
+                <li><a href="@Url.Action("Gallery", "Home")" class="nav-link">GALLERY</a></li>
+                <li><a href="#contact" class="nav-link">CONTACT</a></li>
+                <li><a href="#donate" class="uws-donate-btn">DONATE</a></li>
+            </ul>
+
+            <div style="display:flex;align-items:center;gap:10px; margin-left: 2rem;">
+                <a href="@Url.Action("Login","Account")" class="uws-auth-btn">Login</a>
+                <a href="@Url.Action("Register","Account")" class="uws-auth-btn uws-register">Register</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderBody()
+    @await RenderSectionAsync("Scripts", required: false)
+
+     <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column about-uws">
+                <h3>About Sector13 Welfare Society</h3>
+                <p> Welfare Society is a non-profit and charitable organization that started its journey from Chittagong, Bangladesh with a view to improving the living standard of disadvantaged people.</p>
+            </div>
+
+            <div class="footer-column quick-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#about-us-section">About us</a></li>
+                    <li><a href="#programs">Programs</a></li>
+                    <li><a href="#">Appeals</a></li>
+                    <li><a href="@Url.Action("Gallery", "Home")">Gallery</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column contact-us">
+                <h3>Contact Us</h3>
+                <p><strong>Head Office</strong><br>123 Welfare St, Sector 13, Dhaka, Bangladesh</p>
+                <p><strong>General Enquiries:</strong> <a href="mailto:info@uws.org.bd">info@uws.org.bd</a></p>
+            </div>
+
+            <div class="footer-column brand-social">
+                <div class="footer-logo">
+                    <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/uws-logo.png" alt="United Welfare Society Logo">
+                </div>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-container">
+                <p>&copy; @@DateTime.Now.Year Sector13 Welfare Society. All rights reserved. Registered charity in Bangladesh. </p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+
 
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
