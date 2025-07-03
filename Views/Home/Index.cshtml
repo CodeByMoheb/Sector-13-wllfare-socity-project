@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Sector 13 Welfare Society";
+    ViewData["Title"] = "উত্তরা সেক্টর ১৩ ওয়েলফেয়ার  সোসাইটি";
 }
 
     <style>
@@ -61,14 +61,14 @@
         }
 
         .nav-logo img {
-            height: 48px;
-            width: 48px;
+            height: 70px;
+            width: 60px;
         }
 
         .nav-logo span {
             color: #2c3e50;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.8rem;
             white-space: nowrap; /* Prevent "Welfare Society" from wrapping */
         }
 
@@ -246,6 +246,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transform: scale(0.95);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .slide.active {
@@ -261,7 +268,77 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: brightness(0.8); /* Slightly darker for better text contrast */
+            filter: brightness(0.9); /* Slightly darker for better text contrast */
+            transition: all 1.5s ease-in-out;
+            transform: scale(1); /* Start slightly zoomed in */
+        }
+
+        .slide.active .slide-bg {
+            transform: scale(1); /* Normal scale when active */
+        }
+
+        /* Parallax effect for slider backgrounds */
+        .slide-bg {
+            will-change: transform;
+        }
+
+        /* Add a subtle rotation effect on hover */
+        .slide:hover .slide-bg {
+            transform: scale(1) rotate(1deg);
+        }
+
+        /* Add a subtle overlay animation */
+        .slide-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide.active .slide-bg::before {
+            opacity: 1;
+        }
+
+        /* Animation classes for slider backgrounds */
+        .slide-bg.animate-from-right {
+            animation: slideInFromRight 1.5s ease-out;
+        }
+
+        .slide-bg.animate-from-left {
+            animation: slideInFromLeft 1.5s ease-out;
+        }
+
+        .slide-bg.animate-fade-zoom {
+            animation: fadeInZoom 1.5s ease-out;
+        }
+
+        .slide-bg.animate-from-bottom {
+            animation: slideInFromBottom 1.5s ease-out;
+        }
+
+        /* Add a subtle floating animation for active slides */
+        .slide.active .slide-bg {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @@keyframes float {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.02);
+            }
+        }
+
+        @@keyframes pulse {
+            0% { transform: scale(1.1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1.1); }
         }
 
         .slide-content {
@@ -328,6 +405,13 @@
         .prev-btn:hover, .next-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.1);
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        @@keyframes pulse {
+            0% { transform: scale(1.1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1.1); }
         }
 
         .slider-dots {
@@ -370,6 +454,51 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        /* Slider image animations */
+        @@keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px) scale(1.1);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @@keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px) scale(1.1);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @@keyframes fadeInZoom {
+            from {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @@keyframes slideInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(100px) scale(1.1);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -900,10 +1029,10 @@
 
     <nav class="navbar">
         <div class="nav-container" style="display:flex;align-items:center;justify-content:space-between;gap:24px;">
-            <div style="display:flex;align-items:center;gap:14px;">
+            <div style="display:flex;align-items:center;gap:10px;">
                 <a href="@Url.Action("Index", "Home")" class="nav-logo">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1973/1973807.png" alt="Logo">
-                    <span> Welfare Society</span>
+                    <img src="@Url.Content("~/Photos/logo.png")" alt="Logo">
+                    <span> উত্তরা সেক্টর ১৩</span>
                 </a>
                 <div class="hamburger">
                     <span class="bar"></span>
@@ -947,7 +1076,7 @@
                     <p>Empowering communities through compassion, service, and digital innovation.</p>
                     <a href="@Url.Action("Register", "Account")" class="btn cta-button">Join Us</a>
                 </div>
-                <div class="slide-bg" style="background-image: url('https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/closeup-diverse-people-joining-their-hands_jrk6oi.jpg')"></div>
+                <div class="slide-bg" style="background-image: url('@Url.Content("~/slider/slider1.png")')"></div>
             </div>
             <div class="slide">
                 <div class="slide-content">
@@ -957,7 +1086,7 @@
                     <p>Fostering unity and positive change through inclusive projects and initiatives.</p>
                     <a href="@Url.Action("Register", "Account")" class="btn cta-button">Learn More</a>
                 </div>
-                <div class="slide-bg" style="background-image: url('https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751127950/10059705_mey3os.jpg')"></div>
+                <div class="slide-bg" style="background-image: url('@Url.Content("~/slider/slider2.png")')"></div>
             </div>
             <div class="slide">
                 <div class="slide-content">
@@ -967,7 +1096,7 @@
                     <p>Implementing smart solutions to address societal challenges and improve lives.</p>
                     <a href="@Url.Action("Register", "Account")" class="btn cta-button">Discover</a>
                 </div>
-                <div class="slide-bg" style="background-image: url('https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751127718/wp2298913_mskany.jpg')"></div>
+                <div class="slide-bg" style="background-image: url('@Url.Content("~/slider/slider3.png")')"></div>
             </div>
             <div class="slide">
                 <div class="slide-content">
@@ -977,7 +1106,7 @@
                     <p>Committed to long-term solutions that empower individuals and strengthen the community fabric.</p>
                     <a href="@Url.Action("Register", "Account")" class="btn cta-button">Get Involved</a>
                 </div>
-                <div class="slide-bg" style="background-image: url('https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/closeup-diverse-people-joining-their-hands_jrk6oi.jpg')"></div>
+                <div class="slide-bg" style="background-image: url('@Url.Content("~/slider/slider4.png")')"></div>
             </div>
         </div>
         <div class="slider-controls">
@@ -1307,8 +1436,21 @@
                 this.slides.forEach(slide => slide.classList.remove('active'));
                 this.dots.forEach(dot => dot.classList.remove('active'));
 
-                this.slides[this.currentSlide].classList.add('active');
+                const activeSlide = this.slides[this.currentSlide];
+                activeSlide.classList.add('active');
                 this.dots[this.currentSlide].classList.add('active');
+
+                // Apply different animations based on slide index
+                const slideBg = activeSlide.querySelector('.slide-bg');
+                if (slideBg) {
+                    // Remove any existing animation classes
+                    slideBg.classList.remove('animate-from-right', 'animate-from-left', 'animate-fade-zoom', 'animate-from-bottom');
+                    
+                    // Add animation class based on slide index
+                    const animations = ['animate-fade-zoom', 'animate-from-right', 'animate-from-left', 'animate-from-bottom'];
+                    const animationClass = animations[this.currentSlide % animations.length];
+                    slideBg.classList.add(animationClass);
+                }
             }
 
             nextSlide() {
@@ -1330,7 +1472,7 @@
                 this.stopAutoSlide(); // Clear any existing interval first
                 this.slideInterval = setInterval(() => {
                     this.nextSlide();
-                }, 2500); 
+                }, 3000);
             }
 
             stopAutoSlide() {
@@ -1561,7 +1703,7 @@
                 const suffix = targetText.replace(/\d/g, '');
 
                 let currentNumber = 0;
-                const duration = 2000; // 2 seconds
+                const duration = 3000;
                 const startTimestamp = performance.now();
 
                 const animate = (currentTime) => {
@@ -1667,6 +1809,31 @@
             new ScrollAnimations();
             new NumberCounter();
             new PartnershipsSlider(); // Initialize the new slider
+
+            // Add parallax effect to slider
+            const slider = document.querySelector('.slider');
+            if (slider) {
+                slider.addEventListener('mousemove', (e) => {
+                    const slides = document.querySelectorAll('.slide.active .slide-bg');
+                    slides.forEach(slideBg => {
+                        const rect = slider.getBoundingClientRect();
+                        const x = (e.clientX - rect.left) / rect.width;
+                        const y = (e.clientY - rect.top) / rect.height;
+                        
+                        const moveX = (x - 0.5) * 20;
+                        const moveY = (y - 0.5) * 20;
+                        
+                        slideBg.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.05)`;
+                    });
+                });
+
+                slider.addEventListener('mouseleave', () => {
+                    const slides = document.querySelectorAll('.slide.active .slide-bg');
+                    slides.forEach(slideBg => {
+                        slideBg.style.transform = 'translate(0, 0) scale(1)';
+                    });
+                });
+            }
 
             // Add some CSS for animations directly through JS if needed,
             // but it's generally better to put it in the <style> block above.
