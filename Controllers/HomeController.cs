@@ -17,8 +17,34 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         {
             return View();
         }
+        
 
+// In Controllers/HomeController.cs
+        public IActionResult Gallery()
+        {
+            return View();
+        }
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public IActionResult MessageOfChairman()
+        {
+            return View();
+        }
+
+        public IActionResult HowDoWeWork()
+        {
+            return View();
+        }
+
+        public IActionResult WhereWeWork()
         {
             return View();
         }
@@ -28,5 +54,6 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

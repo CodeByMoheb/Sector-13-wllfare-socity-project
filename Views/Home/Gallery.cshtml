@@ -1,0 +1,396 @@
+@{
+    ViewData["Title"] = "Gallery";
+}
+
+<<<<<<< Updated upstream
+<style>
+    .gallery-navbar {
+        background: #fff;
+        border-bottom: 1.5px solid #e5e5e5;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        padding: 1rem 0;
+        margin-bottom: 2rem;
+    }
+    .gallery-nav-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 0 15px;
+    }
+    .gallery-breadcrumb {
+        font-size: 0.95rem;
+        color: #888;
+    }
+    .gallery-breadcrumb a {
+        color: #3498db;
+        text-decoration: none;
+        margin-right: 5px;
+    }
+    .gallery-breadcrumb span {
+        margin: 0 5px;
+    }
+    .gallery-nav {
+        display: flex;
+        gap: 0.7rem;
+        flex-wrap: wrap;
+    }
+    .gallery-nav-btn {
+        background: #f2f2f2;
+        color: #23272b;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 18px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+    }
+    .gallery-nav-btn.active, .gallery-nav-btn:hover {
+        background: #5b3fa2;
+        color: #fff;
+    }
+    .gallery-section {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 15px 40px 15px;
+    }
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 24px;
+    }
+    .gallery-item {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(44,62,80,0.06);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .gallery-item:hover {
+        box-shadow: 0 8px 32px rgba(44,62,80,0.12);
+        transform: translateY(-4px) scale(1.02);
+    }
+    .gallery-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: #eee;
+    }
+    .gallery-caption {
+        padding: 1rem;
+        text-align: center;
+        font-size: 1rem;
+        color: #444;
+    }
+    @@media (max-width: 600px) {
+        .gallery-grid {
+            grid-template-columns: 1fr;
+        }
+        .gallery-navbar, .gallery-section {
+            padding: 0 5px;
+        }
+    }
+</style>
+
+<div class="gallery-navbar">
+    <div class="gallery-nav-container">
+        <div class="gallery-breadcrumb">
+            <a href="@Url.Action("Index", "Home")">Home</a>
+            <span>&raquo;</span>
+            <span>Gallery</span>
+        </div>
+        <nav class="gallery-nav">
+            <button class="gallery-nav-btn active" data-filter="all">All</button>
+            <button class="gallery-nav-btn" data-filter="education">Education</button>
+            <button class="gallery-nav-btn" data-filter="food">Food</button>
+            <button class="gallery-nav-btn" data-filter="healthcare">Healthcare</button>
+            <button class="gallery-nav-btn" data-filter="winter">Winter Care</button>
+            <button class="gallery-nav-btn" data-filter="wash">WASH</button>
+            <button class="gallery-nav-btn" data-filter="iftar">Iftar & Suhoor</button>
+        </nav>
+    </div>
+</div>
+
+<section class="gallery-section">
+    <div class="gallery-grid" id="galleryGrid">
+        <!-- Example gallery items (replace with real images/content as needed) -->
+        <div class="gallery-item" data-category="education">
+            <img src="https://bdplatform4sdgs.net/wp-content/uploads/2017/02/Secondary-education-A-long-way-to-go.png" class="gallery-img" alt="Education">
+            <div class="gallery-caption">Education Program</div>
+        </div>
+        <div class="gallery-item" data-category="food">
+            <img src="https://aman.org.bd/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-06-at-2.32.01-PM-1024x683.jpeg.webp" class="gallery-img" alt="Food">
+            <div class="gallery-caption">Food Distribution</div>
+        </div>
+        <div class="gallery-item" data-category="healthcare">
+            <img src="https://sakinafoundation.org/wp-content/uploads/2021/11/041ead7c-6943-4c5a-a617-ef7f00fe7dad.jpg" class="gallery-img" alt="Healthcare">
+            <div class="gallery-caption">Healthcare Camp</div>
+        </div>
+        <div class="gallery-item" data-category="winter">
+            <img src="https://globalaid.org.uk/wp-content/uploads/2023/04/Winter-Clothes-Distribution-2022-3-e1687741097238.jpeg" class="gallery-img" alt="Winter Care">
+            <div class="gallery-caption">Winter Care</div>
+        </div>
+        <div class="gallery-item" data-category="winter">
+            <img src="https://jibonbld.com/wp-content/uploads/2020/03/IMG-20200108-WA0057.jpg" class="gallery-img" alt="Winter Care">
+            <div class="gallery-caption">Winter Care</div>
+        </div>
+        <div class="gallery-item" data-category="wash">
+            <img src="https://charity.org/wp-content/uploads/2023/06/Wateraid-1-23-1350x900-58c1fe8.jpg" class="gallery-img" alt="WASH">
+            <div class="gallery-caption">WASH Program</div>
+        </div>
+        <div class="gallery-item" data-category="iftar">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoiUC2gxoPCR5Ky0HfocVFGTsN4ZBVTw346A&s" class="gallery-img" alt="Iftar & Suhoor">
+            <div class="gallery-caption">Iftar & Suhoor</div>
+        </div>
+        <!-- Add more items as needed -->
+    </div>
+</section>
+
+<script>
+    // Gallery filter logic
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterButtons = document.querySelectorAll('.gallery-nav-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                filterButtons.forEach(b => b.classList.remove('active'));
+=======
+<!-- HEADER (copied from Index.cshtml) -->
+<nav class="navbar">
+    <div class="nav-container" style="display:flex;align-items:center;justify-content:space-between;gap:5px;">
+        <div style="display:flex;align-items:center;gap:5px;">
+            <a href="@Url.Action("Index", "Home")" class="nav-logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/1973/1973807.png" class="logo-img" alt="Logo">
+                <span> Welfare Society</span>
+            </a>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+        <ul class="nav-menu" style="display:flex;align-items:center;gap:1rem;list-style:none;margin:0;flex:1;justify-content:center;">
+            <li><a href="@Url.Action("Index", "Home")#home" class="nav-link">HOME</a></li>
+            <li class="nav-item dropdown">
+                <a href="#about" class="nav-link dropdown-toggle">ABOUT US</a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("Index", "Home")#about-us-section" class="dropdown-item">About Us</a></li>
+                    <li><a href="@Url.Action("Index", "Home")#chairman-message" class="dropdown-item">Message of Chairman</a></li>
+                    <li><a href="@Url.Action("Index", "Home")#how-we-work" class="dropdown-item">How Do We Work</a></li>
+                    <li><a href="@Url.Action("Index", "Home")#where-we-work" class="dropdown-item">Where We Work</a></li>
+                </ul>
+            </li>
+            <li><a href="@Url.Action("Index", "Home")#programs" class="nav-link">PROGRAMS</a></li>
+            <li><a href="@Url.Action("Gallery", "Home")" class="nav-link active">GALLERY</a></li>
+            <li><a href="@Url.Action("Index", "Home")#contact" class="nav-link">CONTACT</a></li>
+            <li><a href="@Url.Action("Index", "Home")#donate" class="uws-donate-btn">DONATE</a></li>
+        </ul>
+        
+    </div>
+</nav>
+
+<!-- GALLERY SECTION -->
+<section id="gallery" class="gallery-section" style="padding: 100px 0 60px 0; background: #f8f9fa; min-height: 80vh;">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="fw-bold mb-2 text-primary">Gallery</h2>
+            <p class="lead text-muted">A glimpse into our work and impact across Bangladesh.</p>
+        </div>
+        <div class="gallery-filters" style="text-align:center; margin-bottom: 30px;">
+            <button class="gallery-filter-btn active" data-filter="all">All</button>
+            <button class="gallery-filter-btn" data-filter="education">Education</button>
+            <button class="gallery-filter-btn" data-filter="food">Food</button>
+            <button class="gallery-filter-btn" data-filter="healthcare">Healthcare</button>
+            <button class="gallery-filter-btn" data-filter="winter">Winter Care</button>
+            <button class="gallery-filter-btn" data-filter="wash">WASH</button>
+            <button class="gallery-filter-btn" data-filter="iftar">Iftar & Suhoor</button>
+        </div>
+        <div class="row gallery-grid" style="row-gap: 30px;">
+            <!-- Example images, replace with your own -->
+            <div class="col-md-4 col-sm-6 mb-4 gallery-item" data-category="education">
+                <div class="gallery-img-box">
+                    <img src="https://uws.org.bd/wp-content/uploads/2023/07/education.jpg" alt="Education" class="img-fluid rounded shadow-sm">
+                    <div class="gallery-caption">Education Program</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4 gallery-item" data-category="food">
+                <div class="gallery-img-box">
+                    <img src="https://uws.org.bd/wp-content/uploads/2023/07/food.jpg" alt="Food" class="img-fluid rounded shadow-sm">
+                    <div class="gallery-caption">Food Distribution</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4 gallery-item" data-category="healthcare">
+                <div class="gallery-img-box">
+                    <img src="https://uws.org.bd/wp-content/uploads/2023/07/healthcare.jpg" alt="Healthcare" class="img-fluid rounded shadow-sm">
+                    <div class="gallery-caption">Healthcare Camp</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4 gallery-item" data-category="winter">
+                <div class="gallery-img-box">
+                    <img src="https://uws.org.bd/wp-content/uploads/2023/07/winter.jpg" alt="Winter Care" class="img-fluid rounded shadow-sm">
+                    <div class="gallery-caption">Winter Care</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4 gallery-item" data-category="wash">
+                <div class="gallery-img-box">
+                    <img src="https://uws.org.bd/wp-content/uploads/2023/07/wash.jpg" alt="WASH" class="img-fluid rounded shadow-sm">
+                    <div class="gallery-caption">WASH Program</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-4 gallery-item" data-category="iftar">
+                <div class="gallery-img-box">
+                    <img src="https://uws.org.bd/wp-content/uploads/2023/07/iftar.jpg" alt="Iftar & Suhoor" class="img-fluid rounded shadow-sm">
+                    <div class="gallery-caption">Iftar & Suhoor</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER (copied from Index.cshtml) -->
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-column about-uws">
+            <h3>About Sector13 Welfare Society</h3>
+            <p> Welfare Society is a non-profit and charitable organization that started its journey from Chittagong, Bangladesh with a view to improving the living standard of disadvantaged people.</p>
+        </div>
+        <div class="footer-column quick-links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="@Url.Action("Index", "Home")#about-us-section">About us</a></li>
+                <li><a href="@Url.Action("Index", "Home")#programs">Programs</a></li>
+                <li><a href="#">Appeals</a></li>
+                <li><a href="@Url.Action("Gallery", "Home")">Gallery</a></li>
+                <li><a href="#">News</a></li>
+                <li><a href="@Url.Action("Index", "Home")#contact">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-column contact-us">
+            <h3>Contact Us</h3>
+            <p><strong>Head Office</strong><br>123 Welfare St, Sector 13, Dhaka, Bangladesh</p>
+            <p><strong>General Enquiries:</strong> <a href="mailto:info@uws.org.bd">info@uws.org.bd</a></p>
+        </div>
+        <div class="footer-column brand-social">
+            <div class="footer-logo">
+                <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/uws-logo.png" alt="United Welfare Society Logo">
+            </div>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-container">
+            <p>&copy; @@DateTime.Now.Year Sector13 Welfare Society. All rights reserved. Registered charity in Bangladesh. </p>
+        </div>
+    </div>
+</footer>
+
+<!-- GALLERY PAGE STYLES & SCRIPT -->
+<style>
+    .logo-img {
+        width: 80px;
+        height: 80px;
+    }
+    .gallery-section .gallery-filters {
+        margin-bottom: 30px;
+    }
+    .gallery-filter-btn {
+        background: #fff;
+        border: 1.5px solid #5b3fa2;
+        color: #5b3fa2;
+        border-radius: 6px;
+        padding: 8px 18px;
+        font-weight: 600;
+        margin: 0 5px 10px 0;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+    }
+    .gallery-filter-btn.active, .gallery-filter-btn:hover {
+        background: #5b3fa2;
+        color: #fff;
+    }
+    .gallery-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px 0;
+    }
+    .gallery-item {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .gallery-item:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 8px 32px rgba(44, 62, 80, 0.12);
+    }
+    .gallery-img-box {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+    .gallery-img-box img {
+        width: 10%;
+        height: 22px;
+        object-fit: cover;
+        border-radius: 12px;
+        transition: transform 0.3s;
+    }
+    .gallery-img-box:hover img {
+        transform: scale(1.07);
+    }
+    .gallery-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(44, 62, 80, 0.7);
+        color: #fff;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 1.05em;
+        font-weight: 500;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+    @@media (max-width: 768px) {
+        .gallery-img-box img { height: 150px; }
+    }
+</style>
+<script>
+    // Gallery filter logic
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterBtns = document.querySelectorAll('.gallery-filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                filterBtns.forEach(b => b.classList.remove('active'));
+>>>>>>> Stashed changes
+                this.classList.add('active');
+                const filter = this.getAttribute('data-filter');
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+<<<<<<< Updated upstream
+</script> 
+=======
+</script>
+<!-- Reuse navigation and footer scripts from Index.cshtml if needed -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+>>>>>>> Stashed changes

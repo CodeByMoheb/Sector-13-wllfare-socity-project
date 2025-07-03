@@ -914,16 +914,18 @@
             <ul class="nav-menu" style="display:flex;align-items:center;gap:1rem;list-style:none;margin:0;flex:1;justify-content:center;">
                 <li><a href="#home" class="nav-link active">HOME</a></li>
                 <li class="nav-item dropdown">
-                    <a href="#about" class="nav-link dropdown-toggle">ABOUT US</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#about-us-section" class="dropdown-item">About Us</a></li>
-                        <li><a href="#chairman-message" class="dropdown-item">Message of Chairman</a></li>
-                        <li><a href="#how-we-work" class="dropdown-item">How Do We Work</a></li>
-                        <li><a href="#where-we-work" class="dropdown-item">Where We Work</a></li>
+                    <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ABOUT US
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
+                        <li><a class="dropdown-item" href="@Url.Action("AboutUs", "Home")">About Us</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("MessageOfChairman", "Home")">Message of Chairman</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("HowDoWeWork", "Home")">How Do We Work</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("WhereWeWork", "Home")">Where We Work</a></li>
                     </ul>
                 </li>
                 <li><a href="#programs" class="nav-link">PROGRAMS</a></li>
-                <li><a href="#gallery" class="nav-link">GALLERY</a></li>
+                <li><a href="@Url.Action("Gallery", "Home")" class="nav-link">GALLERY</a></li>
                 <li><a href="#contact" class="nav-link">CONTACT</a></li>
                 <li><a href="#donate" class="uws-donate-btn">DONATE</a></li>
             </ul>
@@ -1002,7 +1004,7 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="stat-card">
                         <i class="fas fa-users fa-3x text-primary mb-3"></i>
-                        <h3 class="fw-bold text-primary">500+</h3>
+                        <h3 class="fw-bold text-primary">1900+</h3>
                         <p class="text-muted">Community Members</p>
                     </div>
                 </div>
@@ -1217,7 +1219,7 @@
                     <li><a href="#about-us-section">About us</a></li>
                     <li><a href="#programs">Programs</a></li>
                     <li><a href="#">Appeals</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="@Url.Action("Gallery", "Home")">Gallery</a></li>
                     <li><a href="#">News</a></li>
                     <li><a href="#contact">Contact Us</a></li>
                 </ul>
