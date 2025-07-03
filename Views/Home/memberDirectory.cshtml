@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Member Directory";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4" style="font-weight:700;color:#2c3e50;">Members' Directory 2022</h2>
+                    <p class="text-center text-muted mb-4">View the latest member directory directly below. You can also download it if you wish.</p>
+                    <div id="pdf-viewer" style="min-height:600px; background:#f8f9fa; border-radius:8px; box-shadow:0 2px 8px rgba(44,62,80,0.08);"></div>
+                    <div class="text-center mt-3">
+                        <a class="btn btn-outline-primary" href="/memberDirectory/mdir.pdf" download>
+                            <i class="fa fa-download me-2"></i>Download PDF
+                        </a>
+                    </div>
+                    <div class="text-center text-muted mt-2" style="font-size:0.95em;">
+                        <small>If the PDF does not display, <a href="/memberDirectory/mdir.pdf" target="_blank">click here to open it in a new tab</a>.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    const url = '/memberDirectory/mdir.pdf';
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    const container = document.getElementById('pdf-viewer');
+    pdfjsLib.getDocument(url).promise.then(function(pdf) {
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            pdf.getPage(pageNum).then(function(page) {
+                const viewport = page.getViewport({ scale: 1.2 });
+                const canvas = document.createElement('canvas');
+                canvas.style.display = 'block';
+                canvas.style.margin = '0 auto 20px auto';
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                container.appendChild(canvas);
+                page.render({ canvasContext: context, viewport: viewport });
+            });
+        }
+    }).catch(function(error) {
+        container.innerHTML = '<div class="alert alert-danger">Failed to load PDF. <a href="' + url + '" target="_blank">Click here to open it in a new tab.</a></div>';
+    });
+</script> 
