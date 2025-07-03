@@ -1,102 +1,102 @@
 @model Sector_13_Welfare_Society___Digital_Management_System.Models.LoginViewModel
 @{
     ViewData["Title"] = "Login";
-    Layout = "_Layout";
+    Layout = null;
 }
 
 <style>
-    .login-container {
+    body {
+        background: #f0f2f5;
         min-height: 100vh;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        font-family: 'Segoe UI', Arial, sans-serif;
     }
-    
-    .login-card {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        overflow: hidden;
+    .fb-login-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
-        max-width: 400px;
+        min-height: 100vh;
+        justify-content: center;
     }
-    
-    .login-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 40px 30px;
-        text-align: center;
-    }
-    
-    .login-body {
-        padding: 40px 30px;
-    }
-    
-    .form-floating {
+    .fb-login-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 32px 28px 24px 28px;
+        width: 100%;
+        max-width: 380px;
         margin-bottom: 20px;
     }
-    
+    .fb-logo {
+        color: #1877f2;
+        font-size: 3rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 16px;
+        letter-spacing: -2px;
+    }
+    .fb-login-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 18px;
+        color: #1c1e21;
+    }
     .form-control {
-        border-radius: 10px;
-        border: 2px solid #e9ecef;
-        padding: 12px 15px;
-        transition: all 0.3s ease;
+        border-radius: 6px;
+        border: 1px solid #dddfe2;
+        padding: 14px 16px;
+        margin-bottom: 14px;
+        font-size: 1rem;
     }
-    
-    .form-control:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-    }
-    
     .btn-login {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #1877f2;
+        color: #fff;
         border: none;
-        border-radius: 10px;
+        border-radius: 6px;
         padding: 12px;
         font-weight: 600;
         width: 100%;
-        transition: all 0.3s ease;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        transition: background 0.2s;
     }
-    
     .btn-login:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        background: #166fe5;
     }
-    
-    .btn-register {
-        background: transparent;
-        border: 2px solid #667eea;
-        color: #667eea;
-        border-radius: 10px;
+    .btn-google {
+        background: #fff;
+        color: #444;
+        border: 1px solid #dddfe2;
+        border-radius: 6px;
         padding: 12px;
-        font-weight: 600;
         width: 100%;
-        transition: all 0.3s ease;
-    }
-    
-    .btn-register:hover {
-        background: #667eea;
-        color: white;
-        transform: translateY(-2px);
-    }
-    
-    .back-home {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        color: white;
-        text-decoration: none;
         font-weight: 600;
-        transition: all 0.3s ease;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        transition: background 0.2s;
     }
-    
-    .back-home:hover {
-        color: #f8f9fa;
-        transform: translateX(-5px);
+    .btn-google:hover {
+        background: #f5f5f5;
     }
-    
+    .fb-register-link {
+        display: block;
+        text-align: center;
+        margin-top: 18px;
+        color: #1877f2;
+        font-weight: 500;
+        text-decoration: none;
+    }
+    .fb-register-link:hover {
+        text-decoration: underline;
+    }
     .validation-summary-errors {
         background: #f8d7da;
         color: #721c24;
@@ -105,79 +105,45 @@
         margin-bottom: 20px;
         border: 1px solid #f5c6cb;
     }
-    
     .field-validation-error {
         color: #dc3545;
-        font-size: 0.875rem;
+        font-size: 0.95rem;
         margin-top: 5px;
         display: block;
     }
 </style>
 
-<div class="login-container">
-    <a href="@Url.Action("Index", "Home")" class="back-home">
-        <i class="fas fa-arrow-left me-2"></i>Back to Home
-    </a>
-    
-    <div class="login-card">
-        <div class="login-header">
-            <i class="fas fa-heart fa-3x mb-3"></i>
-            <h2 class="mb-2">Welcome Back</h2>
-            <p class="mb-0">Sign in to your Sector 13 Welfare Society account</p>
-        </div>
-        
-        <div class="login-body">
-            @if (!ViewData.ModelState.IsValid)
-            {
-                <div class="validation-summary-errors">
-                    <ul class="mb-0">
-                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                        {
-                            <li>@error.ErrorMessage</li>
-                        }
-                    </ul>
-                </div>
-            }
-            
-            <form asp-action="Login" method="post">
-                <div class="form-floating">
-                    <input asp-for="Email" class="form-control" placeholder="Email" />
-                    <label asp-for="Email">Email</label>
-                    <span asp-validation-for="Email" class="field-validation-error"></span>
-                </div>
-                
-                <div class="form-floating">
-                    <input asp-for="Password" class="form-control" placeholder="Password" />
-                    <label asp-for="Password">Password</label>
-                    <span asp-validation-for="Password" class="field-validation-error"></span>
-                </div>
-                
-                <div class="form-check mb-4">
-                    <input asp-for="RememberMe" class="form-check-input" />
-                    <label asp-for="RememberMe" class="form-check-label">
-                        Remember me
-                    </label>
-                </div>
-                
-                <button type="submit" class="btn btn-login text-white mb-3">
-                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
-                </button>
-                
-                <a href="@Url.Action("Register", "Account")" class="btn btn-register">
-                    <i class="fas fa-user-plus me-2"></i>Create New Account
-                </a>
-            </form>
-            
-            <div class="text-center mt-4">
-                <small class="text-muted">
-                    <i class="fas fa-shield-alt me-1"></i>
-                    Your data is secure with us
-                </small>
+<div class="fb-login-container">
+    <div class="fb-logo">Sector 13</div>
+    <div class="fb-login-card">
+        <div class="fb-login-title">Log in to your account</div>
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="validation-summary-errors">
+                <ul class="mb-0">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
             </div>
-        </div>
+        }
+        <form asp-action="Login" method="post">
+            <input asp-for="Email" class="form-control" placeholder="Email address" />
+            <span asp-validation-for="Email" class="field-validation-error"></span>
+            <input asp-for="Password" class="form-control" placeholder="Password" type="password" />
+            <span asp-validation-for="Password" class="field-validation-error"></span>
+            <button type="submit" class="btn btn-login">Log In</button>
+        </form>
+        <form asp-controller="Account" asp-action="ExternalLogin" method="post">
+            <input type="hidden" name="provider" value="Google" />
+            <button type="submit" class="btn-google">
+                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" style="width:22px; height:22px;">Sign in with Google
+            </button>
+        </form>
+        <a href="@Url.Action("Register", "Account")" class="fb-register-link">Create new account</a>
     </div>
 </div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 } 
