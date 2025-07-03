@@ -462,9 +462,9 @@
 
         }
     </style>
-    
+
     <nav class="navbar">
-        <div class="nav-container" style="display:flex;align-items:center;justify-content:space-between;gap:24px;">
+        <div class="nav-container" style="display:flex;align-items:center;justify-content:space-between;gap:20px;">
             <div style="display:flex;align-items:center;gap:10px;">
                 <a href="@Url.Action("Index", "Home")" class="nav-logo">
                     <img src="@Url.Content("~/Photos/logo.png")" alt="Logo">
@@ -502,11 +502,9 @@
         </div>
     </nav>
 
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderBody()
+    <div class="main-content">
+        @RenderBody()
+    </div>
     @await RenderSectionAsync("Scripts", required: false)
 
      <footer class="main-footer">
@@ -554,6 +552,11 @@
         </div>
     </footer>
 
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
 </body>
 </html>
 
