@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "Contact Us";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Contact Us Section -->
+<div style="background: #f3f3f3; min-height: 100vh; padding: 0; margin: 0;">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 60px 10px 40px 10px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="font-size: 2.3rem; font-weight: 700; color: #23408e; margin-bottom: 8px;">Contact Us</h1>
+            <div style="font-size: 1rem; color: #888; margin-bottom: 18px;">
+                <a href="@Url.Action("Index", "Home")" style="color: #23408e; text-decoration: none;">Home</a> <span style="color: #444;">•</span> <span style="color: #23408e;">Contact us</span>
+            </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 32px; justify-content: center; align-items: flex-start;">
+            <!-- Contact Form Card -->
+            <div style="background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); padding: 32px 24px 28px 24px; flex: 1 1 340px; max-width: 420px; min-width: 280px;">
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: #222; margin-bottom: 18px; letter-spacing: 1px;">CONTACT FORM</h2>
+                <form style="display: flex; flex-direction: column; gap: 14px;">
+                    <label style="font-size: 0.98rem; color: #222; margin-bottom: 2px;">Name</label>
+                    <input type="text" name="FullName" placeholder="Name" required style="padding: 9px 12px; border-radius: 4px; border: 1.2px solid #bfc7d1; font-size: 1rem; outline: none;" />
+                    <label style="font-size: 0.98rem; color: #222; margin-bottom: 2px;">Email</label>
+                    <input type="email" name="Email" placeholder="Email" required style="padding: 9px 12px; border-radius: 4px; border: 1.2px solid #bfc7d1; font-size: 1rem; outline: none;" />
+                    <label style="font-size: 0.98rem; color: #222; margin-bottom: 2px;">Message</label>
+                    <textarea name="Message" placeholder="Message" rows="4" required style="padding: 9px 12px; border-radius: 4px; border: 1.2px solid #bfc7d1; font-size: 1rem; outline: none; resize: vertical;"></textarea>
+                    <button type="submit" style="background: #23408e; color: #fff; font-weight: 600; border: none; border-radius: 4px; padding: 10px 0; font-size: 1.08rem; margin-top: 10px; letter-spacing: 1px;">SEND</button>
+                </form>
+            </div>
+            <!-- Contact Info Card -->
+            <div style="background: #fff; border-radius: 8px; box-shadow: 0 2px 12px rgba(44,62,80,0.08); padding: 32px 24px 28px 24px; flex: 1 1 340px; max-width: 420px; min-width: 280px; display: flex; flex-direction: column; gap: 18px;">
+                <div style="border-bottom: 1px solid #23408e22; padding-bottom: 12px; margin-bottom: 10px;">
+                    <div style="font-weight: 700; color: #23408e; font-size: 1.08rem; margin-bottom: 2px;"><i class="fas fa-map-marker-alt" style="margin-right: 7px;"></i> Visit Office</div>
+                    <div style="font-size: 0.98rem; color: #222;">Paschim Chal, Minnat Alir hat, Anowara, Chattogram.</div>
+                </div>
+                <div style="border-bottom: 1px solid #23408e22; padding-bottom: 12px; margin-bottom: 10px;">
+                    <div style="font-weight: 700; color: #23408e; font-size: 1.08rem; margin-bottom: 2px;"><i class="fas fa-phone-alt" style="margin-right: 7px;"></i> Phone/WhatsApp</div>
+                    <div style="font-size: 0.98rem; color: #222;">+880 1814 433 388</div>
+                </div>
+                <div>
+                    <div style="font-weight: 700; color: #23408e; font-size: 1.08rem; margin-bottom: 2px;"><i class="fas fa-envelope" style="margin-right: 7px;"></i> Email</div>
+                    <div style="font-size: 0.98rem; color: #222;">info@uws.org.bd</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="background: #3b5ea7; color: #fff; text-align: center; padding: 22px 10px 18px 10px; font-size: 1.08rem; font-weight: 600; letter-spacing: 0.5px;">
+        'The generous one is close to [The Almighty], close to Paradise, close to the people and distant from the Fire...'
+    </div>
+</div>
+
+<style>
+@@media (max-width: 900px) {
+    .contact-container-flex {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+}
+</style> 
