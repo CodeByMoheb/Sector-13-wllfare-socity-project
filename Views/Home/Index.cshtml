@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Sector 13 Welfare Society";
+    ViewData["Title"] = "উত্তরা সেক্টর ১৩ ওয়েলফেয়ার  সোসাইটি";
 }
 
     <style>
@@ -30,197 +30,6 @@
             padding: 0 15px; /* Adjusted for better spacing */
         }
 
-        /* Navigation */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 0.8rem 0;
-            transition: all 0.3s ease;
-            border-bottom: 1.5px solid #e5e5e5; /* From uws-navbar */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03); /* From uws-navbar */
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0px 10px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-        }
-
-        .nav-logo img {
-            height: 48px;
-            width: 48px;
-        }
-
-        .nav-logo span {
-            color: #2c3e50;
-            font-weight: 700;
-            font-size: 1rem;
-            white-space: nowrap; /* Prevent "Welfare Society" from wrapping */
-        }
-
-        .nav-menu {
-            display: flex;
-            justify-content:center;
-            list-style: none;
-            gap: 0.8rem;
-            margin-left: 3rem;
-            flex: 1; /* Allow menu to take available space */
-        }
-
-        .nav-link,
-        .uws-link {
-            text-decoration: none;
-            color: #2c3e50;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
-            font-size: 13px !important;
-            color: #23272b; /* From uws-menu .uws-link */
-            font-weight: 600; /* From uws-menu .uws-link */
-            font-size: 1.08rem; /* From uws-menu .uws-link */
-            letter-spacing: 1px; /* From uws-menu .uws-link */
-            padding: 10px 18px; /* From uws-menu .uws-link */
-            border-radius: 7px; /* From uws-menu .uws-link */
-        }
-
-        .nav-link:hover,
-        .uws-link:hover {
-            color: #3498db;
-            background: #f2f2f2; /* From uws-menu .uws-link:hover */
-            color: #5b3fa2; /* From uws-menu .uws-link:hover */
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: #3498db;
-            transition: width 0.3s ease;
-            font-size: 10px;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .nav-link.active {
-            background: #5b3fa2; /* From uws-menu .uws-link.active */
-            color: #fff; /* From uws-menu .uws-link.active */
-        }
-
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .bar {
-            width: 25px;
-            height: 3px;
-            background-color: #2c3e50;
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-
-        /* Dropdown styles */
-        .nav-item.dropdown {
-            position: relative;
-        }
-        .dropdown-toggle::after {
-            content: none !important;
-        }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            left: 0;
-            top: 100%;
-            min-width: 180px;
-            background: #fff;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            border-radius: 6px;
-            padding: 0.5rem 0;
-            z-index: 1001;
-        }
-        .nav-item.dropdown:hover .dropdown-menu {
-            display: block;
-        }
-        .dropdown-item {
-            display: block;
-            padding: 10px 22px;
-            color: #23272b;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            transition: background 0.2s, color 0.2s;
-            border-radius: 4px;
-        }
-        .dropdown-item:hover {
-            background: #f2f2f2;
-            color: #5b3fa2;
-        }
-
-        /* Auth Buttons */
-        .uws-donate-btn {
-            background: #e50914;
-            color: #fff;
-            font-weight: 500;
-            border-radius: 6px;
-            padding: 10px 25px;
-            text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            margin-left: 10px;
-            transition: background 0.2s;
-            display: inline-block;
-        }
-        .uws-donate-btn:hover {
-            background: #b0060f;
-            color: #fff;
-        }
-        .uws-auth-btn {
-            background: #fff;
-            color: #5b3fa2;
-            border: 1.5px solid #5b3fa2;
-            border-radius: 6px;
-            padding: 10px 20px;
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-decoration: none;
-            margin-left: 5px;
-            transition: background 0.2s, color 0.2s;
-            display: inline-block;
-        }
-        .uws-auth-btn:hover {
-            background: #5b3fa2;
-            color: #fff;
-        }
-        .uws-auth-btn.uws-register {
-            border: 1.5px solid #3498db;
-            color: #3498db;
-        }
-        .uws-auth-btn.uws-register:hover {
-            background: #3498db;
-            color: #fff;
-        }
-
         /* Hero Section with Slider */
         .hero {
             width: 100%;
@@ -246,6 +55,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transform: scale(0.95);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .slide.active {
@@ -261,7 +77,77 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            filter: brightness(0.8); /* Slightly darker for better text contrast */
+            filter: brightness(0.9); /* Slightly darker for better text contrast */
+            transition: all 1.5s ease-in-out;
+            transform: scale(1); /* Start slightly zoomed in */
+        }
+
+        .slide.active .slide-bg {
+            transform: scale(1); /* Normal scale when active */
+        }
+
+        /* Parallax effect for slider backgrounds */
+        .slide-bg {
+            will-change: transform;
+        }
+
+        /* Add a subtle rotation effect on hover */
+        .slide:hover .slide-bg {
+            transform: scale(1) rotate(1deg);
+        }
+
+        /* Add a subtle overlay animation */
+        .slide-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide.active .slide-bg::before {
+            opacity: 1;
+        }
+
+        /* Animation classes for slider backgrounds */
+        .slide-bg.animate-from-right {
+            animation: slideInFromRight 1.5s ease-out;
+        }
+
+        .slide-bg.animate-from-left {
+            animation: slideInFromLeft 1.5s ease-out;
+        }
+
+        .slide-bg.animate-fade-zoom {
+            animation: fadeInZoom 1.5s ease-out;
+        }
+
+        .slide-bg.animate-from-bottom {
+            animation: slideInFromBottom 1.5s ease-out;
+        }
+
+        /* Add a subtle floating animation for active slides */
+        .slide.active .slide-bg {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @@keyframes float {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.02);
+            }
+        }
+
+        @@keyframes pulse {
+            0% { transform: scale(1.1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1.1); }
         }
 
         .slide-content {
@@ -328,6 +214,13 @@
         .prev-btn:hover, .next-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.1);
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        @@keyframes pulse {
+            0% { transform: scale(1.1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1.1); }
         }
 
         .slider-dots {
@@ -370,6 +263,51 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        /* Slider image animations */
+        @@keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px) scale(1.1);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @@keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px) scale(1.1);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @@keyframes fadeInZoom {
+            from {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @@keyframes slideInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(100px) scale(1.1);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -708,34 +646,7 @@
 
         /* Responsive Design */
         @@media (max-width: 992px) {
-            .nav-menu {
-                gap: 1rem !important;
-            }
-            .nav-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .nav-logo {
-                width: 100%;
-                justify-content: space-between;
-                padding-right: 15px; /* Adjust if needed */
-            }
-            .nav-menu {
-                margin-left: 0; /* Reset margin for mobile menu */
-                width: 100%; /* Full width for stacked menu */
-                justify-content: flex-start;
-            }
-            .uws-auth-btn {
-                margin-left: 0; /* Adjust for better alignment */
-                margin-top: 10px; /* Space between buttons */
-            }
-            .nav-container > div:last-child { /* Targets auth buttons div */
-                width: 100%;
-                justify-content: center;
-                display: flex;
-                margin-left: 0;
-                padding-bottom: 10px;
-            }
+            
             .footer-column {
                 min-width: 200px;
             }
@@ -745,34 +656,6 @@
         }
 
         @@media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-            .nav-menu {
-                position: fixed;
-                left: -100%;
-                top: 70px; /* Below navbar */
-                flex-direction: column;
-                background-color: white;
-                width: 100%;
-                text-align: center;
-                transition: 0.3s;
-                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
-                padding: 2rem 0;
-                gap: 0.6rem;
-                height: calc(100vh - 70px); /* Adjust height to fill remaining viewport */
-                overflow-y: auto; /* Enable scrolling if menu content is long */
-            }
-            .nav-menu.active {
-                left: 0;
-            }
-            .nav-item {
-                margin: 0.5rem 0;
-            }
-            .nav-link {
-                padding: 1rem 2rem;
-                display: block;
-            }
             .slide-content h1 {
                 font-size: 2.5rem;
             }
@@ -898,44 +781,6 @@
         }
     </style>
 
-    <nav class="navbar">
-        <div class="nav-container" style="display:flex;align-items:center;justify-content:space-between;gap:24px;">
-            <div style="display:flex;align-items:center;gap:14px;">
-                <a href="@Url.Action("Index", "Home")" class="nav-logo">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1973/1973807.png" alt="Logo">
-                    <span> Welfare Society</span>
-                </a>
-                <div class="hamburger">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </div>
-            </div>
-            <ul class="nav-menu" style="display:flex;align-items:center;gap:1rem;list-style:none;margin:0;flex:1;justify-content:center;">
-                <li><a href="#home" class="nav-link active">HOME</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        ABOUT US
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
-                        <li><a class="dropdown-item" href="@Url.Action("AboutUs", "Home")">About Us</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("MessageOfChairman", "Home")">Message of Chairman</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("HowDoWeWork", "Home")">How Do We Work</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("WhereWeWork", "Home")">Where We Work</a></li>
-                    </ul>
-                </li>
-                <li><a href="#programs" class="nav-link">PROGRAMS</a></li>
-                <li><a href="@Url.Action("Gallery", "Home")" class="nav-link">GALLERY</a></li>
-                <li><a href="#contact" class="nav-link">CONTACT</a></li>
-                <li><a href="#donate" class="uws-donate-btn">DONATE</a></li>
-            </ul>
-
-            <div style="display:flex;align-items:center;gap:10px; margin-left: 2rem;">
-                <a href="@Url.Action("Login","Account")" class="uws-auth-btn">Login</a>
-                <a href="@Url.Action("Register","Account")" class="uws-auth-btn uws-register">Register</a>
-            </div>
-        </div>
-    </nav>
 
     <section id="home" class="hero">
         <div class="slider">
@@ -947,7 +792,7 @@
                     <p>Empowering communities through compassion, service, and digital innovation.</p>
                     <a href="@Url.Action("Register", "Account")" class="btn cta-button">Join Us</a>
                 </div>
-                <div class="slide-bg" style="background-image: url('https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/closeup-diverse-people-joining-their-hands_jrk6oi.jpg')"></div>
+                <div class="slide-bg" style="background-image: url('@Url.Content("~/slider/slider1.png")')"></div>
             </div>
             <div class="slide">
                 <div class="slide-content">
@@ -957,7 +802,7 @@
                     <p>Fostering unity and positive change through inclusive projects and initiatives.</p>
                     <a href="@Url.Action("Register", "Account")" class="btn cta-button">Learn More</a>
                 </div>
-                <div class="slide-bg" style="background-image: url('https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751127950/10059705_mey3os.jpg')"></div>
+                <div class="slide-bg" style="background-image: url('@Url.Content("~/slider/slider2.png")')"></div>
             </div>
             <div class="slide">
                 <div class="slide-content">
@@ -967,7 +812,7 @@
                     <p>Implementing smart solutions to address societal challenges and improve lives.</p>
                     <a href="@Url.Action("Register", "Account")" class="btn cta-button">Discover</a>
                 </div>
-                <div class="slide-bg" style="background-image: url('https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751127718/wp2298913_mskany.jpg')"></div>
+                <div class="slide-bg" style="background-image: url('@Url.Content("~/slider/slider3.png")')"></div>
             </div>
             <div class="slide">
                 <div class="slide-content">
@@ -977,7 +822,7 @@
                     <p>Committed to long-term solutions that empower individuals and strengthen the community fabric.</p>
                     <a href="@Url.Action("Register", "Account")" class="btn cta-button">Get Involved</a>
                 </div>
-                <div class="slide-bg" style="background-image: url('https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/closeup-diverse-people-joining-their-hands_jrk6oi.jpg')"></div>
+                <div class="slide-bg" style="background-image: url('@Url.Content("~/slider/slider4.png")')"></div>
             </div>
         </div>
         <div class="slider-controls">
@@ -1004,7 +849,7 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="stat-card">
                         <i class="fas fa-users fa-3x text-primary mb-3"></i>
-                        <h3 class="fw-bold text-primary">500+</h3>
+                        <h3 class="fw-bold text-primary">1900+</h3>
                         <p class="text-muted">Community Members</p>
                     </div>
                 </div>
@@ -1206,50 +1051,7 @@
         </div>
     </section>
 
-    <footer class="main-footer">
-        <div class="footer-container">
-            <div class="footer-column about-uws">
-                <h3>About Sector13 Welfare Society</h3>
-                <p> Welfare Society is a non-profit and charitable organization that started its journey from Chittagong, Bangladesh with a view to improving the living standard of disadvantaged people.</p>
-            </div>
-
-            <div class="footer-column quick-links">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#about-us-section">About us</a></li>
-                    <li><a href="#programs">Programs</a></li>
-                    <li><a href="#">Appeals</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#">News</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-column contact-us">
-                <h3>Contact Us</h3>
-                <p><strong>Head Office</strong><br>123 Welfare St, Sector 13, Dhaka, Bangladesh</p>
-                <p><strong>General Enquiries:</strong> <a href="mailto:info@uws.org.bd">info@uws.org.bd</a></p>
-            </div>
-
-            <div class="footer-column brand-social">
-                <div class="footer-logo">
-                    <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/uws-logo.png" alt="United Welfare Society Logo">
-                </div>
-                <div class="social-icons">
-                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="footer-container">
-                <p>&copy; @@DateTime.Now.Year Sector13 Welfare Society. All rights reserved. Registered charity in Bangladesh. </p>
-            </div>
-        </div>
-    </footer>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -1307,8 +1109,21 @@
                 this.slides.forEach(slide => slide.classList.remove('active'));
                 this.dots.forEach(dot => dot.classList.remove('active'));
 
-                this.slides[this.currentSlide].classList.add('active');
+                const activeSlide = this.slides[this.currentSlide];
+                activeSlide.classList.add('active');
                 this.dots[this.currentSlide].classList.add('active');
+
+                // Apply different animations based on slide index
+                const slideBg = activeSlide.querySelector('.slide-bg');
+                if (slideBg) {
+                    // Remove any existing animation classes
+                    slideBg.classList.remove('animate-from-right', 'animate-from-left', 'animate-fade-zoom', 'animate-from-bottom');
+                    
+                    // Add animation class based on slide index
+                    const animations = ['animate-fade-zoom', 'animate-from-right', 'animate-from-left', 'animate-from-bottom'];
+                    const animationClass = animations[this.currentSlide % animations.length];
+                    slideBg.classList.add(animationClass);
+                }
             }
 
             nextSlide() {
@@ -1330,7 +1145,7 @@
                 this.stopAutoSlide(); // Clear any existing interval first
                 this.slideInterval = setInterval(() => {
                     this.nextSlide();
-                }, 2500); 
+                }, 3000);
             }
 
             stopAutoSlide() {
@@ -1561,7 +1376,7 @@
                 const suffix = targetText.replace(/\d/g, '');
 
                 let currentNumber = 0;
-                const duration = 2000; // 2 seconds
+                const duration = 3000;
                 const startTimestamp = performance.now();
 
                 const animate = (currentTime) => {
@@ -1667,6 +1482,31 @@
             new ScrollAnimations();
             new NumberCounter();
             new PartnershipsSlider(); // Initialize the new slider
+
+            // Add parallax effect to slider
+            const slider = document.querySelector('.slider');
+            if (slider) {
+                slider.addEventListener('mousemove', (e) => {
+                    const slides = document.querySelectorAll('.slide.active .slide-bg');
+                    slides.forEach(slideBg => {
+                        const rect = slider.getBoundingClientRect();
+                        const x = (e.clientX - rect.left) / rect.width;
+                        const y = (e.clientY - rect.top) / rect.height;
+                        
+                        const moveX = (x - 0.5) * 20;
+                        const moveY = (y - 0.5) * 20;
+                        
+                        slideBg.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.05)`;
+                    });
+                });
+
+                slider.addEventListener('mouseleave', () => {
+                    const slides = document.querySelectorAll('.slide.active .slide-bg');
+                    slides.forEach(slideBg => {
+                        slideBg.style.transform = 'translate(0, 0) scale(1)';
+                    });
+                });
+            }
 
             // Add some CSS for animations directly through JS if needed,
             // but it's generally better to put it in the <style> block above.

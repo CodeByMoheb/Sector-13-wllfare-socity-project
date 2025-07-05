@@ -28,6 +28,10 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         {
             return View();
         }
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
 
         public IActionResult AboutUs()
         {
@@ -44,7 +48,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             return View();
         }
 
-        public IActionResult WhereWeWork()
+        public IActionResult memberDirectory()
         {
             return View();
         }
@@ -54,6 +58,6 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-       
+      
     }
 }

@@ -45,16 +45,28 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-// Seed roles
+// Seed roles and SuperAdmin
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "Admin", "President", "Secretary", "Manager", "Member" };
-    
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var roles = new[] { "SuperAdmin", "Admin", "President", "Secretary", "Manager", "Member" };
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
             await roleManager.CreateAsync(new IdentityRole(role));
+    }
+    // Seed SuperAdmin user
+    var superAdminEmail = "superadmin@sec13.com";
+    var superAdminUser = await userManager.FindByEmailAsync(superAdminEmail);
+    if (superAdminUser == null)
+    {
+        var user = new IdentityUser { UserName = superAdminEmail, Email = superAdminEmail, EmailConfirmed = true };
+        var result = await userManager.CreateAsync(user, "SuperAdmin@123");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "SuperAdmin");
+        }
     }
 }
 

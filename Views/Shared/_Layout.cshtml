@@ -4,73 +4,559 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Sector 13 Welfare Society</title>
+    <link rel="icon" type="image/x-icon" href="~/Photos/favicon.png" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Sector_13_Welfare_Society___Digital_Management_System.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
-    @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index")
-    {
-        <!-- For home page, render without header/footer -->
-        @RenderBody()
-    }
-    else
-    {
-        <!-- For other pages, render with header/footer -->
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Sector 13 Welfare Society</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    About Us
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="MessageOfChairman">Message of Chairman</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="HowDoWeWork">How Do We Work</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="WhereWeWork">Where We Work</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="UserManagement" asp-action="Index">User Management</a>
-                            </li>
-                        </ul>
-                        <partial name="_LoginPartial" />
-                    </div>
+       <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevent horizontal scrollbar on HTML */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scrollbar on Body */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px; /* Adjusted for better spacing */
+        }
+
+        /* Navigation */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 0.8rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1.5px solid #e5e5e5; /* From uws-navbar */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03); /* From uws-navbar */
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0px 10px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            height: 70px;
+            width: 80px;
+        }
+
+           @@font-face {
+            font-family: 'Li Shadhinata';
+            src: url('/fonts/Li Shadhinata 2.0 Unicode.ttf') format('truetype');
+            font-weight: normal;
+        }
+        .nav-logo span {
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 1.2rem;
+            white-space: nowrap; 
+          font-family: 'Li Shadhinata';
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content:center;
+            list-style: none;
+            gap: 0.8rem;
+            margin-left: 3rem;
+            flex: 1; /* Allow menu to take available space */
+        }
+
+        .nav-link,
+        .uws-link {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            font-size: 13px !important;
+            color: #23272b; /* From uws-menu .uws-link */
+            font-weight: 600; /* From uws-menu .uws-link */
+            font-size: 1.08rem; /* From uws-menu .uws-link */
+            letter-spacing: 1px; /* From uws-menu .uws-link */
+            padding: 10px 18px; /* From uws-menu .uws-link */
+            border-radius: 7px; /* From uws-menu .uws-link */
+        }
+
+        .nav-link:hover,
+        .uws-link:hover {
+            color: #3498db;
+            background: #f2f2f2; /* From uws-menu .uws-link:hover */
+            color: #5b3fa2; /* From uws-menu .uws-link:hover */
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+            font-size: 10px;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            background: #5b3fa2; /* From uws-menu .uws-link.active */
+            color: #fff; /* From uws-menu .uws-link.active */
+        }
+
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #2c3e50;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Dropdown styles */
+        .nav-item.dropdown {
+            position: relative;
+        }
+        .dropdown-toggle::after {
+            content: none !important;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            min-width: 180px;
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            border-radius: 6px;
+            padding: 0.5rem 0;
+            z-index: 1001;
+        }
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-item {
+            display: block;
+            padding: 10px 22px;
+            color: #23272b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+            border-radius: 4px;
+        }
+        .dropdown-item:hover {
+            background: #f2f2f2;
+            color: #5b3fa2;
+        }
+
+        /* Auth Buttons */
+        .uws-donate-btn {
+            background: #e50914;
+            color: #fff;
+            font-weight: 500;
+            border-radius: 6px;
+            padding: 10px 25px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-left: 10px;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+        .uws-donate-btn:hover {
+            background: #b0060f;
+            color: #fff;
+        }
+        .uws-auth-btn {
+            background: #fff;
+            color: #5b3fa2;
+            border: 1.5px solid #5b3fa2;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-decoration: none;
+            margin-left: 5px;
+            transition: background 0.2s, color 0.2s;
+            display: inline-block;
+        }
+        .uws-auth-btn:hover {
+            background: #5b3fa2;
+            color: #fff;
+        }
+        .uws-auth-btn.uws-register {
+            border: 1.5px solid #3498db;
+            color: #3498db;
+        }
+        .uws-auth-btn.uws-register:hover {
+            background: #3498db;
+            color: #fff;
+        }
+
+ 
+        /* Footer */
+        .main-footer {
+            background-color: #2c2c2c !important;
+            padding: 40px 0 0 !important;
+            margin-top: auto !important; /* Pushes footer to bottom */
+            width: 100% !important;
+            flex-shrink: 0 !important; /* Prevents shrinking in flex container */
+            position: relative; /* Ensure it stays in flow */
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            padding: 0 15px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            color: #fff;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #007bff;
+        }
+
+        .footer-column p,
+        .footer-column ul {
+            font-size: 0.95em;
+            color: #ccc;
+        }
+
+        .quick-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .quick-links ul li {
+            margin-bottom: 10px;
+        }
+
+        .quick-links ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .quick-links ul li a:hover {
+            color: #fff;
+        }
+
+       
+
+        .footer-logo img {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: brightness(0) invert(1);
+        }
+
+        .social-icons a {
+            color: #fff;
+            font-size: 1.5em;
+            margin-left: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #007bff;
+        }
+
+        .footer-bottom {
+            background-color: #212121;
+            padding: 15px 0;
+            text-align: left;
+            border-top: 1px solid #3a3a3a;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            font-size: 0.85em;
+            color: #aaa;
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 992px) {
+            .nav-menu {
+                gap: 1rem !important;
+            }
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .nav-logo {
+                width: 100%;
+                justify-content: space-between;
+                padding-right: 15px; /* Adjust if needed */
+            }
+            .nav-menu {
+                margin-left: 0; /* Reset margin for mobile menu */
+                width: 100%; /* Full width for stacked menu */
+                justify-content: flex-start;
+            }
+            .uws-auth-btn {
+                margin-left: 0; /* Adjust for better alignment */
+                margin-top: 10px; /* Space between buttons */
+            }
+            .nav-container > div:last-child { /* Targets auth buttons div */
+                width: 100%;
+                justify-content: center;
+                display: flex;
+                margin-left: 0;
+                padding-bottom: 10px;
+            }
+            .footer-column {
+                min-width: 200px;
+            }
+           
+
+        @@media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px; /* Below navbar */
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 2rem 0;
+                gap: 0.6rem;
+                height: calc(100vh - 70px); /* Adjust height to fill remaining viewport */
+                overflow-y: auto; /* Enable scrolling if menu content is long */
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+            .nav-item {
+                margin: 0.5rem 0;
+            }
+            .nav-link {
+                padding: 1rem 2rem;
+                display: block;
+            }
+           
+  
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .footer-column {
+                width: 100%;
+                max-width: 400px;
+                padding: 0 10px;
+            }
+            .footer-column h3 {
+                text-align: center;
+            }
+            .footer-column h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .brand-social {
+                text-align: center;
+                order: -1;
+            }
+            .footer-logo img {
+                margin-bottom: 10px;
+            }
+            .social-icons a {
+                margin: 0 10px;
+            }
+            .footer-bottom {
+                text-align: center;
+            }
+
+        }
+
+        @@media (max-width: 480px) {
+           
+            .footer-column {
+                margin-bottom: 20px;
+            }
+            .footer-column h3 {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+            .footer-logo img {
+                max-width: 120px;
+            }
+            .social-icons a {
+                font-size: 1.3em;
+            }
+            .footer-bottom p {
+                font-size: 0.8em;
+            }
+
+        }
+    </style>
+
+    <nav class="navbar">
+        <div class="nav-container" style="display:flex;align-items:center;justify-content:space-between;gap:20px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <a href="@Url.Action("Index", "Home")" class="nav-logo">
+                    <img src="@Url.Content("~/Photos/logo.png")" alt="Logo">
+                    <span> উত্তরা সেক্টর ১৩</span>
+                </a>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
                 </div>
-            </nav>
-        </header>
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
+            </div>
+            <ul class="nav-menu" style="display:flex;align-items:center;gap:1rem;list-style:none;margin:0;flex:1;justify-content:center;">
+                <li><a href="@Url.Action("Index", "Home")" class="nav-link active">HOME</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ABOUT US
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
+                        <li><a class="dropdown-item" href="@Url.Action("AboutUs", "Home")">About Us</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("MessageOfChairman", "Home")">Message of Chairman</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("HowDoWeWork", "Home")">How Do We Work</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("memberDirectory", "Home")">Member Directory</a></li>
+                    </ul>
+                </li>
+                <li><a href="#programs" class="nav-link">PROGRAMS</a></li>
+                <li><a href="@Url.Action("Gallery", "Home")" class="nav-link">GALLERY</a></li>
+                <li><a href="@Url.Action("ContactUs", "Home")" class="nav-link">CONTACT</a></li>
+                <li><a href="#donate" class="uws-donate-btn">DONATE</a></li>
+            </ul>
+
+            <div style="display:flex;align-items:center;gap:10px; margin-left: 2rem;">
+                <a href="@Url.Action("Login","Account")" class="uws-auth-btn">Login</a>
+                <a href="@Url.Action("Register","Account")" class="uws-auth-btn uws-register">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        @RenderBody()
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+
+     <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column about-uws">
+                <h3>About Sector13 Welfare Society</h3>
+                <p> Welfare Society is a non-profit and charitable organization that started its journey from Chittagong, Bangladesh with a view to improving the living standard of disadvantaged people.</p>
+            </div>
+
+            <div class="footer-column quick-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#about-us-section">About us</a></li>
+                    <li><a href="#programs">Programs</a></li>
+                    <li><a href="#">Appeals</a></li>
+                    <li><a href="@Url.Action("Gallery", "Home")">Gallery</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column contact-us">
+                <h3>Contact Us</h3>
+                <p><strong>Head Office</strong><br>123 Welfare St, Sector 13, Dhaka, Bangladesh</p>
+                <p><strong>General Enquiries:</strong> <a href="mailto:info@uws.org.bd">info@uws.org.bd</a></p>
+            </div>
+
+            <div class="footer-column brand-social">
+                <div class="footer-logo">
+                    <img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1751128314/uws-logo.png" alt="United Welfare Society Logo">
+                </div>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
         </div>
 
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2024 - Sector 13 Welfare Society - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="footer-bottom">
+            <div class="footer-container">
+                <p>&copy; @@DateTime.Now.Year Sector13 Welfare Society. All rights reserved. Registered charity in Bangladesh. </p>
             </div>
-        </footer>
-    }
-    
+        </div>
+    </footer>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    
 </body>
 </html>
 
@@ -213,7 +699,7 @@
 
         // Initial body opacity setting to enable fade-in
         document.body.style.opacity = '0';
-        
+
         // Instantiate Navigation for responsive nav toggle
         document.addEventListener('DOMContentLoaded', function() {
             new Navigation();

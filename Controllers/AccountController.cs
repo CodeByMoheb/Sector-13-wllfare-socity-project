@@ -89,6 +89,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 
             if (ModelState.IsValid)
             {
+                // Only allow 'Member' registration from public form
+                model.SelectedRole = "Member";
                 var user = new IdentityUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -135,6 +137,24 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         private List<string> GetAvailableRoles()
         {
             return new List<string> { "Member", "Manager", "Secretary", "President", "Admin" };
+        }
+
+        // Add this method to seed a SuperAdmin if not present
+        private async Task EnsureSuperAdminExists()
+        {
+            var superAdminEmail = "superadmin@sec13.com";
+            var superAdminUser = await _userManager.FindByEmailAsync(superAdminEmail);
+            if (superAdminUser == null)
+            {
+                var user = new IdentityUser { UserName = superAdminEmail, Email = superAdminEmail, EmailConfirmed = true };
+                var result = await _userManager.CreateAsync(user, "SuperAdmin@123");
+                if (result.Succeeded)
+                {
+                    if (!await _roleManager.RoleExistsAsync("SuperAdmin"))
+                        await _roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
+                    await _userManager.AddToRoleAsync(user, "SuperAdmin");
+                }
+            }
         }
     }
 } 
