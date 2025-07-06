@@ -3,106 +3,520 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    /* Responsive styles for AboutUs page */
+    .hero-section {
+        background: linear-gradient(120deg,rgb(61, 163, 36) 0%,rgb(75, 191, 127) 100%);
+        color: #fff;
+        padding: 70px 20px 50px 20px;
+        text-align: center;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-top: 80px;
+    }
+
+    .hero-content {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .hero-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin-bottom: 18px;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+        line-height: 1.5;
+    }
+
+    .hero-location {
+        margin-top: 18px;
+        font-size: 1.1rem;
+    }
+
+    .content-section {
+        background: #fff;
+        padding: 40px 20px;
+    }
+
+    .content-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: flex-start;
+        gap: 32px;
+        flex-wrap: wrap;
+    }
+
+    .text-column {
+        flex: 1 1 350px;
+        min-width: 320px;
+    }
+
+    .section-title {
+        color: #2563eb;
+        font-weight: 700;
+        margin-bottom: 18px;
+        font-size: 2rem;
+    }
+
+    .section-text {
+        font-size: 1.08rem;
+        color: #222;
+        margin-bottom: 10px;
+        line-height: 1.6;
+    }
+
+    .text-list {
+        font-size: 1.08rem;
+        color: #222;
+    }
+
+    .text-list ol {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.6;
+    }
+
+    .text-list li {
+        margin-bottom: 12px;
+    }
+
+    .images-column {
+        flex: 1 1 300px;
+        min-width: 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .story-image {
+        width: 100%;
+        max-width: 320px;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    }
+
+    .foundation-section {
+        background: #fafbfc;
+        padding: 50px 20px 30px 20px;
+    }
+
+    .foundation-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .foundation-subtitle {
+        color: #444;
+        font-size: 1.1rem;
+        margin-bottom: 32px;
+        line-height: 1.5;
+    }
+
+    .cards-container {
+        display: flex;
+        gap: 18px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 36px;
+    }
+
+    .foundation-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+        padding: 28px 20px;
+        flex: 1 1 260px;
+        max-width: 340px;
+        min-width: 220px;
+    }
+
+    .card-icon {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+    }
+
+    .card-title {
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+    }
+
+    .card-text {
+        color: #444;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .values-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        justify-content: center;
+    }
+
+    .value-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+        padding: 22px;
+        flex: 1 1 260px;
+        max-width: 350px;
+        min-width: 240px;
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        border: 1.5px solid #e3e6f0;
+    }
+
+    .value-icon {
+        background: #2563eb;
+        color: #fff;
+        border-radius: 7px;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+
+    .value-content {
+        flex: 1;
+    }
+
+    .value-title {
+        font-weight: bold;
+        font-size: 1.08rem;
+        margin-bottom: 2px;
+    }
+
+    .value-description {
+        font-size: 0.98rem;
+        color: #444;
+        line-height: 1.4;
+    }
+
+    /* Mobile Responsive Styles */
+    @@media (max-width: 768px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+
+        .hero-location {
+            font-size: 1rem;
+        }
+
+        .content-section {
+            padding: 30px 15px;
+        }
+
+        .content-container {
+            gap: 20px;
+        }
+
+        .text-column {
+            flex: 1 1 100%;
+            padding: 0 10px;
+            min-width: auto;
+        }
+
+        .images-column {
+            flex: 1 1 100%;
+            min-width: auto;
+            justify-content: space-between;
+        }
+
+        .story-image {
+            width: 37%;
+            min-width: 80px;
+        }
+
+        .foundation-section {
+            padding: 40px 15px 20px 15px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+        }
+
+        .foundation-subtitle {
+            font-size: 1rem;
+        }
+
+        .cards-container {
+            gap: 15px;
+        }
+
+        .foundation-card {
+            flex: 1 1 100%;
+            max-width: none;
+            min-width: auto;
+            padding: 25px 15px;
+        }
+
+        .values-container {
+            gap: 15px;
+        }
+
+        .value-card {
+            flex: 1 1 100%;
+            max-width: none;
+            min-width: auto;
+            padding: 20px;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .hero-title {
+            font-size: 1.6rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .content-section {
+            padding: 25px 10px;
+        }
+
+        .foundation-section {
+            padding: 30px 10px 15px 10px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+        }
+
+        .section-text {
+            font-size: 1rem;
+        }
+
+        .text-list {
+            font-size: 1rem;
+        }
+
+        .images-column {
+            gap: 6px;
+        }
+
+        .story-image {
+            width: 60%;
+            min-width: 100px;
+        }
+
+        .foundation-card {
+            padding: 20px 12px;
+        }
+
+        .value-card {
+            padding: 18px;
+            gap: 12px;
+        }
+
+        .value-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 1.1rem;
+        }
+
+        .value-title {
+            font-size: 1rem;
+        }
+
+        .value-description {
+            font-size: 0.9rem;
+        }
+    }
+
+    @@media (max-width: 360px) {
+        .hero-title {
+            font-size: 1.4rem;
+        }
+
+        .hero-subtitle {
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+        }
+
+        .story-image {
+            min-width: 200px;
+        }
+
+        .value-card {
+            flex-direction: column;
+            text-align: center;
+            gap: 10px;
+        }
+
+        .value-icon {
+            align-self: center;
+        }
+    }
+</style>
+
 <!-- Hero Section -->
-<section style="background: linear-gradient(120deg,rgb(61, 163, 36) 0%,rgb(75, 191, 127) 100%); color: #fff; padding: 70px 0 50px 0; text-align: center; width: 100vw; margin-left: calc(-50vw + 50%);margin-top: 80px;">
-    <div style="max-width: 900px; margin: 0 auto;">
-        <h1 style="font-size: 2.8rem; font-weight: 700; margin-bottom: 18px;">About United Welfare Society</h1>
-        <p style="font-size: 1.25rem; margin-bottom: 10px;">Dedicated to building a better future for the deprived, the poor, and<br />the marginalized people of Bangladesh since 2021.</p>
-        <div style="margin-top: 18px; font-size: 1.1rem;">NGO Reg. No: 3307</div>
+<section class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">উত্তরা সেক্টর ১৩ ওয়েলফেয়ার সোসাইটি</h1>
+        <p class="hero-subtitle">উত্তরা সেক্টর ১৩ কল্যাণ সমিতি মূলত এই ১৩ নম্বর সেক্টরের বাসিন্দাদের জীবনযাত্রার মান উন্নয়ন এবং তাদের বিভিন্ন সামাজিক ও নাগরিক সুবিধা নিশ্চিত করার জন্য কাজ করে থাকে।</p>
+        <div class="hero-location">Sector 13, Uttara, Dhaka-1230</div>
     </div>
 </section>
 
 <!-- Our Story Section -->
-<section style="background: #fff; padding: 40px 0;">
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-start; gap: 32px; flex-wrap: wrap;">
+<section class="content-section">
+    <div class="content-container">
         <!-- Text Column -->
-        <div style="flex: 1 1 350px; min-width: 320px;">
-            <h2 style="color: #2563eb; font-weight: 700; margin-bottom: 18px;">Our Story</h2>
-            <p style="font-size: 1.08rem; color: #222; margin-bottom: 10px;">
-                United Welfare Society (UWS) was born from a simple yet powerful belief: every person deserves access to basic necessities and opportunities for growth. Founded in 2021 in Chittagong, Bangladesh, our organization emerged from the collective efforts of passionate individuals who witnessed the struggles of neglected and underprivileged communities.
+        <div class="text-column">
+            <h2 class="section-title">আমাদের সস্পর্কে :</h2>
+            <p class="section-text">
+                উত্তরা ১৩ নম্বর সেক্টর কল্যাণ সমিতি (Uttara Sector 13 Welfare Society) উত্তরা আবাসিক এলাকার একটি গুরুত্বপূর্ণ সংগঠন। ঢাকার উত্তরা একটি সুপরিকল্পিত এবং অভিজাত এলাকা, যেখানে ১৮টি সেক্টর রয়েছে। প্রতিটি সেক্টরেই একটি কল্যাণ সমিতি থাকে, যা ওই এলাকার বাসিন্দাদের বিভিন্ন সুযোগ-সুবিধা এবং সমস্যা নিয়ে কাজ করে।
             </p>
-            <p style="font-size: 1.08rem; color: #222; margin-bottom: 10px;">
-                What started as a small initiative to help local families has grown into a comprehensive organization serving thousands across Bangladesh, including Rohingya refugees in Cox's Bazar. Our journey has been marked by countless stories of transformation, hope, and resilience.
+            <p class="section-text">
+                এই সমিতি সাধারণত যে ধরনের কাজ করে থাকে, তার মধ্যে রয়েছে:
             </p>
-            <p style="font-size: 1.08rem; color: #222;">
-                Today, UWS stands as a beacon of hope for those who need it most, providing essential services in education, healthcare, clean water, food security, and emergency response. Our work is guided by the principle that "Charity is Investment, helps you to earn Smiles."
-            </p>
+            <div class="text-list">
+                <ol>
+                    <li>
+                        <strong>সামাজিক সম্প্রীতি বজায় রাখা:</strong> এলাকার মানুষের মধ্যে সদ্ভাব ও সম্প্রীতি বাড়াতে বিভিন্ন সামাজিক অনুষ্ঠানের আয়োজন করা।
+                    </li>
+                    <li>
+                        <strong>নাগরিক সমস্যার সমাধান:</strong> রাস্তাঘাট, পয়ঃনিষ্কাশন, বর্জ্য ব্যবস্থাপনা, নিরাপত্তা ইত্যাদি বিষয়ে স্থানীয় কর্তৃপক্ষের সাথে যোগাযোগ করে সমস্যা সমাধানে সহায়তা করা।
+                    </li>
+                    <li>
+                        <strong>নিরাপত্তা ব্যবস্থা জোরদার করা:</strong> এলাকার নিরাপত্তা নিশ্চিত করতে প্রয়োজনীয় পদক্ষেপ নেওয়া, যেমন - সিসিটিভি স্থাপন বা নৈশপ্রহরীর ব্যবস্থা করা।
+                    </li>
+                    <li>
+                        <strong>পরিবেশ সংরক্ষণ:</strong> এলাকার পরিবেশ পরিষ্কার-পরিচ্ছন্ন রাখা এবং সবুজায়ন কর্মসূচিতে অংশ নেওয়া।
+                    </li>
+                    <li>
+                        <strong>শিক্ষামূলক ও সাংস্কৃতিক কার্যক্রম:</strong> শিশুদের জন্য শিক্ষামূলক প্রতিযোগিতা বা সাংস্কৃতিক অনুষ্ঠানের আয়োজন করা।
+                    </li>
+                    <li>
+                        <strong>দুর্যোগ মোকাবিলা:</strong> যেকোনো প্রাকৃতিক দুর্যোগ বা আপৎকালীন পরিস্থিতিতে এলাকার মানুষের পাশে দাঁড়ানো এবং সহায়তা করা।
+                    </li>
+                    <li>
+                        <strong>সাধারণ কল্যাণমূলক কাজ:</strong> এলাকার দরিদ্র বা অভাবী মানুষের সাহায্যে এগিয়ে আসা।
+                    </li>
+                </ol>
+            </div>
         </div>
         <!-- Images Column -->
-        <div style="flex: 1 1 400px; min-width: 320px; display: flex; gap: 12px; justify-content: center;">
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Story 1" style="width: 32%; min-width: 100px; max-width: 140px; border-radius: 10px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
-            <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" alt="Story 2" style="width: 32%; min-width: 100px; max-width: 140px; border-radius: 10px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
-            <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=400&q=80" alt="Story 3" style="width: 32%; min-width: 100px; max-width: 140px; border-radius: 10px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.08);" />
+        <div class="images-column">
+            <img src="@Url.Content("~/Health Care/1.jpeg")" alt="UWS helping people" class="story-image" />
+            <img src="@Url.Content("~/Health Care/2.jpeg")" alt="UWS supporting elderly" class="story-image" />
+            <img src="@Url.Content("~/Health Care/4.png")" alt="UWS supporting elderly" class="story-image" />
         </div>
     </div>
 </section>
 
 <!-- Our Foundation Section -->
-<section style="background: #fafbfc; padding: 50px 0 30px 0;">
-    <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
-        <h2 style="color: #2563eb; font-weight: 700; margin-bottom: 8px;">Our Foundation</h2>
-        <div style="color: #444; font-size: 1.1rem; margin-bottom: 32px;">Our mission, vision, and values guide every decision we make and every action we take.</div>
+<section class="foundation-section">
+    <div class="foundation-container">
+        <h2 class="section-title">Our Foundation</h2>
+        <div class="foundation-subtitle">Our mission, vision, and values guide every decision we make and every action we take.</div>
+        
         <!-- Mission, Vision, Philosophy Cards -->
-        <div style="display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px;">
-            <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 28px 20px; flex: 1 1 260px; max-width: 340px; min-width: 220px;">
-                <div style="font-size: 2.2rem; color: #2563eb; margin-bottom: 10px;"><i class="fas fa-bullseye"></i></div>
-                <h3 style="font-weight: 700; margin-bottom: 10px;">Our Mission</h3>
-                <div style="color: #444; font-size: 1rem;">To build a better future for deprived, poor, and marginalized people living in remote areas and urban slums of Bangladesh through comprehensive welfare programs and sustainable development initiatives.</div>
+        <div class="cards-container">
+            <div class="foundation-card">
+                <div class="card-icon" style="color: #2563eb;"><i class="fas fa-bullseye"></i></div>
+                <h3 class="card-title">Our Mission</h3>
+                <div class="card-text">To build a better future for deprived, poor, and marginalized people living in remote areas and urban slums of Bangladesh through comprehensive welfare programs and sustainable development initiatives.</div>
             </div>
-            <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 28px 20px; flex: 1 1 260px; max-width: 340px; min-width: 220px;">
-                <div style="font-size: 2.2rem; color: #6c47b6; margin-bottom: 10px;"><i class="fas fa-eye"></i></div>
-                <h3 style="font-weight: 700; margin-bottom: 10px;">Our Vision</h3>
-                <div style="color: #444; font-size: 1rem;">A Bangladesh where every person has access to education, healthcare, clean water, nutritious food, and opportunities for growth, regardless of their socioeconomic background or circumstances.</div>
+            <div class="foundation-card">
+                <div class="card-icon" style="color: #6c47b6;"><i class="fas fa-eye"></i></div>
+                <h3 class="card-title">Our Vision</h3>
+                <div class="card-text">A Bangladesh where every person has access to education, healthcare, clean water, nutritious food, and opportunities for growth, regardless of their socioeconomic background or circumstances.</div>
             </div>
-            <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 28px 20px; flex: 1 1 260px; max-width: 340px; min-width: 220px;">
-                <div style="font-size: 2.2rem; color: #e53935; margin-bottom: 10px;"><i class="fas fa-heart"></i></div>
-                <h3 style="font-weight: 700; margin-bottom: 10px;">Our Philosophy</h3>
-                <div style="color: #444; font-size: 1rem;">"Charity is Investment, helps you to earn Smiles." We believe that investing in people and communities creates lasting positive change and brings joy to both givers and receivers.</div>
+            <div class="foundation-card">
+                <div class="card-icon" style="color: #e53935;"><i class="fas fa-heart"></i></div>
+                <h3 class="card-title">Our Philosophy</h3>
+                <div class="card-text">"Charity is Investment, helps you to earn Smiles." We believe that investing in people and communities creates lasting positive change and brings joy to both givers and receivers.</div>
             </div>
         </div>
-        <h3 style="color: #2563eb; font-weight: 700; margin-bottom: 18px;">Our Core Values</h3>
+        
+        <h3 class="section-title">Our Core Values</h3>
+        
         <!-- Core Values Cards -->
-        <div style="display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;">
-            <div style="background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 22px 22px; flex: 1 1 260px; max-width: 350px; min-width: 240px; display: flex; align-items: flex-start; gap: 16px; border: 1.5px solid #e3e6f0;">
-                <div style="background: #2563eb; color: #fff; border-radius: 7px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;"><i class="fas fa-hand-holding-heart"></i></div>
-                <div>
-                    <div style="font-weight: bold; font-size: 1.08rem; margin-bottom: 2px;">Compassion</div>
-                    <div style="font-size: 0.98rem; color: #444;">We approach every situation with empathy and understanding, treating each person with dignity and respect.</div>
+        <div class="values-container">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <div class="value-content">
+                    <div class="value-title">Compassion</div>
+                    <div class="value-description">We approach every situation with empathy and understanding, treating each person with dignity and respect.</div>
                 </div>
             </div>
-            <div style="background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 22px 22px; flex: 1 1 260px; max-width: 350px; min-width: 240px; display: flex; align-items: flex-start; gap: 16px; border: 1.5px solid #e3e6f0;">
-                <div style="background: #2563eb; color: #fff; border-radius: 7px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;"><i class="fas fa-balance-scale"></i></div>
-                <div>
-                    <div style="font-weight: bold; font-size: 1.08rem; margin-bottom: 2px;">Integrity</div>
-                    <div style="font-size: 0.98rem; color: #444;">We maintain the highest standards of honesty and transparency in all our operations and communications.</div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <div class="value-content">
+                    <div class="value-title">Integrity</div>
+                    <div class="value-description">We maintain the highest standards of honesty and transparency in all our operations and communications.</div>
                 </div>
             </div>
-            <div style="background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 22px 22px; flex: 1 1 260px; max-width: 350px; min-width: 240px; display: flex; align-items: flex-start; gap: 16px; border: 1.5px solid #e3e6f0;">
-                <div style="background: #2563eb; color: #fff; border-radius: 7px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;"><i class="fas fa-users"></i></div>
-                <div>
-                    <div style="font-weight: bold; font-size: 1.08rem; margin-bottom: 2px;">Community-Centered</div>
-                    <div style="font-size: 0.98rem; color: #444;">We believe in empowering local communities and working together to create sustainable change.</div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="value-content">
+                    <div class="value-title">Community-Centered</div>
+                    <div class="value-description">We believe in empowering local communities and working together to create sustainable change.</div>
                 </div>
             </div>
-            <div style="background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 22px 22px; flex: 1 1 260px; max-width: 350px; min-width: 240px; display: flex; align-items: flex-start; gap: 16px; border: 1.5px solid #e3e6f0;">
-                <div style="background: #2563eb; color: #fff; border-radius: 7px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;"><i class="fas fa-bullseye"></i></div>
-                <div>
-                    <div style="font-weight: bold; font-size: 1.08rem; margin-bottom: 2px;">Impact-Driven</div>
-                    <div style="font-size: 0.98rem; color: #444;">Every decision we make is guided by its potential to create meaningful, lasting positive change.</div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="value-content">
+                    <div class="value-title">Impact-Driven</div>
+                    <div class="value-description">Every decision we make is guided by its potential to create meaningful, lasting positive change.</div>
                 </div>
             </div>
-            <div style="background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 22px 22px; flex: 1 1 260px; max-width: 350px; min-width: 240px; display: flex; align-items: flex-start; gap: 16px; border: 1.5px solid #e3e6f0;">
-                <div style="background: #2563eb; color: #fff; border-radius: 7px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;"><i class="fas fa-star"></i></div>
-                <div>
-                    <div style="font-weight: bold; font-size: 1.08rem; margin-bottom: 2px;">Excellence</div>
-                    <div style="font-size: 0.98rem; color: #444;">We strive for excellence in everything we do, continuously improving our programs and services.</div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="value-content">
+                    <div class="value-title">Excellence</div>
+                    <div class="value-description">We strive for excellence in everything we do, continuously improving our programs and services.</div>
                 </div>
             </div>
-            <div style="background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 22px 22px; flex: 1 1 260px; max-width: 350px; min-width: 240px; display: flex; align-items: flex-start; gap: 16px; border: 1.5px solid #e3e6f0;">
-                <div style="background: #2563eb; color: #fff; border-radius: 7px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;"><i class="fas fa-unlock-alt"></i></div>
-                <div>
-                    <div style="font-weight: bold; font-size: 1.08rem; margin-bottom: 2px;">Transparency</div>
-                    <div style="font-size: 0.98rem; color: #444;">We believe in open communication and accountability to our beneficiaries, donors, and partners.</div>
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-unlock-alt"></i>
+                </div>
+                <div class="value-content">
+                    <div class="value-title">Transparency</div>
+                    <div class="value-description">We believe in open communication and accountability to our beneficiaries, donors, and partners.</div>
                 </div>
             </div>
         </div>
