@@ -1,0 +1,134 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.Donor
+@{
+    ViewData["Title"] = "Manual Payment Instructions";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-success text-white text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-handshake me-2"></i>
+                        Manual Payment Instructions
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-success">
+                        <h5><i class="fas fa-check-circle me-2"></i>Thank you for your donation!</h5>
+                        <p class="mb-0">Your donation request has been recorded. Please complete the payment using one of the methods below.</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="donation-summary">
+                                <h5 class="text-primary mb-3">Donation Summary</h5>
+                                <div class="summary-item">
+                                    <strong>Receipt Number:</strong> @Model.ReceiptNumber
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Amount:</strong> ৳@Model.Amount.ToString("N2")
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Donor:</strong> @(Model.IsAnonymous ? "Anonymous" : Model.Name)
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Type:</strong> @Model.DonationType
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Date:</strong> @Model.DonationDate.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="payment-methods">
+                                <h5 class="text-primary mb-3">Payment Methods</h5>
+                                
+                                <div class="payment-method-card mb-3">
+                                    <div class="card border-primary">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                <i class="fas fa-university text-primary me-2"></i>
+                                                Bank Transfer
+                                            </h6>
+                                            <div class="bank-details">
+                                                <p><strong>Bank:</strong> Sonali Bank</p>
+                                                <p><strong>Account Name:</strong> Sector 13 Welfare Society</p>
+                                                <p><strong>Account Number:</strong> 1234567890</p>
+                                                <p><strong>Branch:</strong> Dhaka Main Branch</p>
+                                                <p><strong>Routing Number:</strong> 200270116</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="payment-method-card mb-3">
+                                    <div class="card border-success">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                <i class="fas fa-mobile-alt text-success me-2"></i>
+                                                Mobile Banking
+                                            </h6>
+                                            <div class="mobile-details">
+                                                <p><strong>Bkash:</strong> 01712345678</p>
+                                                <p><strong>Nagad:</strong> 01712345678</p>
+                                                <p><strong>Rocket:</strong> 01712345678</p>
+                                                <p><strong>Upay:</strong> 01712345678</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="payment-method-card">
+                                    <div class="card border-warning">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                <i class="fas fa-money-bill-wave text-warning me-2"></i>
+                                                Cash Payment
+                                            </h6>
+                                            <p class="mb-0">Visit our office during business hours (9:00 AM - 5:00 PM) to make cash payment.</p>
+                                            <p class="mb-0"><strong>Address:</strong> Sector 13, Dhaka, Bangladesh</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="important-notice mt-4">
+                        <div class="alert alert-warning">
+                            <h6><i class="fas fa-exclamation-triangle me-2"></i>Important Notice</h6>
+                            <ul class="mb-0">
+                                <li>Please include your receipt number (@Model.ReceiptNumber) in the payment reference/note.</li>
+                                <li>Keep the payment receipt for your records.</li>
+                                <li>Your donation will be confirmed within 24-48 hours after payment verification.</li>
+                                <li>You will receive a confirmation email once payment is verified.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="contact-info mt-4">
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-phone me-2"></i>Need Help?</h6>
+                            <p class="mb-0">Contact us at: <strong>+880 1712 345 678</strong> or email: <strong>donations@sector13welfare.org</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="/Home/donate" class="btn btn-primary me-2">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Back to Donation Page
+                        </a>
+                        <a href="/" class="btn btn-outline-secondary">
+                            <i class="fas fa-home me-2"></i>
+                            Go to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles moved to wwwroot/css/site.css -->

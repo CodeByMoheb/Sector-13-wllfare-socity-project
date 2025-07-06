@@ -1,0 +1,142 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.Donor
+@{
+    ViewData["Title"] = "Secure Payment - SSL Commerz";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-lock me-2"></i>
+                        Secure Payment Gateway
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-info">
+                        <h5><i class="fas fa-info-circle me-2"></i>Redirecting to Secure Payment Gateway</h5>
+                        <p class="mb-0">You will be redirected to SSL Commerz secure payment gateway to complete your donation.</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="donation-summary">
+                                <h5 class="text-primary mb-3">Donation Summary</h5>
+                                <div class="summary-item">
+                                    <strong>Receipt Number:</strong> @Model.ReceiptNumber
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Transaction ID:</strong> @Model.TransactionId
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Amount:</strong> ৳@Model.Amount.ToString("N2")
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Donor:</strong> @(Model.IsAnonymous ? "Anonymous" : Model.Name)
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Type:</strong> @Model.DonationType
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Date:</strong> @Model.DonationDate.ToString("dd/MM/yyyy")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="payment-info">
+                                <h5 class="text-primary mb-3">Payment Information</h5>
+                                <div class="info-item">
+                                    <i class="fas fa-shield-alt text-success me-2"></i>
+                                    <span>256-bit SSL Encryption</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-credit-card text-primary me-2"></i>
+                                    <span>Credit/Debit Cards Accepted</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-mobile-alt text-success me-2"></i>
+                                    <span>Mobile Banking Available</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-university text-warning me-2"></i>
+                                    <span>Internet Banking Supported</span>
+                                </div>
+                                @if (ViewBag.IsSandbox == true)
+                                {
+                                    <div class="info-item">
+                                        <i class="fas fa-flask text-info me-2"></i>
+                                        <span>Sandbox Environment</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="security-notice mt-4">
+                        <div class="alert alert-success">
+                            <h6><i class="fas fa-shield-alt me-2"></i>Security Assured</h6>
+                            <ul class="mb-0">
+                                <li>Your payment information is encrypted and secure</li>
+                                <li>We do not store your card details</li>
+                                <li>SSL Commerz is a trusted payment gateway in Bangladesh</li>
+                                <li>All transactions are monitored for security</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <div class="loading-spinner mb-3" style="display: none;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Preparing secure payment gateway...</p>
+                        </div>
+                        
+                        <form id="sslCommerzForm" action="@ViewBag.SessionApiUrl" method="post" style="display: none;">
+                            @foreach (var item in ViewBag.PaymentData)
+                            {
+                                <input type="hidden" name="@item.Key" value="@item.Value" />
+                            }
+                        </form>
+                        
+                        <button type="button" class="btn btn-primary btn-lg" onclick="submitPayment()">
+                            <i class="fas fa-lock me-2"></i>
+                            Proceed to Secure Payment
+                        </button>
+                        
+                        <div class="mt-3">
+                            <a href="/Home/donate" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Back to Donation Page
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles moved to wwwroot/css/site.css -->
+
+<script>
+function submitPayment() {
+    // Show loading spinner
+    document.querySelector('.loading-spinner').style.display = 'block';
+    document.querySelector('button[onclick="submitPayment()"]').style.display = 'none';
+    
+    // Submit the form after a short delay to show the loading animation
+    setTimeout(() => {
+        document.getElementById('sslCommerzForm').submit();
+    }, 2000);
+}
+
+// Auto-submit after 5 seconds if user doesn't click the button
+setTimeout(() => {
+    if (document.querySelector('button[onclick="submitPayment()"]').style.display !== 'none') {
+        submitPayment();
+    }
+}, 5000);
+</script> 

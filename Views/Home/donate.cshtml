@@ -1,0 +1,330 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.Donor
+@{
+    ViewData["Title"] = "Donate - Sector 13 Welfare Society";
+    Layout = "_Layout";
+}
+
+<!-- Hero Section with Animation -->
+<div class="hero-section">
+    <div class="hero-content">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <div class="hero-text animate-fade-in">
+                        <h1 class="display-4 fw-bold text-white mb-4">
+                            <span class="text-gradient">Make a Difference</span><br>
+                            Today
+                        </h1>
+                        <p class="lead text-white-50 mb-4">
+                            Your donation helps us provide healthcare, education, and support to our community. 
+                            Every contribution makes a real impact on someone's life.
+                        </p>
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <div class="stat-number" data-target="1500">0</div>
+                                <div class="stat-label">Lives Impacted</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-target="50">0</div>
+                                <div class="stat-label">Projects Completed</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-target="100">0</div>
+                                <div class="stat-label">Volunteers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="donation-card animate-slide-up">
+                        <div class="card border-0 shadow-lg">
+                            <div class="card-header bg-gradient text-white text-center py-4">
+                                <h3 class="mb-0">
+                                    <i class="fas fa-heart me-2"></i>
+                                    Donate Now
+                                </h3>
+                            </div>
+                            <div class="card-body p-4">
+                                <form asp-controller="Donation" asp-action="ProcessDonation" method="post" id="donationForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label asp-for="Name" class="form-label">
+                                                <i class="fas fa-user me-2"></i>Full Name *
+                                            </label>
+                                            <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter your full name" required />
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label asp-for="Email" class="form-label">
+                                                <i class="fas fa-envelope me-2"></i>Email *
+                                            </label>
+                                            <input asp-for="Email" type="email" class="form-control form-control-lg" placeholder="your@email.com" required />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label asp-for="Phone" class="form-label">
+                                                <i class="fas fa-phone me-2"></i>Phone *
+                                            </label>
+                                            <input asp-for="Phone" class="form-control form-control-lg" placeholder="+880 1XXX XXX XXX" required />
+                                            <span asp-validation-for="Phone" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label asp-for="DonationType" class="form-label">
+                                                <i class="fas fa-tag me-2"></i>Donation Type
+                                            </label>
+                                            <select asp-for="DonationType" class="form-select form-select-lg">
+                                                <option value="General">General Donation</option>
+                                                <option value="Healthcare">Healthcare Program</option>
+                                                <option value="Education">Education Support</option>
+                                                <option value="Emergency">Emergency Relief</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="Address" class="form-label">
+                                            <i class="fas fa-map-marker-alt me-2"></i>Address
+                                        </label>
+                                        <textarea asp-for="Address" class="form-control" rows="2" placeholder="Your address (optional)"></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="Amount" class="form-label">
+                                            <i class="fas fa-rupee-sign me-2"></i>Donation Amount (BDT) *
+                                        </label>
+                                        <div class="input-group input-group-lg">
+                                            <span class="input-group-text">৳</span>
+                                            <input asp-for="Amount" type="number" step="0.01" min="10" class="form-control" placeholder="1000" required />
+                                        </div>
+                                        <span asp-validation-for="Amount" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="Message" class="form-label">
+                                            <i class="fas fa-comment me-2"></i>Message (Optional)
+                                        </label>
+                                        <textarea asp-for="Message" class="form-control" rows="3" placeholder="Share why you're donating or any special instructions..."></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input asp-for="IsAnonymous" class="form-check-input" type="checkbox" id="anonymousCheck">
+                                            <label class="form-check-label" for="anonymousCheck">
+                                                Make this donation anonymous
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="form-label">
+                                            <i class="fas fa-credit-card me-2"></i>Payment Method *
+                                        </label>
+                                        <div class="payment-methods">
+                                            <div class="payment-option">
+                                                <input asp-for="PaymentMethod" type="radio" value="SSLCommerz" id="sslCommerz" class="payment-radio" checked>
+                                                <label for="sslCommerz" class="payment-label">
+                                                    <i class="fas fa-lock text-success"></i>
+                                                    <span>Secure Online Payment</span>
+                                                    <small>Credit/Debit Card, Mobile Banking</small>
+                                                </label>
+                                            </div>
+                                            <div class="payment-option">
+                                                <input asp-for="PaymentMethod" type="radio" value="Manual" id="manual" class="payment-radio">
+                                                <label for="manual" class="payment-label">
+                                                    <i class="fas fa-handshake text-primary"></i>
+                                                    <span>Manual Payment</span>
+                                                    <small>Bank Transfer, Cash</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-gradient btn-lg w-100 py-3">
+                                        <i class="fas fa-heart me-2"></i>
+                                        Donate Now
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Impact Section -->
+<section class="impact-section py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12">
+                <h2 class="section-title mb-5">Your Impact</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h4>Healthcare</h4>
+                    <p>Free medical camps and healthcare support for the community</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h4>Education</h4>
+                    <p>Scholarships and educational support for underprivileged students</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h4>Housing</h4>
+                    <p>Housing assistance and shelter support for needy families</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h4>Emergency</h4>
+                    <p>Emergency relief and disaster response support</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Donations -->
+<section class="recent-donations py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12">
+                <h2 class="section-title mb-5">Recent Donations</h2>
+            </div>
+        </div>
+        <div class="row" id="recentDonations">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </div>
+</section>
+
+<!-- Styles moved to wwwroot/css/site.css -->
+
+<script>
+// Animate numbers
+function animateNumbers() {
+    const numbers = document.querySelectorAll('.stat-number');
+    
+    numbers.forEach(number => {
+        const target = parseInt(number.getAttribute('data-target'));
+        const increment = target / 100;
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            number.textContent = Math.floor(current);
+            
+            if (current >= target) {
+                number.textContent = target;
+                clearInterval(timer);
+            }
+        }, 20);
+    });
+}
+
+// Load recent donations
+async function loadRecentDonations() {
+    try {
+        const response = await fetch('/Donation/DonationHistory');
+        const donors = await response.json();
+        
+        const container = document.getElementById('recentDonations');
+        container.innerHTML = '';
+        
+        donors.slice(0, 6).forEach(donor => {
+            const donationItem = document.createElement('div');
+            donationItem.className = 'col-lg-4 col-md-6 mb-3';
+            donationItem.innerHTML = `
+                <div class="donation-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">${donor.isAnonymous ? 'Anonymous' : donor.name}</h6>
+                            <small class="text-muted">${donor.donationType}</small>
+                        </div>
+                        <div class="text-end">
+                            <strong class="text-success">৳${donor.amount}</strong>
+                            <br><small class="text-muted">${new Date(donor.donationDate).toLocaleDateString()}</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(donationItem);
+        });
+    } catch (error) {
+        console.error('Error loading recent donations:', error);
+    }
+}
+
+// Form validation and submission
+document.getElementById('donationForm').addEventListener('submit', function(e) {
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.innerHTML = '<span class="loading"></span> Processing...';
+    submitBtn.disabled = true;
+    
+    // Re-enable after 3 seconds if no response
+    setTimeout(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }, 3000);
+});
+
+// Initialize animations when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate numbers when they come into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateNumbers();
+                observer.unobserve(entry.target);
+            }
+        });
+    });
+    
+    const statsSection = document.querySelector('.hero-stats');
+    if (statsSection) {
+        observer.observe(statsSection);
+    }
+    
+    // Load recent donations
+    loadRecentDonations();
+});
+
+// Add floating animation to impact cards
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.impact-card');
+    const impactSection = document.querySelector('.impact-section');
+    
+    // Add animate class to impact section to make it visible
+    if (impactSection) {
+        impactSection.classList.add('animate');
+    }
+    
+    cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.classList.add('animate-fade-in');
+    });
+});
+</script>
