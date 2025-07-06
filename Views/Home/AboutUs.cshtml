@@ -158,37 +158,25 @@
     }
 
     .values-container {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 18px;
-        justify-content: center;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     .value-card {
         background: #fff;
-        border-radius: 8px;
+        border-radius: 10px;
         box-shadow: 0 2px 8px rgba(44,62,80,0.06);
-        padding: 22px;
-        flex: 1 1 260px;
-        max-width: 350px;
-        min-width: 240px;
-        display: flex;
-        align-items: flex-start;
-        gap: 16px;
-        border: 1.5px solid #e3e6f0;
+        padding: 28px 20px;
+        height: 100%;
     }
 
     .value-icon {
-        background: #2563eb;
-        color: #fff;
-        border-radius: 7px;
-        width: 38px;
-        height: 38px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        flex-shrink: 0;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+        color: #2563eb;
     }
 
     .value-content {
@@ -196,15 +184,15 @@
     }
 
     .value-title {
-        font-weight: bold;
-        font-size: 1.08rem;
-        margin-bottom: 2px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
     }
 
     .value-description {
-        font-size: 0.98rem;
         color: #444;
-        line-height: 1.4;
+        font-size: 1rem;
+        line-height: 1.5;
     }
 
     /* Mobile Responsive Styles */
@@ -270,14 +258,12 @@
         }
 
         .values-container {
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
         }
 
         .value-card {
-            flex: 1 1 100%;
-            max-width: none;
-            min-width: auto;
-            padding: 20px;
+            padding: 25px 15px;
         }
 
         .card-icon {
@@ -332,14 +318,11 @@
         }
 
         .value-card {
-            padding: 18px;
-            gap: 12px;
+            padding: 22px 12px;
         }
 
         .value-icon {
-            width: 32px;
-            height: 32px;
-            font-size: 1.1rem;
+            font-size: 2rem;
         }
 
         .value-title {
@@ -348,6 +331,13 @@
 
         .value-description {
             font-size: 0.9rem;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .values-container {
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
     }
 
@@ -369,13 +359,11 @@
         }
 
         .value-card {
-            flex-direction: column;
-            text-align: center;
-            gap: 10px;
+            padding: 18px 10px;
         }
 
         .value-icon {
-            align-self: center;
+            font-size: 1.8rem;
         }
     }
 </style>
@@ -469,55 +457,43 @@
                 <div class="value-icon">
                     <i class="fas fa-hand-holding-heart"></i>
                 </div>
-                <div class="value-content">
-                    <div class="value-title">Compassion</div>
-                    <div class="value-description">We approach every situation with empathy and understanding, treating each person with dignity and respect.</div>
-                </div>
+                <div class="value-title">Compassion</div>
+                <div class="value-description">We approach every situation with empathy and understanding, treating each person with dignity and respect.</div>
             </div>
             <div class="value-card">
                 <div class="value-icon">
                     <i class="fas fa-balance-scale"></i>
                 </div>
-                <div class="value-content">
-                    <div class="value-title">Integrity</div>
-                    <div class="value-description">We maintain the highest standards of honesty and transparency in all our operations and communications.</div>
-                </div>
+                <div class="value-title">Integrity</div>
+                <div class="value-description">We maintain the highest standards of honesty and transparency in all our operations and communications.</div>
             </div>
             <div class="value-card">
                 <div class="value-icon">
                     <i class="fas fa-users"></i>
                 </div>
-                <div class="value-content">
-                    <div class="value-title">Community-Centered</div>
-                    <div class="value-description">We believe in empowering local communities and working together to create sustainable change.</div>
-                </div>
+                <div class="value-title">Community-Centered</div>
+                <div class="value-description">We believe in empowering local communities and working together to create sustainable change.</div>
             </div>
             <div class="value-card">
                 <div class="value-icon">
                     <i class="fas fa-bullseye"></i>
                 </div>
-                <div class="value-content">
-                    <div class="value-title">Impact-Driven</div>
-                    <div class="value-description">Every decision we make is guided by its potential to create meaningful, lasting positive change.</div>
-                </div>
+                <div class="value-title">Impact-Driven</div>
+                <div class="value-description">Every decision we make is guided by its potential to create meaningful, lasting positive change.</div>
             </div>
             <div class="value-card">
                 <div class="value-icon">
                     <i class="fas fa-star"></i>
                 </div>
-                <div class="value-content">
-                    <div class="value-title">Excellence</div>
-                    <div class="value-description">We strive for excellence in everything we do, continuously improving our programs and services.</div>
-                </div>
+                <div class="value-title">Excellence</div>
+                <div class="value-description">We strive for excellence in everything we do, continuously improving our programs and services.</div>
             </div>
             <div class="value-card">
                 <div class="value-icon">
                     <i class="fas fa-unlock-alt"></i>
                 </div>
-                <div class="value-content">
-                    <div class="value-title">Transparency</div>
-                    <div class="value-description">We believe in open communication and accountability to our beneficiaries, donors, and partners.</div>
-                </div>
+                <div class="value-title">Transparency</div>
+                <div class="value-description">We believe in open communication and accountability to our beneficiaries, donors, and partners.</div>
             </div>
         </div>
     </div>
