@@ -21,38 +21,36 @@
         background: #f8f9fa;
         border: 1px solid #dee2e6;
         border-radius: 8px;
-        padding: 10px;
+        padding: 15px;
         margin: 20px 0;
-        min-height: 70vh;
+        min-height: 400px;
+        max-height: 500px;
         position: relative;
         overflow: hidden;
-        display: flex;
-        flex-direction: column;
     }
 
     .pdf-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        flex: 1;
-        min-height: 60vh;
-        position: relative;
+        gap: 15px;
+        height: 100%;
+        max-height: 350px;
     }
 
     .page-container {
         background: white;
         border: 1px solid #ddd;
         border-radius: 4px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         overflow: hidden;
         position: relative;
-        width: 100%;
-        max-width: 800px;
+        flex: 1;
+        max-width: 45%;
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto;
     }
 
     .page-container canvas {
@@ -60,7 +58,6 @@
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
     .page-number {
@@ -81,60 +78,49 @@
         justify-content: center;
         align-items: center;
         gap: 15px;
-        margin: 15px 0 0 0;
+        margin: 10px 0 0 0;
         flex-wrap: wrap;
-        background: rgba(255, 255, 255, 0.95);
-        padding: 12px 20px;
-        border-radius: 25px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        border: 1px solid #e9ecef;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(248, 249, 250, 0.95);
+        padding: 8px 15px;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
     .pdf-btn {
-        background: linear-gradient(135deg, #007bff, #0056b3);
+        background: #007bff;
         color: white;
         border: none;
-        padding: 12px 24px;
-        border-radius: 25px;
-        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 500;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: background-color 0.3s ease;
         display: flex;
         align-items: center;
-        gap: 8px;
-        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-        font-size: 14px;
-        min-width: 120px;
-        justify-content: center;
+        gap: 5px;
     }
 
     .pdf-btn:hover {
-        background: linear-gradient(135deg, #0056b3, #004085);
+        background: #0056b3;
         color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
-    }
-
-    .pdf-btn:active {
-        transform: translateY(0);
     }
 
     .pdf-btn:disabled {
-        background: linear-gradient(135deg, #6c757d, #5a6268);
+        background: #6c757d;
         cursor: not-allowed;
-        transform: none;
-        box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
     }
 
     .page-info {
-        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        background: #e9ecef;
         color: #495057;
-        padding: 10px 20px;
-        border-radius: 20px;
-        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-weight: 500;
         font-size: 14px;
-        border: 1px solid #dee2e6;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
     /* Loading State */
@@ -142,9 +128,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 60vh;
-        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        border-radius: 8px;
+        height: 400px;
+        background: #f8f9fa;
     }
 
     .spinner {
@@ -167,11 +152,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 60vh;
-        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        height: 400px;
+        background: #f8f9fa;
         text-align: center;
         padding: 20px;
-        border-radius: 8px;
     }
 
     .pdf-error i {
@@ -211,114 +195,68 @@
 
     /* Responsive Design */
     @@media (max-width: 768px) {
-        .pdf-viewer {
-            min-height: 60vh;
-            padding: 8px;
-        }
-        
         .pdf-container {
-            min-height: 50vh;
-        }
-        
-        .page-container {
-            max-width: 95%;
-            min-height: 45vh;
-        }
-        
-        .pdf-controls {
-            flex-direction: row;
+            flex-direction: column;
             gap: 10px;
-            padding: 10px 15px;
-            margin: 10px 0 0 0;
-        }
-        
-        .pdf-btn {
-            padding: 10px 18px;
-            font-size: 13px;
-            min-width: 100px;
-        }
-        
-        .page-info {
-            font-size: 13px;
-            padding: 8px 15px;
-        }
-    }
-
-    @@media (max-width: 576px) {
-        .pdf-viewer {
-            min-height: 70vh;
-            padding: 5px;
-        }
-        
-        .pdf-container {
-            min-height: 60vh;
+            max-height: 300px;
         }
         
         .page-container {
-            max-width: 98%;
-            min-height: 55vh;
+            width: 100%;
+            max-width: 100%;
+            max-height: 140px;
         }
         
         .pdf-controls {
             flex-direction: column;
             gap: 8px;
-            padding: 8px 12px;
-            margin: 8px 0 0 0;
+            padding: 6px 12px;
         }
         
         .pdf-btn {
             width: 100%;
-            padding: 12px 16px;
-            font-size: 14px;
-            min-width: auto;
+            justify-content: center;
+            padding: 6px 12px;
+            font-size: 12px;
         }
         
         .page-info {
             font-size: 12px;
-            padding: 6px 12px;
-            order: -1;
+            padding: 4px 8px;
         }
     }
 
-    @@media (max-width: 480px) {
+    @@media (max-width: 576px) {
         .pdf-viewer {
-            min-height: 75vh;
-        }
-        
-        .pdf-container {
-            min-height: 65vh;
+            padding: 10px;
+            min-height: 300px;
+            max-height: 350px;
         }
         
         .page-container {
-            min-height: 60vh;
-        }
-        
-        .pdf-controls {
-            padding: 6px 10px;
+            max-width: 100%;
+            max-height: 120px;
         }
         
         .pdf-btn {
-            padding: 10px 14px;
-            font-size: 13px;
+            padding: 5px 10px;
+            font-size: 11px;
         }
         
         .page-info {
             font-size: 11px;
-            padding: 5px 10px;
+            padding: 3px 6px;
         }
     }
 
     @@media (min-width: 1200px) {
-        .pdf-viewer {
-            min-height: 75vh;
-        }
-        
         .pdf-container {
-            min-height: 65vh;
+            gap: 20px;
+            max-height: 400px;
         }
         
         .page-container {
-            max-width: 900px;
+            max-width: 48%;
         }
     }
 </style>
@@ -421,18 +359,18 @@
 
         function calculateScale() {
             const container = document.querySelector('.page-container');
-            const containerWidth = container ? container.offsetWidth : 600;
-            const containerHeight = container ? container.offsetHeight : 400;
+            const containerWidth = container ? container.offsetWidth : 400;
+            const containerHeight = container ? container.offsetHeight : 300;
             
             // Calculate scale based on container size for better fit
-            if (containerWidth < 400) {
+            if (containerWidth < 300) {
+                return 0.6; // Small mobile
+            } else if (containerWidth < 400) {
                 return 0.8; // Mobile
-            } else if (containerWidth < 600) {
+            } else if (containerWidth < 500) {
                 return 1.0; // Tablet
-            } else if (containerWidth < 800) {
-                return 1.2; // Small desktop
             } else {
-                return 1.4; // Large desktop
+                return 1.2; // Desktop
             }
         }
 
@@ -482,24 +420,39 @@
             const container = document.getElementById('pdf-container');
             container.innerHTML = '';
             
-            // Show only current page
+            // Always show two pages side by side
+            const pagesToShow = [];
+            
+            // Add current page
             if (currentPage <= totalPages) {
+                pagesToShow.push(currentPage);
+            }
+            
+            // Add next page (if available)
+            if (currentPage + 1 <= totalPages) {
+                pagesToShow.push(currentPage + 1);
+            } else if (currentPage <= totalPages) {
+                // If no next page, show current page twice or leave empty
+                pagesToShow.push(currentPage);
+            }
+            
+            pagesToShow.forEach(pageNum => {
                 const pageContainer = document.createElement('div');
                 pageContainer.className = 'page-container';
                 
                 const canvas = document.createElement('canvas');
-                canvas.id = 'page-' + currentPage;
+                canvas.id = 'page-' + pageNum;
                 
                 const pageNumber = document.createElement('div');
                 pageNumber.className = 'page-number';
-                pageNumber.textContent = currentPage;
+                pageNumber.textContent = pageNum;
                 
                 pageContainer.appendChild(canvas);
                 pageContainer.appendChild(pageNumber);
                 container.appendChild(pageContainer);
                 
-                renderPage(currentPage);
-            }
+                renderPage(pageNum);
+            });
             
             document.getElementById('page-num').textContent = currentPage;
             updateNavigationButtons();
