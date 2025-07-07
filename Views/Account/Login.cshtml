@@ -46,12 +46,13 @@
         color: #1c1e21;
     }
     .form-control {
-        border-radius: 6px;
-        border: 1px solid #dddfe2;
-        padding: 14px 16px;
-        margin-bottom: 14px;
-        font-size: 1rem;
-    }
+    border-radius: 6px;
+    border: 1px solid #dddfe2;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    font-size: 1rem;
+    width: 100%; /* Add this line */
+}
     .btn-login {
         background: #1877f2;
         color: #fff;
@@ -114,7 +115,7 @@
 </style>
 
 <div class="fb-login-container">
-    <div class="fb-logo">Sector 13</div>
+    <div class="fb-logo"><img src="~/Photos/logo.png" alt="Sector 13" style="width: 100px; height: 90px;" /></div>
     <div class="fb-login-card">
         <div class="fb-login-title">Log in to your account</div>
         @if (!ViewData.ModelState.IsValid)

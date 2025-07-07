@@ -766,11 +766,6 @@ body {
     }
 }
 
-/* Receipt Print Styles */
-.receipt-print-styles {
-    /* These styles are used for the print/download receipt functionality */
-}
-
 /* Receipt template styles for print/download */
 .receipt-template {
     max-width: 350px;
