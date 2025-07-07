@@ -6,7 +6,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
-using Microsoft.Extensions.Logging;
+
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
@@ -14,13 +14,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<DonationController> _logger;
 
-        public DonationController(ApplicationDbContext context, IConfiguration configuration, ILogger<DonationController> logger)
-        {
-            _context = context;
-            _configuration = configuration;
-            _logger = logger;
         }
 
         public IActionResult Index()
@@ -117,10 +111,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 ["ship_city"] = "Dhaka",
                 ["ship_postcode"] = "1000",
                 ["ship_country"] = "Bangladesh",
-                ["success_url"] = Url.Action("PaymentSuccess", "Donation", null, Request.Scheme, Request.Host.Value ?? "localhost") ?? "",
-                ["fail_url"] = Url.Action("PaymentFail", "Donation", null, Request.Scheme, Request.Host.Value ?? "localhost") ?? "",
-                ["cancel_url"] = Url.Action("PaymentCancel", "Donation", null, Request.Scheme, Request.Host.Value ?? "localhost") ?? "",
-                ["ipn_url"] = Url.Action("IPN", "Donation", null, Request.Scheme, Request.Host.Value ?? "localhost") ?? "",
+
                 ["multi_card_name"] = "",
                 ["value_a"] = donor.Id.ToString(),
                 ["value_b"] = donor.DonationType ?? "General",
@@ -157,7 +148,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             catch (Exception ex)
             {
                 // Log the exception
-                _logger?.LogError(ex, "Error connecting to payment gateway");
+
                 TempData["Error"] = "Unable to connect to payment gateway. Please try again.";
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
@@ -197,7 +188,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error processing payment failure");
+
                 TempData["Error"] = "An error occurred while processing payment failure.";
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
@@ -229,7 +220,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error processing payment cancellation");
+
                 TempData["Error"] = "An error occurred while processing payment cancellation.";
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
@@ -260,7 +251,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error processing IPN");
+
                 return BadRequest();
             }
         }
@@ -337,7 +328,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             catch (Exception ex)
             {
                 // Log the exception
-                _logger?.LogError(ex, "Error processing payment success");
+
                 TempData["Error"] = "An error occurred while processing payment.";
                 return RedirectToAction("Index", "Home", new { area = "" });
             }

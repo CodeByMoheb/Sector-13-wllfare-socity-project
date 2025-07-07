@@ -1,68 +1,60 @@
 @model Sector_13_Welfare_Society___Digital_Management_System.Models.Donor
 @{
-    ViewData["Title"] = "Donate - উত্তরা সেক্টর ১৩ ওয়েলফেয়ার সোসাইটি";
+    ViewData["Title"] = "Donate - Sector 13 Welfare Society";
     Layout = "_Layout";
 }
 
-
-<div class="hero-section" style="margin-top: 90px;">
+<!-- Hero Section with Animation -->
+<div class="hero-section">
     <div class="hero-content">
         <div class="container">
             <div class="row align-items-center min-vh-100">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-1 mb-lg-0">
+                <div class="col-lg-6">
                     <div class="hero-text animate-fade-in">
-                        <h2 class="display-4 fw-bold text-white mb-1">
+                        <h1 class="display-4 fw-bold text-white mb-4">
                             <span class="text-gradient">Make a Difference</span><br>
                             Today
-                        </h2>
-                        <p class="lead text-white-50 mb-2">
+                        </h1>
+                        <p class="lead text-white-50 mb-4">
                             Your donation helps us provide healthcare, education, and support to our community. 
                             Every contribution makes a real impact on someone's life.
                         </p>
                         <div class="hero-stats">
-                            <div class="row">
-                                <div class="col-4 col-sm-4 col-md-4 col-lg-4">
-                                    <div class="stat-item">
-                                        <div class="stat-number" data-target="1500">0</div>
-                                        <div class="stat-label">Lives Impacted</div>
-                                    </div>
-                                </div>
-                                <div class="col-4 col-sm-4 col-md-4 col-lg-4">
-                                    <div class="stat-item">
-                                        <div class="stat-number" data-target="50">0</div>
-                                        <div class="stat-label">Projects Completed</div>
-                                    </div>
-                                </div>
-                                <div class="col-4 col-sm-4 col-md-4 col-lg-4">
-                                    <div class="stat-item">
-                                        <div class="stat-number" data-target="100">0</div>
-                                        <div class="stat-label">Volunteers</div>
-                                    </div>
-                                </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-target="1500">0</div>
+                                <div class="stat-label">Lives Impacted</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-target="50">0</div>
+                                <div class="stat-label">Projects Completed</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-target="100">0</div>
+                                <div class="stat-label">Volunteers</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="col-lg-6">
                     <div class="donation-card animate-slide-up">
-                        <div class="card border-0 shadow-lg p-2">
-                            <div class="card-header bg-gradient text-white text-center py-1 py-md-4">
-                                <h4 class="mb-0 fs-4 fs-md-3 text-gradient">
+                        <div class="card border-0 shadow-lg">
+                            <div class="card-header bg-gradient text-white text-center py-4">
+                                <h3 class="mb-0">
                                     <i class="fas fa-heart me-2"></i>
                                     Donate Now
-                                </h4>
+                                </h3>
                             </div>
-                            <div class="card-body p-1 p-md-4">
+                            <div class="card-body p-4">
                                 <form asp-controller="Donation" asp-action="ProcessDonation" method="post" id="donationForm">
                                     <div class="row">
-                                        <div class="col-12 col-sm-6 mb-1">
+                                        <div class="col-md-6 mb-3">
                                             <label asp-for="Name" class="form-label">
                                                 <i class="fas fa-user me-2"></i>Full Name *
                                             </label>
                                             <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter your full name" required />
                                             <span asp-validation-for="Name" class="text-danger"></span>
                                         </div>
-                                        <div class="col-12 col-sm-6 mb-1">
+                                        <div class="col-md-6 mb-3">
                                             <label asp-for="Email" class="form-label">
                                                 <i class="fas fa-envelope me-2"></i>Email *
                                             </label>
@@ -72,14 +64,14 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-12 col-sm-6 mb-1">
+                                        <div class="col-md-6 mb-3">
                                             <label asp-for="Phone" class="form-label">
                                                 <i class="fas fa-phone me-2"></i>Phone *
                                             </label>
                                             <input asp-for="Phone" class="form-control form-control-lg" placeholder="+880 1XXX XXX XXX" required />
                                             <span asp-validation-for="Phone" class="text-danger"></span>
                                         </div>
-                                        <div class="col-12 col-sm-6 mb-1">
+                                        <div class="col-md-6 mb-3">
                                             <label asp-for="DonationType" class="form-label">
                                                 <i class="fas fa-tag me-2"></i>Donation Type
                                             </label>
@@ -92,14 +84,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-1">
+                                    <div class="mb-3">
                                         <label asp-for="Address" class="form-label">
                                             <i class="fas fa-map-marker-alt me-2"></i>Address
                                         </label>
-                                        <textarea asp-for="Address" class="form-control" rows="1" placeholder="Your address (optional)"></textarea>
+                                        <textarea asp-for="Address" class="form-control" rows="2" placeholder="Your address (optional)"></textarea>
                                     </div>
 
-                                    <div class="mb-1">
+                                    <div class="mb-3">
                                         <label asp-for="Amount" class="form-label">
                                             <i class="fas fa-rupee-sign me-2"></i>Donation Amount (BDT) *
                                         </label>
@@ -110,14 +102,14 @@
                                         <span asp-validation-for="Amount" class="text-danger"></span>
                                     </div>
 
-                                    <div class="mb-1">
+                                    <div class="mb-3">
                                         <label asp-for="Message" class="form-label">
                                             <i class="fas fa-comment me-2"></i>Message (Optional)
                                         </label>
-                                        <textarea asp-for="Message" class="form-control" rows="1" placeholder="Share why you're donating or any special instructions..."></textarea>
+                                        <textarea asp-for="Message" class="form-control" rows="3" placeholder="Share why you're donating or any special instructions..."></textarea>
                                     </div>
 
-                                    <div class="mb-1">
+                                    <div class="mb-3">
                                         <div class="form-check">
                                             <input asp-for="IsAnonymous" class="form-check-input" type="checkbox" id="anonymousCheck">
                                             <label class="form-check-label" for="anonymousCheck">
@@ -126,7 +118,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-2">
+                                    <div class="mb-4">
                                         <label class="form-label">
                                             <i class="fas fa-credit-card me-2"></i>Payment Method *
                                         </label>
@@ -165,15 +157,15 @@
 </div>
 
 <!-- Impact Section -->
-<section class="impact-section py-4 py-md-5">
+<section class="impact-section py-5">
     <div class="container">
         <div class="row text-center">
             <div class="col-12">
-                <h2 class="section-title mb-4 mb-md-5">Your Impact</h2>
+                <h2 class="section-title mb-5">Your Impact</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
                 <div class="impact-card">
                     <div class="impact-icon">
                         <i class="fas fa-heartbeat"></i>
@@ -182,7 +174,7 @@
                     <p>Free medical camps and healthcare support for the community</p>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
                 <div class="impact-card">
                     <div class="impact-icon">
                         <i class="fas fa-graduation-cap"></i>
@@ -191,7 +183,7 @@
                     <p>Scholarships and educational support for underprivileged students</p>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
                 <div class="impact-card">
                     <div class="impact-icon">
                         <i class="fas fa-home"></i>
@@ -200,7 +192,7 @@
                     <p>Housing assistance and shelter support for needy families</p>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
                 <div class="impact-card">
                     <div class="impact-icon">
                         <i class="fas fa-hands-helping"></i>
@@ -214,11 +206,11 @@
 </section>
 
 <!-- Recent Donations -->
-<section class="recent-donations py-4 py-md-5 bg-light">
+<section class="recent-donations py-5 bg-light">
     <div class="container">
         <div class="row text-center">
             <div class="col-12">
-                <h2 class="section-title mb-4 mb-md-5">Recent Donations</h2>
+                <h2 class="section-title mb-5">Recent Donations</h2>
             </div>
         </div>
         <div class="row" id="recentDonations">
@@ -227,162 +219,7 @@
     </div>
 </section>
 
-<!-- Responsive CSS for mobile optimization -->
-<style>
-/* Mobile-first responsive styles */
-@@media (max-width: 480px) {
-    .hero-section {
-        margin-top: 80px;
-        min-height: auto;
-        padding: 2rem 0;
-    }
-    
-    .hero-text h1 {
-        font-size: 2rem;
-        line-height: 1.2;
-    }
-    
-    .hero-text .lead {
-        font-size: 1rem;
-    }
-    
-    .stat-item {
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    
-    .stat-number {
-        font-size: 1.5rem;
-    }
-    
-    .stat-label {
-        font-size: 0.8rem;
-    }
-    
-    .donation-card {
-        margin-top: 2rem;
-    }
-    
-    .card-body {
-        padding: 1rem;
-    }
-    
-    .form-control-lg {
-        font-size: 1rem;
-        padding: 0.75rem;
-    }
-    
-    .form-select-lg {
-        font-size: 1rem;
-        padding: 0.75rem;
-    }
-    
-    .payment-methods {
-        flex-direction: column;
-    }
-    
-    .payment-option {
-        margin-bottom: 1rem;
-    }
-    
-    .impact-card {
-        text-align: center;
-        padding: 1.5rem 1rem;
-    }
-    
-    .impact-icon {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-    }
-    
-    .donation-item {
-        padding: 1rem;
-        margin-bottom: 1rem;
-    }
-}
-
-@@media (min-width: 576px) and (max-width: 768px) {
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-    
-    .stat-item {
-        margin-bottom: 1.5rem;
-    }
-    
-    .donation-card {
-        margin-top: 2rem;
-    }
-}
-
-@@media (min-width: 768px) and (max-width: 991.98px) {
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-    
-    .donation-card {
-        margin-top: 1rem;
-    }
-}
-
-@@media (min-width: 992px) {
-    .hero-section {
-        margin-top: 95px;
-        min-height: 100vh;
-    }
-    
-    .donation-card {
-        margin-top: 0;
-    }
-}
-
-/* Touch-friendly improvements for mobile */
-@@media (max-width: 768px) {
-    .btn {
-        min-height: 44px;
-        font-size: 1rem;
-    }
-    
-    .form-control, .form-select {
-        min-height: 44px;
-    }
-    
-    .form-check-input {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .payment-radio {
-        width: 20px;
-        height: 20px;
-    }
-}
-
-/* Landscape orientation fixes */
-@@media (max-width: 768px) and (orientation: landscape) {
-    .hero-section {
-        min-height: auto;
-        padding: 1rem 0;
-        margin-top: 90px;
-    }
-    
-    .hero-text h1 {
-        font-size: 1.5rem;
-    }
-    
-    .donation-card {
-        margin-top: 1rem;
-    }
-}
-
-/* High DPI displays */
-@@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .impact-icon i {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-}
-</style>
+<!-- Styles moved to wwwroot/css/site.css -->
 
 <script>
 // Animate numbers
@@ -417,7 +254,7 @@ async function loadRecentDonations() {
         
         donors.slice(0, 6).forEach(donor => {
             const donationItem = document.createElement('div');
-            donationItem.className = 'col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 mb-3';
+            donationItem.className = 'col-lg-4 col-md-6 mb-3';
             donationItem.innerHTML = `
                 <div class="donation-item">
                     <div class="d-flex justify-content-between align-items-center">
@@ -473,11 +310,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load recent donations
     loadRecentDonations();
-    
-    // Add touch support for mobile devices
-    if ('ontouchstart' in window) {
-        document.body.classList.add('touch-device');
-    }
 });
 
 // Add floating animation to impact cards
@@ -494,29 +326,5 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.animationDelay = `${index * 0.1}s`;
         card.classList.add('animate-fade-in');
     });
-});
-
-// Handle orientation change
-window.addEventListener('orientationchange', function() {
-    setTimeout(function() {
-        // Recalculate any layout-dependent elements
-        const heroSection = document.querySelector('.hero-section');
-        if (heroSection) {
-            heroSection.style.minHeight = window.innerHeight + 'px';
-        }
-    }, 100);
-});
-
-// Handle window resize
-window.addEventListener('resize', function() {
-    // Debounce resize events
-    clearTimeout(window.resizeTimer);
-    window.resizeTimer = setTimeout(function() {
-        // Recalculate responsive elements
-        const heroSection = document.querySelector('.hero-section');
-        if (heroSection && window.innerWidth < 768) {
-            heroSection.style.minHeight = window.innerHeight + 'px';
-        }
-    }, 250);
 });
 </script>

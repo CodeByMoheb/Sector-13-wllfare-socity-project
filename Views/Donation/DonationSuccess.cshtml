@@ -1,0 +1,121 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.Donor
+@{
+    ViewData["Title"] = "Donation Successful";
+    Layout = "_Layout";
+}
+
+<div class="container-fluid" style="margin-top: 100px; margin-bottom: 20px;">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Thank You Hero Section -->
+            <div class="success-card text-center">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1 class="success-title">Thank You!</h1>
+                <p class="success-message">Your generous donation has been successfully processed and will make a real difference in our community.</p>
+                <div class="donation-amount">
+                    <span class="amount-label">Donation Amount:</span>
+                    <span class="amount-value">৳@Model.Amount.ToString("N2")</span>
+                </div>
+            </div>
+
+            <!-- Simple Receipt Card -->
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-success text-white text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-receipt me-2"></i>
+                        Your Receipt
+                    </h3>
+                    <p class="mb-0 mt-2">Receipt #@Model.ReceiptNumber</p>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="receipt-details">
+                                <h5 class="text-primary mb-3">
+                                    <i class="fas fa-info-circle me-2"></i>Transaction Details
+                                </h5>
+                                <div class="detail-item">
+                                    <strong>Receipt Number:</strong> 
+                                    <span class="receipt-number">@Model.ReceiptNumber</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Transaction ID:</strong> 
+                                    <span class="transaction-id">@(Model.TransactionId ?? "N/A")</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Amount:</strong> 
+                                    <span class="amount">৳@Model.Amount.ToString("N2")</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Date & Time:</strong> 
+                                    <span class="date-time">@Model.DonationDate.ToString("dd/MM/yyyy HH:mm")</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="donor-details">
+                                <h5 class="text-primary mb-3">
+                                    <i class="fas fa-user me-2"></i>Donor Information
+                                </h5>
+                                <div class="detail-item">
+                                    <strong>Name:</strong> 
+                                    <span class="donor-name">@(Model.IsAnonymous ? "Anonymous Donor" : Model.Name)</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Email:</strong> 
+                                    <span class="donor-email">@Model.Email</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Phone:</strong> 
+                                    <span class="donor-phone">@Model.Phone</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Donation Type:</strong> 
+                                    <span class="donation-type">@Model.DonationType</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons text-center mt-4 mb-4">
+                        <button class="btn btn-primary btn-lg me-2 mb-2" id="downloadReceiptBtn">
+                            <i class="fas fa-download me-2"></i>
+                            Download Receipt
+                        </button>
+                        <button class="btn btn-secondary btn-lg me-2 mb-2" id="printReceiptBtn">
+                            <i class="fas fa-print me-2"></i>
+                            Print Receipt
+                        </button>
+                        <a href="/Home/donate" class="btn btn-success btn-lg me-2 mb-2">
+                            <i class="fas fa-heart me-2"></i>
+                            Donate Again
+                        </a>
+                        <a href="/" class="btn btn-outline-secondary btn-lg mb-2">
+                            <i class="fas fa-home me-2"></i>
+                            Go to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden data for JavaScript -->
+<div id="donationData" 
+     data-receipt-number="@Model.ReceiptNumber"
+     data-transaction-id="@(Model.TransactionId ?? "N/A")"
+     data-amount="@Model.Amount.ToString("N2")"
+     data-donation-date="@Model.DonationDate.ToString("dd/MM/yyyy")"
+     data-donation-time="@Model.DonationDate.ToString("HH:mm")"
+     data-donor-name="@(Model.IsAnonymous ? "Anonymous" : Model.Name)"
+     data-donor-email="@Model.Email"
+     data-donor-phone="@Model.Phone"
+     data-donation-type="@Model.DonationType"
+     style="display: none;">
+</div>
+
+<!-- Styles and scripts are now properly separated in external files --> 
