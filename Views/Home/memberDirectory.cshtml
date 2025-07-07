@@ -6,279 +6,137 @@
 <style type="text/css">
     .member-directory-content {
         margin-top: 60px;
-        animation: fadeInUp 0.8s ease-out;
-    }
-
-    @@keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
     }
 
     .card {
-        transition: all 0.3s ease;
-        animation: slideInUp 0.6s ease-out 0.2s both;
-    }
-
-    @@keyframes slideInUp {
-        from {
-            opacity: 0;
-            transform: translateY(50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        transition: box-shadow 0.3s ease;
     }
 
     .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(44, 62, 80, 0.15) !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
     }
 
-    .card-title {
-        animation: fadeIn 1s ease-out 0.4s both;
-    }
-
-    @@keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    /* Book Container */
-    .book-container {
-        perspective: 1200px;
-        margin: 2rem auto;
+    /* Simple PDF Viewer */
+    .pdf-viewer {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 20px 0;
+        min-height: 400px;
+        max-height: 500px;
         position: relative;
-        max-width: 1000px;
-    }
-
-    .book {
-        position: relative;
-        width: 100%;
-        height: 600px;
-        transform-style: preserve-3d;
-        transform: rotateY(-10deg);
-        transition: transform 0.5s ease;
-        margin: 0 auto;
-    }
-
-    .book:hover {
-        transform: rotateY(-5deg);
-    }
-
-    /* Book Cover */
-    .book-cover {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, #8B4513, #A0522D, #CD853F);
-        border-radius: 5px 20px 20px 5px;
-        box-shadow: 
-            0 0 20px rgba(0,0,0,0.3),
-            inset 0 0 50px rgba(0,0,0,0.2);
-        transform: translateZ(20px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #FFD700;
-        font-size: 1.5rem;
-        font-weight: bold;
-        text-align: center;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }
-
-    .book-cover::before {
-        content: '';
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-        border: 2px solid #FFD700;
-        border-radius: 3px 15px 15px 3px;
-        opacity: 0.3;
-    }
-
-    /* Book Spine */
-    .book-spine {
-        position: absolute;
-        width: 40px;
-        height: 100%;
-        background: linear-gradient(90deg, #654321, #8B4513, #A0522D);
-        transform: rotateY(90deg) translateZ(20px);
-        left: -20px;
-        box-shadow: inset -2px 0 5px rgba(0,0,0,0.3);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #FFD700;
-        font-size: 0.8rem;
-        font-weight: bold;
-        writing-mode: vertical-rl;
-        text-orientation: mixed;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-    }
-
-    /* Pages Container */
-    .pages-container {
-        position: absolute;
-        width: calc(100% - 40px);
-        height: calc(100% - 20px);
-        left: 20px;
-        top: 10px;
-        transform-style: preserve-3d;
-        transform: translateZ(1px);
-    }
-
-    /* Individual Page */
-    .page {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: #fff;
-        border-radius: 0 10px 10px 0;
-        box-shadow: 
-            0 0 10px rgba(0,0,0,0.1),
-            inset 0 0 20px rgba(0,0,0,0.05);
-        transform-origin: left center;
-        transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-        cursor: pointer;
         overflow: hidden;
     }
 
-    .page.flipped {
-        transform: rotateY(-180deg);
+    .pdf-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        height: 100%;
+        max-height: 350px;
     }
 
-    .page.flipping {
-        transform: rotateY(-90deg);
-        box-shadow: 
-            -5px 0 15px rgba(0,0,0,0.2),
-            inset 0 0 20px rgba(0,0,0,0.05);
-    }
-
-    /* Page Content */
-    .page-content {
-        width: 100%;
+    .page-container {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+        position: relative;
+        flex: 1;
+        max-width: 45%;
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #fafafa;
-        position: relative;
     }
 
-    .page-content canvas {
+    .page-container canvas {
+        display: block;
         max-width: 100%;
         max-height: 100%;
         object-fit: contain;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
-    /* Page Numbers */
     .page-number {
         position: absolute;
         bottom: 10px;
-        right: 15px;
-        font-size: 0.8rem;
-        color: #666;
-        font-weight: 500;
-        background: rgba(255,255,255,0.8);
-        padding: 2px 8px;
-        border-radius: 10px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        right: 10px;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
     }
 
     /* Navigation Controls */
-    .book-controls {
+    .pdf-controls {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 1rem;
-        margin: 2rem 0;
-        animation: fadeIn 1s ease-out 0.6s both;
-    }
-
-    .book-btn {
-        background: linear-gradient(45deg, #8B4513, #A0522D);
-        color: #FFD700;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 25px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .book-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
-        background: linear-gradient(45deg, #A0522D, #CD853F);
-    }
-
-    .book-btn:active {
-        transform: translateY(0);
-    }
-
-    .book-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    .book-btn::before {
-        content: '';
+        gap: 15px;
+        margin: 10px 0 0 0;
+        flex-wrap: wrap;
         position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
-        transition: left 0.5s;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(248, 249, 250, 0.95);
+        padding: 8px 15px;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
-    .book-btn:hover::before {
-        left: 100%;
+    .pdf-btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .pdf-btn:hover {
+        background: #0056b3;
+        color: white;
+    }
+
+    .pdf-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
     }
 
     .page-info {
-        background: linear-gradient(45deg, #8B4513, #A0522D);
-        color: #FFD700;
-        padding: 10px 20px;
-        border-radius: 20px;
-        font-weight: bold;
-        box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
-        animation: pulse 2s infinite;
+        background: #e9ecef;
+        color: #495057;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-weight: 500;
+        font-size: 14px;
     }
 
-    @@keyframes pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-    }
-
-    /* Loading Animation */
-    .book-loading {
+    /* Loading State */
+    .pdf-loading {
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100%;
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        height: 400px;
+        background: #f8f9fa;
     }
 
-    .book-spinner {
-        width: 50px;
-        height: 50px;
+    .spinner {
+        width: 40px;
+        height: 40px;
         border: 4px solid #f3f3f3;
-        border-top: 4px solid #8B4513;
+        border-top: 4px solid #007bff;
         border-radius: 50%;
         animation: spin 1s linear infinite;
     }
@@ -288,155 +146,163 @@
         100% { transform: rotate(360deg); }
     }
 
-    /* Page Turn Animation */
-    @@keyframes pageTurn {
-        0% { transform: rotateY(0deg); }
-        50% { transform: rotateY(-90deg); }
-        100% { transform: rotateY(-180deg); }
+    /* Error State */
+    .pdf-error {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 400px;
+        background: #f8f9fa;
+        text-align: center;
+        padding: 20px;
     }
 
-    @@keyframes pageTurnReverse {
-        0% { transform: rotateY(-180deg); }
-        50% { transform: rotateY(-90deg); }
-        100% { transform: rotateY(0deg); }
+    .pdf-error i {
+        font-size: 3rem;
+        color: #dc3545;
+        margin-bottom: 15px;
+    }
+
+    .pdf-error h3 {
+        color: #dc3545;
+        margin-bottom: 10px;
+    }
+
+    .pdf-error p {
+        color: #6c757d;
+        margin-bottom: 20px;
+    }
+
+    .fallback-btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+        font-weight: 500;
+        margin: 5px;
+    }
+
+    .fallback-btn:hover {
+        background: #0056b3;
+        color: white;
+        text-decoration: none;
     }
 
     /* Responsive Design */
     @@media (max-width: 768px) {
-        .book {
-            height: 400px;
-            transform: rotateY(-5deg);
-        }
-        
-        .book-cover {
-            font-size: 1.2rem;
-        }
-        
-        .book-spine {
-            width: 30px;
-            font-size: 0.7rem;
-        }
-        
-        .book-controls {
+        .pdf-container {
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 10px;
+            max-height: 300px;
         }
         
-        .book-btn {
-            padding: 10px 16px;
-            font-size: 0.9rem;
+        .page-container {
+            width: 100%;
+            max-width: 100%;
+            max-height: 140px;
+        }
+        
+        .pdf-controls {
+            flex-direction: column;
+            gap: 8px;
+            padding: 6px 12px;
+        }
+        
+        .pdf-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        .page-info {
+            font-size: 12px;
+            padding: 4px 8px;
         }
     }
 
     @@media (max-width: 576px) {
-        .book {
-            height: 300px;
-            transform: rotateY(0deg);
+        .pdf-viewer {
+            padding: 10px;
+            min-height: 300px;
+            max-height: 350px;
         }
         
-        .book-cover {
-            font-size: 1rem;
+        .page-container {
+            max-width: 100%;
+            max-height: 120px;
         }
         
-        .book-spine {
-            width: 25px;
-            font-size: 0.6rem;
+        .pdf-btn {
+            padding: 5px 10px;
+            font-size: 11px;
         }
         
-        .book-btn {
-            padding: 8px 12px;
-            font-size: 0.8rem;
-        }
-    }
-
-    @@media (min-width: 992px) {
-        .book {
-            height: 700px;
+        .page-info {
+            font-size: 11px;
+            padding: 3px 6px;
         }
     }
 
     @@media (min-width: 1200px) {
-        .book {
-            height: 800px;
+        .pdf-container {
+            gap: 20px;
+            max-height: 400px;
         }
-    }
-
-    /* Smooth scrolling */
-    html {
-        scroll-behavior: smooth;
-    }
-
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+        
+        .page-container {
+            max-width: 48%;
+        }
     }
 </style>
 
 <div class="container py-5 member-directory-content">
     <div class="row justify-content-center">
-        <div class="col-lg-10">
+        <div class="col-lg-12">
             <div class="card shadow-sm border-0">
                 <div class="card-body">
                     <h2 class="card-title text-center mb-4" style="font-weight:700;color:#2c3e50;">
                         <i class="fa fa-book me-2"></i>Members' Directory 2022
                     </h2>
-                    <p class="text-center text-muted mb-4" style="animation: fadeIn 1s ease-out 0.5s both;">
-                        Experience our member directory as an interactive book. Click on pages or use the navigation buttons to browse.
+                    <p class="text-center text-muted mb-4">
+                        Browse through our member directory. Use the navigation buttons to view different pages.
                     </p>
                     
-                    <div class="book-controls">
-                        <button id="prev-page" class="book-btn">
-                            <i class="fa fa-chevron-left me-1"></i>Previous Page
-                        </button>
-                        <span class="page-info">
-                            Page <span id="page-num">1</span> of <span id="page-count">?</span>
-                        </span>
-                        <button id="next-page" class="book-btn">
-                            Next Page<i class="fa fa-chevron-right ms-1"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="book-container">
-                        <div class="book">
-                            <div class="book-cover">
-                                <div>
-                                    <i class="fa fa-users mb-2" style="font-size: 2rem;"></i><br>
-                                    Members' Directory<br>
-                                    <small>2022 Edition</small>
-                                </div>
+                    <div class="pdf-viewer">
+                        <div class="pdf-container" id="pdf-container">
+                            <div class="pdf-loading">
+                                <div class="spinner"></div>
                             </div>
-                            <div class="book-spine">
-                                MEMBERS DIRECTORY 2022
-                            </div>
-                            <div class="pages-container" id="pages-container">
-                                <!-- Pages will be dynamically added here -->
-                            </div>
+                        </div>
+                        
+                        <div class="pdf-controls">
+                            <button id="prev-page" class="pdf-btn">
+                                <i class="fa fa-chevron-left"></i>Previous
+                            </button>
+                            <span class="page-info">
+                                Page <span id="page-num">1</span> of <span id="page-count">?</span>
+                            </span>
+                            <button id="next-page" class="pdf-btn">
+                                Next<i class="fa fa-chevron-right"></i>
+                            </button>
                         </div>
                     </div>
                     
-                    <div class="text-center mt-4" style="animation: fadeIn 1s ease-out 1s both;">
+                    <div class="text-center mt-4">
                         <a class="btn btn-outline-primary" href="/memberDirectory/memberdir.pdf" download>
                             <i class="fa fa-download me-2"></i>Download PDF
                         </a>
                     </div>
                     
-                    <div class="text-center text-muted mt-3" style="font-size:0.95em; animation: fadeIn 1s ease-out 1.2s both;">
+                    <div class="text-center text-muted mt-3" style="font-size:0.95em;">
                         <small>
                             <i class="fa fa-info-circle me-1"></i>
-                            If the book does not display, <a href="/memberDirectory/memberdir.pdf" target="_blank">click here to open it in a new tab</a>.
+                            If the PDF does not display, <a href="/memberDirectory/memberdir.pdf" target="_blank">click here to open it in a new tab</a>.
                         </small>
                     </div>
                 </div>
@@ -445,232 +311,240 @@
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
-    const url = '/memberDirectory/memberdir.pdf';
-    const pdfjsLib = window['pdfjs-dist/build/pdf'];
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    
-    let pdfDoc = null,
-        currentPage = 1,
-        totalPages = 0,
-        pages = [],
-        pageRendering = false,
-        pageNumPending = null;
-
-    // Responsive scale calculation
-    function calculateScale() {
-        const container = document.querySelector('.page-content');
-        const containerWidth = container ? container.offsetWidth : 800;
-        
-        if (containerWidth < 576) {
-            return 0.6; // Mobile
-        } else if (containerWidth < 768) {
-            return 0.8; // Tablet
-        } else if (containerWidth < 1200) {
-            return 1.0; // Laptop
-        } else {
-            return 1.2; // Desktop
-        }
-    }
-
-    function createPage(pageNum) {
-        const pageDiv = document.createElement('div');
-        pageDiv.className = 'page';
-        pageDiv.style.transform = `rotateY(${(pageNum - 1) * 180}deg)`;
-        pageDiv.style.zIndex = totalPages - pageNum + 1;
-        
-        const pageContent = document.createElement('div');
-        pageContent.className = 'page-content';
-        
-        const canvas = document.createElement('canvas');
-        canvas.style.maxWidth = '100%';
-        canvas.style.maxHeight = '100%';
-        
-        const pageNumber = document.createElement('div');
-        pageNumber.className = 'page-number';
-        pageNumber.textContent = pageNum;
-        
-        pageContent.appendChild(canvas);
-        pageContent.appendChild(pageNumber);
-        pageDiv.appendChild(pageContent);
-        
-        return { pageDiv, canvas };
-    }
-
-    function renderPage(pageNum) {
-        if (pageRendering) {
-            pageNumPending = pageNum;
-            return;
-        }
-        
-        pageRendering = true;
-        const scale = calculateScale();
-        
-        pdfDoc.getPage(pageNum).then(function(page) {
-            const viewport = page.getViewport({ scale: scale });
-            const canvas = pages[pageNum - 1].canvas;
-            const context = canvas.getContext('2d');
-            
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            
-            const renderContext = {
-                canvasContext: context,
-                viewport: viewport
+    // Check if PDF.js is already loaded
+    if (typeof pdfjsLib === 'undefined') {
+        const pdfjsScript = document.createElement('script');
+        pdfjsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+        pdfjsScript.onload = function() {
+            initializePDFViewer();
+        };
+        pdfjsScript.onerror = function() {
+            const fallbackScript = document.createElement('script');
+            fallbackScript.src = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js';
+            fallbackScript.onload = function() {
+                initializePDFViewer();
             };
-            
-            const renderTask = page.render(renderContext);
-            renderTask.promise.then(function() {
-                pageRendering = false;
-                
-                if (pageNumPending !== null) {
-                    renderPage(pageNumPending);
-                    pageNumPending = null;
-                }
-            });
-        });
+            fallbackScript.onerror = function() {
+                showError('Failed to load PDF.js library. Please try refreshing the page.');
+            };
+            document.head.appendChild(fallbackScript);
+        };
+        document.head.appendChild(pdfjsScript);
+    } else {
+        initializePDFViewer();
     }
 
-    function turnPage(direction) {
-        if (direction === 'next' && currentPage < totalPages) {
-            currentPage++;
-        } else if (direction === 'prev' && currentPage > 1) {
-            currentPage--;
-        } else {
+    function initializePDFViewer() {
+        const pdfjsLib = window['pdfjs-dist/build/pdf'] || window.pdfjsLib;
+        if (!pdfjsLib) {
+            showError('PDF.js library not available. Please try refreshing the page.');
             return;
         }
-        
-        // Update page display
-        updatePageDisplay();
-        
-        // Animate page turn
-        const currentPageElement = pages[currentPage - 1].pageDiv;
-        const prevPageElement = direction === 'next' ? 
-            (currentPage > 1 ? pages[currentPage - 2].pageDiv : null) :
-            (currentPage < totalPages ? pages[currentPage].pageDiv : null);
-        
-        if (currentPageElement) {
-            currentPageElement.classList.add('flipping');
-            setTimeout(() => {
-                currentPageElement.classList.remove('flipping');
-                currentPageElement.classList.add('flipped');
-            }, 400);
-        }
-        
-        if (prevPageElement) {
-            setTimeout(() => {
-                prevPageElement.classList.remove('flipped');
-            }, 400);
-        }
-        
-        // Update navigation buttons
-        updateNavigationButtons();
-    }
 
-    function updatePageDisplay() {
-        document.getElementById('page-num').textContent = currentPage;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
         
-        // Update page positions
-        pages.forEach((page, index) => {
-            const pageNum = index + 1;
-            if (pageNum < currentPage) {
-                page.pageDiv.classList.add('flipped');
+        let pdfDoc = null,
+            currentPage = 1,
+            totalPages = 0,
+            pageRendering = false,
+            pageNumPending = null;
+
+        const pdfUrls = [
+            '/memberDirectory/memberdir.pdf',
+            '/memberDirectory/mdir.pdf',
+            '/wwwroot/memberDirectory/memberdir.pdf',
+            '/wwwroot/memberDirectory/mdir.pdf'
+        ];
+
+        function calculateScale() {
+            const container = document.querySelector('.page-container');
+            const containerWidth = container ? container.offsetWidth : 400;
+            const containerHeight = container ? container.offsetHeight : 300;
+            
+            // Calculate scale based on container size for better fit
+            if (containerWidth < 300) {
+                return 0.6; // Small mobile
+            } else if (containerWidth < 400) {
+                return 0.8; // Mobile
+            } else if (containerWidth < 500) {
+                return 1.0; // Tablet
             } else {
-                page.pageDiv.classList.remove('flipped');
+                return 1.2; // Desktop
+            }
+        }
+
+        function renderPage(pageNum) {
+            if (pageRendering) {
+                pageNumPending = pageNum;
+                return;
+            }
+            
+            pageRendering = true;
+            const scale = calculateScale();
+            
+            pdfDoc.getPage(pageNum).then(function(page) {
+                const viewport = page.getViewport({ scale: scale });
+                const canvas = document.getElementById('page-' + pageNum);
+                const context = canvas.getContext('2d');
+                
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                
+                const renderTask = page.render(renderContext);
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                }).catch(function(error) {
+                    console.error('Error rendering page:', error);
+                    pageRendering = false;
+                    showError('Error rendering page ' + pageNum + '. Please try again.');
+                });
+            }).catch(function(error) {
+                console.error('Error getting page:', error);
+                pageRendering = false;
+                showError('Error loading page ' + pageNum + '. Please try again.');
+            });
+        }
+
+        function updateDisplay() {
+            const container = document.getElementById('pdf-container');
+            container.innerHTML = '';
+            
+            // Always show two pages side by side
+            const pagesToShow = [];
+            
+            // Add current page
+            if (currentPage <= totalPages) {
+                pagesToShow.push(currentPage);
+            }
+            
+            // Add next page (if available)
+            if (currentPage + 1 <= totalPages) {
+                pagesToShow.push(currentPage + 1);
+            } else if (currentPage <= totalPages) {
+                // If no next page, show current page twice or leave empty
+                pagesToShow.push(currentPage);
+            }
+            
+            pagesToShow.forEach(pageNum => {
+                const pageContainer = document.createElement('div');
+                pageContainer.className = 'page-container';
+                
+                const canvas = document.createElement('canvas');
+                canvas.id = 'page-' + pageNum;
+                
+                const pageNumber = document.createElement('div');
+                pageNumber.className = 'page-number';
+                pageNumber.textContent = pageNum;
+                
+                pageContainer.appendChild(canvas);
+                pageContainer.appendChild(pageNumber);
+                container.appendChild(pageContainer);
+                
+                renderPage(pageNum);
+            });
+            
+            document.getElementById('page-num').textContent = currentPage;
+            updateNavigationButtons();
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            
+            prevBtn.disabled = currentPage <= 1;
+            nextBtn.disabled = currentPage >= totalPages;
+        }
+
+        function showError(message) {
+            const container = document.getElementById('pdf-container');
+            container.innerHTML = `
+                <div class="pdf-error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <h3>Unable to Load PDF</h3>
+                    <p>${message}</p>
+                    <div>
+                        <a href="/memberDirectory/memberdir.pdf" target="_blank" class="fallback-btn">
+                            <i class="fa fa-external-link-alt me-2"></i>Open PDF in New Tab
+                        </a>
+                        <a href="/memberDirectory/memberdir.pdf" download class="fallback-btn">
+                            <i class="fa fa-download me-2"></i>Download PDF
+                        </a>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.pdf-controls').style.display = 'none';
+        }
+
+        function tryLoadPDF(urlIndex = 0) {
+            if (urlIndex >= pdfUrls.length) {
+                showError('PDF file not found. Please contact the administrator.');
+                return;
+            }
+
+            const url = pdfUrls[urlIndex];
+            console.log('Trying to load PDF from:', url);
+
+            pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+                pdfDoc = pdfDoc_;
+                totalPages = pdfDoc.numPages;
+                document.getElementById('page-count').textContent = totalPages;
+                
+                updateDisplay();
+            }).catch(function(error) {
+                console.error('Failed to load PDF from', url, ':', error);
+                setTimeout(() => tryLoadPDF(urlIndex + 1), 1000);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('prev-page').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateDisplay();
             }
         });
-    }
 
-    function updateNavigationButtons() {
-        const prevBtn = document.getElementById('prev-page');
-        const nextBtn = document.getElementById('next-page');
-        
-        prevBtn.disabled = currentPage <= 1;
-        nextBtn.disabled = currentPage >= totalPages;
-        
-        // Add button animation
-        const btn = event ? event.target : null;
-        if (btn) {
-            btn.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                btn.style.transform = 'scale(1)';
-            }, 150);
-        }
-    }
-
-    function initializeBook() {
-        const container = document.getElementById('pages-container');
-        container.innerHTML = '';
-        pages = [];
-        
-        // Create pages
-        for (let i = 1; i <= totalPages; i++) {
-            const { pageDiv, canvas } = createPage(i);
-            container.appendChild(pageDiv);
-            pages.push({ pageDiv, canvas });
-        }
-        
-        // Render first page
-        renderPage(1);
-        updatePageDisplay();
-        updateNavigationButtons();
-    }
-
-    // Event listeners
-    document.getElementById('prev-page').addEventListener('click', () => turnPage('prev'));
-    document.getElementById('next-page').addEventListener('click', () => turnPage('next'));
-
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowLeft') {
-            turnPage('prev');
-        } else if (e.key === 'ArrowRight') {
-            turnPage('next');
-        }
-    });
-
-    // Click on pages to turn
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.page') && !e.target.closest('.book-btn')) {
-            const rect = e.target.closest('.page').getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const pageWidth = rect.width;
-            
-            if (clickX > pageWidth / 2) {
-                turnPage('next');
-            } else {
-                turnPage('prev');
+        document.getElementById('next-page').addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateDisplay();
             }
-        }
-    });
+        });
 
-    // Load PDF
-    pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
-        pdfDoc = pdfDoc_;
-        totalPages = pdfDoc.numPages;
-        document.getElementById('page-count').textContent = totalPages;
-        
-        initializeBook();
-    }).catch(function(error) {
-        document.querySelector('.book-container').innerHTML = `
-            <div class="alert alert-danger" style="animation: fadeIn 0.5s ease-out;">
-                <i class="fa fa-exclamation-triangle me-2"></i>
-                Failed to load PDF. <a href="${url}" target="_blank">Click here to open it in a new tab.</a>
-            </div>
-        `;
-        document.querySelector('.book-controls').style.display = 'none';
-    });
-
-    // Handle window resize
-    let resizeTimeout;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function() {
-            if (pdfDoc) {
-                // Re-render current page with new scale
-                renderPage(currentPage);
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' && currentPage > 1) {
+                currentPage--;
+                updateDisplay();
+            } else if (e.key === 'ArrowRight' && currentPage < totalPages) {
+                currentPage++;
+                updateDisplay();
             }
-        }, 250);
-    });
+        });
+
+        // Start loading PDF
+        tryLoadPDF();
+
+        // Handle window resize
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                if (pdfDoc) {
+                    updateDisplay();
+                }
+            }, 250);
+        });
+    }
 </script> 
