@@ -11,26 +11,51 @@
             <div class="row align-items-center min-vh-100">
                 <div class="col-lg-6">
                     <div class="hero-text animate-fade-in">
-                        <h1 class="display-4 fw-bold text-white mb-4">
+                        <h3 class="display-4 fw-bold text-white mb-2">
                             <span class="text-gradient">Make a Difference</span><br>
                             Today
-                        </h1>
-                        <p class="lead text-white-50 mb-4">
-                            Your donation helps us provide healthcare, education, and support to our community. 
-                            Every contribution makes a real impact on someone's life.
-                        </p>
-                        <div class="hero-stats">
-                            <div class="stat-item">
-                                <div class="stat-number" data-target="1500">0</div>
-                                <div class="stat-label">Lives Impacted</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number" data-target="50">0</div>
-                                <div class="stat-label">Projects Completed</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number" data-target="100">0</div>
-                                <div class="stat-label">Volunteers</div>
+                        </h3>
+                        <div class="recent-donations-section">
+                            <h4 class="text-white mb-3">
+                                <i class="fas fa-heart me-2"></i>
+                                Recent Donations
+                            </h4>
+                            <div class="recent-donations-container">
+                                <!-- Desktop/Tablet View -->
+                                <div class="recent-donations-table d-none d-md-block">
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Donor</th>
+                                                    <th>Amount</th>
+                                                    <th>Type</th>
+                                                    <th>Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="recentDonationsTable">
+                                                <tr>
+                                                    <td colspan="4" class="text-center">
+                                                        <div class="spinner-border spinner-border-sm text-light" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        Loading recent donations...
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <!-- Mobile View -->
+                                <div class="recent-donations-cards d-md-none" id="recentDonationsCards">
+                                    <div class="text-center">
+                                        <div class="spinner-border spinner-border-sm text-light" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <div class="text-white mt-2">Loading recent donations...</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -38,44 +63,44 @@
                 <div class="col-lg-6">
                     <div class="donation-card animate-slide-up">
                         <div class="card border-0 shadow-lg">
-                            <div class="card-header bg-gradient text-white text-center py-4">
-                                <h3 class="mb-0">
+                            <div class="card-header bg-gradient text-white text-center py-3">
+                                <h4 class="mb-0 text-gradient">
                                     <i class="fas fa-heart me-2"></i>
                                     Donate Now
-                                </h3>
+                                </h4>
                             </div>
-                            <div class="card-body p-4">
+                            <div class="card-body p-3">
                                 <form asp-controller="Donation" asp-action="ProcessDonation" method="post" id="donationForm">
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label asp-for="Name" class="form-label">
-                                                <i class="fas fa-user me-2"></i>Full Name *
+                                        <div class="col-md-6 mb-2">
+                                            <label asp-for="Name" class="form-label small">
+                                                <i class="fas fa-user me-1"></i>Full Name *
                                             </label>
-                                            <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter your full name" required />
-                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                            <input asp-for="Name" class="form-control form-control-sm" placeholder="Enter your full name" required />
+                                            <span asp-validation-for="Name" class="text-danger small"></span>
                                         </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label asp-for="Email" class="form-label">
-                                                <i class="fas fa-envelope me-2"></i>Email *
+                                        <div class="col-md-6 mb-2">
+                                            <label asp-for="Email" class="form-label small">
+                                                <i class="fas fa-envelope me-1"></i>Email *
                                             </label>
-                                            <input asp-for="Email" type="email" class="form-control form-control-lg" placeholder="your@email.com" required />
-                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                            <input asp-for="Email" type="email" class="form-control form-control-sm" placeholder="your@email.com" required />
+                                            <span asp-validation-for="Email" class="text-danger small"></span>
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label asp-for="Phone" class="form-label">
-                                                <i class="fas fa-phone me-2"></i>Phone *
+                                        <div class="col-md-6 mb-2">
+                                            <label asp-for="Phone" class="form-label small">
+                                                <i class="fas fa-phone me-1"></i>Phone *
                                             </label>
-                                            <input asp-for="Phone" class="form-control form-control-lg" placeholder="+880 1XXX XXX XXX" required />
-                                            <span asp-validation-for="Phone" class="text-danger"></span>
+                                            <input asp-for="Phone" class="form-control form-control-sm" placeholder="+880 1XXX XXX XXX" required />
+                                            <span asp-validation-for="Phone" class="text-danger small"></span>
                                         </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label asp-for="DonationType" class="form-label">
-                                                <i class="fas fa-tag me-2"></i>Donation Type
+                                        <div class="col-md-6 mb-2">
+                                            <label asp-for="DonationType" class="form-label small">
+                                                <i class="fas fa-tag me-1"></i>Donation Type
                                             </label>
-                                            <select asp-for="DonationType" class="form-select form-select-lg">
+                                            <select asp-for="DonationType" class="form-select form-select-sm">
                                                 <option value="General">General Donation</option>
                                                 <option value="Healthcare">Healthcare Program</option>
                                                 <option value="Education">Education Support</option>
@@ -84,65 +109,64 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label asp-for="Address" class="form-label">
-                                            <i class="fas fa-map-marker-alt me-2"></i>Address
+                                    <div class="mb-2">
+                                        <label asp-for="Address" class="form-label small">
+                                            <i class="fas fa-map-marker-alt me-1"></i>Address
                                         </label>
-                                        <textarea asp-for="Address" class="form-control" rows="2" placeholder="Your address (optional)"></textarea>
+                                        <textarea asp-for="Address" class="form-control form-control-sm" rows="1" placeholder="Your address (optional)"></textarea>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label asp-for="Amount" class="form-label">
-                                            <i class="fas fa-rupee-sign me-2"></i>Donation Amount (BDT) *
-                                        </label>
-                                        <div class="input-group input-group-lg">
-                                            <span class="input-group-text">৳</span>
-                                            <input asp-for="Amount" type="number" step="0.01" min="10" class="form-control" placeholder="1000" required />
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <label asp-for="Amount" class="form-label small">
+                                                <i class="fas fa-rupee-sign me-1"></i>Donation Amount (BDT) *
+                                            </label>
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text">৳</span>
+                                                <input asp-for="Amount" type="number" step="0.01" min="10" class="form-control" placeholder="1000" required />
+                                            </div>
+                                            <span asp-validation-for="Amount" class="text-danger small"></span>
                                         </div>
-                                        <span asp-validation-for="Amount" class="text-danger"></span>
+                                        <div class="col-md-6 mb-2">
+                                            <label class="form-label small">
+                                                <i class="fas fa-credit-card me-1"></i>Payment Method *
+                                            </label>
+                                            <div class="payment-methods-compact">
+                                                <div class="payment-option-compact">
+                                                    <input asp-for="PaymentMethod" type="radio" value="SSLCommerz" id="sslCommerz" class="payment-radio" checked>
+                                                    <label for="sslCommerz" class="payment-label-compact">
+                                                        <i class="fas fa-lock text-success"></i>
+                                                        <span>Online Payment</span>
+                                                    </label>
+                                                </div>
+                                                <div class="payment-option-compact">
+                                                    <input asp-for="PaymentMethod" type="radio" value="Manual" id="manual" class="payment-radio">
+                                                    <label for="manual" class="payment-label-compact">
+                                                        <i class="fas fa-handshake text-primary"></i>
+                                                        <span>Manual Payment</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label asp-for="Message" class="form-label">
-                                            <i class="fas fa-comment me-2"></i>Message (Optional)
+                                    <div class="mb-1">
+                                        <label asp-for="Message" class="form-label small">
+                                            <i class="fas fa-comment me-1"></i>Message (Optional)
                                         </label>
-                                        <textarea asp-for="Message" class="form-control" rows="3" placeholder="Share why you're donating or any special instructions..."></textarea>
+                                        <textarea asp-for="Message" class="form-control form-control-sm" rows="2" placeholder="Share why you're donating..."></textarea>
                                     </div>
 
-                                    <div class="mb-3">
+                                    <div class="mb-2">
                                         <div class="form-check">
                                             <input asp-for="IsAnonymous" class="form-check-input" type="checkbox" id="anonymousCheck">
-                                            <label class="form-check-label" for="anonymousCheck">
+                                            <label class="form-check-label small" for="anonymousCheck">
                                                 Make this donation anonymous
                                             </label>
                                         </div>
                                     </div>
 
-                                    <div class="mb-4">
-                                        <label class="form-label">
-                                            <i class="fas fa-credit-card me-2"></i>Payment Method *
-                                        </label>
-                                        <div class="payment-methods">
-                                            <div class="payment-option">
-                                                <input asp-for="PaymentMethod" type="radio" value="SSLCommerz" id="sslCommerz" class="payment-radio" checked>
-                                                <label for="sslCommerz" class="payment-label">
-                                                    <i class="fas fa-lock text-success"></i>
-                                                    <span>Secure Online Payment</span>
-                                                    <small>Credit/Debit Card, Mobile Banking</small>
-                                                </label>
-                                            </div>
-                                            <div class="payment-option">
-                                                <input asp-for="PaymentMethod" type="radio" value="Manual" id="manual" class="payment-radio">
-                                                <label for="manual" class="payment-label">
-                                                    <i class="fas fa-handshake text-primary"></i>
-                                                    <span>Manual Payment</span>
-                                                    <small>Bank Transfer, Cash</small>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-gradient btn-lg w-100 py-3">
+                                    <button type="submit" class="btn btn-gradient btn-sm w-100 py-2">
                                         <i class="fas fa-heart me-2"></i>
                                         Donate Now
                                     </button>
@@ -205,74 +229,510 @@
     </div>
 </section>
 
-<!-- Recent Donations -->
-<section class="recent-donations py-5 bg-light">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-12">
-                <h2 class="section-title mb-5">Recent Donations</h2>
-            </div>
-        </div>
-        <div class="row" id="recentDonations">
-            <!-- Will be populated by JavaScript -->
-        </div>
-    </div>
-</section>
 
-<!-- Styles moved to wwwroot/css/site.css -->
+
+<style>
+    
+    .payment-methods-compact {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .payment-option-compact {
+        flex: 1;
+        min-width: 120px;
+    }
+    
+    .payment-label-compact {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 12px;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+    
+    .payment-label-compact:hover {
+        background: #e9ecef;
+        border-color: #adb5bd;
+    }
+    
+    .payment-radio:checked + .payment-label-compact {
+        background: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+    
+    .payment-radio {
+        display: none;
+    }
+    
+    .hero-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 70px;
+    }
+    
+    .form-control-sm, .form-select-sm {
+        font-size: 0.875rem;
+        padding: 0.375rem 0.75rem;
+    }
+    
+    .card-body {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    /* Recent Donations Section - Responsive Styles */
+    .recent-donations-section {
+        background: rgba(0, 0, 0, 0.3);
+        color: white;
+        border-radius: 10px;
+        padding: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 20px;
+    }
+    
+    .recent-donations-container {
+        width: 100%;
+    }
+    
+    /* Desktop/Tablet Table Styles */
+    .recent-donations-table {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .recent-donations-table .table {
+        margin-bottom: 0;
+        font-size: 0.85rem;
+    }
+    
+    .recent-donations-table .table-dark {
+        background: transparent;
+        color: white;
+    }
+    
+    .recent-donations-table .table-dark th {
+        border-color: rgba(255, 255, 255, 0.2);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+        padding: 8px 4px;
+    }
+    
+    .recent-donations-table .table-dark td {
+        border-color: rgba(255, 255, 255, 0.1);
+        vertical-align: middle;
+        padding: 8px 4px;
+    }
+    
+    .recent-donations-table .table-hover tbody tr:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    /* Mobile Card Styles */
+    .recent-donations-cards {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .donation-card-mobile {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    .donation-card-mobile:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+    }
+    
+    .donation-card-mobile .donor-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+    
+    .donation-card-mobile .donor-avatar-mobile {
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+    
+    .donation-card-mobile .donor-details {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .donation-card-mobile .donor-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .donation-card-mobile .donor-message {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-style: italic;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .donation-card-mobile .donation-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .donation-card-mobile .amount-badge {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+    }
+    
+    .donation-card-mobile .type-badge {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+        border-radius: 10px;
+        font-weight: 500;
+    }
+    
+    .donation-card-mobile .date-text {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: right;
+    }
+    
+    .donor-avatar {
+        width: 35px;
+        height: 35px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+    
+    .donor-avatar i {
+        font-size: 1.2rem;
+    }
+    
+    .badge {
+        font-weight: 500;
+        padding: 0.5em 0.75em;
+    }
+    
+    .badge.bg-success {
+        background: linear-gradient(45deg, #28a745, #20c997) !important;
+    }
+    
+    .badge.bg-primary {
+        background: linear-gradient(45deg, #007bff, #6610f2) !important;
+    }
+    
+    /* Custom scrollbar for both table and cards */
+    .recent-donations-table::-webkit-scrollbar,
+    .recent-donations-cards::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .recent-donations-table::-webkit-scrollbar-track,
+    .recent-donations-cards::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+    
+    .recent-donations-table::-webkit-scrollbar-thumb,
+    .recent-donations-cards::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+    }
+    
+    .recent-donations-table::-webkit-scrollbar-thumb:hover,
+    .recent-donations-cards::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+    }
+    
+    /* Responsive Breakpoints */
+    @@media (max-width: 768px) {
+        .hero-section {
+        margin-top: 85px;
+    }
+        .recent-donations-section {
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .recent-donations-section h4 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+        
+        .recent-donations-table {
+            max-height: 350px;
+        }
+        
+        .recent-donations-cards {
+            max-height: 350px;
+        }
+        
+        .donation-card-mobile {
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .donation-card-mobile .donor-avatar-mobile {
+            width: 28px;
+            height: 28px;
+        }
+        
+        .donation-card-mobile .donor-name {
+            font-size: 0.85rem;
+        }
+        
+        .donation-card-mobile .donor-message {
+            font-size: 0.7rem;
+        }
+        
+        .donation-card-mobile .amount-badge {
+            font-size: 0.75rem;
+            padding: 3px 6px;
+        }
+        
+        .donation-card-mobile .type-badge {
+            font-size: 0.65rem;
+            padding: 2px 5px;
+        }
+        
+        .donation-card-mobile .date-text {
+            font-size: 0.65rem;
+        }
+    }
+    
+    @@media (max-width: 576px) {
+        .recent-donations-section {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .recent-donations-section h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .recent-donations-table {
+            max-height: 300px;
+        }
+        
+        .recent-donations-cards {
+            max-height: 300px;
+        }
+        
+        .donation-card-mobile {
+            padding: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .donation-card-mobile .donor-avatar-mobile {
+            width: 25px;
+            height: 25px;
+        }
+        
+        .donation-card-mobile .donor-name {
+            font-size: 0.8rem;
+        }
+        
+        .donation-card-mobile .donor-message {
+            font-size: 0.65rem;
+        }
+        
+        .donation-card-mobile .donation-details {
+            gap: 6px;
+        }
+        
+        .donation-card-mobile .amount-badge {
+            font-size: 0.7rem;
+            padding: 2px 5px;
+        }
+        
+        .donation-card-mobile .type-badge {
+            font-size: 0.6rem;
+            padding: 2px 4px;
+        }
+        
+        .donation-card-mobile .date-text {
+            font-size: 0.6rem;
+        }
+    }
+    
+    @@media (max-width: 480px) {
+        .recent-donations-section {
+            padding: 8px;
+        }
+        
+        .recent-donations-section h4 {
+            font-size: 0.9rem;
+        }
+        
+        .donation-card-mobile .donation-details {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+        
+        .donation-card-mobile .date-text {
+            text-align: left;
+        }
+    }
+</style>
 
 <script>
-// Animate numbers
-function animateNumbers() {
-    const numbers = document.querySelectorAll('.stat-number');
-    
-    numbers.forEach(number => {
-        const target = parseInt(number.getAttribute('data-target'));
-        const increment = target / 100;
-        let current = 0;
-        
-        const timer = setInterval(() => {
-            current += increment;
-            number.textContent = Math.floor(current);
-            
-            if (current >= target) {
-                number.textContent = target;
-                clearInterval(timer);
-            }
-        }, 20);
-    });
-}
-
-// Load recent donations
+// Load recent donations into table and mobile cards
 async function loadRecentDonations() {
     try {
         const response = await fetch('/Donation/DonationHistory');
         const donors = await response.json();
         
-        const container = document.getElementById('recentDonations');
-        container.innerHTML = '';
+        const tableBody = document.getElementById('recentDonationsTable');
+        const cardsContainer = document.getElementById('recentDonationsCards');
         
-        donors.slice(0, 6).forEach(donor => {
-            const donationItem = document.createElement('div');
-            donationItem.className = 'col-lg-4 col-md-6 mb-3';
-            donationItem.innerHTML = `
-                <div class="donation-item">
-                    <div class="d-flex justify-content-between align-items-center">
+        if (donors.length === 0) {
+            // Update table view
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center text-muted">
+                        <i class="fas fa-inbox me-2"></i>
+                        No donations yet. Be the first to make a difference!
+                    </td>
+                </tr>
+            `;
+            
+            // Update mobile cards view
+            cardsContainer.innerHTML = `
+                <div class="text-center text-muted">
+                    <i class="fas fa-inbox me-2"></i>
+                    No donations yet. Be the first to make a difference!
+                </div>
+            `;
+            return;
+        }
+        
+        // Clear existing content
+        tableBody.innerHTML = '';
+        cardsContainer.innerHTML = '';
+        
+        donors.slice(0, 10).forEach(donor => {
+            // Create table row for desktop/tablet
+            const row = document.createElement('tr');
+            row.className = 'animate-fade-in';
+            row.innerHTML = `
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="donor-avatar me-2">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
                         <div>
-                            <h6 class="mb-1">${donor.isAnonymous ? 'Anonymous' : donor.name}</h6>
-                            <small class="text-muted">${donor.donationType}</small>
+                            <strong>${donor.isAnonymous ? 'Anonymous Donor' : donor.name}</strong>
+                            ${donor.message ? `<br><small class="text-muted">"${donor.message}"</small>` : ''}
                         </div>
-                        <div class="text-end">
-                            <strong class="text-success">৳${donor.amount}</strong>
-                            <br><small class="text-muted">${new Date(donor.donationDate).toLocaleDateString()}</small>
-                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="badge bg-success fs-6">৳${parseFloat(donor.amount).toLocaleString()}</span>
+                </td>
+                <td>
+                    <span class="badge bg-primary">${donor.donationType || 'General'}</span>
+                </td>
+                <td>
+                    <small class="text-muted">
+                        ${new Date(donor.donationDate).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                        })}
+                    </small>
+                </td>
+            `;
+            tableBody.appendChild(row);
+            
+            // Create mobile card
+            const card = document.createElement('div');
+            card.className = 'donation-card-mobile animate-fade-in';
+            card.innerHTML = `
+                <div class="donor-info">
+                    <div class="donor-avatar-mobile">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="donor-details">
+                        <div class="donor-name">${donor.isAnonymous ? 'Anonymous Donor' : donor.name}</div>
+                        ${donor.message ? `<div class="donor-message">"${donor.message}"</div>` : ''}
+                    </div>
+                </div>
+                <div class="donation-details">
+                    <span class="amount-badge bg-success">৳${parseFloat(donor.amount).toLocaleString()}</span>
+                    <span class="type-badge bg-primary">${donor.donationType || 'General'}</span>
+                    <div class="date-text">
+                        ${new Date(donor.donationDate).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                        })}
                     </div>
                 </div>
             `;
-            container.appendChild(donationItem);
+            cardsContainer.appendChild(card);
         });
     } catch (error) {
         console.error('Error loading recent donations:', error);
+        
+        // Update table view
+        const tableBody = document.getElementById('recentDonationsTable');
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center text-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Unable to load recent donations. Please try again later.
+                </td>
+            </tr>
+        `;
+        
+        // Update mobile cards view
+        const cardsContainer = document.getElementById('recentDonationsCards');
+        cardsContainer.innerHTML = `
+            <div class="text-center text-danger">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Unable to load recent donations. Please try again later.
+            </div>
+        `;
     }
 }
 
@@ -291,23 +751,8 @@ document.getElementById('donationForm').addEventListener('submit', function(e) {
     }, 3000);
 });
 
-// Initialize animations when page loads
+// Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    // Animate numbers when they come into view
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateNumbers();
-                observer.unobserve(entry.target);
-            }
-        });
-    });
-    
-    const statsSection = document.querySelector('.hero-stats');
-    if (statsSection) {
-        observer.observe(statsSection);
-    }
-    
     // Load recent donations
     loadRecentDonations();
 });

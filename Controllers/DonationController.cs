@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 
+
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
     public class DonationController : Controller
@@ -114,10 +115,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 ["ship_city"] = "Dhaka",
                 ["ship_postcode"] = "1000",
                 ["ship_country"] = "Bangladesh",
-                ["success_url"] = Url.Action("PaymentSuccess", "Donation", null, Request.Scheme, Request.Host.Value),
-                ["fail_url"] = Url.Action("PaymentFail", "Donation", null, Request.Scheme, Request.Host.Value),
-                ["cancel_url"] = Url.Action("PaymentCancel", "Donation", null, Request.Scheme, Request.Host.Value),
-                ["ipn_url"] = Url.Action("IPN", "Donation", null, Request.Scheme, Request.Host.Value),
+
                 ["multi_card_name"] = "",
                 ["value_a"] = donor.Id.ToString(),
                 ["value_b"] = donor.DonationType ?? "General",
@@ -154,6 +152,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             catch (Exception ex)
             {
                 // Log the exception
+
                 TempData["Error"] = "Unable to connect to payment gateway. Please try again.";
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
@@ -193,6 +192,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
             catch (Exception ex)
             {
+
                 TempData["Error"] = "An error occurred while processing payment failure.";
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
@@ -224,6 +224,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
             catch (Exception ex)
             {
+
                 TempData["Error"] = "An error occurred while processing payment cancellation.";
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
@@ -254,6 +255,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
             catch (Exception ex)
             {
+
                 return BadRequest();
             }
         }
@@ -330,6 +332,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             catch (Exception ex)
             {
                 // Log the exception
+
                 TempData["Error"] = "An error occurred while processing payment.";
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
