@@ -1,87 +1,180 @@
 @{
-    ViewData["Title"] = "How Do We Work";
+    ViewData["Title"] = "সোসাইটির বিভিন্ন কার্যক্রম";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .howwork-hero {
+        background-image: url('@Url.Content("~/Photos/howworkbg.jpg")');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 80px;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+    }
+    .howwork-hero::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.55);
+        z-index: 1;
+    }
+    .howwork-hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+        color: #fff;
+        padding: 60px 16px 40px 16px;
+    }
+    .howwork-hero-content h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 18px;
+        letter-spacing: 0.5px;
+    }
+    .howwork-hero-content p {
+        font-size: 1.18rem;
+        margin-bottom: 0;
+    }
+    .howwork-section {
+        background: #f8f9fa;
+        padding: 48px 0 32px 0;
+    }
+    .howwork-section h2 {
+        color: #2563eb;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 18px;
+        font-size: 2rem;
+    }
+    .howwork-section p.section-desc {
+        text-align: center;
+        color: #666;
+        margin-bottom: 32px;
+        font-size: 1.1rem;
+    }
+    .howwork-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        justify-content: center;
+        margin-bottom: 24px;
+    }
+    .howwork-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(44,62,80,0.09);
+        padding: 24px 20px 18px 20px;
+        flex: 1 1 260px;
+        max-width: 320px;
+        min-width: 220px;
+        border-left: 4px solid #4072b7;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 340px;
+        transition: transform 0.18s, box-shadow 0.18s;
+        cursor: pointer;
+        position: relative;
+    }
+    .howwork-card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 8px 32px rgba(44,62,80,0.16);
+        border-left: 4px solid #2563eb;
+    }
+    .howwork-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: contain;
+        border-radius: 14px;
+        background: #f3f6fa;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+    }
+    .howwork-card p {
+        font-size: 1.05rem;
+        color: #222;
+        margin-bottom: 0;
+        text-align: center;
+    }
+    @@media (max-width: 900px) {
+        .howwork-cards {
+            flex-direction: column;
+            gap: 18px;
+        }
+        .howwork-card {
+            max-width: 100%;
+            min-width: 0;
+            height: auto;
+        }
+    }
+    @@media (max-width: 600px) {
+        .howwork-hero-content h1 {
+            font-size: 1.4rem;
+        }
+        .howwork-section h2 {
+            font-size: 1.2rem;
+        }
+        .howwork-card {
+            padding: 16px 8px 12px 8px;
+        }
+        .howwork-card img {
+            height: 100px;
+        }
+    }
+</style>
+
 <!-- Hero Section -->
-<section style="background: linear-gradient(120deg, #4072b7 0%, #6a4bbf 100%); color: #fff; padding: 60px 0 40px 0; text-align: center; width: 100vw; margin-left: calc(-50vw + 50%);margin-top: 80px;">
-    <div style="max-width: 900px; margin: 0 auto;">
-        <h1 style="font-size: 2.4rem; font-weight: 700; margin-bottom: 18px;">How We Work</h1>
-        <p style="font-size: 1.18rem; margin-bottom: 0;">Our systematic approach to creating sustainable change<br />in communities across Bangladesh.</p>
+<section class="howwork-hero">
+    <div class="howwork-hero-content">
+        <h1>উত্তরা সেক্টর ১৩ ওয়েলফেয়ার সোসাইটির বিভিন্ন কার্যক্রম :</h1>
+        <p>তাদের কাজের পদ্ধতি এবং উদ্দেশ্যগুলি নিম্নরূপ হতে পারে:</p>
     </div>
 </section>
 
 <!-- Systematic Approach Section -->
-<section style="background: #f8f9fa; padding: 48px 0 32px 0;">
-    <div style="max-width: 950px; margin: 0 auto;">
-        <h2 style="color: #2563eb; font-weight: 700; text-align: center; margin-bottom: 18px;">Our Systematic Approach</h2>
-        <p style="text-align: center; color: #666; margin-bottom: 32px; font-size: 1.1rem;">We follow a comprehensive six-step process that ensures our programs are<br />effective, sustainable, and truly responsive to community needs.</p>
-        
+<section class="howwork-section">
+    <div style="max-width: 950px; margin: 0 auto; padding: 0 10px; gap: 10px;">
+        <h2>নির্বাচিত কার্যনির্বাহী কমিটি</h2>
+        <p class="section-desc">সোসাইটির কার্যক্রম পরিচালনার জন্য একটি কার্যনির্বাহী কমিটি থাকে, যা নির্বাচনের মাধ্যমে গঠিত হয়। এই কমিটিতে সভাপতি, সাধারণ সম্পাদক, যুগ্ম সাধারণ সম্পাদক, অর্থ সম্পাদক, নিরাপত্তা সম্পাদক, শিক্ষা ও সংস্কৃতি সম্পাদক, দপ্তর সম্পাদক, শিশু ও মহিলা বিষয়ক সম্পাদক, ক্রীড়া ও বিনোদন সম্পাদক, পার্ক ও বনায়ন সম্পাদক, পরিবেশ ও পরিচ্ছন্নতা সম্পাদক এবং নির্বাহী সদস্যবৃন্দ থাকেন। এই নির্বাচিত কমিটিই সোসাইটির সকল সিদ্ধান্ত গ্রহণ এবং কার্যক্রম পরিচালনা করে।</p>
         <!-- First Row - Steps 1-3 -->
-        <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; margin-bottom: 24px;">
-            <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 28px 22px; flex: 1 1 260px; max-width: 320px; min-width: 220px; border-left: 4px solid #4072b7;">
-                <h4 style="color: #4072b7; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px;">Step 1: Community Assessment</h4>
-                <p style="font-size: 1.01rem; color: #222;">We begin by conducting thorough assessments of communities to understand their specific needs, challenges, and existing resources.</p>
+        <div class="howwork-cards">
+            <div class="howwork-card">
+                <img src="@Url.Content("~/howwork/w1.png")" alt="নিরাপত্তা">
+                <p>বাসিন্দাদের নিরাপত্তা নিশ্চিত করতে আইনশৃঙ্খলা রক্ষাকারী বাহিনীর সাথে যোগাযোগ রক্ষা করা এবং প্রয়োজনে নিরাপত্তা ব্যবস্থা জোরদার করা।</p>
             </div>
-            <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 28px 22px; flex: 1 1 260px; max-width: 320px; min-width: 220px; border-left: 4px solid #4072b7;">
-                <h4 style="color: #4072b7; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px;">Step 2: Stakeholder Engagement</h4>
-                <p style="font-size: 1.01rem; color: #222;">We engage with local leaders, community members, and existing organizations to ensure our programs are culturally appropriate and welcomed.</p>
+            <div class="howwork-card">
+                <img src="@Url.Content("~/howwork/w2.png")" alt="পরিচ্ছন্নতা">
+                <p>সেক্টরের রাস্তা, পার্ক এবং অন্যান্য পাবলিক স্থানগুলির পরিচ্ছন্নতা ও রক্ষণাবেক্ষণে সহায়তা করা।</p>
             </div>
-            <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 28px 22px; flex: 1 1 260px; max-width: 320px; min-width: 220px; border-left: 4px solid #4072b7;">
-                <h4 style="color: #4072b7; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px;">Step 3: Program Design</h4>
-                <p style="font-size: 1.01rem; color: #222;">Based on assessment findings, we design targeted programs that address priority needs while building on community strengths.</p>
+            <div class="howwork-card">
+                <img src="@Url.Content("~/howwork/w3.png")" alt="জনহিতকর কাজ">
+                <p>জনহিতকর কাজ হিসেবে রক্তদান কর্মসূচীর আয়োজন  শিশুদের জন্য চিত্রাঙ্কন প্রতিযোগিতা, শিক্ষামূলক আলোচনা সভার আয়োজন।</p>
             </div>
         </div>
-        
         <!-- Second Row - Steps 4-6 -->
-        <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;">
-            <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 28px 22px; flex: 1 1 260px; max-width: 320px; min-width: 220px; border-left: 4px solid #4072b7;">
-                <h4 style="color: #4072b7; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px;">Step 4: Implementation</h4>
-                <p style="font-size: 1.01rem; color: #222;">We implement programs with trained local staff and volunteers, ensuring quality delivery and community participation.</p>
+        <div class="howwork-cards">
+            <div class="howwork-card">
+                <img src="@Url.Content("~/howwork/w4.png")" alt="মিটিং">
+                <p>সোসাইটি নিয়মিত মিটিং করে থাকে যেখানে সদস্যরা তাদের মতামত প্রকাশ করতে পারে এবং বিভিন্ন বিষয়ে সিদ্ধান্ত গ্রহণ করা হয়। </p>
             </div>
-            <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 28px 22px; flex: 1 1 260px; max-width: 320px; min-width: 220px; border-left: 4px solid #4072b7;">
-                <h4 style="color: #4072b7; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px;">Step 5: Monitoring & Evaluation</h4>
-                <p style="font-size: 1.01rem; color: #222;">We continuously monitor progress and impact, making adjustments as needed to ensure effectiveness and sustainability.</p>
+            <div class="howwork-card">
+                <img src="@Url.Content("~/howwork/w5.png")" alt="তহবিল">
+                <p>সোসাইটি তার কার্যক্রম পরিচালনার জন্য সদস্যদের চাঁদা এবং অন্যান্য অনুদানের মাধ্যমে তহবিল সংগ্রহ করে। এই তহবিলের সঠিক হিসাব রাখা এবং স্বচ্ছভাবে ব্যয় করা হয়।</p>
             </div>
-            <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.06); padding: 28px 22px; flex: 1 1 260px; max-width: 320px; min-width: 220px; border-left: 4px solid #4072b7;">
-                <h4 style="color: #4072b7; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px;">Step 6: Sustainability & Handover</h4>
-                <p style="font-size: 1.01rem; color: #222;">We work toward community ownership and sustainability, gradually transitioning program management to local leaders.</p>
+            <div class="howwork-card">
+                <img src="@Url.Content("~/howwork/w6.png")" alt="পরিবেশ">
+                <p>পার্কগুলির রক্ষণাবেক্ষণ, নতুন গাছ লাগানো এবং সবুজ পরিবেশ বজায় রাখতে কাজ করা। পাবলিক স্থানগুলির পরিচ্ছন্নতা ও রক্ষণাবেক্ষণে সহায়তা করা।</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Core Principles Section -->
-<section style="background: #fff; padding: 48px 0 32px 0;">
-    <div style="max-width: 950px; margin: 0 auto;">
-        <h2 style="color: #2563eb; font-weight: 700; text-align: center; margin-bottom: 18px;">Our Core Principles</h2>
-        <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;">
-            <div style="background: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.04); padding: 24px 18px; flex: 1 1 260px; max-width: 320px; min-width: 220px;">
-                <h4 style="color: #4072b7; font-size: 1.08rem; font-weight: 700; margin-bottom: 10px;">Community-Centered Approach</h4>
-                <p style="font-size: 1.01rem; color: #222;">All our programs are designed with and for the communities we serve. We believe local voices and leadership are essential for sustainable change.</p>
-            </div>
-            <div style="background: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.04); padding: 24px 18px; flex: 1 1 260px; max-width: 320px; min-width: 220px;">
-                <h4 style="color: #4072b7; font-size: 1.08rem; font-weight: 700; margin-bottom: 10px;">Dignity and Respect</h4>
-                <p style="font-size: 1.01rem; color: #222;">We treat every individual with dignity and respect, recognizing their inherent worth and potential regardless of their circumstances.</p>
-            </div>
-            <div style="background: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.04); padding: 24px 18px; flex: 1 1 260px; max-width: 320px; min-width: 220px;">
-                <h4 style="color: #4072b7; font-size: 1.08rem; font-weight: 700; margin-bottom: 10px;">Evidence-Based Programming</h4>
-                <p style="font-size: 1.01rem; color: #222;">Our interventions are based on proven methodologies, best practices, and continuous learning from our field experience.</p>
-            </div>
-        </div>
-        <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; margin-top: 24px;">
-            <div style="background: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.04); padding: 24px 18px; flex: 1 1 260px; max-width: 320px; min-width: 220px;">
-                <h4 style="color: #4072b7; font-size: 1.08rem; font-weight: 700; margin-bottom: 10px;">Transparency and Accountability</h4>
-                <p style="font-size: 1.01rem; color: #222;">We maintain open communication with all stakeholders and are accountable for the resources entrusted to us.</p>
-            </div>
-            <div style="background: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.04); padding: 24px 18px; flex: 1 1 260px; max-width: 320px; min-width: 220px;">
-                <h4 style="color: #4072b7; font-size: 1.08rem; font-weight: 700; margin-bottom: 10px;">Cultural Sensitivity</h4>
-                <p style="font-size: 1.01rem; color: #222;">We respect local customs, traditions, and values, ensuring our programs are culturally appropriate and inclusive.</p>
-            </div>
-            <div style="background: #f8f9fa; border-radius: 10px; box-shadow: 0 2px 8px rgba(44,62,80,0.04); padding: 24px 18px; flex: 1 1 260px; max-width: 320px; min-width: 220px;">
-                <h4 style="color: #4072b7; font-size: 1.08rem; font-weight: 700; margin-bottom: 10px;">Sustainable Impact</h4>
-                <p style="font-size: 1.01rem; color: #222;">We focus on creating lasting change by building local capacity and establishing systems that continue beyond our direct involvement.</p>
-            </div>
-        </div>
-    </div>
-</section> 
