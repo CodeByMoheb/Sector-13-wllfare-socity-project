@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Sector_13_Welfare_Society___Digital_Management_System.Data;
+using Sector_13_Welfare_Society___Digital_Management_System.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -49,7 +50,7 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     var roles = new[] { "SuperAdmin", "Admin", "President", "Secretary", "Manager", "Member" };
     foreach (var role in roles)
     {
@@ -61,7 +62,7 @@ using (var scope = app.Services.CreateScope())
     var superAdminUser = await userManager.FindByEmailAsync(superAdminEmail);
     if (superAdminUser == null)
     {
-        var user = new IdentityUser { UserName = superAdminEmail, Email = superAdminEmail, EmailConfirmed = true };
+        var user = new ApplicationUser { UserName = superAdminEmail, Email = superAdminEmail, EmailConfirmed = true };
         var result = await userManager.CreateAsync(user, "SuperAdmin@123");
         if (result.Succeeded)
         {

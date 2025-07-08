@@ -547,27 +547,8 @@
                 <li><a href="@Url.Action("donate", "Home")" class="uws-donate-btn">DONATE</a></li>
 
             <div style="display:flex;align-items:center;gap:10px; margin-left: 2rem;">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="dropdown" style="position:relative;">
-                        <a href="#" class="profile-img-link dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="display:flex;align-items:center;gap:8px;">
-                            <img src="~/Photos/logo.png" alt="Profile" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #5b3fa2;">
-                            <span style="font-weight:600;">@User.Identity.Name</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            <li>
-                                <form method="post" action="@Url.Action("Logout", "Account")" style="margin:0;">
-                                    <button type="submit" class="dropdown-item">Logout</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                }
-                else
-                {
                     <a href="@Url.Action("Login","Account")" class="uws-auth-btn">Login</a>
                     <a href="@Url.Action("Register","Account")" class="uws-auth-btn uws-register">Register</a>
-                }
             </div>
         </ul>
 

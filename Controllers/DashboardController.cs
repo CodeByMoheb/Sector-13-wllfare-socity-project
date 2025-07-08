@@ -2,15 +2,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Sector_13_Welfare_Society___Digital_Management_System.Models;
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
     [Authorize]
     public class DashboardController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DashboardController(UserManager<IdentityUser> userManager)
+        public DashboardController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
@@ -41,42 +42,77 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Admin()
+        public async Task<IActionResult> Admin()
         {
-            ViewBag.UserName = User.Identity?.Name;
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.UserName = user?.UserName;
             ViewBag.Role = "Admin";
+            ViewBag.FullName = user?.Name;
+            ViewBag.Address = $"House: {user?.HouseNo}, Sector: {user?.Sector}, Ward: {user?.Ward}";
+            ViewBag.Phone = user?.PhoneNumber;
+            ViewBag.Email = user?.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user?.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user?.LastLoginTime?.ToString("g") ?? "-";
             return View();
         }
 
         [Authorize(Roles = "President")]
-        public IActionResult President()
+        public async Task<IActionResult> President()
         {
-            ViewBag.UserName = User.Identity?.Name;
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.UserName = user?.UserName;
             ViewBag.Role = "President";
+            ViewBag.FullName = user?.Name;
+            ViewBag.Address = $"House: {user?.HouseNo}, Sector: {user?.Sector}, Ward: {user?.Ward}";
+            ViewBag.Phone = user?.PhoneNumber;
+            ViewBag.Email = user?.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user?.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user?.LastLoginTime?.ToString("g") ?? "-";
             return View();
         }
 
         [Authorize(Roles = "Secretary")]
-        public IActionResult Secretary()
+        public async Task<IActionResult> Secretary()
         {
-            ViewBag.UserName = User.Identity?.Name;
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.UserName = user?.UserName;
             ViewBag.Role = "Secretary";
+            ViewBag.FullName = user?.Name;
+            ViewBag.Address = $"House: {user?.HouseNo}, Sector: {user?.Sector}, Ward: {user?.Ward}";
+            ViewBag.Phone = user?.PhoneNumber;
+            ViewBag.Email = user?.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user?.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user?.LastLoginTime?.ToString("g") ?? "-";
             return View();
         }
 
         [Authorize(Roles = "Manager")]
-        public IActionResult Manager()
+        public async Task<IActionResult> Manager()
         {
-            ViewBag.UserName = User.Identity?.Name;
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.UserName = user?.UserName;
             ViewBag.Role = "Manager";
+            ViewBag.FullName = user?.Name;
+            ViewBag.Address = $"House: {user?.HouseNo}, Sector: {user?.Sector}, Ward: {user?.Ward}";
+            ViewBag.Phone = user?.PhoneNumber;
+            ViewBag.Email = user?.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user?.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user?.LastLoginTime?.ToString("g") ?? "-";
             return View();
         }
 
         [Authorize(Roles = "Member")]
-        public IActionResult Member()
+        public async Task<IActionResult> Member()
         {
-            ViewBag.UserName = User.Identity?.Name;
+            var user = await _userManager.GetUserAsync(User);
+            ViewBag.UserName = user?.UserName;
             ViewBag.Role = "Member";
+            ViewBag.FullName = user?.Name;
+            ViewBag.Address = $"House: {user?.HouseNo}, Sector: {user?.Sector}, Ward: {user?.Ward}";
+            ViewBag.Phone = user?.PhoneNumber;
+            ViewBag.Email = user?.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user?.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user?.LastLoginTime?.ToString("g") ?? "-";
             return View();
         }
     }
