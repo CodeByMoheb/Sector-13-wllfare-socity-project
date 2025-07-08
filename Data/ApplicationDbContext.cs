@@ -4,7 +4,7 @@ using Sector_13_Welfare_Society___Digital_Management_System.Models;
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

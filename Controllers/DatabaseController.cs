@@ -2,17 +2,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sector_13_Welfare_Society___Digital_Management_System.Data;
+using Sector_13_Welfare_Society___Digital_Management_System.Models;
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
     public class DatabaseController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _context;
 
         public DatabaseController(
-            UserManager<IdentityUser> userManager,
+            UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             ApplicationDbContext context)
         {
@@ -60,7 +61,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 
                 foreach (var userInfo in testUsers)
                 {
-                    var user = new IdentityUser
+                    var user = new ApplicationUser
                     {
                         UserName = userInfo.UserName,
                         Email = userInfo.Email,

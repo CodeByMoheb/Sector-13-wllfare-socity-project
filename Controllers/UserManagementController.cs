@@ -2,16 +2,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Sector_13_Welfare_Society___Digital_Management_System.Models;
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class UserManagementController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserManagementController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserManagementController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -42,7 +43,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                     var existingUser = await _userManager.FindByEmailAsync(userInfo.Email);
                     if (existingUser == null)
                     {
-                        var user = new IdentityUser
+                        var user = new ApplicationUser
                         {
                             UserName = userInfo.UserName,
                             Email = userInfo.Email,

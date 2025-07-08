@@ -1,0 +1,103 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.EditProfileViewModel
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Edit Profile</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="EditProfile" asp-controller="Account" method="post" enctype="multipart/form-data">
+                        <div class="mb-3 text-center">
+                            <img src="@(Model.ExistingProfilePictureUrl ?? "/Photos/logo.png")" alt="Profile" class="rounded-circle mb-2" style="height:70px;width:70px;object-fit:cover;border:2px solid #e0e7ff;background:#f3e8ff;">
+                            <input type="file" name="ProfilePicture" class="form-control mt-2" accept="image/*" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="FathersOrHusbandsName" class="form-label">Father's/Husband's Name</label>
+                            <input asp-for="FathersOrHusbandsName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>House No</label>
+                            <input asp-for="HouseNo" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Flat No</label>
+                            <input asp-for="FlatNo" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Road No</label>
+                            <input asp-for="RoadNo" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Ward</label>
+                            <input asp-for="Ward" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Holding</label>
+                            <input asp-for="Holding" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Sector" class="form-label"></label>
+                            <input asp-for="Sector" class="form-control" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Profession" class="form-label"></label>
+                                <input asp-for="Profession" class="form-control" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Designation" class="form-label"></label>
+                                <input asp-for="Designation" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="BloodGroup" class="form-label"></label>
+                                <input asp-for="BloodGroup" class="form-control" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="EducationalQualification" class="form-label"></label>
+                                <input asp-for="EducationalQualification" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="NumberOfChildren" class="form-label"></label>
+                                <input asp-for="NumberOfChildren" class="form-control" type="number" min="0" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Telephone" class="form-label"></label>
+                                <input asp-for="Telephone" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Mobile" class="form-label"></label>
+                                <input asp-for="Mobile" class="form-control" />
+                                <span asp-validation-for="Mobile" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="@Url.Action("Profile", "Account")" class="btn btn-secondary ms-2">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 
