@@ -1,0 +1,46 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.EditProfileViewModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex align-items-center">
+                    <img src="@(Model.ExistingProfilePictureUrl ?? "/Photos/logo.png")" alt="Profile" class="rounded-circle me-3" style="height:70px;width:70px;object-fit:cover;border:2px solid #e0e7ff;background:#f3e8ff;">
+                    <h3 class="mb-0">@Model.Name</h3>
+                    <a href="@Url.Action("EditProfile", "Account")" class="btn btn-outline-light ms-auto">Edit Profile</a>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Father's/Husband's Name</dt>
+                        <dd class="col-sm-8">@Model.FathersOrHusbandsName</dd>
+                        <div><strong>House No:</strong> @Model.HouseNo</div>
+                        <div><strong>Flat No:</strong> @Model.FlatNo</div>
+                        <div><strong>Road No:</strong> @Model.RoadNo</div>
+                        <div><strong>Ward:</strong> @Model.Ward</div>
+                        <div><strong>Holding:</strong> @Model.Holding</div>
+                        <dt class="col-sm-4">Sector</dt>
+                        <dd class="col-sm-8">@Model.Sector</dd>
+                        <dt class="col-sm-4">Profession</dt>
+                        <dd class="col-sm-8">@Model.Profession</dd>
+                        <dt class="col-sm-4">Designation</dt>
+                        <dd class="col-sm-8">@Model.Designation</dd>
+                        <dt class="col-sm-4">Blood Group</dt>
+                        <dd class="col-sm-8">@Model.BloodGroup</dd>
+                        <dt class="col-sm-4">Educational Qualification</dt>
+                        <dd class="col-sm-8">@Model.EducationalQualification</dd>
+                        <dt class="col-sm-4">Number of Children</dt>
+                        <dd class="col-sm-8">@Model.NumberOfChildren</dd>
+                        <dt class="col-sm-4">Telephone</dt>
+                        <dd class="col-sm-8">@Model.Telephone</dd>
+                        <dt class="col-sm-4">Mobile</dt>
+                        <dd class="col-sm-8">@Model.Mobile</dd>
+                        <dt class="col-sm-4">E-mail</dt>
+                        <dd class="col-sm-8">@Model.Email</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
