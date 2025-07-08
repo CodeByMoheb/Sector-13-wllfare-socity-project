@@ -57,6 +57,11 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         {
             return View();
         }
+         public IActionResult PreviousElectedCandidate()
+        {
+            return View();
+        }
+
 
         public IActionResult donate()
         {
