@@ -126,17 +126,6 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
-        {
-            // Sign out the user (removes authentication cookie)
-            await _signInManager.SignOutAsync();
-
-            HttpContext.Session.Clear();
-            // Redirect to Home page
-            return RedirectToAction("Index", "Home");
-        }
 
         private List<string> GetAvailableRoles()
         {

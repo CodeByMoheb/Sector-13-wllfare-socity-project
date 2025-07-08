@@ -115,7 +115,7 @@
 </style>
 
 <div class="fb-login-container">
-    <div class="fb-logo"><img src="~/Photos/logo.png" alt="Sector 13" style="width: 100px; height: 90px;" /></div>
+    <div class="fb-logo"><a href="@Url.Action("Index", "Home")"><img src="~/Photos/logo.png" alt="Logo" style="width:100px;height:90px;"></a></div>
     <div class="fb-login-card">
         <div class="fb-login-title">Log in to your account</div>
         @if (!ViewData.ModelState.IsValid)
