@@ -35,6 +35,13 @@
             overflow-x: hidden; /* Prevent horizontal scrollbar on Body */
         }
 
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -242,110 +249,137 @@
  
         /* Footer */
         .main-footer {
-            background-color: #2c2c2c !important;
-            padding: 20px 0 0 !important;
-            margin-top: auto !important; /* Pushes footer to bottom */
-            width: 100% !important;
-            flex-shrink: 0 !important; /* Prevents shrinking in flex container */
-            position: relative; /* Ensure it stays in flow */
-           
+            background: #232323;
+            color: #f1f1f1;
+            width: 100vw;
+            margin-left: calc(50% - 50vw); /* Ensures full bleed even inside a container */
+            position: relative;
+            padding: 0;
+            font-family: 'Segoe UI', 'Poppins', sans-serif;
         }
 
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 10px;
+            padding: 20px 10px 0 10px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: flex-start;
+            gap: 20px;
         }
 
         .footer-column {
-            flex: 1;
-            min-width: 250px;
-            padding: 0 15px;
-            margin-bottom: 10px;
+            flex: 1 1 220px;
+            min-width: 220px;
+            margin-bottom: 20px;
         }
 
         .footer-column h3 {
-            color: #fff;
-            font-size: 1.3em;
-            margin-bottom: 20px;
+            color: #00aaff;
+            font-size: 1.2rem;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
             position: relative;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
 
         .footer-column h3::after {
             content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 50px;
+            display: block;
+            width: 40px;
             height: 2px;
-         
+            background: #00aaff;
+            margin-top: 6px;
         }
 
         .footer-column p,
         .footer-column ul {
-            font-size: 0.95em;
             color: #ccc;
+            font-size: 0.8rem;
+            line-height: 1.7;
         }
 
-        .quick-links ul {
+        .footer-column ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        .quick-links ul li {
+        .footer-column ul li {
             margin-bottom: 10px;
         }
 
-        .quick-links ul li a {
+        .footer-column ul li a {
             color: #ccc;
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.2s;
+            font-weight: 500;
         }
 
-        .quick-links ul li a:hover {
-            color: #fff;
+        .footer-column ul li a:hover {
+            color: #00aaff;
+            text-decoration: underline;
         }
-
-       
 
         .footer-logo img {
-            max-width: 150px;
+            max-width: 120px;
             height: auto;
             margin-bottom: 10px;
             filter: brightness(0) invert(1);
         }
 
+        .social-icons {
+            margin-top: 10px;
+        }
+
         .social-icons a {
             color: #fff;
             font-size: 1.5em;
-            margin-left: 15px;
-            transition: color 0.3s ease;
+            margin-right: 15px;
+            transition: color 0.2s, transform 0.2s;
+            display: inline-block;
         }
 
         .social-icons a:hover {
-            color: #007bff;
+            color: #00aaff;
+            transform: scale(1.15);
         }
 
         .footer-bottom {
-            background-color: #212121;
-            padding: 15px 0;
-            text-align: left;
-            border-top: 1px solid #3a3a3a;
+            background: #181818;
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid #333;
+            color: #aaa;
+            font-size: 0.95em;
+            margin-top: 5px;
+            width: 100vw;
+            margin-left: calc(50% - 50vw);
         }
 
         .footer-bottom p {
             margin: 0;
-            font-size: 0.85em;
-            color: #aaa;
         }
 
-        /* Responsive Design */
+        @@media (max-width: 900px) {
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 0;
+            }
+            .footer-column {
+                min-width: 0;
+                width: 100%;
+                margin-bottom: 25px;
+            }
+            .footer-logo img {
+                margin: 0 auto 10px auto;
+                display: block;
+            }
+        }
+
         @@media (max-width: 992px) {
             .nav-menu {
                 gap: 1rem !important;
@@ -555,9 +589,9 @@
         </div>
     </nav>
 
-    <div class="main-content">
+    
         @RenderBody()
-    </div>
+
     @await RenderSectionAsync("Scripts", required: false)
 
      <footer class="main-footer">
