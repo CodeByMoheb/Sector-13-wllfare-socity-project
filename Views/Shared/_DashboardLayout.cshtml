@@ -71,44 +71,39 @@
                     </div>
                 </div>
                 <button class="menu-toggle d-md-none" aria-label="Open menu" onclick="toggleSidebarMenu()"><i class="fas fa-bars"></i></button>
-                <div class="user-info position-relative">
-                    <button class="btn btn-link p-0 border-0 user-profile-btn" onclick="toggleProfileDropdown()" aria-label="User Profile">
+                <div class="dropdown user-info position-relative">
+                    <button class="btn btn-link p-0 border-0 user-profile-btn dropdown-toggle" type="button" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="@(ViewBag.ProfilePictureUrl ?? Url.Content("~/Photos/logo.png"))" alt="Profile" class="rounded-circle" style="height:36px;width:36px;object-fit:cover;border:2px solid #e0e7ff;box-shadow:0 2px 8px rgba(91,63,162,0.08);background:#fff;">
                     </button>
-                    <div id="profileDropdown" class="profile-dropdown shadow-lg" style="display:none;position:absolute;right:0;top:48px;min-width:260px;background:#fff;border-radius:12px;padding:1.2rem 1.2rem 1rem 1.2rem;z-index:9999;">
-                        <div class="text-center mb-2">
-                            <form method="post" enctype="multipart/form-data" action="@Url.Action("UploadAvatar", "Account")">
-                                <label for="avatarUpload" style="cursor:pointer;">
-                                    <img src="@(ViewBag.ProfilePictureUrl ?? Url.Content("~/Photos/logo.png"))" alt="Profile" class="rounded-circle mb-2" style="height:60px;width:60px;object-fit:cover;border:2px solid #e0e7ff;background:#f3e8ff;">
-                                    <input type="file" id="avatarUpload" name="avatar" style="display:none;" onchange="this.form.submit()" accept="image/*" />
-                                </label>
+                    <ul class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="profileDropdownBtn" style="min-width: 260px; border-radius: 16px; overflow: hidden;">
+                        <li class="profile-header text-center p-3" style="background: linear-gradient(135deg, #5b3fa2 0%, #7c3aed 100%); color: #fff;">
+                            <img src="@(ViewBag.ProfilePictureUrl ?? Url.Content("~/Photos/logo.png"))" alt="Profile" class="rounded-circle mb-2" style="width:60px;height:60px;">
+                            <div class="fw-bold">@ViewBag.FullName</div>
+                            <div style="font-size:0.95rem;">@ViewBag.Role</div>
+                        </li>
+                        <li>
+                            <form method="get" action="@Url.Action("EditProfile", "Account")" class="m-0">
+                                <button type="submit" class="dropdown-item d-flex align-items-center gap-2">
+                                    <i class="fas fa-user-edit"></i> Edit Profile
+                                </button>
                             </form>
-                            <h5 class="mb-0" style="color:#5b3fa2;font-weight:700;">@User.Identity?.Name</h5>
-                        </div>
-                        <div class="profile-completeness-bar mb-2">
-                            <div class="profile-completeness-bar-inner" style="width:@(ViewBag.ProfileCompleteness ?? 60)%"></div>
-                        </div>
-                        <div class="mb-1"><strong>Name:</strong> @ViewBag.FullName ?? "-"</div>
-                        <div class="mb-1"><strong>Address:</strong> @ViewBag.Address ?? "-"</div>
-                        <div class="mb-1"><strong>Phone:</strong> @ViewBag.Phone ?? "-"</div>
-                        <div class="mb-1"><strong>Email:</strong> @ViewBag.Email ?? "-"</div>
-                        <div class="mb-1"><strong>Last Login:</strong> @ViewBag.LastLogin ?? "-"</div>
-                        <div class="mt-2 text-center">
-                            <a href="@Url.Action("EditProfile", "Account")" class="btn btn-outline-primary btn-sm">Edit Profile</a>
-                        </div>
-                        <div class="mt-2 text-center">
-                            <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-outline-danger btn-sm">Sign Out</button>
+                        </li>
+                        <li>
+                            <form method="get" action="@Url.Action("ChangePassword", "Account")" class="m-0">
+                                <button type="submit" class="dropdown-item d-flex align-items-center gap-2">
+                                    <i class="fas fa-key"></i> Change Password
+                                </button>
                             </form>
-                        </div>
-                        <div class="mt-2">
-                            <a href="@Url.Action("ChangePassword", "Account")" class="settings-link"><i class="fas fa-key"></i> Change Password</a>
-                            <a href="@Url.Action("Settings", "Account")" class="settings-link"><i class="fas fa-cog"></i> Settings & Preferences</a>
-                        </div>
-                        <div class="mt-2">
-                            <div class="security-tip"><i class="fas fa-shield-alt"></i> Tip: Use a strong password and update it regularly.</div>
-                        </div>
-                    </div>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                                <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2">
+                                    <i class="fas fa-sign-out-alt"></i> Sign Out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <!-- Main Content -->
@@ -172,6 +167,7 @@
         </div>
     </div>
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
 function toggleSidebarMenu() {
     const sidebar = document.querySelector('.sidebar');
@@ -185,19 +181,7 @@ window.addEventListener('resize', function() {
         sidebar.style.display = '';
     }
 });
-function toggleProfileDropdown() {
-    const dropdown = document.getElementById('profileDropdown');
-    if (dropdown) {
-        dropdown.style.display = (dropdown.style.display === 'block' ? 'none' : 'block');
-    }
-}
-document.addEventListener('click', function(event) {
-    const dropdown = document.getElementById('profileDropdown');
-    const btn = document.querySelector('.user-profile-btn');
-    if (dropdown && btn && !btn.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.style.display = 'none';
-    }
-});
+// Profile dropdown functionality moved to profile-dropdown.js
 function toggleNotificationsDropdown() {
     const dropdown = document.getElementById('notificationsDropdown');
     if (dropdown) {

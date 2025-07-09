@@ -93,7 +93,14 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             {
                 // Only allow 'Member' registration from public form
                 model.SelectedRole = "Member";
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
+                var user = new ApplicationUser { 
+                    UserName = model.Email, 
+                    Email = model.Email, 
+                    EmailConfirmed = true,
+                    PhoneNumber = model.PhoneNumber,
+                    PhoneNumberConfirmed = true,
+                    Name = $"{model.FirstName} {model.LastName}".Trim()
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -229,6 +236,81 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "Password changed successfully!";
+                return RedirectToAction("Profile");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null && await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    // For now, we'll just show a message. In a real application, you would send an email
+                    TempData["InfoMessage"] = "If an account with that email exists, a password reset link has been sent.";
+                }
+                else
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    TempData["InfoMessage"] = "If an account with that email exists, a password reset link has been sent.";
+                }
+                return RedirectToAction("Login");
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
         private List<string> GetAvailableRoles()
