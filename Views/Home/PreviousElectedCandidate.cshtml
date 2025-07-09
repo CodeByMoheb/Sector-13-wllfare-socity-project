@@ -120,6 +120,16 @@
         border: 1px solid #dee2e6;
         position: relative;
         overflow: hidden;
+        width: 270px;
+        min-width: 270px;
+        max-width: 270px;
+        height: 340px;
+        min-height: 340px;
+        max-height: 340px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .member-card:hover {
@@ -189,6 +199,15 @@
             gap: 20px;
         }
         
+        .member-card {
+            width: 220px;
+            min-width: 220px;
+            max-width: 220px;
+            height: 300px;
+            min-height: 300px;
+            max-height: 300px;
+        }
+        
         .president-image {
             width: 250px;
             height: 250px;
@@ -209,6 +228,15 @@
         .members-section {
             padding: 25px;
             margin-bottom: 25px;
+        }
+        
+        .member-card {
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            height: auto;
+            min-height: 0;
+            max-height: none;
         }
         
         .president-image {
@@ -296,6 +324,34 @@
     .designation-member {
         background: linear-gradient(135deg, #6f42c1, #6610f2);
     }
+
+    .members-row {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 30px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .group-header {
+        display: inline-block;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #007bff;
+        margin: 30px auto 10px auto;
+        background: linear-gradient(135deg, #e3f2fd 60%, #bbdefb 100%);
+        border-radius: 18px;
+        padding: 10px 32px;
+        box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+        letter-spacing: 0.5px;
+        border: 1px solid #b6e0fe;
+    }
+    @@media (max-width: 768px) {
+        .members-row {
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
 </style>
 
 <div class="elected-candidates-content">
@@ -305,34 +361,21 @@
             <p>সেক্টর ১৩ ওয়েলফেয়ার সোসাইটির নতুন নির্বাচিত সদস্যদের পরিচিতি</p>
         </div>
 
-        <!-- President Section -->
-        <div class="president-section">
-            <img src="/Photos/elected member photos/1.jpeg" alt="President" class="president-image" 
-                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTUwIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiPkltYWdlIE5vdCBGb3VuZDwvdGV4dD4KPC9zdmc+'">
-            <div class="president-info mt-3">
-                <h2>ব্রিগেঃ জেনারেল মোঃ জাহিদ হোসেন (অবঃ) পি.এইচ-ডি</h2>
-                <div class="president-designation">সভাপতি</div>
-                <div class="president-details">
-                    01716834969
-                </div>
-            </div>
-        </div>
-
         <!-- Other Members Section -->
         <div class="members-section">
             <h3 class="section-title">নির্বাহী কমিটির সদস্যগণ</h3>
-            
-            <div class="members-grid">
+
+            <!-- Group 1: Vice President & General Secretary -->
+            <div style="text-align:center;"><h4 class="group-header">সহ-সভাপতি ও সাধারণ সম্পাদক</h4></div>
+            <div class="members-row">
                 <!-- Vice President -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/2.jpeg" alt="Vice President" class="member-image"
                          onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
                     <div class="member-name">ইঞ্জিনিয়ার মোঃ আব্দুল লতিফ</div>
                     <div class="member-designation designation-vice-president">প্রথম সহ-সভাপতি</div>
-                    <div class="member-details">01712142708
-                        </div>
+                    <div class="member-details">01712142708</div>
                 </div>
-
                 <!-- General Secretary -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/3.jpeg" alt="General Secretary" class="member-image"
@@ -341,7 +384,11 @@
                     <div class="member-designation designation-secretary">দপ্তর সম্পাদক ও ভারপ্রাপ্ত সাধারণ সম্পাদক</div>
                     <div class="member-details">01711477601</div>
                 </div>
+            </div>
 
+            <!-- Group 2: Treasurer & Member 1 -->
+            <div style="text-align:center;"><h4 class="group-header">অর্থ সম্পাদক ও নিরাপত্তা সম্পাদক</h4></div>
+            <div class="members-row">
                 <!-- Treasurer -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/4.jpeg" alt="Treasurer" class="member-image"
@@ -350,7 +397,6 @@
                     <div class="member-designation designation-treasurer">অর্থ সম্পাদক</div>
                     <div class="member-details">01720923328</div>
                 </div>
-
                 <!-- Member 1 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/5.jpeg" alt="Member 1" class="member-image"
@@ -359,7 +405,11 @@
                     <div class="member-designation designation-member">নিরাপত্তা সম্পাদক</div>
                     <div class="member-details">01713001353</div>
                 </div>
+            </div>
 
+            <!-- Group 3: Member 2 & Member 3 -->
+            <div style="text-align:center;"><h4 class="group-header">শিক্ষা ও সাংস্কৃতিক সম্পাদক ও ক্রীড়া ও বিনোদন সম্পাদক</h4></div>
+            <div class="members-row">
                 <!-- Member 2 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/6.jpeg" alt="Member 2" class="member-image"
@@ -368,25 +418,27 @@
                     <div class="member-designation designation-member">শিক্ষা ও সাংস্কৃতিক সম্পাদক</div>
                     <div class="member-details">01321128080</div>
                 </div>
-
                 <!-- Member 3 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/7.jpeg" alt="Member 3" class="member-image"
                          onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
                     <div class="member-name">মোহাম্মদ দুলাল উদ্দিন</div>
-                    <div class="member-designation designation-member">ক্রীড়া ও বিনোদন সম্পাদক	</div>
+                    <div class="member-designation designation-member">ক্রীড়া ও বিনোদন সম্পাদক</div>
                     <div class="member-details">01711603446</div>
                 </div>
+            </div>
 
+            <!-- Group 4: Member 4 & Member 5 -->
+            <div style="text-align:center;"><h4 class="group-header">পার্ক ও বনায়ন সম্পাদক ও নির্বাহী সদস্য</h4></div>
+            <div class="members-row">
                 <!-- Member 4 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/8.jpeg" alt="Member 4" class="member-image"
                          onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">	মোঃ আযহারুল ইসলাম জুয়েল</div>
+                    <div class="member-name">মোঃ আযহারুল ইসলাম জুয়েল</div>
                     <div class="member-designation designation-member">পার্ক ও বনায়ন সম্পাদক</div>
                     <div class="member-details">01819231856</div>
                 </div>
-
                 <!-- Member 5 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/9.jpeg" alt="Member 5" class="member-image"
@@ -395,7 +447,11 @@
                     <div class="member-designation designation-member">নির্বাহী সদস্য</div>
                     <div class="member-details">01911888603</div>
                 </div>
+            </div>
 
+            <!-- Group 5: Member 6 & Member 7 -->
+            <div style="text-align:center;"><h4 class="group-header">নির্বাহী সদস্য</h4></div>
+            <div class="members-row">
                 <!-- Member 6 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/10.jpeg" alt="Member 6" class="member-image"
@@ -404,7 +460,6 @@
                     <div class="member-designation designation-member">নির্বাহী সদস্য</div>
                     <div class="member-details">01716786089</div>
                 </div>
-
                 <!-- Member 7 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/11.jpeg" alt="Member 7" class="member-image"
@@ -413,16 +468,19 @@
                     <div class="member-designation designation-member">নির্বাহী সদস্য</div>
                     <div class="member-details">01552483890</div>
                 </div>
+            </div>
 
+            <!-- Group 6: Member 8 & Member 9 -->
+            <div style="text-align:center;"><h4 class="group-header">নির্বাহী সদস্য</h4></div>
+            <div class="members-row">
                 <!-- Member 8 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/12.jpeg" alt="Member 8" class="member-image"
                          onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
                     <div class="member-name">এস এম রবিউল আলম</div>
-                    <div class="member-designation designation-member">নির্বাহী সদস্য	</div>
+                    <div class="member-designation designation-member">নির্বাহী সদস্য</div>
                     <div class="member-details">01711603866</div>
                 </div>
-
                 <!-- Member 9 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/13.jpeg" alt="Member 9" class="member-image"
@@ -431,7 +489,11 @@
                     <div class="member-designation designation-member">নির্বাহী সদস্য</div>
                     <div class="member-details">01712115062</div>
                 </div>
+            </div>
 
+            <!-- Group 7: Member 10 & Member 11 -->
+            <div style="text-align:center;"><h4 class="group-header">নির্বাহী সদস্য</h4></div>
+            <div class="members-row">
                 <!-- Member 10 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/14.jpeg" alt="Member 10" class="member-image"
@@ -440,7 +502,6 @@
                     <div class="member-designation designation-member">নির্বাহী সদস্য</div>
                     <div class="member-details">01619127842</div>
                 </div>
-
                 <!-- Member 11 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/15.jpeg" alt="Member 11" class="member-image"
@@ -449,7 +510,11 @@
                     <div class="member-designation designation-member">নির্বাহী সদস্য</div>
                     <div class="member-details">01814454457</div>
                 </div>
+            </div>
 
+            <!-- Group 8: Member 12 (single) -->
+            <div style="text-align:center;"><h4 class="group-header">নির্বাহী সদস্য</h4></div>
+            <div class="members-row">
                 <!-- Member 12 -->
                 <div class="member-card">
                     <img src="/Photos/elected member photos/16.jpeg" alt="Member 12" class="member-image"

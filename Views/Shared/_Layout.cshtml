@@ -581,8 +581,7 @@
                 <li><a href="@Url.Action("donate", "Home")" class="uws-donate-btn">DONATE</a></li>
 
             <div style="display:flex;align-items:center;gap:10px; margin-left: 2rem;">
-<<<<<<< Updated upstream
-=======
+
                 @if (User.Identity.IsAuthenticated)
                 {
                     <a href="@Url.Action("Member", "Dashboard")" class="d-flex align-items-center gap-2" style="font-weight:600;background-color: #42b72a;color: white;padding: 8px 16px;border-radius: 5px; text-decoration: none;">
@@ -590,15 +589,25 @@
                     </a>
                     <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
                         <button type="submit" class="d-flex align-items-center gap-2" style="font-weight:600;background-color: #ff0000;color: white;padding: 8px 16px;border-radius: 5px; text-decoration: none;border:none;">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Member", "Dashboard")" class="btn btn-primary d-flex align-items-center gap-2" style="font-weight:600;">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger d-flex align-items-center gap-2" style="font-weight:600;">
+
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </button>
                     </form>
                 }
                 else
                 {
->>>>>>> Stashed changes
+
                     <a href="@Url.Action("Login","Account")" class="uws-auth-btn">Login</a>
                     <a href="@Url.Action("Register","Account")" class="uws-auth-btn uws-register">Register</a>
+                }
             </div>
         </ul>
 

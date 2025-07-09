@@ -45,14 +45,17 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         public async Task<IActionResult> Admin()
         {
             var user = await _userManager.GetUserAsync(User);
-            ViewBag.UserName = user?.UserName;
-            ViewBag.Role = "Admin";
-            ViewBag.FullName = user?.Name;
-            ViewBag.Address = $"House: {user?.HouseNo}, Sector: {user?.Sector}, Ward: {user?.Ward}";
-            ViewBag.Phone = user?.PhoneNumber;
-            ViewBag.Email = user?.Email;
-            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user?.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
-            ViewBag.LastLogin = user?.LastLoginTime?.ToString("g") ?? "-";
+            if (user == null) return RedirectToAction("Login", "Account");
+            
+            var roles = await _userManager.GetRolesAsync(user);
+            ViewBag.UserName = user.UserName;
+            ViewBag.Role = roles.FirstOrDefault() ?? "Admin";
+            ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+            ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+            ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+            ViewBag.Email = user.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
             return View();
         }
 
@@ -60,14 +63,17 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         public async Task<IActionResult> President()
         {
             var user = await _userManager.GetUserAsync(User);
-            ViewBag.UserName = user?.UserName;
-            ViewBag.Role = "President";
-            ViewBag.FullName = user?.Name;
-            ViewBag.Address = $"House: {user?.HouseNo}, Sector: {user?.Sector}, Ward: {user?.Ward}";
-            ViewBag.Phone = user?.PhoneNumber;
-            ViewBag.Email = user?.Email;
-            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user?.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
-            ViewBag.LastLogin = user?.LastLoginTime?.ToString("g") ?? "-";
+            if (user == null) return RedirectToAction("Login", "Account");
+            
+            var roles = await _userManager.GetRolesAsync(user);
+            ViewBag.UserName = user.UserName;
+            ViewBag.Role = roles.FirstOrDefault() ?? "President";
+            ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+            ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+            ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+            ViewBag.Email = user.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
             return View();
         }
 
@@ -75,14 +81,17 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         public async Task<IActionResult> Secretary()
         {
             var user = await _userManager.GetUserAsync(User);
-            ViewBag.UserName = user?.UserName;
-            ViewBag.Role = "Secretary";
-            ViewBag.FullName = user?.Name;
-            ViewBag.Address = $"House: {user?.HouseNo}, Sector: {user?.Sector}, Ward: {user?.Ward}";
-            ViewBag.Phone = user?.PhoneNumber;
-            ViewBag.Email = user?.Email;
-            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user?.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
-            ViewBag.LastLogin = user?.LastLoginTime?.ToString("g") ?? "-";
+            if (user == null) return RedirectToAction("Login", "Account");
+            
+            var roles = await _userManager.GetRolesAsync(user);
+            ViewBag.UserName = user.UserName;
+            ViewBag.Role = roles.FirstOrDefault() ?? "Secretary";
+            ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+            ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+            ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+            ViewBag.Email = user.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
             return View();
         }
 
@@ -90,14 +99,17 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         public async Task<IActionResult> Manager()
         {
             var user = await _userManager.GetUserAsync(User);
-            ViewBag.UserName = user?.UserName;
-            ViewBag.Role = "Manager";
-            ViewBag.FullName = user?.Name;
-            ViewBag.Address = $"House: {user?.HouseNo}, Sector: {user?.Sector}, Ward: {user?.Ward}";
-            ViewBag.Phone = user?.PhoneNumber;
-            ViewBag.Email = user?.Email;
-            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user?.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
-            ViewBag.LastLogin = user?.LastLoginTime?.ToString("g") ?? "-";
+            if (user == null) return RedirectToAction("Login", "Account");
+            
+            var roles = await _userManager.GetRolesAsync(user);
+            ViewBag.UserName = user.UserName;
+            ViewBag.Role = roles.FirstOrDefault() ?? "Manager";
+            ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+            ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+            ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+            ViewBag.Email = user.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
             return View();
         }
 
@@ -105,14 +117,17 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         public async Task<IActionResult> Member()
         {
             var user = await _userManager.GetUserAsync(User);
-            ViewBag.UserName = user?.UserName;
-            ViewBag.Role = "Member";
-            ViewBag.FullName = user?.Name;
-            ViewBag.Address = $"House: {user?.HouseNo}, Sector: {user?.Sector}, Ward: {user?.Ward}";
-            ViewBag.Phone = user?.PhoneNumber;
-            ViewBag.Email = user?.Email;
-            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user?.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
-            ViewBag.LastLogin = user?.LastLoginTime?.ToString("g") ?? "-";
+            if (user == null) return RedirectToAction("Login", "Account");
+            
+            var roles = await _userManager.GetRolesAsync(user);
+            ViewBag.UserName = user.UserName;
+            ViewBag.Role = roles.FirstOrDefault() ?? "Member";
+            ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+            ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+            ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+            ViewBag.Email = user.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
             return View();
         }
     }
