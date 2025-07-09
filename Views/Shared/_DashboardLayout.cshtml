@@ -37,11 +37,11 @@
         <div class="mainbar">
             <!-- Topbar -->
             <div class="topbar">
-                <div style="display:flex;align-items:center;gap:1rem;">
+                <div style="display:flex;align-items:center;gap:0.5rem;">
                     <img src="@Url.Content("~/Photos/logo.png")" alt="Logo" style="height:36px; border-radius:8px; box-shadow:0 2px 8px rgba(91,63,162,0.08);" />
-                    <span style="font-family:'Li Shadhinata',sans-serif;font-size:1.3rem;color:#5b3fa2;font-weight:700;letter-spacing:1px;">উত্তরা সেক্টর ১৩</span>
+                    <span style="font-family:'Li Shadhinata',sans-serif;font-size:0.9rem;color:#5b3fa2;font-weight:800;letter-spacing:1px;">উত্তরা সেক্টর ১৩</span>
                 </div>
-                <form class="d-none d-md-block" style="margin-left:2rem;">
+                <form class="d-none d-md-block" style="margin-left:1rem;">
                     <input class="search-bar" type="search" placeholder="Search members, events..." aria-label="Search" />
                 </form>
                 <button class="theme-switcher btn btn-light border" onclick="toggleTheme()" aria-label="Switch theme"><i class="fas fa-moon"></i></button>
@@ -52,10 +52,10 @@
                     <a href="@Url.Action("ContactUs", "Home")" class="manubar-link">Contact</a>
                     <a href="@Url.Action("donate", "Home")" class="manubar-link donate">Donate</a>
                 </div>
-                <div class="notifications position-relative" style="margin-right:1.2rem;">
-                    <button class="btn btn-link p-0 border-0 notifications-btn" onclick="toggleNotificationsDropdown()" aria-label="Notifications">
-                        <i class="fas fa-bell" style="font-size:1.4rem;color:#5b3fa2;"></i>
-                        <span id="notificationDot" style="position:absolute;top:2px;right:2px;width:10px;height:10px;background:#fbbf24;border-radius:50%;display:inline-block;"></span>
+                <div class="notifications position-relative" style="margin-right:1rem;">
+                    <button class="p-0 border-0 notifications-btn" onclick="toggleNotificationsDropdown()" aria-label="Notifications">
+                        <i class="fas fa-bell" style="font-size:1.4rem;color:#000000;"></i>
+                        <span id="notificationDot" style="position:absolute;top:2px;right:2px;width:10px;height:10px;background:#f20000;border-radius:50%;display:inline-block;"></span>
                     </button>
                     <div id="notificationsDropdown" class="notifications-dropdown shadow-lg" style="display:none;position:absolute;right:0;top:40px;min-width:300px;background:#fff;border-radius:12px;padding:1rem;z-index:9999;">
                         <div class="mb-2" style="font-weight:600;color:#5b3fa2;">Notifications</div>
@@ -70,9 +70,21 @@
                         </div>
                     </div>
                 </div>
+<<<<<<< Updated upstream
                 <button class="menu-toggle d-md-none" aria-label="Open menu" onclick="toggleSidebarMenu()"><i class="fas fa-bars"></i></button>
                 <div class="user-info position-relative">
                     <button class="btn btn-link p-0 border-0 user-profile-btn" onclick="toggleProfileDropdown()" aria-label="User Profile">
+=======
+                <button class="menu-toggle d-md-none" aria-label="Open menu" onclick="toggleMainbarMobileMenu()"><i class="fas fa-bars"></i></button>
+                <div id="mainbarMobileMenu" class="mainbar-mobile-menu d-md-none" style="display:none;position:absolute;right:1rem;top:60px;z-index:9999;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(91,63,162,0.08);padding:1rem;">
+                    <a href="@Url.Action("AboutUs", "Home")" class="manubar-link d-block mb-2">About Society</a>
+                    <a href="@Url.Action("Gallery", "Home")" class="manubar-link d-block mb-2">Gallery</a>
+                    <a href="@Url.Action("ContactUs", "Home")" class="manubar-link d-block mb-2">Contact</a>
+                    <a href="@Url.Action("donate", "Home")" class="manubar-link donate d-block">Donate</a>
+                </div>
+                <div class="dropdown user-info position-relative">
+                    <button class="p-0 border-0 user-profile-btn dropdown-toggle" type="button" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+>>>>>>> Stashed changes
                         <img src="@(ViewBag.ProfilePictureUrl ?? Url.Content("~/Photos/logo.png"))" alt="Profile" class="rounded-circle" style="height:36px;width:36px;object-fit:cover;border:2px solid #e0e7ff;box-shadow:0 2px 8px rgba(91,63,162,0.08);background:#fff;">
                     </button>
                     <div id="profileDropdown" class="profile-dropdown shadow-lg" style="display:none;position:absolute;right:0;top:48px;min-width:260px;background:#fff;border-radius:12px;padding:1.2rem 1.2rem 1rem 1.2rem;z-index:9999;">
@@ -224,6 +236,21 @@ window.onload = function() {
         document.body.classList.add('dark-theme');
     }
 }
+function toggleMainbarMobileMenu() {
+    const menu = document.getElementById('mainbarMobileMenu');
+    if (menu) {
+        menu.style.display = (menu.style.display === 'block' ? 'none' : 'block');
+    }
+}
+
+// Hide the menu when clicking outside
+document.addEventListener('click', function(event) {
+    const menu = document.getElementById('mainbarMobileMenu');
+    const btn = document.querySelector('.menu-toggle.d-md-none');
+    if (menu && btn && !btn.contains(event.target) && !menu.contains(event.target)) {
+        menu.style.display = 'none';
+    }
+});
 </script>
 </body>
 </html> 
