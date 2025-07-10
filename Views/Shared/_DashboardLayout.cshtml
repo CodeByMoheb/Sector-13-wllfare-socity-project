@@ -108,6 +108,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="dropdown user-info position-relative">
                         <button class="p-0 border-0 user-profile-btn dropdown-toggle uprofileDropdownBtn" type="button" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="@(ViewBag.ProfilePictureUrl ?? Url.Content("~/Photos/logo.png"))" alt="Profile" class="user-avatar">
@@ -142,6 +143,43 @@
                             </li>
                         </ul>
                     </div>
+
+                </div>
+                <button class="menu-toggle d-md-none" aria-label="Open menu" onclick="toggleSidebarMenu()"><i class="fas fa-bars"></i></button>
+                <div class="dropdown user-info position-relative">
+                    <button class="btn btn-link p-0 border-0 user-profile-btn dropdown-toggle" type="button" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="@(ViewBag.ProfilePictureUrl ?? Url.Content("~/Photos/logo.png"))" alt="Profile" class="rounded-circle" style="height:36px;width:36px;object-fit:cover;border:2px solid #e0e7ff;box-shadow:0 2px 8px rgba(91,63,162,0.08);background:#fff;">
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="profileDropdownBtn" style="min-width: 260px; border-radius: 16px; overflow: hidden;">
+                        <li class="profile-header text-center p-3" >
+                            <img src="@(ViewBag.ProfilePictureUrl ?? Url.Content("~/Photos/logo.png"))" alt="Profile" class="rounded-circle mb-2" style="width:100px;height:100px;">
+                            <div class="fw-bold" style="color: #333;">@ViewBag.FullName</div>
+                            <div style="font-size:0.95rem;color:#333">@ViewBag.Role</div>
+                        </li>
+                        <li>
+                            <form method="get" action="@Url.Action("EditProfile", "Account")" class="m-0">
+                                <button type="submit" class="dropdown-item d-flex align-items-center gap-2">
+                                    <i class="fas fa-user-edit"></i> Edit Profile
+                                </button>
+                            </form>
+                        </li>
+                        <li>
+                            <form method="get" action="@Url.Action("ChangePassword", "Account")" class="m-0">
+                                <button type="submit" class="dropdown-item d-flex align-items-center gap-2">
+                                    <i class="fas fa-key"></i> Change Password
+                                </button>
+                            </form>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                                <button type="submit" class="dropdown-item text-danger d-flex align-items-center gap-2">
+                                    <i class="fas fa-sign-out-alt"></i> Sign Out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+
                 </div>
             </div>
             <!-- Main Content -->

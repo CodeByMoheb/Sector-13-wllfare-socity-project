@@ -1481,7 +1481,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
   
   .profile-header {
       padding: 20px;
-      background: linear-gradient(135deg, #5b3fa2 0%, #7c3aed 100%);
+   
       color: white;
       text-align: center;
   }
