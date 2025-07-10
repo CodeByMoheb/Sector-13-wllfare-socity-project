@@ -2,24 +2,35 @@
 @{
     ViewData["Title"] = "My Profile";
 }
-<div class="container mt-4">
+<style>
+    .profile-main-container {
+        padding-top: 120px; /* Adjust as needed for your navbar height */
+    }
+</style>
+<div class="container profile-main-container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white d-flex align-items-center">
-                    <img src="@(Model.ExistingProfilePictureUrl ?? "/Photos/logo.png")" alt="Profile" class="rounded-circle me-3" style="height:70px;width:70px;object-fit:cover;border:2px solid #e0e7ff;background:#f3e8ff;">
-                    <h3 class="mb-0">@Model.Name</h3>
-                    <a href="@Url.Action("EditProfile", "Account")" class="btn btn-outline-light ms-auto">Edit Profile</a>
-                </div>
+                
                 <div class="card-body">
+                    <div class="text-center mb-4">
+                        <img src="@(string.IsNullOrEmpty(Model.ExistingProfilePictureUrl) ? "/Photos/logo.png" : Model.ExistingProfilePictureUrl)" alt="Profile" class="rounded-circle" style="height:90px;width:90px;object-fit:cover;border:2px solid #e0e7ff;background:#f3e8ff;">
+                    </div>
                     <dl class="row">
+                        <dt class="col-sm-4">Name</dt>
+                        <dd class="col-sm-8">@Model.Name</dd>
                         <dt class="col-sm-4">Father's/Husband's Name</dt>
                         <dd class="col-sm-8">@Model.FathersOrHusbandsName</dd>
-                        <div><strong>House No:</strong> @Model.HouseNo</div>
-                        <div><strong>Flat No:</strong> @Model.FlatNo</div>
-                        <div><strong>Road No:</strong> @Model.RoadNo</div>
-                        <div><strong>Ward:</strong> @Model.Ward</div>
-                        <div><strong>Holding:</strong> @Model.Holding</div>
+                        <dt class="col-sm-4">House No</dt>
+                        <dd class="col-sm-8">@Model.HouseNo</dd>
+                        <dt class="col-sm-4">Flat No</dt>
+                        <dd class="col-sm-8">@Model.FlatNo</dd>
+                        <dt class="col-sm-4">Road No</dt>
+                        <dd class="col-sm-8">@Model.RoadNo</dd>
+                        <dt class="col-sm-4">Ward</dt>
+                        <dd class="col-sm-8">@Model.Ward</dd>
+                        <dt class="col-sm-4">Holding</dt>
+                        <dd class="col-sm-8">@Model.Holding</dd>
                         <dt class="col-sm-4">Sector</dt>
                         <dd class="col-sm-8">@Model.Sector</dd>
                         <dt class="col-sm-4">Profession</dt>
