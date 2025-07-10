@@ -2,102 +2,313 @@
 @{
     ViewData["Title"] = "Edit Profile";
 }
+<style>
+    .profile-edit-card {
+        animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        border-radius: 18px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        background: #fff;
+        border: none;
+    }
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translate3d(0, 40px, 0);
+        }
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+    .profile-edit-form .form-control {
+        border-radius: 10px;
+        border: 1.5px solid #e0e7ff;
+        transition: box-shadow 0.3s, border-color 0.3s;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        background: #f8fafc;
+        padding-top: 1.25rem;
+        padding-bottom: 0.25rem;
+    }
+    .profile-edit-form .form-control:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+        background: #fff;
+    }
+    .form-group-animated {
+        position: relative;
+        margin-bottom: 1.7rem;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+    .form-group-animated label {
+        position: absolute;
+        top: 1.1rem;
+        left: 1rem;
+        color: #888;
+        font-size: 1rem;
+        pointer-events: none;
+        background: transparent;
+        transition: 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        padding: 0 0.25rem;
+        z-index: 2;
+    }
+    .form-group-animated input:focus + label,
+    .form-group-animated input:not(:placeholder-shown) + label,
+    .form-group-animated input.filled + label {
+        top: -0.7rem;
+        left: 0.7rem;
+        font-size: 0.85rem;
+        color: #6366f1;
+        background: #fff;
+        padding: 0 0.3rem;
+        border-radius: 6px;
+        box-shadow: 0 1px 4px rgba(99,102,241,0.04);
+    }
+    .form-group-animated input {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 1.5rem;
+        padding-bottom: 0.5rem;
+        background: transparent;
+    }
+    .form-group-animated span.text-danger {
+        position: absolute;
+        left: 1rem;
+        bottom: -1.2rem;
+        font-size: 0.9rem;
+    }
+    .profile-edit-form .btn-primary {
+        background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+        border: none;
+        border-radius: 8px;
+        transition: background 0.3s, transform 0.2s;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    .profile-edit-form .btn-primary:hover {
+        background: linear-gradient(90deg, #60a5fa 0%, #6366f1 100%);
+        transform: translateY(-2px) scale(1.03);
+    }
+    .profile-edit-form .btn-secondary {
+        border-radius: 8px;
+    }
+    @@media (max-width: 767px) {
+        .profile-edit-form .row > [class^='col-'] {
+            margin-bottom: 1rem;
+        }
+    }
+    /* Staggered animation */
+    .form-group-animated:nth-child(1) { animation-delay: 0.05s; }
+    .form-group-animated:nth-child(2) { animation-delay: 0.12s; }
+    .form-group-animated:nth-child(3) { animation-delay: 0.19s; }
+    .form-group-animated:nth-child(4) { animation-delay: 0.26s; }
+    .form-group-animated:nth-child(5) { animation-delay: 0.33s; }
+    .form-group-animated:nth-child(6) { animation-delay: 0.40s; }
+    .form-group-animated:nth-child(7) { animation-delay: 0.47s; }
+    .form-group-animated:nth-child(8) { animation-delay: 0.54s; }
+</style>
 <div class="container mt-4">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
+        <div class="col-md-10 col-lg-9">
+            <div class="card shadow profile-edit-card">
                 <div class="card-header bg-primary text-white">
                     <h3 class="mb-0">Edit Profile</h3>
                 </div>
                 <div class="card-body">
-                    <form asp-action="EditProfile" asp-controller="Account" method="post" enctype="multipart/form-data">
-                        <div class="mb-3 text-center">
-                            <img src="@(Model.ExistingProfilePictureUrl ?? "/Photos/logo.png")" alt="Profile" class="rounded-circle mb-2" style="height:70px;width:70px;object-fit:cover;border:2px solid #e0e7ff;background:#f3e8ff;">
-                            <input type="file" name="ProfilePicture" class="form-control mt-2" accept="image/*" />
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Name" class="form-label"></label>
-                            <input asp-for="Name" class="form-control" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="FathersOrHusbandsName" class="form-label">Father's/Husband's Name</label>
-                            <input asp-for="FathersOrHusbandsName" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>House No</label>
-                            <input asp-for="HouseNo" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>Flat No</label>
-                            <input asp-for="FlatNo" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>Road No</label>
-                            <input asp-for="RoadNo" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>Ward</label>
-                            <input asp-for="Ward" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>Holding</label>
-                            <input asp-for="Holding" class="form-control" />
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Sector" class="form-label"></label>
-                            <input asp-for="Sector" class="form-control" />
+                    <form asp-action="EditProfile" asp-controller="Account" method="post" enctype="multipart/form-data" class="profile-edit-form">
+                        <div class="mb-4 text-center">
+                            <img src="@(string.IsNullOrEmpty(Model.ExistingProfilePictureUrl) ? "/Photos/logo.png" : Model.ExistingProfilePictureUrl)" alt="Profile" class="rounded-circle mb-2" style="height:80px;width:80px;object-fit:cover;border:2px solid #e0e7ff;background:#f3e8ff;">
+                            <input type="file" name="ProfilePicture" class="form-control mt-2" accept="image/*" style="max-width: 300px; margin: 0 auto;" />
                         </div>
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Profession" class="form-label"></label>
-                                <input asp-for="Profession" class="form-control" />
+                            <div class="col-md-6">
+                                <div class="form-group-animated">
+                                    <input asp-for="Name" class="form-control" placeholder=" " />
+                                    <label asp-for="Name" class="form-label"></label>
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="FathersOrHusbandsName" class="form-control" placeholder=" " />
+                                    <label asp-for="FathersOrHusbandsName" class="form-label">Father's/Husband's Name</label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="HouseNo" class="form-control" placeholder=" " />
+                                    <label class="form-label">House No</label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="FlatNo" class="form-control" placeholder=" " />
+                                    <label class="form-label">Flat No</label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="RoadNo" class="form-control" placeholder=" " />
+                                    <label class="form-label">Road No</label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="Ward" class="form-control" placeholder=" " />
+                                    <label class="form-label">Ward</label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="Holding" class="form-control" placeholder=" " />
+                                    <label class="form-label">Holding</label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="Sector" class="form-control" placeholder=" " />
+                                    <label asp-for="Sector" class="form-label"></label>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Designation" class="form-label"></label>
-                                <input asp-for="Designation" class="form-control" />
+                            <div class="col-md-6">
+                                <div class="form-group-animated">
+                                    <input asp-for="Profession" class="form-control" placeholder=" " />
+                                    <label asp-for="Profession" class="form-label"></label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="Designation" class="form-control" placeholder=" " />
+                                    <label asp-for="Designation" class="form-label"></label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="BloodGroup" class="form-control" placeholder=" " />
+                                    <label asp-for="BloodGroup" class="form-label"></label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="EducationalQualification" class="form-control" placeholder=" " />
+                                    <label asp-for="EducationalQualification" class="form-label"></label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="NumberOfChildren" class="form-control" type="number" min="0" placeholder=" " />
+                                    <label asp-for="NumberOfChildren" class="form-label"></label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="Telephone" class="form-control" placeholder=" " />
+                                    <label asp-for="Telephone" class="form-label"></label>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="Mobile" class="form-control" placeholder=" " />
+                                    <label asp-for="Mobile" class="form-label"></label>
+                                    <span asp-validation-for="Mobile" class="text-danger"></span>
+                                </div>
+                                <div class="form-group-animated">
+                                    <input asp-for="Email" class="form-control" placeholder=" " />
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="BloodGroup" class="form-label"></label>
-                                <input asp-for="BloodGroup" class="form-control" />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="EducationalQualification" class="form-label"></label>
-                                <input asp-for="EducationalQualification" class="form-control" />
-                            </div>
+                        <div class="d-flex justify-content-end mt-4">
+                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+                            <a href="@Url.Action("Profile", "Account")" class="btn btn-secondary ms-2 px-4">Cancel</a>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="NumberOfChildren" class="form-label"></label>
-                                <input asp-for="NumberOfChildren" class="form-control" type="number" min="0" />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Telephone" class="form-label"></label>
-                                <input asp-for="Telephone" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Mobile" class="form-label"></label>
-                                <input asp-for="Mobile" class="form-control" />
-                                <span asp-validation-for="Mobile" class="text-danger"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Email" class="form-label"></label>
-                                <input asp-for="Email" class="form-control" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <a href="@Url.Action("Profile", "Account")" class="btn btn-secondary ms-2">Cancel</a>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- Preview Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="previewModalLabel">Preview Your Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4 text-center mb-3">
+            <img id="previewProfilePic" src="" alt="Profile Preview" class="rounded-circle" style="height:90px;width:90px;object-fit:cover;border:2px solid #e0e7ff;background:#f3e8ff;">
+          </div>
+          <div class="col-md-8">
+            <table class="table table-borderless mb-0">
+              <tbody>
+                <tr><th>Name</th><td id="previewName"></td></tr>
+                <tr><th>Father's/Husband's Name</th><td id="previewFathersOrHusbandsName"></td></tr>
+                <tr><th>House No</th><td id="previewHouseNo"></td></tr>
+                <tr><th>Flat No</th><td id="previewFlatNo"></td></tr>
+                <tr><th>Road No</th><td id="previewRoadNo"></td></tr>
+                <tr><th>Ward</th><td id="previewWard"></td></tr>
+                <tr><th>Holding</th><td id="previewHolding"></td></tr>
+                <tr><th>Sector</th><td id="previewSector"></td></tr>
+                <tr><th>Profession</th><td id="previewProfession"></td></tr>
+                <tr><th>Designation</th><td id="previewDesignation"></td></tr>
+                <tr><th>Blood Group</th><td id="previewBloodGroup"></td></tr>
+                <tr><th>Educational Qualification</th><td id="previewEducationalQualification"></td></tr>
+                <tr><th>Number of Children</th><td id="previewNumberOfChildren"></td></tr>
+                <tr><th>Telephone</th><td id="previewTelephone"></td></tr>
+                <tr><th>Mobile</th><td id="previewMobile"></td></tr>
+                <tr><th>Email</th><td id="previewEmail"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Edit</button>
+        <button type="button" class="btn btn-primary" id="confirmSubmitBtn">Okay</button>
+      </div>
+    </div>
+  </div>
+</div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 } 
+<script>
+    // Add 'filled' class if input has value on page load (for float label)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.form-group-animated input').forEach(function(input) {
+            if (input.value) {
+                input.classList.add('filled');
+            }
+            input.addEventListener('input', function() {
+                if (input.value) {
+                    input.classList.add('filled');
+                } else {
+                    input.classList.remove('filled');
+                }
+            });
+        });
+    });
+    // Intercept form submit for preview
+    var form = document.querySelector('.profile-edit-form');
+    if(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Fill preview modal with form data
+            document.getElementById('previewName').textContent = form.Name.value;
+            document.getElementById('previewFathersOrHusbandsName').textContent = form.FathersOrHusbandsName.value;
+            document.getElementById('previewHouseNo').textContent = form.HouseNo.value;
+            document.getElementById('previewFlatNo').textContent = form.FlatNo.value;
+            document.getElementById('previewRoadNo').textContent = form.RoadNo.value;
+            document.getElementById('previewWard').textContent = form.Ward.value;
+            document.getElementById('previewHolding').textContent = form.Holding.value;
+            document.getElementById('previewSector').textContent = form.Sector.value;
+            document.getElementById('previewProfession').textContent = form.Profession.value;
+            document.getElementById('previewDesignation').textContent = form.Designation.value;
+            document.getElementById('previewBloodGroup').textContent = form.BloodGroup.value;
+            document.getElementById('previewEducationalQualification').textContent = form.EducationalQualification.value;
+            document.getElementById('previewNumberOfChildren').textContent = form.NumberOfChildren.value;
+            document.getElementById('previewTelephone').textContent = form.Telephone.value;
+            document.getElementById('previewMobile').textContent = form.Mobile.value;
+            document.getElementById('previewEmail').textContent = form.Email.value;
+            // Profile picture preview
+            var fileInput = document.querySelector('.profile-edit-form input[type="file"]'); // Corrected selector
+            var previewPic = document.getElementById('previewProfilePic');
+            if(fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    previewPic.src = e.target.result;
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                // Use current preview
+                previewPic.src = document.querySelector('.profile-edit-form img').src;
+            }
+            var modal = new bootstrap.Modal(document.getElementById('previewModal'));
+            modal.show();
+            // Only submit if Okay is clicked
+            document.getElementById('confirmSubmitBtn').onclick = function() {
+                form.removeEventListener('submit', arguments.callee);
+                form.submit();
+            };
+        });
+    }
+</script> 
