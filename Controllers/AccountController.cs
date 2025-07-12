@@ -11,15 +11,21 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IEmailService emailService,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _emailService = emailService;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -141,7 +147,18 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         public async Task<IActionResult> Profile()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null) return NotFound();
+            if (user == null) return RedirectToAction("Login", "Account");
+            
+            var roles = await _userManager.GetRolesAsync(user);
+            ViewBag.UserName = user.UserName;
+            ViewBag.Role = roles.FirstOrDefault() ?? "User";
+            ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+            ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+            ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+            ViewBag.Email = user.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
+            
             var model = new EditProfileViewModel
             {
                 Name = user.Name,
@@ -170,7 +187,18 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         public async Task<IActionResult> EditProfile()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null) return NotFound();
+            if (user == null) return RedirectToAction("Login", "Account");
+            
+            var roles = await _userManager.GetRolesAsync(user);
+            ViewBag.UserName = user.UserName;
+            ViewBag.Role = roles.FirstOrDefault() ?? "User";
+            ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+            ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+            ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+            ViewBag.Email = user.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
+            
             var model = new EditProfileViewModel
             {
                 Name = user.Name,
@@ -199,9 +227,24 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProfile(EditProfileViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
             var user = await _userManager.GetUserAsync(User);
-            if (user == null) return NotFound();
+            if (user == null) return RedirectToAction("Login", "Account");
+            
+            if (!ModelState.IsValid)
+            {
+                // Set user information for the view when there are validation errors
+                var roles = await _userManager.GetRolesAsync(user);
+                ViewBag.UserName = user.UserName;
+                ViewBag.Role = roles.FirstOrDefault() ?? "User";
+                ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+                ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+                ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+                ViewBag.Email = user.Email;
+                ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+                ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
+                
+                return View(model);
+            }
             user.Name = model.Name;
             user.FathersOrHusbandsName = model.FathersOrHusbandsName;
             user.HouseNo = model.HouseNo;
@@ -237,13 +280,38 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+            
+            // Set user information for the view when update fails
+            var rolesForError = await _userManager.GetRolesAsync(user);
+            ViewBag.UserName = user.UserName;
+            ViewBag.Role = rolesForError.FirstOrDefault() ?? "User";
+            ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+            ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+            ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+            ViewBag.Email = user.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
+            
             return View(model);
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult ChangePassword()
+        public async Task<IActionResult> ChangePassword()
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return RedirectToAction("Login", "Account");
+            
+            var roles = await _userManager.GetRolesAsync(user);
+            ViewBag.UserName = user.UserName;
+            ViewBag.Role = roles.FirstOrDefault() ?? "User";
+            ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+            ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+            ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+            ViewBag.Email = user.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
+            
             return View();
         }
 
@@ -252,15 +320,26 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound();
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                // Set user information for the view when there are validation errors
+                var roles = await _userManager.GetRolesAsync(user);
+                ViewBag.UserName = user.UserName;
+                ViewBag.Role = roles.FirstOrDefault() ?? "User";
+                ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+                ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+                ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+                ViewBag.Email = user.Email;
+                ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+                ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
+                
+                return View(model);
             }
 
             var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
@@ -274,6 +353,17 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+
+            // Set user information for the view when password change fails
+            var rolesForError = await _userManager.GetRolesAsync(user);
+            ViewBag.UserName = user.UserName;
+            ViewBag.Role = rolesForError.FirstOrDefault() ?? "User";
+            ViewBag.FullName = !string.IsNullOrEmpty(user.Name) ? user.Name : user.UserName;
+            ViewBag.Address = !string.IsNullOrEmpty(user.HouseNo) ? $"House: {user.HouseNo}, Sector: {user.Sector}, Ward: {user.Ward}" : "Address not set";
+            ViewBag.Phone = !string.IsNullOrEmpty(user.PhoneNumber) ? user.PhoneNumber : "Phone not set";
+            ViewBag.Email = user.Email;
+            ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
+            ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
 
             return View(model);
         }
@@ -293,8 +383,37 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null && await _userManager.IsEmailConfirmedAsync(user))
                 {
-                    // For now, we'll just show a message. In a real application, you would send an email
-                    TempData["InfoMessage"] = "If an account with that email exists, a password reset link has been sent.";
+                    // Generate password reset token
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    
+                    // Create reset link
+                    var resetLink = Url.Action("ResetPassword", "Account", 
+                        new { email = model.Email, code = token }, 
+                        Request.Scheme, Request.Host.Value) ?? "";
+
+                    try
+                    {
+                        // Send password reset email
+                        await _emailService.SendPasswordResetEmailAsync(model.Email, resetLink);
+                        
+                        // Check if email settings are configured
+                        var smtpServer = _configuration["EmailSettings:SmtpServer"];
+                        var smtpUsername = _configuration["EmailSettings:SmtpUsername"];
+                        
+                        if (string.IsNullOrEmpty(smtpServer) || string.IsNullOrEmpty(smtpUsername))
+                        {
+                            TempData["InfoMessage"] = "Password reset link generated. Check the console output for the reset link (email not configured).";
+                        }
+                        else
+                        {
+                            TempData["SuccessMessage"] = "Password reset link has been sent to your email address.";
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // Log the error (in production, use proper logging)
+                        TempData["ErrorMessage"] = "Failed to send email. Please try again later.";
+                    }
                 }
                 else
                 {
@@ -302,6 +421,55 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                     TempData["InfoMessage"] = "If an account with that email exists, a password reset link has been sent.";
                 }
                 return RedirectToAction("Login");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string? code = null, string? email = null)
+        {
+            if (code == null || email == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var model = new ResetPasswordViewModel
+            {
+                Email = email,
+                Code = code
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                TempData["SuccessMessage"] = "Your password has been reset.";
+                return RedirectToAction("Login");
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "Your password has been reset successfully. You can now login with your new password.";
+                return RedirectToAction("Login");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
             }
 
             return View(model);
