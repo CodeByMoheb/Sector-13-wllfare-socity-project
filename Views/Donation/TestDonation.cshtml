@@ -1,55 +1,151 @@
 @{
-    ViewData["Title"] = "Test Donation Success";
+    ViewData["Title"] = "Test Donation - SSL Commerz";
     Layout = "_Layout";
 }
 
-<div class="container mt-5">
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">Test Donation Success Page</h3>
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-warning text-dark text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-flask me-2"></i>
+                        Test Donation Page
+                    </h3>
                 </div>
-                <div class="card-body">
-                    <p class="lead">This page helps you test the donation success flow without going through the actual payment process.</p>
-                    
-                    <div class="alert alert-info">
-                        <h5><i class="fas fa-info-circle me-2"></i>How to Test:</h5>
-                        <ol>
-                            <li>Click the "Test Donation Success" button below</li>
-                            <li>You'll be redirected to the DonationSuccess page with test data</li>
-                            <li>Test the download receipt and print functionality</li>
-                            <li>Test the responsive design on different screen sizes</li>
-                        </ol>
+                <div class="card-body p-4">
+                    <div class="alert alert-warning">
+                        <h5><i class="fas fa-exclamation-triangle me-2"></i>Testing Environment</h5>
+                        <p class="mb-0">This page is for testing the SSL Commerz payment integration. Use test credentials for payment.</p>
                     </div>
 
-                    <div class="text-center">
-                        <a href="/Donation/TestDonationSuccess" class="btn btn-success btn-lg">
-                            <i class="fas fa-play me-2"></i>
-                            Test Donation Success
-                        </a>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="test-info">
+                                <h5 class="text-primary mb-3">Test Information</h5>
+                                <div class="info-item">
+                                    <strong>Environment:</strong> Sandbox
+                                </div>
+                                <div class="info-item">
+                                    <strong>Store ID:</strong> uttar6869f88f0dd48
+                                </div>
+                                <div class="info-item">
+                                    <strong>Test Cards:</strong> Available
+                                </div>
+                                <div class="info-item">
+                                    <strong>Mobile Banking:</strong> Test Mode
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="test-credentials">
+                                <h5 class="text-primary mb-3">Test Credentials</h5>
+                                <div class="credential-item">
+                                    <strong>Card Number:</strong> 4111111111111111
+                                </div>
+                                <div class="credential-item">
+                                    <strong>Expiry:</strong> Any future date
+                                </div>
+                                <div class="credential-item">
+                                    <strong>CVV:</strong> Any 3 digits
+                                </div>
+                                <div class="credential-item">
+                                    <strong>OTP:</strong> 123456
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <div class="btn-group" role="group">
+                            <a href="/Donation/TestDonationSuccess" class="btn btn-success btn-lg">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Test Success Page
+                            </a>
+                            <a href="/Home/donate" class="btn btn-primary btn-lg">
+                                <i class="fas fa-heart me-2"></i>
+                                Go to Real Donation
+                            </a>
+                        </div>
                         
-                        <a href="/" class="btn btn-outline-secondary btn-lg ms-3">
-                            <i class="fas fa-home me-2"></i>
-                            Back to Home
-                        </a>
-                    </div>
-
-                    <hr>
-
-                    <div class="mt-4">
-                        <h5>What You Can Test:</h5>
-                        <ul>
-                            <li><strong>Thank You Message:</strong> Beautiful animated thank you section</li>
-                            <li><strong>Receipt Download:</strong> Download receipt as HTML file</li>
-                            <li><strong>Print Receipt:</strong> Print-friendly receipt layout</li>
-                            <li><strong>Social Sharing:</strong> Share on Facebook, Twitter, WhatsApp</li>
-                            <li><strong>Responsive Design:</strong> Works on mobile, tablet, and desktop</li>
-                            <li><strong>Animations:</strong> Smooth fade-in effects and confetti</li>
-                        </ul>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-info btn-sm" onclick="checkSSLCommerzConfig()">
+                                <i class="fas fa-cog me-2"></i>
+                                Check SSL Commerz Config
+                            </button>
+                            <a href="/Home" class="btn btn-outline-secondary ms-2">
+                                <i class="fas fa-home me-2"></i>
+                                Back to Home
+                            </a>
+                        </div>
+                        
+                        <div id="configResult" class="mt-3" style="display: none;"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
+
+<style>
+.test-info, .test-credentials {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.info-item, .credential-item {
+    margin-bottom: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.info-item:last-child, .credential-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.btn-group .btn {
+    margin: 0 5px;
+}
+
+@@media (max-width: 768px) {
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn-group .btn {
+        margin: 5px 0;
+    }
+}
+</style>
+
+<script>
+async function checkSSLCommerzConfig() {
+    try {
+        const response = await fetch('/Donation/DebugSSLCommerz');
+        const config = await response.json();
+        
+        const resultDiv = document.getElementById('configResult');
+        resultDiv.style.display = 'block';
+        
+        let html = '<div class="alert alert-info"><h6>SSL Commerz Configuration:</h6><ul>';
+        
+        for (const [key, value] of Object.entries(config)) {
+            if (key === 'Error') {
+                html += `<li><strong>${key}:</strong> <span class="text-danger">${value}</span></li>`;
+            } else {
+                html += `<li><strong>${key}:</strong> ${value}</li>`;
+            }
+        }
+        
+        html += '</ul></div>';
+        resultDiv.innerHTML = html;
+    } catch (error) {
+        const resultDiv = document.getElementById('configResult');
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `<div class="alert alert-danger">Error checking configuration: ${error.message}</div>`;
+    }
+}
+</script> 
