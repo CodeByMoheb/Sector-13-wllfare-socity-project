@@ -1371,21 +1371,7 @@ body { min-height: 100vh; display: flex; flex-direction: column; }
     color: #fff;
   }
   
-  .menu-toggle {
-      background: #f3e8ff;
-      border: none;
-      color: #5b3fa2;
-      border-radius: 6px;
-      padding: 8px 12px;
-      font-size: 1.2rem;
-      margin-left: 1rem;
-      box-shadow: 0 2px 8px rgba(91,63,162,0.06);
-      transition: background 0.2s, color 0.2s;
-  }
-  .menu-toggle:hover {
-      background: #e0e7ff;
-      color: #7c3aed;
-  }
+
   .sidebar {
       background: linear-gradient(180deg, #ede9fe 0%, #f8fafc 100%);
       color: #5b3fa2;
