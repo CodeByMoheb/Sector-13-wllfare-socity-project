@@ -158,7 +158,9 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 Telephone = user.Telephone,
                 Mobile = user.PhoneNumber,
                 Email = user.Email,
-                ExistingProfilePictureUrl = user.ProfilePictureUrl
+                ExistingProfilePictureUrl = user.ProfilePictureUrl,
+                FlatNo = user.FlatNo,
+                RoadNo = user.RoadNo
             };
             return View(model);
         }
