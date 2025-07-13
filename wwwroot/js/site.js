@@ -1,8 +1,4 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
+﻿
 // Donation Success Page JavaScript
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize donation success page functionality
@@ -121,22 +117,22 @@ function generateReceiptHTML(donationInfo, isForPrint) {
                 }
                 
                 .receipt {
-                    max-width: 350px;
+                    max-width: 360px;
                     margin: 0 auto;
                     background: white;
                     border: 2px solid #333;
-                    padding: 20px;
+                    padding: 15px;
                 }
                 
                 .header {
                     text-align: center;
                     border-bottom: 2px solid #333;
-                    padding-bottom: 15px;
-                    margin-bottom: 15px;
+                    padding-bottom: 10px;
+                    margin-bottom: 10px;
                 }
                 
                 .logo {
-                    font-size: 24px;
+                    font-size: 15px;
                     font-weight: bold;
                     color: #28a745;
                     margin-bottom: 5px;
@@ -149,7 +145,7 @@ function generateReceiptHTML(donationInfo, isForPrint) {
                 }
                 
                 .receipt-title {
-                    font-size: 14px;
+                    font-size: 12px;
                     font-weight: bold;
                     margin-bottom: 5px;
                 }
@@ -164,11 +160,11 @@ function generateReceiptHTML(donationInfo, isForPrint) {
                 }
                 
                 .section-title {
-                    font-size: 12px;
+                    font-size: 10px;
                     font-weight: bold;
                     border-bottom: 1px solid #ccc;
                     padding-bottom: 5px;
-                    margin-bottom: 8px;
+                    margin-bottom: 5px;
                 }
                 
                 .row {
@@ -220,14 +216,15 @@ function generateReceiptHTML(donationInfo, isForPrint) {
                     height: 1px;
                     background: #000;
                     margin: 20px auto 5px;
+                    border-bottom: 1px solid #000;
                 }
             </style>
         </head>
         <body>
             <div class="receipt">
                 <div class="header">
-                    <div class="logo">S13</div>
-                    <div class="org-name">Sector 13 Welfare Society</div>
+                    <div class="logo"><img src="https://res.cloudinary.com/dmnpdzcvd/image/upload/v1752296638/logo_meh5a8.png" alt="Sector 13" style="width: 100px;" /></div>
+                    <div class="org-name">উত্তরা সেক্টর ১৩ <br> ওয়েলফেয়ার  সোসাইটি</div>
                     <div class="receipt-title">DONATION RECEIPT</div>
                     <div class="receipt-number">Receipt #${donationInfo.receiptNumber}</div>
                 </div>
@@ -274,7 +271,7 @@ function generateReceiptHTML(donationInfo, isForPrint) {
                 
                 <div class="footer">
                     <div>Thank you for your donation!</div>
-                    <div>This receipt serves as proof of contribution.</div>
+                    <div style="margin-bottom: 10px;">This receipt serves as proof of contribution.</div>
                     <div class="signature">
                         <div class="signature-line"></div>
                         <div>Authorized Signature</div>
