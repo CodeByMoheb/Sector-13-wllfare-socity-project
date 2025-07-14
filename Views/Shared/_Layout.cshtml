@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Sector_13_Welfare_Society___Digital_Management_System.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    @RenderSection("Styles", required: false)
 </head>
 <body>
        <style>
@@ -571,11 +572,20 @@
                         <li><a class="dropdown-item" href="@Url.Action("MessageOfChairman", "Home")">Message of Chairman</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("HowDoWeWork", "Home")">How Do We Work</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("memberDirectory", "Home")">Member Directory</a></li>
+                    </ul>
+                </li>
+                <!-- Add new Committee dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="committeeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 1.08rem; font-weight: 600; letter-spacing: 1px; padding: 10px 18px; border-radius: 7px; color: #23272b;">
+                        Committee
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="committeeDropdown">
+                        <li><a class="dropdown-item" href="@Url.Action("SubComitys", "Home")">Sub Committee</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("ElectedCandidates", "Home")">নব নির্বাচিত প্রার্থী ২০২৪</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("PreviousElectedCandidate", "Home")">পূর্বে নির্বাচিত সদস্যরা</a></li>
                     </ul>
                 </li>
-                
+                  
                 <li><a href="@Url.Action("Gallery", "Home")" class="nav-link">GALLERY</a></li>
                 <li><a href="@Url.Action("ContactUs", "Home")" class="nav-link">CONTACT</a></li>
                 <li><a href="@Url.Action("donate", "Home")" class="uws-donate-btn">DONATE</a></li>
@@ -583,11 +593,11 @@
                 <div style="display:flex;align-items:center;gap:10px; margin-left: 2rem;">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a href="@Url.Action("Member", "Dashboard")" class="d-flex align-items-center gap-2" style="font-weight:600;background-color: #42b72a;color: white;padding: 8px 16px;border-radius: 5px; text-decoration: none;">
+                        <a href="@Url.Action("Member", "Dashboard")" class="d-flex align-items-center gap-2" style="font-weight:600;background-color: #42b72a;color: white;padding: 10px 25px;border-radius: 6px; text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; height: 44px; display: inline-flex; align-items: center;">
                             <i class="fas fa-tachometer-alt"></i> Dashboard
                         </a>
                         <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
-                            <button type="submit" class="d-flex align-items-center gap-2" style="font-weight:600;background-color: #ff0000;color: white;padding: 8px 16px;border-radius: 5px; text-decoration: none;border:none;">
+                            <button type="submit" class="d-flex align-items-center gap-2" style="font-weight:600;background-color: #ff0000;color: white;padding: 10px 25px;border-radius: 6px; text-decoration: none; border:none; font-size: 0.8rem; letter-spacing: 1px; height: 44px; display: inline-flex; align-items: center;">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </button>
                         </form>
