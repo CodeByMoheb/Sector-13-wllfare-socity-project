@@ -320,6 +320,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                     {
                         // In sandbox mode, accept the payment without validation
                         donor.PaymentStatus = "Completed";
+                        
                         donor.TransactionId = !string.IsNullOrEmpty(bankTranId) ? bankTranId : tranId;
                         await _context.SaveChangesAsync();
                         
