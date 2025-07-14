@@ -15,6 +15,14 @@
                     </h3>
                 </div>
                 <div class="card-body p-4">
+                    @if (ViewBag.IsSandbox == true)
+                    {
+                        <div class="alert alert-warning">
+                            <h5><i class="fas fa-flask me-2"></i>Sandbox Environment</h5>
+                            <p class="mb-0">You are currently in the sandbox environment. This is for testing purposes only.</p>
+                        </div>
+                    }
+
                     <div class="alert alert-info">
                         <h5><i class="fas fa-info-circle me-2"></i>Redirecting to Secure Payment Gateway</h5>
                         <p class="mb-0">You will be redirected to SSL Commerz secure payment gateway to complete your donation.</p>
@@ -63,13 +71,14 @@
                                     <i class="fas fa-university text-warning me-2"></i>
                                     <span>Internet Banking Supported</span>
                                 </div>
-                                @if (ViewBag.IsSandbox == true)
-                                {
-                                    <div class="info-item">
-                                        <i class="fas fa-flask text-info me-2"></i>
-                                        <span>Sandbox Environment</span>
-                                    </div>
-                                }
+                                <div class="info-item">
+                                    <i class="fas fa-store text-info me-2"></i>
+                                    <span>Store: @ViewBag.StoreName</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-globe text-secondary me-2"></i>
+                                    <span>Website: @ViewBag.RegisteredUrl</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,13 +104,16 @@
                         </div>
                         
                         <form id="sslCommerzForm" action="@ViewBag.SessionApiUrl" method="post" style="display: none;">
-                            @foreach (var item in ViewBag.PaymentData)
+                            @if (ViewBag.PaymentData != null)
                             {
-                                <input type="hidden" name="@item.Key" value="@item.Value" />
+                                @foreach (var item in ViewBag.PaymentData)
+                                {
+                                    <input type="hidden" name="@item.Key" value="@item.Value" />
+                                }
                             }
                         </form>
                         
-                        <button type="button" class="btn btn-primary btn-lg" onclick="submitPayment()">
+                        <button type="button" class="btn btn-primary btn-lg" onclick="submitPayment()" id="proceedBtn">
                             <i class="fas fa-lock me-2"></i>
                             Proceed to Secure Payment
                         </button>
@@ -119,24 +131,83 @@
     </div>
 </div>
 
-<!-- Styles moved to wwwroot/css/site.css -->
+<style>
+.donation-summary, .payment-info {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.summary-item, .info-item {
+    margin-bottom: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.summary-item:last-child, .info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.loading-spinner {
+    text-align: center;
+}
+
+.security-notice ul {
+    padding-left: 20px;
+}
+
+.security-notice li {
+    margin-bottom: 5px;
+}
+</style>
 
 <script>
 function submitPayment() {
-    // Show loading spinner
-    document.querySelector('.loading-spinner').style.display = 'block';
-    document.querySelector('button[onclick="submitPayment()"]').style.display = 'none';
+    const proceedBtn = document.getElementById('proceedBtn');
+    const loadingSpinner = document.querySelector('.loading-spinner');
+    const form = document.getElementById('sslCommerzForm');
     
-    // Submit the form after a short delay to show the loading animation
-    setTimeout(() => {
-        document.getElementById('sslCommerzForm').submit();
-    }, 2000);
+    // Show loading spinner and hide button
+    loadingSpinner.style.display = 'block';
+    proceedBtn.style.display = 'none';
+    
+    // Check if form has data
+    if (form && form.querySelectorAll('input[type="hidden"]').length > 0) {
+        // Submit the form after a short delay to show the loading animation
+        setTimeout(() => {
+            form.submit();
+        }, 2000);
+    } else {
+        // If no form data, show error and restore button
+        setTimeout(() => {
+            alert('Payment gateway is not available at the moment. Please try again later or contact support.');
+            loadingSpinner.style.display = 'none';
+            proceedBtn.style.display = 'inline-block';
+        }, 2000);
+    }
 }
 
 // Auto-submit after 5 seconds if user doesn't click the button
 setTimeout(() => {
-    if (document.querySelector('button[onclick="submitPayment()"]').style.display !== 'none') {
+    const proceedBtn = document.getElementById('proceedBtn');
+    if (proceedBtn && proceedBtn.style.display !== 'none') {
         submitPayment();
     }
 }, 5000);
+
+// Add some visual feedback
+document.addEventListener('DOMContentLoaded', function() {
+    const proceedBtn = document.getElementById('proceedBtn');
+    if (proceedBtn) {
+        proceedBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.05)';
+        });
+        
+        proceedBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    }
+});
 </script> 

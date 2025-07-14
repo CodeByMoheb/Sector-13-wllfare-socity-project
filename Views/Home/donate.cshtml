@@ -16,10 +16,16 @@
                             Today
                         </h3>
                         <div class="recent-donations-section">
-                            <h4 class="text-white mb-3">
-                                <i class="fas fa-heart me-2"></i>
-                                Recent Donations
-                            </h4>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="text-white mb-0">
+                                    <i class="fas fa-heart me-2"></i>
+                                    Recent Donations
+                                </h4>
+                                <button class="btn btn-outline-light btn-sm" id="downloadHistoryBtn" title="Download Complete Donation History">
+                                    <i class="fas fa-file-pdf me-1"></i>
+                                    <span class="d-none d-md-inline">Export History</span>
+                                </button>
+                            </div>
                             <div class="recent-donations-container">
                                 <!-- Desktop/Tablet View -->
                                 <div class="recent-donations-table d-none d-md-block">
@@ -427,7 +433,7 @@
     
     .donation-card-mobile .date-text {
         font-size: 0.7rem;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgb(255, 255, 255);
         text-align: right;
     }
     
@@ -535,6 +541,7 @@
         
         .donation-card-mobile .date-text {
             font-size: 0.65rem;
+            color: rgb(255, 255, 255);
         }
     }
     
@@ -613,6 +620,43 @@
             text-align: left;
         }
     }
+    
+    /* Download History Button Styles */
+    #downloadHistoryBtn {
+        transition: all 0.3s ease;
+        border-width: 1px;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+    
+    #downloadHistoryBtn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-1px);
+    }
+    
+    #downloadHistoryBtn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    #downloadHistoryBtn .fa-spinner {
+        animation: spin 1s linear infinite;
+    }
+    
+    @@keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive button text */
+    @@media (max-width: 576px) {
+        #downloadHistoryBtn {
+            padding: 3px 6px;
+            font-size: 0.75rem;
+        }
+    }
 </style>
 
 <script>
@@ -673,7 +717,7 @@ async function loadRecentDonations() {
                     <span class="badge bg-primary">${donor.donationType || 'General'}</span>
                 </td>
                 <td>
-                    <small class="text-muted">
+                    <small class="text-light">
                         ${new Date(donor.donationDate).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'short',
@@ -772,4 +816,67 @@ document.addEventListener('DOMContentLoaded', function() {
         card.classList.add('animate-fade-in');
     });
 });
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Load recent donations
+    loadRecentDonations();
+    
+    // Add event listener for download history button
+    const downloadHistoryBtn = document.getElementById('downloadHistoryBtn');
+    if (downloadHistoryBtn) {
+        downloadHistoryBtn.addEventListener('click', downloadDonationHistory);
+    }
+});
+
+// Download donation history as PDF
+async function downloadDonationHistory() {
+    try {
+        const downloadBtn = document.getElementById('downloadHistoryBtn');
+        const originalText = downloadBtn.innerHTML;
+        
+        // Show loading state
+        downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i><span class="d-none d-md-inline">Generating...</span>';
+        downloadBtn.disabled = true;
+        
+        // Make request to download donation history
+        const response = await fetch('/Donation/ExportDonationHistory');
+        
+        if (response.ok) {
+            // Get the blob from response
+            const blob = await response.blob();
+            
+            // Create download link
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `DonationHistory_${new Date().toISOString().slice(0, 10)}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            // Show success message
+            showSuccessMessage('Donation history downloaded successfully!');
+        } else {
+            throw new Error('Failed to download donation history');
+        }
+        
+        // Reset button state
+        downloadBtn.innerHTML = originalText;
+        downloadBtn.disabled = false;
+        
+    } catch (error) {
+        console.error('Error downloading donation history:', error);
+        
+        // Reset button state
+        const downloadBtn = document.getElementById('downloadHistoryBtn');
+        downloadBtn.innerHTML = '<i class="fas fa-file-pdf me-1"></i><span class="d-none d-md-inline">Export History</span>';
+        downloadBtn.disabled = false;
+        
+        // Show error message
+        showErrorMessage('Failed to download donation history. Please try again.');
+    }
+}
 </script>
+
