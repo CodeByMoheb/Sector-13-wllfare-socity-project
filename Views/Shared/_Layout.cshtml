@@ -3,15 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="7elQopzAjDXovrXO9xcC1begtgUBoljhtkcYvVaE1No" />
     <title>@ViewData["Title"] - Sector 13 Welfare Society</title>
     <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752470486/favicon_fpaidv.png" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Sector_13_Welfare_Society___Digital_Management_System.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    @RenderSection("Styles", required: false)
 </head>
 <body>
-       <style>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -563,7 +565,7 @@
             <ul class="nav-menu" style="display:flex;align-items:center;gap:1rem;list-style:none;margin:0;flex:1;justify-content:center;">
                 <li><a href="@Url.Action("Index", "Home")" class="nav-link active">HOME</a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 1.08rem; font-weight: 600; letter-spacing: 1px; padding: 10px 18px; border-radius: 7px; color: #23272b;">
                         ABOUT US
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
@@ -571,6 +573,15 @@
                         <li><a class="dropdown-item" href="@Url.Action("MessageOfChairman", "Home")">Message of Chairman</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("HowDoWeWork", "Home")">How Do We Work</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("memberDirectory", "Home")">Member Directory</a></li>
+                    </ul>
+                </li>
+                <!-- Add new Committee dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="committeeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 1.08rem; font-weight: 600; letter-spacing: 1px; padding: 10px 18px; border-radius: 7px; color: #23272b;">
+                        Committee
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="committeeDropdown">
+                        <li><a class="dropdown-item" href="@Url.Action("SubComitys", "Home")">Sub Committee</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("ElectedCandidates", "Home")">নব নির্বাচিত প্রার্থী ২০২৪</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("PreviousElectedCandidate", "Home")">পূর্বে নির্বাচিত সদস্যরা</a></li>
                     </ul>
@@ -581,31 +592,38 @@
                 <li><a href="@Url.Action("donate", "Home")" class="uws-donate-btn">DONATE</a></li>
 
                 <div style="display:flex;align-items:center;gap:10px; margin-left: 2rem;">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <a href="@Url.Action("Member", "Dashboard")" class="d-flex align-items-center gap-2" style="font-weight:600;background-color: #42b72a;color: white;padding: 8px 16px;border-radius: 5px; text-decoration: none;">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
-                        </a>
-                        <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
-                            <button type="submit" class="d-flex align-items-center gap-2" style="font-weight:600;background-color: #ff0000;color: white;padding: 8px 16px;border-radius: 5px; text-decoration: none;border:none;">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </button>
-                        </form>
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("Login","Account")" class="uws-auth-btn">Login</a>
-                        <a href="@Url.Action("Register","Account")" class="uws-auth-btn uws-register">Register</a>
-                    }
+                    <a href="@Url.Action("Login", "Account")" class="uws-auth-btn">Login</a>
+                    <a href="@Url.Action("Register", "Account")" class="uws-auth-btn uws-register">Register</a>
                 </div>
             </ul>
         </div>
     </nav>
 
-    
+    <!-- Main Content Area -->
+    <div style="min-height: calc(100vh - 200px); margin-top: 100px;">
         @RenderBody()
+    </div>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P6RD5GCL"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L53VQ78ZL0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L53VQ78ZL0');
+</script>
+
+    <!-- AngularJS Scripts for Dynamic Content Enhancement -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+    <script src="~/js/enhancement.js"></script>
+
 
      <footer class="main-footer">
         <div class="footer-container">
@@ -794,6 +812,16 @@
         });
     </script>
     
+    <script>
+    (function() {
+        // Always show preloader for 3 seconds, then hide
+        setTimeout(function() {
+            var preloader = document.getElementById('preloader-overlay');
+            if (preloader) preloader.style.display = 'none';
+            sessionStorage.setItem('preloaderShown', 'true');
+        }, 3000);
+    })();
+    </script>
 </body>
 </html>
 

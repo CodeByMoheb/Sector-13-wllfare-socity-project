@@ -12,11 +12,63 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="7elQopzAjDXovrXO9xcC1begtgUBoljhtkcYvVaE1No" />
     <title>@ViewData["Title"] - Dashboard | Sector 13 Welfare Society</title>
     <link rel="icon" type="image/x-icon" href="~/Photos/favicon.png" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        .quick-actions .btn {
+            border-radius: 2rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(91,63,162,0.08);
+            transition: transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s, background 0.18s;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .quick-actions .btn i {
+            font-size: 1.2em;
+        }
+        .quick-actions .btn:hover, .quick-actions .btn:focus {
+            transform: scale(1.07) translateY(-2px);
+            box-shadow: 0 6px 18px rgba(91,63,162,0.18);
+            filter: brightness(1.08);
+        }
+        .quick-actions .btn-outline-primary {
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            border: none;
+        }
+        .quick-actions .btn-outline-success {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            color: #fff;
+            border: none;
+        }
+        .quick-actions .btn-outline-info {
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+            border: none;
+        }
+        .quick-actions .btn-outline-danger {
+            background: linear-gradient(90deg, #ff512f 0%, #dd2476 100%);
+            color: #fff;
+            border: none;
+        }
+        .quick-actions .btn-info {
+            background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
+            color: #fff;
+            border: none;
+        }
+        .quick-actions .btn-success {
+            background: linear-gradient(90deg, #56ab2f 0%, #a8e063 100%);
+            color: #fff;
+            border: none;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-wrapper">
@@ -111,10 +163,15 @@
                     </div>
 
 
+                 
+
                 </div>
 
+
+
                 <div class="dropdown user-info position-relative " style="margin-left: 15px;">
-                    <button class="btn btn-link p-0 border-0 user-profile-btn dropdown-toggle" type="button" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="p-0 border-0 user-profile-btn dropdown-toggle" type="button" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+
                         <img src="@(ViewBag.ProfilePictureUrl ?? Url.Content("~/Photos/logo.png"))" alt="Profile" class="rounded-circle" style="height:36px;width:36px;object-fit:cover;border:2px solid #e0e7ff;box-shadow:0 2px 8px rgba(91,63,162,0.08);background:#fff;">
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end p-0" aria-labelledby="profileDropdownBtn" style="min-width: 260px; border-radius: 16px; overflow: hidden;">
@@ -168,6 +225,10 @@
                         <div class="d-flex flex-wrap gap-2 mb-2">
                             <a href="#" class="btn btn-info"><i class="fas fa-eye"></i> View Activities</a>
                             <a href="#" class="btn btn-success"><i class="fas fa-comment"></i> Give Feedback</a>
+                            <a href="#" class="btn btn-outline-primary"><i class="fas fa-bullhorn"></i> Notices</a>
+                            <a href="#" class="btn btn-outline-success"><i class="fas fa-money-bill-wave"></i> Payment & Dues</a>
+                            <a href="#" class="btn btn-outline-info"><i class="fas fa-file-alt"></i> View Documents</a>
+                            <a href="#" class="btn btn-outline-danger"><i class="fas fa-phone-alt"></i> Emergency Contacts</a>
                         </div>
                     } else if (roles.Contains("President")) {
                         <div class="d-flex flex-wrap gap-2 mb-2">
@@ -195,6 +256,23 @@
                 </div>
                 @RenderBody()
             </div>
+
+
+            <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P6RD5GCL"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L53VQ78ZL0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L53VQ78ZL0');
+</script>
+
+
             <!-- Footer -->
             <footer class="main-footer">
                 <div class="footer-container">

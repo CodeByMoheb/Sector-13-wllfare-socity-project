@@ -1865,3 +1865,15 @@ body.dark-theme .sidebar-logo{
     }
 }
   
+/* Sub Committees Page Custom Styles */
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+.list-group-item {
+    font-size: 1.08rem;
+}
+@media (max-width: 768px) {
+    .card-title { font-size: 1.1rem; }
+}
+  

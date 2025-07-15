@@ -12,8 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+// Use SQL Server for both development and production
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
 builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
@@ -22,6 +25,9 @@ builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 // builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
 //     .AddRoles<IdentityRole>()
 //     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Register Email Service
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

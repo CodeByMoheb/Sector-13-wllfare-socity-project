@@ -107,6 +107,9 @@
     .form-group-animated:nth-child(6) { animation-delay: 0.40s; }
     .form-group-animated:nth-child(7) { animation-delay: 0.47s; }
     .form-group-animated:nth-child(8) { animation-delay: 0.54s; }
+    /* Ensure modal is above navbar */
+    .modal-backdrop { z-index: 1050 !important; }
+    .modal { z-index: 1060 !important; }
 </style>
 <div class="container mt-4">
     <div class="row justify-content-center">
@@ -118,8 +121,8 @@
                 <div class="card-body">
                     <form asp-action="EditProfile" asp-controller="Account" method="post" enctype="multipart/form-data" class="profile-edit-form">
                         <div class="mb-4 text-center">
-                            <img src="@(string.IsNullOrEmpty(Model.ExistingProfilePictureUrl) ? "/Photos/logo.png" : Model.ExistingProfilePictureUrl)" alt="Profile" class="rounded-circle mb-2" style="height:80px;width:80px;object-fit:cover;border:2px solid #e0e7ff;background:#f3e8ff;">
-                            <input type="file" name="ProfilePicture" class="form-control mt-2" accept="image/*" style="max-width: 300px; margin: 0 auto;" />
+                            <img src="@(string.IsNullOrEmpty(Model.ExistingProfilePictureUrl) ? "/Photos/logo.png" : Model.ExistingProfilePictureUrl)" alt="Profile" class="rounded-circle mb-2" style="height:80px;width:80px;object-fit:cover;border:2px solid #e0e7ff;background:#f3e8ff;" id="profilePreview">
+                            <input type="file" name="ProfilePicture" class="form-control mt-2" accept="image/*" style="max-width: 300px; margin: 0 auto;" id="profilePictureInput" />
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -272,38 +275,46 @@
     if(form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            // Fill preview modal with form data
-            document.getElementById('previewName').textContent = form.Name.value;
-            document.getElementById('previewFathersOrHusbandsName').textContent = form.FathersOrHusbandsName.value;
-            document.getElementById('previewHouseNo').textContent = form.HouseNo.value;
-            document.getElementById('previewFlatNo').textContent = form.FlatNo.value;
-            document.getElementById('previewRoadNo').textContent = form.RoadNo.value;
-            document.getElementById('previewWard').textContent = form.Ward.value;
-            document.getElementById('previewHolding').textContent = form.Holding.value;
-            document.getElementById('previewSector').textContent = form.Sector.value;
-            document.getElementById('previewProfession').textContent = form.Profession.value;
-            document.getElementById('previewDesignation').textContent = form.Designation.value;
-            document.getElementById('previewBloodGroup').textContent = form.BloodGroup.value;
-            document.getElementById('previewEducationalQualification').textContent = form.EducationalQualification.value;
-            document.getElementById('previewNumberOfChildren').textContent = form.NumberOfChildren.value;
-            document.getElementById('previewTelephone').textContent = form.Telephone.value;
-            document.getElementById('previewMobile').textContent = form.Mobile.value;
-            document.getElementById('previewEmail').textContent = form.Email.value;
-            // Profile picture preview
-            var fileInput = document.querySelector('.profile-edit-form input[type="file"]'); // Corrected selector
+            // Helper to get value safely
+            function getVal(name) {
+                var el = form.querySelector('[name="' + name + '"]');
+                return el ? el.value : '';
+            }
+            document.getElementById('previewName').textContent = getVal('Name');
+            document.getElementById('previewFathersOrHusbandsName').textContent = getVal('FathersOrHusbandsName');
+            document.getElementById('previewHouseNo').textContent = getVal('HouseNo');
+            document.getElementById('previewFlatNo').textContent = getVal('FlatNo');
+            document.getElementById('previewRoadNo').textContent = getVal('RoadNo');
+            document.getElementById('previewWard').textContent = getVal('Ward');
+            document.getElementById('previewHolding').textContent = getVal('Holding');
+            document.getElementById('previewSector').textContent = getVal('Sector');
+            document.getElementById('previewProfession').textContent = getVal('Profession');
+            document.getElementById('previewDesignation').textContent = getVal('Designation');
+            document.getElementById('previewBloodGroup').textContent = getVal('BloodGroup');
+            document.getElementById('previewEducationalQualification').textContent = getVal('EducationalQualification');
+            document.getElementById('previewNumberOfChildren').textContent = getVal('NumberOfChildren');
+            document.getElementById('previewTelephone').textContent = getVal('Telephone');
+            document.getElementById('previewMobile').textContent = getVal('Mobile');
+            document.getElementById('previewEmail').textContent = getVal('Email');
+            // Profile picture preview robust
+            var fileInput = document.getElementById('profilePictureInput');
             var previewPic = document.getElementById('previewProfilePic');
-            if(fileInput.files && fileInput.files[0]) {
+            if(fileInput && fileInput.files && fileInput.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     previewPic.src = e.target.result;
                 };
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                // Use current preview
-                previewPic.src = document.querySelector('.profile-edit-form img').src;
+                // Use current preview (existing image)
+                var currentImg = document.getElementById('profilePreview');
+                previewPic.src = currentImg ? currentImg.src : '/Photos/logo.png';
             }
-            var modal = new bootstrap.Modal(document.getElementById('previewModal'));
-            modal.show();
+            // Show modal after a short delay if image is loading
+            setTimeout(function() {
+                var modal = new bootstrap.Modal(document.getElementById('previewModal'));
+                modal.show();
+            }, 200);
             // Only submit if Okay is clicked
             document.getElementById('confirmSubmitBtn').onclick = function() {
                 form.removeEventListener('submit', arguments.callee);
