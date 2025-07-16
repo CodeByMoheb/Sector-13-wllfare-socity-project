@@ -1874,6 +1874,125 @@ body.dark-theme .sidebar-logo{
     font-size: 1.08rem;
 }
 @media (max-width: 768px) {
+    .card-title { font-size: 1rem; }
+}
+  
+/* Emergency Hotline Floating Button */
+.emergency-hotline-btn {
+    position: fixed;
+    right: 24px;
+    bottom: 100px;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.emergency-hotline-btn button {
+    background: #e50914;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background 0.2s;
+    outline: none;
+}
+.emergency-hotline-btn button:hover {
+    background: #b0060f;
+}
+.emergency-hotline-btn span {
+    margin-top: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e50914;
+    text-shadow: 0 1px 2px #fff;
+}
+
+/* Emergency Hotline Modal */
+.emergency-hotline-modal {
+    display: none;
+    position: fixed;
+    z-index: 1300;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.35);
+    align-items: center;
+    justify-content: center;
+}
+.emergency-hotline-modal.active {
+    display: flex !important;
+}
+.emergency-hotline-modal .hotline-modal-content {
+    background: #fff;
+    padding: 32px 24px 24px 24px;
+    border-radius: 16px;
+    max-width: 340px;
+    width: 90vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    position: relative;
+}
+.emergency-hotline-modal .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #e50914;
+    cursor: pointer;
+}
+@media (max-width: 600px) {
+    .emergency-hotline-btn {
+        right: 12px;
+        bottom: 80px;
+    }
+    .emergency-hotline-modal .hotline-modal-content {
+        padding: 20px 8px 16px 8px;
+        max-width: 95vw;
+    }
+}
+  
+  /* Force pointer events for dropdown and children */
+  .profile-dropdown, .profile-dropdown * {
+      pointer-events: auto !important;
+  }
+  
+@media (max-width: 991px) {
+    .notifications-dropdown {
+        position: fixed !important;
+        top: 70px !important; /* below topbar */
+        left: 50 !important;
+        right: 0 !important;
+        min-width: unset !important;
+        width: 70vw !important;
+        border-radius: 0 0 16px 16px !important;
+        z-index: 2000 !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        padding: 1.2rem 1rem 1rem 1rem;
+        display: none; /* will be toggled by JS */
+    }
+    .notifications-dropdown.show {
+        display: block !important;
+    }
+}
+  
+  /* Sub Committees Page Custom Styles */
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+.list-group-item {
+    font-size: 1.08rem;
+}
+@media (max-width: 768px) {
     .card-title { font-size: 1.1rem; }
 }
   
