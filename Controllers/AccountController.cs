@@ -540,7 +540,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             {
                 // Update any authentication tokens
                 await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
-                return LocalRedirect(returnUrl);
+                return LocalRedirect("/Dashboard/Member");
+
             }
             else
             {
