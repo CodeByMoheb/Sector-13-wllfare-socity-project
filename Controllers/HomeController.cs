@@ -42,6 +42,10 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         {
             return View();
         }
+          public IActionResult MessageOfSecretary()
+        {
+            return View();
+        }
 
         public IActionResult HowDoWeWork()
         {
@@ -72,6 +76,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         {
             return View();
         }
+
+      
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
