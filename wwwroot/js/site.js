@@ -371,3 +371,30 @@ function initializeAnimations() {
 
 // Handle window resize for responsive design
 window.addEventListener('resize', checkScreenSize);
+
+// Emergency Hotline Modal Logic
+function showHotlineModal() {
+    var modal = document.getElementById('emergency-hotline-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        setTimeout(function() { modal.classList && modal.classList.add('active'); }, 10);
+    }
+}
+function hideHotlineModal() {
+    var modal = document.getElementById('emergency-hotline-modal');
+    if (modal) {
+        modal.classList && modal.classList.remove('active');
+        setTimeout(function() { modal.style.display = 'none'; }, 200);
+    }
+}
+// Close modal when clicking outside content
+window.addEventListener('click', function(e) {
+    var modal = document.getElementById('emergency-hotline-modal');
+    if (modal && modal.style.display !== 'none' && e.target === modal) {
+        hideHotlineModal();
+    }
+});
+// Close modal on Escape key
+window.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') hideHotlineModal();
+});

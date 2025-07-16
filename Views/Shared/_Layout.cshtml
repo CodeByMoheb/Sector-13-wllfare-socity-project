@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -582,9 +582,10 @@
                         COMMITTEE
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="committeeDropdown">
-                        <li><a class="dropdown-item" href="@Url.Action("SubComitys", "Home")">Sub Committee</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("ElectedCandidates", "Home")">নব নির্বাচিত প্রার্থী ২০২৪</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("PreviousElectedCandidate", "Home")">পূর্বে নির্বাচিত সদস্যরা</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("SubComitys", "Home")">উপ কমিটি</a></li>
+                        
                     </ul>
                 </li>
                 
@@ -594,7 +595,7 @@
 
                 <div style="display:flex;align-items:center;gap:10px; margin-left: 2rem;">
                     <a href="@Url.Action("Login", "Account")" class="uws-auth-btn">Login</a>
-                    <a href="@Url.Action("Register", "Account")" class="uws-auth-btn uws-register">Register</a>
+                    <a href="@Url.Action("Register", "Account")" class="uws-auth-btn uws-register">Register</a>   
                 </div>
             </ul>
         </div>
@@ -622,7 +623,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 
     <!-- AngularJS Scripts for Dynamic Content Enhancement -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="~/js/enhancement.js"></script>
 
 
@@ -823,6 +824,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }, 3000);
     })();
     </script>
+
+    <!-- Emergency Hotline Floating Button and Modal -->
+    <div id="emergency-hotline-btn" style="position:fixed;right:24px;bottom:100px;z-index:1200;display:flex;flex-direction:column;align-items:center;">
+        <button type="button" style="background:#e50914;color:#fff;border:none;border-radius:50%;width:50px;height:50px;box-shadow:0 2px 8px rgba(0,0,0,0.18);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:1.5rem;transition:background 0.2s;outline:none;" onclick="showHotlineModal()">
+            <i class="fa fa-phone"></i>
+        </button>
+        <span style="margin-top:6px;font-size:1rem;font-weight:600;color:#e50914;text-shadow:0 1px 2px #fff;">হটলাইন</span>
+    </div>
+
+    <div id="emergency-hotline-modal" style="display:none;position:fixed;z-index:1300;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.35);align-items:center;justify-content:center;">
+        <div style="background:#fff;padding:32px 30px 30px 30px;border-radius:16px;max-width:350px;width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;">
+            <button onclick="hideHotlineModal()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.5rem;color:#e50914;cursor:pointer;">&times;</button>
+            <h3 style="color:#e50914;text-align:center;margin-bottom:18px;font-weight:700;">জরুরি সেবা হটলাইন</h3>
+            <ul style="list-style:none;padding:0;margin:0;font-size:1.1rem;">
+                <li style="margin-bottom:10px;"><strong>পুলিশ:</strong> <a href="tel:999" style="color:#3498db;text-decoration:none;font-weight:600;">999</a></li>
+                <li style="margin-bottom:10px;"><strong>ফায়ার সার্ভিস:</strong> <a href="tel:199" style="color:#3498db;text-decoration:none;font-weight:600;">199</a></li>
+                <li style="margin-bottom:10px;"><strong>এম্বুলেন্স:</strong> <a href="tel:199" style="color:#3498db;text-decoration:none;font-weight:600;">199</a></li>
+                <li style="margin-bottom:10px;"><strong>নারী ও শিশু সহায়তা:</strong> <a href="tel:109" style="color:#3498db;text-decoration:none;font-weight:600;">109</a></li>
+                <li style="margin-bottom:10px;"><strong>বিদ্যুৎ জরুরি:</strong> <a href="tel:16999" style="color:#3498db;text-decoration:none;font-weight:600;">16999</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- End Emergency Hotline Floating Button and Modal -->
 </body>
 </html>
 

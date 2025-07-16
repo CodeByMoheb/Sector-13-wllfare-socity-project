@@ -1874,6 +1874,486 @@ body.dark-theme .sidebar-logo{
     font-size: 1.08rem;
 }
 @media (max-width: 768px) {
+    .card-title { font-size: 1rem; }
+}
+  
+/* Emergency Hotline Floating Button */
+.emergency-hotline-btn {
+    position: fixed;
+    right: 24px;
+    bottom: 100px;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.emergency-hotline-btn button {
+    background: #e50914;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background 0.2s;
+    outline: none;
+}
+.emergency-hotline-btn button:hover {
+    background: #b0060f;
+}
+.emergency-hotline-btn span {
+    margin-top: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e50914;
+    text-shadow: 0 1px 2px #fff;
+}
+
+/* Emergency Hotline Modal */
+.emergency-hotline-modal {
+    display: none;
+    position: fixed;
+    z-index: 1300;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.35);
+    align-items: center;
+    justify-content: center;
+}
+.emergency-hotline-modal.active {
+    display: flex !important;
+}
+.emergency-hotline-modal .hotline-modal-content {
+    background: #fff;
+    padding: 32px 24px 24px 24px;
+    border-radius: 16px;
+    max-width: 340px;
+    width: 90vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    position: relative;
+}
+.emergency-hotline-modal .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #e50914;
+    cursor: pointer;
+}
+@media (max-width: 600px) {
+    .emergency-hotline-btn {
+        right: 12px;
+        bottom: 80px;
+    }
+    .emergency-hotline-modal .hotline-modal-content {
+        padding: 20px 8px 16px 8px;
+        max-width: 95vw;
+    }
+}
+  
+  /* Force pointer events for dropdown and children */
+  .profile-dropdown, .profile-dropdown * {
+      pointer-events: auto !important;
+  }
+  
+@media (max-width: 991px) {
+    .notifications-dropdown {
+        position: fixed !important;
+        top: 70px !important; /* below topbar */
+        left: 50 !important;
+        right: 0 !important;
+        min-width: unset !important;
+        width: 70vw !important;
+        border-radius: 0 0 16px 16px !important;
+        z-index: 2000 !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        padding: 1.2rem 1rem 1rem 1rem;
+        display: none; /* will be toggled by JS */
+    }
+    .notifications-dropdown.show {
+        display: block !important;
+    }
+}
+  
+  /* Sub Committees Page Custom Styles */
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+.list-group-item {
+    font-size: 1.08rem;
+}
+@media (max-width: 768px) {
     .card-title { font-size: 1.1rem; }
+}
+  
+
+/* Sub-Committees Tree Styles */
+.tree-root-node, .committee-node, .member-node {
+    cursor: pointer;
+    padding: 10px 18px;
+    border-radius: 7px;
+    margin-bottom: 6px;
+    background: #f8f9fa;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+.tree-root-node.active, .committee-node.active {
+    background: #e9ecef;
+    font-weight: 600;
+}
+.tree-children {
+    margin-left: 32px;
+    border-left: 2px dashed #d1d5db;
+    padding-left: 18px;
+    animation: expandFade 0.4s;
+}
+.member-photo:hover {
+    box-shadow: 0 0 0 4px #5b3fa2;
+}
+@keyframes expandFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+  
+
+/* Sub-Committees Modern Tree Styles */
+.tree {
+    list-style: none;
+    padding-left: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.tree .tree-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 12px 18px;
+    border-radius: 7px;
+    background: #f8f9fa;
+    margin-bottom: 6px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    user-select: none;
+    gap: 10px;
+}
+.tree .tree-toggle.open {
+    background: #e9ecef;
+    font-weight: 600;
+}
+.tree .tree-children {
+    list-style: none;
+    margin-left: 32px;
+    border-left: 2px dashed #d1d5db;
+    padding-left: 18px;
+    display: none;
+    animation: expandFade 0.4s;
+}
+.tree .tree-children.open {
+    display: block;
+    animation: expandFade 0.4s;
+}
+.member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+.member:hover {
+    background: #f0f4ff;
+}
+.member-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #5b3fa2;
+    background: #fff;
+}
+@keyframes expandFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+  
+
+.ltr-tree-wrapper {
+    position: relative;
+    overflow-x: auto;
+    padding: 2rem 0;
+    min-height: 500px;
+    width: 100%;
+}
+.ltr-tree-root {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+    position: relative;
+    z-index: 2;
+}
+.ltr-tree-level {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-left: 2.5rem;
+    position: relative;
+}
+.ltr-tree-node {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 1.2rem 1.2rem;
+    min-width: 260px;
+    max-width: 340px;
+    position: relative;
+    transition: box-shadow 0.2s;
+    margin-bottom: 0.5rem;
+}
+.ltr-tree-node:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.ltr-root-node {
+    background: #1976d2;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    min-width: 180px;
+    text-align: center;
+    padding: 2rem 1.2rem;
+    box-shadow: 0 4px 16px rgba(25,118,210,0.15);
+}
+.ltr-committee-node {
+    border-left: 5px solid #90caf9;
+    margin-left: 0;
+}
+.ltr-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1976d2;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.ltr-desc {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 1rem;
+    white-space: pre-line;
+    line-height: 1.7;
+}
+.ltr-members-level {
+    margin-left: 2.5rem;
+    gap: 1.2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+@media (max-width: 900px) {
+    .ltr-members-level {
+        flex-direction: column;
+        margin-left: 0.5rem;
+    }
+}
+@media (max-width: 600px) {
+    .ltr-members-level {
+        flex-direction: column;
+        margin-left: 0.2rem;
+    }
+}
+.ltr-member-node {
+    border-left: 4px solid #bdbdbd;
+    background: #f5faff;
+    margin-left: 0;
+    min-width: 220px;
+    max-width: 300px;
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: center;
+}
+.ltr-member {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+    font-size: 1.05rem;
+}
+.ltr-member img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #90caf9;
+    background: #fff;
+}
+.ltr-tree-svg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+@media (max-width: 1200px) {
+    .ltr-tree-root { gap: 1.2rem; }
+    .ltr-tree-level { gap: 1.2rem; }
+}
+@media (max-width: 900px) {
+    .ltr-tree-root { flex-direction: column; gap: 2rem; }
+    .ltr-tree-level { flex-direction: row; gap: 1.2rem; margin-left: 0.5rem; }
+    .ltr-tree-node, .ltr-member-node { min-width: 90vw; max-width: 98vw; }
+}
+@media (max-width: 600px) {
+    .ltr-tree-root { flex-direction: column; gap: 1rem; }
+    .ltr-tree-level { flex-direction: column; gap: 1rem; margin-left: 0.2rem; }
+    .ltr-tree-node, .ltr-member-node { min-width: 98vw; max-width: 99vw; }
+}
+  
+  /* Force pointer events for dropdown and children */
+  .profile-dropdown, .profile-dropdown * {
+      pointer-events: auto !important;
+  }
+  
+@media (max-width: 991px) {
+    .notifications-dropdown {
+        position: fixed !important;
+        top: 70px !important; /* below topbar */
+        left: 50 !important;
+        right: 0 !important;
+        min-width: unset !important;
+        width: 70vw !important;
+        border-radius: 0 0 16px 16px !important;
+        z-index: 2000 !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        padding: 1.2rem 1rem 1rem 1rem;
+        display: none; /* will be toggled by JS */
+    }
+    .notifications-dropdown.show {
+        display: block !important;
+    }
+}
+  
+/* Sub Committees Page Custom Styles */
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+.list-group-item {
+    font-size: 1.08rem;
+}
+@media (max-width: 768px) {
+    .card-title { font-size: 1.1rem; }
+}
+  
+
+/* Sub-Committees Tree Styles */
+.tree-root-node, .committee-node, .member-node {
+    cursor: pointer;
+    padding: 10px 18px;
+    border-radius: 7px;
+    margin-bottom: 6px;
+    background: #f8f9fa;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+.tree-root-node.active, .committee-node.active {
+    background: #e9ecef;
+    font-weight: 600;
+}
+.tree-children {
+    margin-left: 32px;
+    border-left: 2px dashed #d1d5db;
+    padding-left: 18px;
+    animation: expandFade 0.4s;
+}
+.member-photo:hover {
+    box-shadow: 0 0 0 4px #5b3fa2;
+}
+@keyframes expandFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+  
+
+/* Sub-Committees Modern Tree Styles */
+.tree {
+    list-style: none;
+    padding-left: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.tree .tree-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 12px 18px;
+    border-radius: 7px;
+    background: #f8f9fa;
+    margin-bottom: 6px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    user-select: none;
+    gap: 10px;
+}
+.tree .tree-toggle.open {
+    background: #e9ecef;
+    font-weight: 600;
+}
+.tree .tree-children {
+    list-style: none;
+    margin-left: 32px;
+    border-left: 2px dashed #d1d5db;
+    padding-left: 18px;
+    display: none;
+    animation: expandFade 0.4s;
+}
+.tree .tree-children.open {
+    display: block;
+    animation: expandFade 0.4s;
+}
+.member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+.member:hover {
+    background: #f0f4ff;
+}
+.member-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #5b3fa2;
+    background: #fff;
+}
+@keyframes expandFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
   

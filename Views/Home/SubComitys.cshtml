@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<<<<<<< Updated upstream
+
 <!-- AngularJS Dynamic Sub-Committees Section -->
 <div ng-app="enhancementApp" ng-controller="SubCommitteesEnhancementController">
     <section class="container py-5">
@@ -16,7 +16,7 @@
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
-=======
+
 <style>
 .ltr-tree-wrapper {
     width: 100%;
@@ -233,46 +233,42 @@
 }
 </style>
 
+
 <section class="container py-5">
     <h1 class="display-5 fw-bold text-center mb-4">উপ-কমিটি ২০২৫-২০২৬</h1>
     <p class="lead text-center mb-5">উত্তরা সেক্টর ১৩ ওয়েলফেয়ার সোসাইটির ২০২৫-২০২৬ সালের উপ-কমিটিসমূহ। প্রতিটি কমিটি সমাজকল্যাণের নির্দিষ্ট ক্ষেত্রে কাজ করে। কমিটিতে ক্লিক করে সদস্যদের দেখুন।</p>
 
     <div class="ltr-tree-wrapper">
+
         <div class="ltr-tree-iframe-box"><div id="ltrTree"></div></div>
         <svg id="ltrTreeSVG" class="ltr-tree-svg"></svg>
     </div>
->>>>>>> Stashed changes
 
-        <!-- Dynamic Committees -->
-        <div ng-if="!isLoading">
-            <div class="row g-4">
-                <div class="col-12 mb-4" ng-repeat="committee in committees">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-body">
-                            <h3 class="card-title mb-3 text-primary">{{committee.id | number:2}} | {{committee.name}}</h3>
-                            <div class="row align-items-center">
-                                <div class="col-md-9">
-                                    <ul class="list-group list-group-flush mb-3">
-                                        <li class="list-group-item" ng-repeat="member in committee.members">{{$index+1 | number:2}}. {{member.name}} <span class="text-muted">{{member.phone}}</span> <span class="badge bg-secondary ms-2">{{member.role}}</span></li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-3 d-flex flex-wrap gap-2 justify-content-center">
-                                    <img ng-repeat="member in committee.members" src="/Photos/logo.png" class="rounded-circle border border-2" style="width:70px;height:70px;object-fit:cover;" alt="Member Photo" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div id="ltrTree"></div>
+        <svg id="ltrTreeSVG" class="ltr-tree-svg"></svg>
+    </div>
+
+
+    <!-- Member Details Modal -->
+    <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="memberModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalPhoto" src="/Photos/logo.png" class="rounded-circle border border-2 mb-3" style="width:100px;height:100px;object-fit:cover;" alt="Member Photo" />
+                    <p><strong>পদবী:</strong> <span id="modalRole"></span></p>
+                    <p><strong>ফোন:</strong> <span id="modalPhone"></span></p>
+                    <p><strong>বিস্তারিত:</strong> <span id="modalDetails"></span></p>
                 </div>
             </div>
         </div>
+    </div>
+</section>
 
-<<<<<<< Updated upstream
-        <div class="alert alert-info mt-5">
-            <strong>Note:</strong> Member photos are placeholders. For updates, please contact the society office.
-        </div>
-    </section>
-</div> 
-=======
+
 <script>
 // Helper to normalize names for matching (removes spaces, punctuation, normalizes common variants)
 function normalizeName(name) {
@@ -469,6 +465,7 @@ const committees = [
 let expandedCommitteeIdx = null;
 let showMembersIdx = null;
 
+
 function isDesktop() {
     return window.innerWidth >= 992;
 }
@@ -526,6 +523,12 @@ function createLTRTree() {
     iframeBox.className = 'ltr-tree-iframe-box';
     const treeRoot = document.createElement('div');
     treeRoot.className = 'ltr-tree-root';
+
+function createLTRTree() {
+    const treeRoot = document.createElement('div');
+    treeRoot.className = 'ltr-tree-root';
+    // Committee names row
+
     const namesRow = document.createElement('div');
     namesRow.className = 'ltr-tree-level';
     committees.forEach((com, idx) => {
@@ -533,8 +536,13 @@ function createLTRTree() {
         comNode.className = 'ltr-tree-node ltr-committee-node';
         comNode.innerHTML = `<div class=\"ltr-title\" onclick=\"expandCommittee(${idx})\">${com.name}</div>`;
         namesRow.appendChild(comNode);
+
         // On mobile/tablet, show details inline as before
         if (!isDesktop() && expandedCommitteeIdx === idx) {
+
+        // Insert details and members immediately after the selected committee
+        if (expandedCommitteeIdx === idx) {
+
             // Details node
             const detailsNode = document.createElement('div');
             detailsNode.className = 'ltr-tree-node ltr-committee-node';
@@ -559,6 +567,7 @@ function createLTRTree() {
         }
     });
     treeRoot.appendChild(namesRow);
+
     iframeBox.appendChild(treeRoot);
     wrapper.appendChild(iframeBox);
 
@@ -575,6 +584,14 @@ function createLTRTree() {
 }
 
 // Update expandCommittee and viewMembers to only re-render details panel on desktop
+
+    const ltrTree = document.getElementById('ltrTree');
+    ltrTree.innerHTML = '';
+    ltrTree.appendChild(treeRoot);
+    setTimeout(drawLTRConnectors, 300);
+}
+
+
 function expandCommittee(idx) {
     if (expandedCommitteeIdx === idx) {
         expandedCommitteeIdx = null;
@@ -583,20 +600,28 @@ function expandCommittee(idx) {
         expandedCommitteeIdx = idx;
         showMembersIdx = null;
     }
+
     if (isDesktop()) {
         renderDetailsPanel();
     } else {
         createLTRTree();
     }
+
+    createLTRTree();
+
 }
 
 function viewMembers(idx) {
     showMembersIdx = idx;
+
     if (isDesktop()) {
         renderDetailsPanel();
     } else {
         createLTRTree();
     }
+
+    createLTRTree();
+
 }
 
 function showMemberModal(name, role, phone, details, photoUrl) {
@@ -663,13 +688,19 @@ function drawLTRConnectors() {
     }
 }
 
+
 window.addEventListener('resize', function() {
     createLTRTree();
 });
+
+
+window.addEventListener('resize', drawLTRConnectors);
 
 window.onload = function() {
     createLTRTree();
     setTimeout(drawLTRConnectors, 500);
 };
+
 </script> 
->>>>>>> Stashed changes
+
+</script> 
