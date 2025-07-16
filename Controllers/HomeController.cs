@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Sector_13_Welfare_Society___Digital_Management_System.Models;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
@@ -79,23 +77,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult SetLanguage(string culture, string returnUrl)
-        {
-            if (!string.IsNullOrEmpty(culture))
-            {
-                Response.Cookies.Append(
-                    CookieRequestCultureProvider.DefaultCookieName,
-                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-                );
-            }
-            if (string.IsNullOrEmpty(returnUrl))
-            {
-                returnUrl = Url.Action("Index", "Home");
-            }
-            return LocalRedirect(returnUrl);
-        }
+      
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

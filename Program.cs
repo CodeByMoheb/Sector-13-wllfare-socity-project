@@ -7,9 +7,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Sector_13_Welfare_Society___Digital_Management_System.Models;
 using Sector_13_Welfare_Society___Digital_Management_System.Services;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Localization;
-using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,27 +29,8 @@ builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 // Register Email Service
 builder.Services.AddScoped<IEmailService, EmailService>();
 
-// Add localization services
-builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    var supportedCultures = new[]
-    {
-        new CultureInfo("en"),
-        new CultureInfo("bn")
-    };
-    options.DefaultRequestCulture = new RequestCulture("en");
-    options.SupportedCultures = supportedCultures;
-    options.SupportedUICultures = supportedCultures;
-});
-
-builder.Services.AddControllersWithViews()
-    .AddViewLocalization()
-    .AddDataAnnotationsLocalization();
-builder.Services.AddRazorPages()
-    .AddViewLocalization()
-    .AddDataAnnotationsLocalization();
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => 
 {
@@ -88,9 +66,6 @@ else
 }
 
 app.UseStaticFiles();
-// Add localization middleware before UseRouting
-var locOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
-app.UseRequestLocalization(locOptions.Value);
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
