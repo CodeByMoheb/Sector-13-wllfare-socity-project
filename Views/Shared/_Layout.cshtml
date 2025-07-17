@@ -593,9 +593,19 @@
                 <li><a href="@Url.Action("donate", "Home")" class="uws-donate-btn">DONATE</a></li>
 
                 <div style="display:flex;align-items:center;gap:10px; margin-left: 2rem;">
-                    <a href="@Url.Action("Login", "Account")" class="uws-auth-btn">Login</a>
-                    <a href="@Url.Action("Register", "Account")" class="uws-auth-btn uws-register">Register</a>   
-                </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a href="@Url.Action("Index", "Dashboard")" class="uws-auth-btn">Dashboard</a>
+        <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+            <button type="submit" class="uws-auth-btn uws-register" style="color:rgb(255, 255, 255);background:#7a0000;"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </form>
+    }
+    else
+    {
+        <a href="@Url.Action("Login", "Account")" class="uws-auth-btn">Login</a>
+        <a href="@Url.Action("Register", "Account")" class="uws-auth-btn uws-register">Register</a>
+    }
+</div>
             </ul>
         </div>
     </nav>
@@ -835,7 +845,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="emergency-hotline-modal" style="display:none;position:fixed;z-index:1300;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.35);align-items:center;justify-content:center;">
         <div style="background:#ffffffd5;padding:32px 30px 30px 30px;border-radius:16px;max-width:350px;width:90vw;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;">
             <button onclick="hideHotlineModal()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.8rem;color:#e50914;cursor:pointer;">&times;</button>
-            <h5 style="color:#e50914;text-align:center;margin-bottom:18px;font-weight:700;">জরুরি সেবা হটলাইন সেক্টর ১৩ </h5>
+            <h6 style="color:#e50914;text-align:center;margin-bottom:18px;font-weight:700;">জরুরি সেবা হটলাইন সেক্টর ১৩ </h6>
             <hr>
             <ul style="list-style:none;padding:0;margin:0;font-size:1.1rem;">
                 <li style="margin-bottom:10px;"><strong>পুলিশ:</strong> <a href="tel:+880 1320041824" style="color:red;text-decoration:none;font-weight:600;">01320-041824</a></li>
