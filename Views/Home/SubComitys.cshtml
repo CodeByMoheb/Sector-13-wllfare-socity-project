@@ -4,19 +4,6 @@
 }
 
 
-<!-- AngularJS Dynamic Sub-Committees Section -->
-<div ng-app="enhancementApp" ng-controller="SubCommitteesEnhancementController">
-    <section class="container py-5">
-        <h1 class="display-5 fw-bold text-center mb-4">Sub Committees 2025-2026</h1>
-        <p class="lead text-center mb-5">Sector 13 Welfare Society – Sub-Committees for the year 2025-2026. Each committee is dedicated to a specific area of welfare and community service. Below are the details and members of each sub-committee.</p>
-
-        <!-- Loader -->
-        <div ng-if="isLoading" class="text-center my-5">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-
 <style>
 .ltr-tree-wrapper {
     width: 100%;
@@ -27,7 +14,7 @@
     align-items: flex-start;
 }
 .ltr-tree-iframe-box {
-    min-width: 320px;
+    min-width: 340px;
     max-width: 420px;
     flex: 0 0 350px;
     height: 500px;
@@ -49,6 +36,7 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 1rem;
+    margin-top: 0.8rem;
     margin-bottom: 1rem;
 }
 .ltr-tree-node {
@@ -233,40 +221,19 @@
 }
 </style>
 
-
-<section class="container py-5">
-    <h1 class="display-5 fw-bold text-center mb-4">উপ-কমিটি ২০২৫-২০২৬</h1>
-    <p class="lead text-center mb-5">উত্তরা সেক্টর ১৩ ওয়েলফেয়ার সোসাইটির ২০২৫-২০২৬ সালের উপ-কমিটিসমূহ। প্রতিটি কমিটি সমাজকল্যাণের নির্দিষ্ট ক্ষেত্রে কাজ করে। কমিটিতে ক্লিক করে সদস্যদের দেখুন।</p>
+<section class="container py-4">
+    <h1 class="display-8 fw-bold text-center mb-2">উপ-কমিটি ২০২৫-২০২৬</h1>
+    <p class="lead text-center mb-2 fs-6 fw-bold text-success">উত্তরা সেক্টর ১৩ ওয়েলফেয়ার সোসাইটির ২০২৫-২০২৬ সালের উপ-কমিটিসমূহ। প্রতিটি কমিটি সমাজকল্যাণের নির্দিষ্ট ক্ষেত্রে কাজ করে। কমিটিতে ক্লিক করে সদস্যদের দেখুন।</p>
 
     <div class="ltr-tree-wrapper">
-
         <div class="ltr-tree-iframe-box"><div id="ltrTree"></div></div>
         <svg id="ltrTreeSVG" class="ltr-tree-svg"></svg>
     </div>
-
-        <div id="ltrTree"></div>
-        <svg id="ltrTreeSVG" class="ltr-tree-svg"></svg>
-    </div>
+<!-- AngularJS Dynamic Sub-Committees Section -->
 
 
-    <!-- Member Details Modal -->
-    <div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="memberModalLabel"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <img id="modalPhoto" src="/Photos/logo.png" class="rounded-circle border border-2 mb-3" style="width:100px;height:100px;object-fit:cover;" alt="Member Photo" />
-                    <p><strong>পদবী:</strong> <span id="modalRole"></span></p>
-                    <p><strong>ফোন:</strong> <span id="modalPhone"></span></p>
-                    <p><strong>বিস্তারিত:</strong> <span id="modalDetails"></span></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+        <!-- Dynamic Committees -->
+        
 
 
 <script>
@@ -313,7 +280,7 @@ for (const [name, url] of Object.entries(memberImagesRaw)) {
 const committees = [
   // 01. অর্থ উপ-কমিটি ঃ
   {
-    name: 'অর্থ উপ-কমিটি ঃ',
+    name: 'অর্থ উপ-কমিটি ',
     desc: `কমিটির দায়িত্বাবলীঃ\nক). ঝুঁকিমুক্ত ও নির্ভুল হিসাব পরিচালনার লক্ষ্যে কার্যপ্রণালী পর্যালোচনা করে প্রয়োজনীয় সংশোধনী প্রস্তাব করা।\nখ) সমিতির সদস্যদের নিকট হতে মাসিক চাঁদা, সার্ভিস চার্জ, ইত্যাদি যথাযথ ও নিয়মিতভাবে সংগ্রহের ব্যবস্থা করা।\nগ). যে কোন বৈধসূত্র থেকে সমিতির জন্য অনুদান সংগ্রহের ব্যবস্থা করা।\nঘ) সমিতির তহবিল, আয়-ব্যয়ের হিসাব প্রস্তুত করা ও নির্বাহী পরিষদকে তা মাসিকভিত্তিতে অবহিত করা।\nঙ) সমিতির আয়-ব্যয়ের হিসাব পরীক্ষার ব্যবস্থা করা এবং পরিষদের অনুমোদনক্রমে নিরীক্ষিত হিসাব নির্বাহী পরিষদ ও সাধারণ সভায় অনুমোদনের জন্য উপস্থাপন করা।\nচ). নির্বাহী পরিষদ কর্তৃক প্রদত্ত অন্য যে কোন দায়িত্ব পালন করা।`,
     members: [
       { name: 'ইঞ্জিনিয়ার কাজী সফিকুল ইসলাম', role: 'আহ্বায়ক', phone: '01720923328', details: 'উত্তরা ১৩নং সেক্টর ওয়েলফেয়ার সোসাইটি, উত্তরা, ঢাকা-১২৩০' },
@@ -325,7 +292,7 @@ const committees = [
   },
   // 02. নিরাপত্তা এবং আবাসিক এলাকায় পানি সমস্যা নিরসন, নির্বিঘ্ন চলাচলে অবৈধ স্থাপনা অপসারণ ও হিজড়া নিয়ন্ত্রণ উপ-কমিটি ঃ
   {
-    name: 'নিরাপত্তা এবং আবাসিক এলাকায় পানি সমস্যা নিরসন, নির্বিঘ্ন চলাচলে অবৈধ স্থাপনা অপসারণ ও হিজড়া নিয়ন্ত্রণ উপ-কমিটি ঃ',
+    name: 'নিরাপত্তা এবং আবাসিক এলাকায় পানি সমস্যা নিরসন, নির্বিঘ্ন চলাচলে অবৈধ স্থাপনা অপসারণ ও হিজড়া নিয়ন্ত্রণ উপ-কমিটি ',
     desc: `কমিটির দায়িত্বাবলীঃ\nক) সেক্টরের জন্য একটি সময়োপযোগী নিরাপত্তা নির্দেশিকা প্রণয়ন করে নির্বাহী পরিষদের সভায় উপস্থাপন করা।\nখ) সেক্টরে বসবাসকারী সদস্যদের সার্বিক নিরাপত্তা বিধানে সমিতির নিজস্ব প্রহরী ছাড়াও স্থানীয় আইন প্রয়োগকারী কর্তৃপক্ষের সহযোগিতা গ্রহণ করা।\nগ). নিরাপত্তা প্রহরীদের জন্য প্রাত্যহিক দায়িত্ব বন্টন করা এবং তা নিশ্চিত করা।\nঘ). নিরাপত্তা প্রহরীদের জন্য প্রয়োজনীয় প্রশিক্ষণের ব্যবস্থা এবং মাঝে মধ্যে তাদের ব্রিফিং প্রদান করা।\nঙ). প্রয়োজন অনুযায়ী নতুন নিরাপত্তা কর্মী নিয়োগের সুপারিশ করা।\nচ) সেক্টরের মধ্যে যাতে কোন প্রকার অনৈতিক ও অবৈধ কাজ সংঘটিত হতে না পারে তা নিশ্চিত করা।\nছ). জনগণের নির্বিঘ্ন চলাচলের জন্য সেক্টরস্থ রাস্তা/ফুটপাত থেকে ইট, বালু, পাথর, বাঁশ ইত্যাদি অপসারণের ব্যবস্থা নিতে বাড়ির মালিক/ ডিসিসি / ডেভেলপার/রাজউকের সাথে যোগাযোগ রক্ষা করে প্রয়োজনীয় ব্যবস্থা গ্রহণ ।\nজ) সেক্টরের মধ্যে পানির সমস্যা হলে তা নিরসনে প্রয়োজনীয় পদক্ষেপ গ্রহণ করা।\nট) সেক্টরে হিজড়াদের আচরণে যাতে সেক্টরবাসির কোন প্রকার অসুবিধা না হয় এবং হিজড়াদের সংগেও যাতে সেক্টরবাসির সৌহার্দ্য বজায় থাকে বিষয়টি বিবেচনায় রেখে হিজড়া নেতৃবৃন্দের সংগে আলোচনার মাধ্যমে নিয়ন্ত্রণের ব্যবস্থা করা।\nঝ). প্রতিদিন বিকাল ৪ টা থেকে রাত ১০টা পর্যন্ত মাঠের নিরাপত্তা নিশ্চিতকরণে বিশেষ ব্যবস্থা গ্রহণ ।\nঞ). নির্বাহী পরিষদ কর্তৃক প্রদত্ত অন্য যে কোন দায়িত্ব পালন করা।`,
     members: [
       { name: 'মোঃ লুৎফর রহমান তালুকদার', role: 'আহ্বায়ক', phone: '01673907200', details: 'উত্তরা ১৩নং সেক্টর ওয়েলফেয়ার সোসাইটি, উত্তরা, ঢাকা-১২৩০' },
@@ -465,7 +432,6 @@ const committees = [
 let expandedCommitteeIdx = null;
 let showMembersIdx = null;
 
-
 function isDesktop() {
     return window.innerWidth >= 992;
 }
@@ -523,12 +489,6 @@ function createLTRTree() {
     iframeBox.className = 'ltr-tree-iframe-box';
     const treeRoot = document.createElement('div');
     treeRoot.className = 'ltr-tree-root';
-
-function createLTRTree() {
-    const treeRoot = document.createElement('div');
-    treeRoot.className = 'ltr-tree-root';
-    // Committee names row
-
     const namesRow = document.createElement('div');
     namesRow.className = 'ltr-tree-level';
     committees.forEach((com, idx) => {
@@ -536,13 +496,8 @@ function createLTRTree() {
         comNode.className = 'ltr-tree-node ltr-committee-node';
         comNode.innerHTML = `<div class=\"ltr-title\" onclick=\"expandCommittee(${idx})\">${com.name}</div>`;
         namesRow.appendChild(comNode);
-
         // On mobile/tablet, show details inline as before
         if (!isDesktop() && expandedCommitteeIdx === idx) {
-
-        // Insert details and members immediately after the selected committee
-        if (expandedCommitteeIdx === idx) {
-
             // Details node
             const detailsNode = document.createElement('div');
             detailsNode.className = 'ltr-tree-node ltr-committee-node';
@@ -567,7 +522,6 @@ function createLTRTree() {
         }
     });
     treeRoot.appendChild(namesRow);
-
     iframeBox.appendChild(treeRoot);
     wrapper.appendChild(iframeBox);
 
@@ -584,14 +538,6 @@ function createLTRTree() {
 }
 
 // Update expandCommittee and viewMembers to only re-render details panel on desktop
-
-    const ltrTree = document.getElementById('ltrTree');
-    ltrTree.innerHTML = '';
-    ltrTree.appendChild(treeRoot);
-    setTimeout(drawLTRConnectors, 300);
-}
-
-
 function expandCommittee(idx) {
     if (expandedCommitteeIdx === idx) {
         expandedCommitteeIdx = null;
@@ -600,28 +546,20 @@ function expandCommittee(idx) {
         expandedCommitteeIdx = idx;
         showMembersIdx = null;
     }
-
     if (isDesktop()) {
         renderDetailsPanel();
     } else {
         createLTRTree();
     }
-
-    createLTRTree();
-
 }
 
 function viewMembers(idx) {
     showMembersIdx = idx;
-
     if (isDesktop()) {
         renderDetailsPanel();
     } else {
         createLTRTree();
     }
-
-    createLTRTree();
-
 }
 
 function showMemberModal(name, role, phone, details, photoUrl) {
@@ -688,19 +626,12 @@ function drawLTRConnectors() {
     }
 }
 
-
 window.addEventListener('resize', function() {
     createLTRTree();
 });
-
-
-window.addEventListener('resize', drawLTRConnectors);
 
 window.onload = function() {
     createLTRTree();
     setTimeout(drawLTRConnectors, 500);
 };
-
-</script> 
-
 </script> 
