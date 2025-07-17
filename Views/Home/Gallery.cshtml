@@ -4,14 +4,31 @@
 
     <style>
         .gallery-header{
-            background-image: url('https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752470483/gallerybg_mbcqtl.png');
+            background-image: url('https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752731322/tenor_cqqyue.gif');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            height: 200px;
+            height: 220px;
             width: 100%;
             color: #ffffff;
             margin-bottom: 30px;
+            position: relative;
+            border-radius: 10px;
+        }
+        .gallery-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* adjust opacity as needed */
+            z-index: 1;
+            border-radius: inherit;
+        }
+        .gallery-header > * {
+            position: relative;
+            z-index: 2;
         }
         
         @@media (max-width: 768px) {
@@ -42,7 +59,7 @@
         .gallery-nav {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
             margin-bottom: 30px;
             font-size: 18px;
             font-weight: 600;
@@ -52,14 +69,14 @@
         @@media (max-width: 768px) {
            
             .gallery-nav {
-                gap: 20px;
+                gap: 15px;
                 font-size: 16px;
             }
         }
         
         @@media (max-width: 480px) {
             .gallery-nav {
-                gap: 15px;
+                gap: 12px;
                 font-size: 14px;
                 flex-direction: column;
                 align-items: center;
@@ -308,9 +325,9 @@
     <div class="gallery-nav mb-4">
         <a class="nav-link active" data-filter="all">All</a>
         <a class="nav-link" data-filter="socialwork">Social work</a>
-        <a class="nav-link" data-filter="food">Food</a>
-        <a class="nav-link" data-filter="healthcare">Healthcare</a>
-        <a class="nav-link" data-filter="wintercare">Winter Care</a>
+        <a class="nav-link" data-filter="events">Events</a>
+        <a class="nav-link" data-filter="specialsday">Specials day</a>
+        <a class="nav-link" data-filter="development">Development</a>
         <a class="nav-link" data-filter="other">Others</a>
     </div>
 
@@ -322,41 +339,164 @@
         <div class="gallery-item" data-category="socialwork">
             <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752470304/2_sjtvie.png" alt="Social work 2" />
         </div>
+          <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667596/WhatsApp_Image_2025-07-14_at_05.55.21_4604282e_slw5jq.jpg" alt="Social work 3" />
+        </div>
+          <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667595/WhatsApp_Image_2025-07-14_at_05.55.20_b9ebdbd9_sss0js.jpg" alt="Social work 4" />
+        </div>
+          <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667596/WhatsApp_Image_2025-07-14_at_05.55.22_118d2cde_hc3oxi.jpg" alt="Social work 5" />
+        </div>
+          <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667586/WhatsApp_Image_2025-07-14_at_05.55.19_44d79d29_dpmzsc.jpg" alt="Social work 6" />
+        </div>
+          <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667585/WhatsApp_Image_2025-07-14_at_05.55.17_04e5cb46_ysclvf.jpg" alt="Social work 7" />
+        </div>
+        <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667585/WhatsApp_Image_2025-07-14_at_05.55.18_4049f6f6_usxjzn.jpg" alt="Social work 8" />
+        </div>
+        <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667583/WhatsApp_Image_2025-07-14_at_05.55.16_93cdb121_cqmzc1.jpg" alt="Social work 10" />
+        </div>
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667537/WhatsApp_Image_2025-07-01_at_17.34.15_686e7d69_syqdft.jpg" alt="Social work 11" />
+        </div>
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667526/WhatsApp_Image_2025-07-01_at_17.34.11_2747c62f_au8f51.jpg" alt="Social work 12" />
+        </div>
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667517/WhatsApp_Image_2025-07-01_at_17.34.08_57b15eb2_q9xqno.jpg" alt="Social work 13" />
+        </div>
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667517/WhatsApp_Image_2025-07-01_at_17.34.07_cecce2b3_k71da7.jpg" alt="Social work 14" />
+        </div>
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667516/WhatsApp_Image_2025-07-01_at_17.34.08_708b2eaa_rrm1yp.jpg" alt="Social work 15" />
+        </div>
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667208/WhatsApp_Image_2025-07-01_at_17.34.13_5e02e3b9_lb5tgu.jpg" alt="Social work 16" />
+        </div>
         
-        <!-- Food Images -->
-        <div class="gallery-item" data-category="food">
-            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752465139/slider1_a2kbnl.png" alt="Food 1" />
+
+        <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667615/WhatsApp_Image_2025-07-14_at_05.55.28_1df638d1_fqrzwf.jpg" alt="Social work 18" />
         </div>
-        <div class="gallery-item" data-category="food">
-            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752470295/1_uprcyf.png" alt="Food 2" />
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667607/WhatsApp_Image_2025-07-14_at_05.55.26_181389d8_sfeh4y.jpg" alt="Social work 19" />
+        </div> <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667606/WhatsApp_Image_2025-07-14_at_05.55.27_299d620d_q3mgb3.jpg" alt="Social work 20" />
+        </div>
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667667/WhatsApp_Image_2025-07-14_at_07.48.52_acbde5b0_etlraf.jpg" alt="Social work 21" />
+        </div>
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667616/WhatsApp_Image_2025-07-14_at_05.55.33_07277bed_tkbzhn.jpg" alt="Social work 22" />
+        </div>
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667626/WhatsApp_Image_2025-07-14_at_05.55.35_5c83e35d_eemrhi.jpg" alt="Social work 23" />
+        </div>
+         <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667666/WhatsApp_Image_2025-07-14_at_07.48.51_6f87042e_hxtszk.jpg" alt="Social work 24" />
+        </div>
+
+
+        <!-- events Images -->
+       
+        <div class="gallery-item" data-category="events">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752729746/WhatsApp_Image_2025-07-14_at_5.55.38_AM_mb2mvs.jpg" alt="events 2" />
         </div>
         
-        <!-- Healthcare Images -->
-        <div class="gallery-item" data-category="healthcare">
-            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752465794/1_l2txh0.jpg" alt="Healthcare 1" />
+        <div class="gallery-item" data-category="events">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752729989/WhatsApp_Image_2025-07-14_at_5.55.13_AM_wvryhk.jpg" alt="events 4" />
         </div>
-        <div class="gallery-item" data-category="healthcare">
-            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752465796/3_fpwdjq.jpg" alt="Healthcare 2" />
+        <div class="gallery-item" data-category="events">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752729991/WhatsApp_Image_2025-07-14_at_5.55.33_AM_ier8tk.jpg" alt="events 5" />
         </div>
-        <div class="gallery-item" data-category="healthcare">
-            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752465800/4_ymldde.png" alt="Healthcare 3" />
+        <div class="gallery-item" data-category="events">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752731905/WhatsApp_Image_2025-07-14_at_5.55.54_AM_fdq70u.jpg" alt="events 5" />
+
+        </div>
+        
+        <!-- socialwork Images -->
+        <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752465794/1_l2txh0.jpg" alt="socialwork 1" />
+        </div>
+        <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752465796/3_fpwdjq.jpg" alt="socialwork 2" />
+        </div>
+        <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752465800/4_ymldde.png" alt="socialwork 3" />
+        </div>
+        <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752729563/WhatsApp_Image_2025-07-14_at_7.48.54_AM_wlc0bg.jpg" alt="socialwork 4" />
+        </div>
+       
+        <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752729745/WhatsApp_Image_2025-07-14_at_7.48.51_AM_e9woin.jpg" alt="socialwork 5" />
+        </div>
+        <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752729745/WhatsApp_Image_2025-07-14_at_7.48.52_AM_ogzzqz.jpg" alt="socialwork 6" />
+        </div>
+        <div class="gallery-item" data-category="socialwork">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752729989/WhatsApp_Image_2025-07-14_at_5.55.21_AM_succnd.jpg" alt="socialwork 7" />
         </div>
        
         
         <!-- Winter Care Images -->
-        <div class="gallery-item" data-category="wintercare">
+        <div class="gallery-item" data-category="specialsday">
             <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752465139/slider3_z3vbhq.png" alt="Winter Care 1" />
+        </div>
+        <div class="gallery-item" data-category="specialsday">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752729747/WhatsApp_Image_2025-07-14_at_5.56.03_AM_1_q1y2tt.jpg" alt="Winter Care 2" />
+        </div>
+        <div class="gallery-item" data-category="specialsday">
+            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752729746/WhatsApp_Image_2025-07-14_at_5.56.03_AM_jwtjar.jpg" alt="Winter Care 3" />
         </div>
         
         <!-- Other Images -->
         <div class="gallery-item" data-category="other">
-            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752470518/3_uowxy7.png" alt="Other 1" />
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667626/WhatsApp_Image_2025-07-14_at_05.55.38_07667e2c_hoqgra.jpg" alt="Other 1" />
         </div>
         <div class="gallery-item" data-category="other">
-            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752470513/2_ljwno5.png" alt="Other 2" />
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667636/WhatsApp_Image_2025-07-14_at_05.55.45_e474c761_fqtatx.jpg" alt="Other 2" />
         </div>
         <div class="gallery-item" data-category="other">
-            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752470513/1_xzhx0v.png" alt="Other 3" />
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667547/WhatsApp_Image_2025-07-01_at_18.01.57_e49100fc_ffx5ib.jpg" alt="Other 3" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667547/WhatsApp_Image_2025-07-01_at_18.01.58_50708db4_zq0iwt.jpg" alt="Other 4" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667546/WhatsApp_Image_2025-07-01_at_18.01.57_0e223299_thrnxd.jpg" alt="Other 5" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667546/WhatsApp_Image_2025-07-01_at_18.01.56_7a870e7d_dgguwu.jpg" alt="Other 6" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667626/WhatsApp_Image_2025-07-14_at_05.55.38_07667e2c_hoqgra.jpg" alt="Other 7" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667541/WhatsApp_Image_2025-07-01_at_18.01.55_ebac93e7_hg37ad.jpg" alt="Other 8" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667565/WhatsApp_Image_2025-07-01_at_18.02.04_1cb039b0_r4kzj4.jpg" alt="Other 9" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667566/WhatsApp_Image_2025-07-01_at_18.02.04_f89fba1e_xdqenq.jpg" alt="Other 10" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667574/WhatsApp_Image_2025-07-14_at_05.55.13_c4485ed8_jkahip.jpg" alt="Other 11" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667573/WhatsApp_Image_2025-07-01_at_18.02.05_496da1a0_akkcok.jpg" alt="Other 12" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667573/WhatsApp_Image_2025-07-01_at_18.02.06_203296c5_qevlvb.jpg" alt="Other 13" />
+        </div>
+        <div class="gallery-item" data-category="other">
+            <img src="https://res.cloudinary.com/drz65fsga/image/upload/v1752667605/WhatsApp_Image_2025-07-14_at_05.55.25_8c00ab01_itkz4n.jpg" alt="Other 14" />
         </div>
     </div>
 </div>
