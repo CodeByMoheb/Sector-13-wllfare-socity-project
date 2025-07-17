@@ -1638,3 +1638,112 @@
         document.body.style.opacity = '0';
 
     </script>
+
+<!-- BMI Calculator Modal -->
+<div class="modal fade" id="bmiCalculator" tabindex="-1" aria-labelledby="bmiCalculatorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="bmiCalculatorLabel">বিএমআই ক্যালকুলেটর</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="weight" class="form-label fw-bold">ওজন (কেজি)</label>
+                    <input type="number" class="form-control form-control-lg" id="weight" placeholder="উদাহরণ: ৭০">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">উচ্চতা</label>
+                    <div class="row">
+                        <div class="col">
+                            <label for="feet" class="form-label">ফুট</label>
+                            <input type="number" class="form-control form-control-lg" id="feet" placeholder="উদাহরণ: ৫">
+                        </div>
+                        <div class="col">
+                            <label for="inches" class="form-label">ইঞ্চি</label>
+                            <input type="number" class="form-control form-control-lg" id="inches" placeholder="উদাহরণ: ৮">
+                        </div>
+                    </div>
+                </div>
+                <button onclick="calculateBMI()" class="btn btn-info btn-lg w-100 text-white">
+                    <i class="fas fa-calculator me-2"></i>বিএমআই গণনা করুন
+                </button>
+                
+                <div id="bmiResult" class="mt-4" style="display: none;">
+                    <div class="alert alert-info shadow-sm">
+                        <h5 class="mb-3">আপনার বিএমআই: <span id="bmiValue" class="badge bg-info"></span></h5>
+                        <p id="bmiCategory" class="mb-2 fw-bold"></p>
+                        <p id="bmiSuggestion" class="mb-0 mt-2"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BMI Calculator Button -->
+<button type="button" class="btn btn-info position-fixed bmi-calculator-btn animate-bounce" data-bs-toggle="modal" data-bs-target="#bmiCalculator">
+    <i class="fas fa-calculator"></i> BMI ক্যালকুলেটর
+</button>
+
+<!-- Add custom styles -->
+<style>
+    .bmi-calculator-btn {
+        bottom: 35px; /* Moved higher to avoid overlap with hotline */
+        right: 20px;
+        z-index: 1000;
+        background-color: #17a2b8;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 30px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .bmi-calculator-btn:hover {
+        transform: scale(1.05);
+        background-color: #138496;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    /* Bounce Animation */
+    .animate-bounce {
+        animation: bounce 6s infinite;
+    }
+
+   @@keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-10px);
+        }
+        60% {
+            transform: translateY(-5px);
+        }
+    }
+
+    /* Stop animation on hover */
+    .animate-bounce:hover {
+        animation: none;
+        transform: scale(1.05);
+    }
+
+    /* Make button more visible on mobile */
+   @@media (max-width: 768px) {
+        .bmi-calculator-btn {
+            padding: 8px 12px;
+            font-size: 14px;
+            bottom: 32px;
+        }
+    }
+    @@media (max-width: 480px) {
+        .bmi-calculator-btn {
+            padding: 8px 12px;
+            font-size: 14px;
+            bottom: 65px;
+        }
+    }
+
+</style>

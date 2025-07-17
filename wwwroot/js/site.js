@@ -398,3 +398,61 @@ window.addEventListener('click', function(e) {
 window.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') hideHotlineModal();
 });
+
+function calculateBMI() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const feet = parseFloat(document.getElementById('feet').value);
+    const inches = parseFloat(document.getElementById('inches').value);
+
+    // Validate inputs
+    if (!weight || !feet || isNaN(inches)) {
+        alert('অনুগ্রহ করে সঠিক তথ্য দিন');
+        return;
+    }
+
+    // Convert height to meters
+    const totalInches = (feet * 12) + (inches || 0);
+    const heightInMeters = totalInches * 0.0254;
+
+    // Calculate BMI
+    const bmi = weight / (heightInMeters * heightInMeters);
+    const roundedBMI = Math.round(bmi * 10) / 10;
+
+    // Show result
+    document.getElementById('bmiValue').textContent = roundedBMI;
+    
+    // Determine BMI category and suggestion
+    let category = '';
+    let suggestion = '';
+    
+    if (bmi < 18.5) {
+        category = 'কম ওজন';
+        suggestion = 'আপনার ওজন কম। একজন পুষ্টিবিদের পরামর্শ নিন এবং স্বাস্থ্যকর খাবার খান।';
+    } else if (bmi >= 18.5 && bmi < 25) {
+        category = 'স্বাভাবিক ওজন';
+        suggestion = 'আপনার ওজন ঠিক আছে। এভাবেই থাকুন এবং নিয়মিত ব্যায়াম করুন।';
+    } else if (bmi >= 25 && bmi < 30) {
+        category = 'বেশি ওজন';
+        suggestion = 'আপনার ওজন বেশি। নিয়মিত ব্যায়াম করুন এবং স্বাস্থ্যকর খাবার খান।';
+    } else {
+        category = 'স্থূলতা';
+        suggestion = 'আপনার ওজন অনেক বেশি। একজন ডাক্তারের পরামর্শ নিন এবং জীবনযাপন পরিবর্তন করুন।';
+    }
+
+    document.getElementById('bmiCategory').textContent = `শ্রেণী: ${category}`;
+    document.getElementById('bmiSuggestion').textContent = suggestion;
+    document.getElementById('bmiResult').style.display = 'block';
+}
+
+// Clear BMI calculator inputs when modal is closed
+document.addEventListener('DOMContentLoaded', function() {
+    const bmiModal = document.getElementById('bmiCalculator');
+    if (bmiModal) {
+        bmiModal.addEventListener('hidden.bs.modal', function () {
+            document.getElementById('weight').value = '';
+            document.getElementById('feet').value = '';
+            document.getElementById('inches').value = '';
+            document.getElementById('bmiResult').style.display = 'none';
+        });
+    }
+});
