@@ -1,0 +1,898 @@
+@{
+    ViewData["Title"] = "Our Top Contributors";
+    Layout = "_Layout";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .contributors-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        color: white;
+        padding: 120px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        min-height: 60vh;
+    }
+
+    .contributors-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        animation: float 20s ease-in-out infinite;
+    }
+
+    @@keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        animation: heroFadeIn 1.5s ease-out;
+    }
+
+    @@keyframes heroFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 800;
+        margin-bottom: 30px;
+        text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        background: linear-gradient(45deg, #fff, #f0f0f0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+
+    @@keyframes titleGlow {
+        from { text-shadow: 3px 3px 6px rgba(0,0,0,0.3); }
+        to { text-shadow: 3px 3px 20px rgba(255,255,255,0.5); }
+    }
+
+    .hero-subtitle {
+        font-size: 1.4rem;
+        opacity: 0.95;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.8;
+        animation: subtitleSlide 1.5s ease-out 0.5s both;
+    }
+
+   @@keyframes subtitleSlide {
+        from {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        to {
+            opacity: 0.95;
+            transform: translateX(0);
+        }
+    }
+
+    .contributors-section {
+        padding: 100px 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        position: relative;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 80px;
+        animation: sectionTitleFade 1s ease-out;
+    }
+
+    @@keyframes sectionTitleFade {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .section-title h2 {
+        font-size: 3rem;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-weight: 700;
+        position: relative;
+    }
+
+    .section-title h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 2px;
+    }
+
+    .section-title p {
+        font-size: 1.2rem;
+        color: #6c757d;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.7;
+    }
+
+    .contributors-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 40px;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .contributor-card {
+        background: white;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: cardReveal 0.8s ease-out forwards;
+    }
+
+    @@keyframes cardReveal {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .contributor-card:hover {
+        transform: translateY(-20px) scale(1.03);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    }
+
+    .contributor-card:hover .contributor-photo {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .contributor-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        color: white;
+        padding: 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contributor-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        animation: shimmer 4s linear infinite;
+    }
+
+    @@keyframes shimmer {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .photo-container {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 25px;
+        z-index: 2;
+    }
+
+    .contributor-photo {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 5px solid white;
+        object-fit: cover;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        transition: all 0.4s ease;
+        position: relative;
+        z-index: 2;
+    }
+
+    .photo-ring {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border: 3px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        animation: photoRing 3s linear infinite;
+    }
+
+    @@keyframes photoRing {
+        0% { transform: rotate(0deg) scale(1); opacity: 1; }
+        50% { transform: rotate(180deg) scale(1.05); opacity: 0.7; }
+        100% { transform: rotate(360deg) scale(1); opacity: 1; }
+    }
+
+    .contributor-name {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        z-index: 2;
+        position: relative;
+    }
+
+    .contributor-title {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        margin-bottom: 15px;
+        z-index: 2;
+        position: relative;
+    }
+
+    .contributor-rank {
+        display: inline-block;
+        background: rgba(255,255,255,0.25);
+        backdrop-filter: blur(10px);
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border: 1px solid rgba(255,255,255,0.3);
+        z-index: 2;
+        position: relative;
+    }
+
+    .contributor-body {
+        padding: 40px;
+        position: relative;
+    }
+
+    .contribution-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 20px;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: all 0.6s ease;
+    }
+
+    .contributor-card:hover .stat-item::before {
+        left: 100%;
+    }
+
+    .stat-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #667eea;
+        margin-bottom: 8px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .stat-label {
+        font-size: 0.95rem;
+        color: #6c757d;
+        font-weight: 600;
+        position: relative;
+        z-index: 2;
+    }
+
+    .contributor-impact {
+        margin-bottom: 25px;
+        animation: fadeInUp 0.6s ease-out 0.3s both;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .impact-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 12px;
+        position: relative;
+    }
+
+    .impact-title::before {
+        content: '✨';
+        margin-right: 10px;
+        font-size: 1rem;
+    }
+
+    .impact-text {
+        color: #6c757d;
+        line-height: 1.7;
+        font-size: 1rem;
+    }
+
+    .contributor-achievements {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .achievement-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        font-size: 0.95rem;
+        color: #6c757d;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .achievement-item:hover {
+        color: #667eea;
+        transform: translateX(10px);
+    }
+
+    .achievement-icon {
+        color: #28a745;
+        margin-right: 12px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+
+    .achievement-item:hover .achievement-icon {
+        transform: scale(1.2);
+    }
+
+    .top-contributor-badge {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        background: linear-gradient(135deg, #ffd700, #ffed4a);
+        color: #333;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+        z-index: 3;
+        animation: badgePulse 2s ease-in-out infinite;
+    }
+
+    @@keyframes badgePulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    .special-recognition {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%);
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+        margin-top: 80px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .special-recognition::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="30" r="1.5" fill="white" opacity="0.1"><animate attributeName="opacity" values="0.1;0.4;0.1" dur="2s" repeatCount="indefinite"/></circle><circle cx="30" cy="70" r="1" fill="white" opacity="0.1"><animate attributeName="opacity" values="0.1;0.5;0.1" dur="2.5s" repeatCount="indefinite"/></circle></svg>');
+    }
+
+    .recognition-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .recognition-text {
+        font-size: 1.2rem;
+        opacity: 0.95;
+        max-width: 900px;
+        margin: 0 auto;
+        line-height: 1.8;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.8rem;
+        }
+        
+        .contributors-grid {
+            grid-template-columns: 1fr;
+            padding: 0 15px;
+            gap: 30px;
+        }
+        
+        .contribution-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .photo-container {
+            width: 150px;
+            height: 150px;
+        }
+
+        .contributor-header {
+            padding: 30px 20px;
+        }
+
+        .contributor-body {
+            padding: 30px 20px;
+        }
+    }
+
+    /* Staggered animations */
+    .contributor-card:nth-child(1) { animation-delay: 0.1s; }
+    .contributor-card:nth-child(2) { animation-delay: 0.2s; }
+    .contributor-card:nth-child(3) { animation-delay: 0.3s; }
+    .contributor-card:nth-child(4) { animation-delay: 0.4s; }
+    .contributor-card:nth-child(5) { animation-delay: 0.5s; }
+    .contributor-card:nth-child(6) { animation-delay: 0.6s; }
+    .contributor-card:nth-child(7) { animation-delay: 0.7s; }
+    .contributor-card:nth-child(8) { animation-delay: 0.8s; }
+    .contributor-card:nth-child(9) { animation-delay: 0.9s; }
+    .contributor-card:nth-child(10) { animation-delay: 1s; }
+
+    /* Scroll reveal animation */
+    .scroll-reveal {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .scroll-reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<div class="contributors-hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Our Top Contributors</h1>
+        <p class="hero-subtitle">Meet the extraordinary individuals who have made significant contributions to our community's growth and development. Their dedication and generosity inspire us all to create a better tomorrow.</p>
+    </div>
+</div>
+
+<section class="contributors-section">
+    <div class="section-title scroll-reveal">
+        <h2>Champions of Change</h2>
+        <p>These remarkable contributors have demonstrated exceptional commitment to our society's mission through their generous donations, volunteer work, and community leadership.</p>
+    </div>
+
+    <div class="contributors-grid">
+        <!-- Top Contributor -->
+        <div class="contributor-card scroll-reveal">
+            <div class="top-contributor-badge">🏆 #1 Champion</div>
+            <div class="contributor-header">
+                <div class="photo-container">
+                    <div class="photo-ring"></div>
+                    <img src="https://picsum.photos/180/180?random=1" alt="Ahmed Rahman" class="contributor-photo">
+                </div>
+                <h3 class="contributor-name">Ahmed Rahman</h3>
+                <p class="contributor-title">Business Leader & Philanthropist</p>
+                <span class="contributor-rank">Top Contributor</span>
+            </div>
+            <div class="contributor-body">
+                <div class="contribution-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">৳500,000</div>
+                        <div class="stat-label">Total Donated</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">Projects Funded</div>
+                    </div>
+                </div>
+                <div class="contributor-impact">
+                    <h4 class="impact-title">Community Impact</h4>
+                    <p class="impact-text">Ahmed's generous contributions have funded educational programs for 200+ children and provided healthcare support to 500+ families in our community.</p>
+                </div>
+                <ul class="contributor-achievements">
+                    <li class="achievement-item"><span class="achievement-icon">✅</span> Established scholarship program</li>
+                    <li class="achievement-item"><span class="achievement-icon">✅</span> Built community health center</li>
+                    <li class="achievement-item"><span class="achievement-icon">✅</span> Mentored 50+ young entrepreneurs</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Second Contributor -->
+        <div class="contributor-card scroll-reveal">
+            <div class="contributor-header">
+                <div class="photo-container">
+                    <div class="photo-ring"></div>
+                    <img src="https://picsum.photos/180/180?random=2" alt="Fatima Begum" class="contributor-photo">
+                </div>
+                <h3 class="contributor-name">Fatima Begum</h3>
+                <p class="contributor-title">Healthcare Professional</p>
+                <span class="contributor-rank">Medical Champion</span>
+            </div>
+            <div class="contributor-body">
+                <div class="contribution-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">৳300,000</div>
+                        <div class="stat-label">Total Donated</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">1000+</div>
+                        <div class="stat-label">Patients Helped</div>
+                    </div>
+                </div>
+                <div class="contributor-impact">
+                    <h4 class="impact-title">Healthcare Impact</h4>
+                    <p class="impact-text">Dr. Fatima has provided free medical consultations and donated medical equipment worth over ৳200,000 to improve community healthcare.</p>
+                </div>
+                <ul class="contributor-achievements">
+                    <li class="achievement-item"><span class="achievement-icon">🏥</span> Free medical camps</li>
+                    <li class="achievement-item"><span class="achievement-icon">🩺</span> Medical equipment donation</li>
+                    <li class="achievement-item"><span class="achievement-icon">📚</span> Health awareness programs</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Third Contributor -->
+        <div class="contributor-card scroll-reveal">
+            <div class="contributor-header">
+                <div class="photo-container">
+                    <div class="photo-ring"></div>
+                    <img src="https://picsum.photos/180/180?random=3" alt="Mohammad Ali" class="contributor-photo">
+                </div>
+                <h3 class="contributor-name">Mohammad Ali</h3>
+                <p class="contributor-title">Education Advocate</p>
+                <span class="contributor-rank">Education Hero</span>
+            </div>
+            <div class="contributor-body">
+                <div class="contribution-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">৳250,000</div>
+                        <div class="stat-label">Total Donated</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">300</div>
+                        <div class="stat-label">Students Supported</div>
+                    </div>
+                </div>
+                <div class="contributor-impact">
+                    <h4 class="impact-title">Educational Impact</h4>
+                    <p class="impact-text">Mohammad has funded educational materials, school renovations, and provided scholarships to underprivileged students in our community.</p>
+                </div>
+                <ul class="contributor-achievements">
+                    <li class="achievement-item"><span class="achievement-icon">🏫</span> School renovation project</li>
+                    <li class="achievement-item"><span class="achievement-icon">🎓</span> Scholarship program</li>
+                    <li class="achievement-item"><span class="achievement-icon">📖</span> Library establishment</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Fourth Contributor -->
+        <div class="contributor-card scroll-reveal">
+            <div class="contributor-header">
+                <div class="photo-container">
+                    <div class="photo-ring"></div>
+                    <img src="https://picsum.photos/180/180?random=4" alt="Ayesha Khan" class="contributor-photo">
+                </div>
+                <h3 class="contributor-name">Ayesha Khan</h3>
+                <p class="contributor-title">Social Worker</p>
+                <span class="contributor-rank">Community Builder</span>
+            </div>
+            <div class="contributor-body">
+                <div class="contribution-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">৳200,000</div>
+                        <div class="stat-label">Total Donated</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">500+</div>
+                        <div class="stat-label">Families Helped</div>
+                    </div>
+                </div>
+                <div class="contributor-impact">
+                    <h4 class="impact-title">Social Impact</h4>
+                    <p class="impact-text">Ayesha has dedicated her time and resources to support women empowerment programs and provide emergency relief to families in crisis.</p>
+                </div>
+                <ul class="contributor-achievements">
+                    <li class="achievement-item"><span class="achievement-icon">👩‍💼</span> Women empowerment programs</li>
+                    <li class="achievement-item"><span class="achievement-icon">🆘</span> Emergency relief support</li>
+                    <li class="achievement-item"><span class="achievement-icon">🛠️</span> Skill development training</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Fifth Contributor -->
+        <div class="contributor-card scroll-reveal">
+            <div class="contributor-header">
+                <div class="photo-container">
+                    <div class="photo-ring"></div>
+                    <img src="https://picsum.photos/180/180?random=5" alt="Rashid Ahmed" class="contributor-photo">
+                </div>
+                <h3 class="contributor-name">Rashid Ahmed</h3>
+                <p class="contributor-title">Technology Entrepreneur</p>
+                <span class="contributor-rank">Tech Innovator</span>
+            </div>
+            <div class="contributor-body">
+                <div class="contribution-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">৳180,000</div>
+                        <div class="stat-label">Total Donated</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">100</div>
+                        <div class="stat-label">Youth Trained</div>
+                    </div>
+                </div>
+                <div class="contributor-impact">
+                    <h4 class="impact-title">Technology Impact</h4>
+                    <p class="impact-text">Rashid has established computer training centers and provided digital literacy programs to empower youth with technology skills.</p>
+                </div>
+                <ul class="contributor-achievements">
+                    <li class="achievement-item"><span class="achievement-icon">💻</span> Computer training center</li>
+                    <li class="achievement-item"><span class="achievement-icon">📱</span> Digital literacy programs</li>
+                    <li class="achievement-item"><span class="achievement-icon">💼</span> Job placement support</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sixth Contributor -->
+        <div class="contributor-card scroll-reveal">
+            <div class="contributor-header">
+                <div class="photo-container">
+                    <div class="photo-ring"></div>
+                    <img src="https://picsum.photos/180/180?random=6" alt="Nusrat Jahan" class="contributor-photo">
+                </div>
+                <h3 class="contributor-name">Nusrat Jahan</h3>
+                <p class="contributor-title">Environmental Activist</p>
+                <span class="contributor-rank">Green Champion</span>
+            </div>
+            <div class="contributor-body">
+                <div class="contribution-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">৳150,000</div>
+                        <div class="stat-label">Total Donated</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">500</div>
+                        <div class="stat-label">Trees Planted</div>
+                    </div>
+                </div>
+                <div class="contributor-impact">
+                    <h4 class="impact-title">Environmental Impact</h4>
+                    <p class="impact-text">Nusrat has led environmental conservation projects, including tree planting initiatives and waste management programs in our community.</p>
+                </div>
+                <ul class="contributor-achievements">
+                    <li class="achievement-item"><span class="achievement-icon">🌳</span> Tree planting campaign</li>
+                    <li class="achievement-item"><span class="achievement-icon">♻️</span> Waste management program</li>
+                    <li class="achievement-item"><span class="achievement-icon">🌍</span> Environmental awareness</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Seventh Contributor -->
+        <div class="contributor-card scroll-reveal">
+            <div class="contributor-header">
+                <div class="photo-container">
+                    <div class="photo-ring"></div>
+                    <img src="https://picsum.photos/180/180?random=7" alt="Karim Hassan" class="contributor-photo">
+                </div>
+                <h3 class="contributor-name">Karim Hassan</h3>
+                <p class="contributor-title">Sports Coach</p>
+                <span class="contributor-rank">Youth Mentor</span>
+            </div>
+            <div class="contributor-body">
+                <div class="contribution-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">৳120,000</div>
+                        <div class="stat-label">Total Donated</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">200</div>
+                        <div class="stat-label">Youth Trained</div>
+                    </div>
+                </div>
+                <div class="contributor-impact">
+                    <h4 class="impact-title">Sports Impact</h4>
+                    <p class="impact-text">Karim has established sports facilities and training programs to promote physical fitness and character development among youth.</p>
+                </div>
+                <ul class="contributor-achievements">
+                    <li class="achievement-item"><span class="achievement-icon">⚽</span> Sports facility setup</li>
+                    <li class="achievement-item"><span class="achievement-icon">🏃‍♂️</span> Youth training programs</li>
+                    <li class="achievement-item"><span class="achievement-icon">🏆</span> Character development</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Eighth Contributor -->
+        <div class="contributor-card scroll-reveal">
+            <div class="contributor-header">
+                <div class="photo-container">
+                    <div class="photo-ring"></div>
+                    <img src="https://picsum.photos/180/180?random=8" alt="Sabina Yasmin" class="contributor-photo">
+                </div>
+                <h3 class="contributor-name">Sabina Yasmin</h3>
+                <p class="contributor-title">Cultural Organizer</p>
+                <span class="contributor-rank">Culture Preserver</span>
+            </div>
+            <div class="contributor-body">
+                <div class="contribution-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">৳100,000</div>
+                        <div class="stat-label">Total Donated</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">25</div>
+                        <div class="stat-label">Events Organized</div>
+                    </div>
+                </div>
+                <div class="contributor-impact">
+                    <h4 class="impact-title">Cultural Impact</h4>
+                    <p class="impact-text">Sabina has organized cultural events, traditional art workshops, and heritage preservation programs to celebrate our community's rich culture.</p>
+                </div>
+                <ul class="contributor-achievements">
+                    <li class="achievement-item"><span class="achievement-icon">🎭</span> Cultural events</li>
+                    <li class="achievement-item"><span class="achievement-icon">🎨</span> Art workshops</li>
+                    <li class="achievement-item"><span class="achievement-icon">🏛️</span> Heritage preservation</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="special-recognition scroll-reveal">
+    <div class="recognition-title">Special Recognition</div>
+    <p class="recognition-text">
+        We extend our heartfelt gratitude to all our contributors who have made this community stronger and more vibrant. Your generosity, dedication, and commitment to making a positive difference inspire us all. Together, we continue to build a better future for our society.
+    </p>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Enhanced hover effects for contributor cards
+        const cards = document.querySelectorAll('.contributor-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-20px) scale(1.03)';
+                this.style.boxShadow = '0 25px 50px rgba(0,0,0,0.2)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.boxShadow = '0 15px 35px rgba(0,0,0,0.1)';
+            });
+        });
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all scroll-reveal elements
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add dynamic counter animation for stats
+        const statValues = document.querySelectorAll('.stat-value');
+        statValues.forEach(stat => {
+            const finalValue = stat.textContent;
+            if (finalValue.includes('৳') || finalValue.includes('+')) {
+                // Animate numbers
+                const numericValue = parseInt(finalValue.replace(/[৳,+]/g, ''));
+                if (!isNaN(numericValue)) {
+                    animateValue(stat, 0, numericValue, 2000, finalValue);
+                }
+            }
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.contributors-hero');
+            const heroContent = document.querySelector('.hero-content');
+            
+            if (hero && heroContent) {
+                heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    });
+
+    // Animate value function
+    function animateValue(element, start, end, duration, originalText) {
+        const startTimestamp = performance.now();
+        const step = (timestamp) => {
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const currentValue = Math.floor(progress * (end - start) + start);
+            
+            if (originalText.includes('৳')) {
+                element.textContent = `৳${currentValue.toLocaleString()}`;
+            } else if (originalText.includes('+')) {
+                element.textContent = `${currentValue}+`;
+            } else {
+                element.textContent = currentValue.toString();
+            }
+            
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                element.textContent = originalText; // Restore original formatting
+            }
+        };
+        requestAnimationFrame(step);
+    }
+
+    // Add floating animation to achievement icons
+    const achievementIcons = document.querySelectorAll('.achievement-icon');
+    achievementIcons.forEach((icon, index) => {
+        icon.style.animation = `float 3s ease-in-out infinite ${index * 0.5}s`;
+    });
+</script>
