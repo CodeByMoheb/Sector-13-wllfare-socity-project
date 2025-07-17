@@ -5,6 +5,234 @@
 
 
 <style>
+/* --- Enhanced Sub-Committee Design & Animations --- */
+
+body {
+  background: linear-gradient(135deg, #e3f0ff 0%, #f8fcff 100%);
+}
+
+section.container.py-5 {
+  background: rgba(255,255,255,0.95);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10), 0 1.5px 8px 0 rgba(144,202,249,0.10);
+  padding: 3rem 2rem 2.5rem 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+section.container.py-5:before {
+  content: '';
+  position: absolute;
+  top: -60px; left: -60px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, #90caf9 0%, transparent 70%);
+  opacity: 0.18;
+  z-index: 0;
+}
+section.container.py-5:after {
+  content: '';
+  position: absolute;
+  bottom: -60px; right: -60px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, #1976d2 0%, transparent 70%);
+  opacity: 0.10;
+  z-index: 0;
+}
+
+h1.display-5 {
+  letter-spacing: 1px;
+  color: #1976d2;
+  text-shadow: 0 2px 8px rgba(25,118,210,0.08);
+  animation: fadeInDown 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+
+@@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-40px); }
+  to { opacity: 1; transform: none; }
+}
+
+p.lead {
+  color: #333;
+  font-size: 1.15rem;
+  margin-bottom: 2.5rem;
+  animation: fadeIn 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+@@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ltr-tree-iframe-box {
+  background: linear-gradient(120deg, #f5faff 80%, #e3f0ff 100%);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10), 0 1.5px 8px 0 rgba(144,202,249,0.10);
+  border: 2px solid #90caf9;
+  border-radius: 18px;
+  animation: fadeInIframeBox 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+.ltr-tree-node.ltr-committee-node {
+  background: linear-gradient(120deg, #e3f0ff 60%, #f5faff 100%);
+  border: 2px solid #90caf9;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(144,202,249,0.10);
+  transition: transform 0.3s cubic-bezier(.4,2,.3,1), box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+.ltr-tree-node.ltr-committee-node:hover {
+  background: #e3f2fd;
+  box-shadow: 0 8px 32px 0 rgba(25,118,210,0.13);
+  transform: scale(1.04) translateY(-4px);
+  border-color: #1976d2;
+  z-index: 2;
+}
+@@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px);}
+  to { opacity: 1; transform: none;}
+}
+
+.ltr-title {
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #1976d2;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s;
+}
+.ltr-title:hover {
+  color: #0d47a1;
+  text-decoration: underline;
+}
+
+.ltr-tree-node.ltr-member-node {
+  background: linear-gradient(120deg, #fff 70%, #e3f0ff 100%);
+  border: 1.5px solid #90caf9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.07);
+  transition: transform 0.3s cubic-bezier(.4,2,.3,1), box-shadow 0.3s;
+  animation: fadeInMember 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+.ltr-tree-node.ltr-member-node:hover {
+  background: #e3f2fd;
+  box-shadow: 0 8px 32px 0 rgba(25,118,210,0.13);
+  transform: scale(1.04) translateY(-4px);
+  border-color: #1976d2;
+  z-index: 2;
+}
+@@keyframes fadeInMember {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+.ltr-member img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 0.3rem;
+  border: 2.5px solid #90caf9;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.10);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.ltr-member:hover img {
+  border-color: #1976d2;
+  box-shadow: 0 4px 16px rgba(25,118,210,0.18);
+}
+.ltr-member span {
+  display: block;
+  font-size: 1.01rem;
+  font-weight: 600;
+  color: #1976d2;
+  letter-spacing: 0.2px;
+  margin-top: 0.2rem;
+}
+
+.ltr-details-panel {
+  background: linear-gradient(120deg, #f8fafc 80%, #e3f0ff 100%);
+  border: 2px solid #90caf9;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10), 0 1.5px 8px 0 rgba(144,202,249,0.10);
+  animation: fadeInPanel 0.8s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  z-index: 2;
+}
+@@keyframes fadeInPanel {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: none; }
+}
+.ltr-details-panel h4 {
+  color: #1976d2;
+  font-size: 1.22rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(25,118,210,0.08);
+}
+.ltr-details-panel .ltr-desc {
+  font-size: 1.05rem;
+  color: #333;
+  margin-bottom: 1.2rem;
+  white-space: pre-line;
+  line-height: 1.7;
+}
+.ltr-details-panel .btn-outline-primary {
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.08);
+}
+.ltr-details-panel .btn-outline-primary:hover {
+  background: #1976d2;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(25,118,210,0.13);
+}
+
+/* Modal Animation */
+#memberModal .modal-content {
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+  animation: fadeInModal 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+@@keyframes fadeInModal {
+  from { opacity: 0; transform: scale(0.95);}
+  to { opacity: 1; transform: none;}
+}
+#memberModal .modal-body img {
+  border: 3px solid #90caf9;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.10);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+#memberModal .modal-body img:hover {
+  border-color: #1976d2;
+  box-shadow: 0 4px 16px rgba(25,118,210,0.18);
+}
+
+/* SVG Connector Animation */
+.ltr-tree-svg path {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: drawPath 1.2s forwards cubic-bezier(0.4,0,0.2,1);
+}
+@@keyframes drawPath {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Responsive Tweaks */
+@@media (max-width: 991px) {
+  section.container.py-5 {
+    padding: 1.5rem 0.5rem 1.2rem 0.5rem;
+    border-radius: 12px;
+  }
+  .ltr-tree-iframe-box, .ltr-details-panel {
+    border-radius: 12px;
+  }
+  .ltr-tree-node.ltr-committee-node, .ltr-tree-node.ltr-member-node {
+    border-radius: 10px;
+  }
+}
+
 .ltr-tree-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -14,7 +242,7 @@
     align-items: flex-start;
 }
 .ltr-tree-iframe-box {
-    min-width: 340px;
+    min-width: 320px;
     max-width: 420px;
     flex: 0 0 350px;
     height: 500px;
@@ -36,7 +264,6 @@
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 1rem;
-    margin-top: 0.8rem;
     margin-bottom: 1rem;
 }
 .ltr-tree-node {
@@ -189,7 +416,9 @@
     animation: fadeInIframeBox 0.7s cubic-bezier(0.4,0,0.2,1);
     transition: box-shadow 0.3s, border 0.3s, background 0.3s;
   }
-  @@keyframes fadeInIframeBox {
+  @@media {
+    
+  }keyframes fadeInIframeBox {
     from { opacity: 0; transform: translateY(30px) scale(0.98); }
     to { opacity: 1; transform: none; }
   }
@@ -219,11 +448,28 @@
     width: 100%;
   }
 }
+
+/* Section backgrounds for each committee/category */
+.ltr-tree-node.ltr-committee-node:nth-child(1) { background: linear-gradient(120deg, #e3f0ff 60%, #f5faff 100%); }
+.ltr-tree-node.ltr-committee-node:nth-child(2) { background: linear-gradient(120deg, #fffbe7 60%, #fffde7 100%); }
+.ltr-tree-node.ltr-committee-node:nth-child(3) { background: linear-gradient(120deg, #e7fff3 60%, #e7fff9 100%); }
+.ltr-tree-node.ltr-committee-node:nth-child(4) { background: linear-gradient(120deg, #ffe7f3 60%, #fff0f7 100%); }
+.ltr-tree-node.ltr-committee-node:nth-child(5) { background: linear-gradient(120deg, #e7f7ff 60%, #e7f0ff 100%); }
+/* ...add more as needed for each category */
+
+@@media (max-width: 991px) {
+  .ltr-tree-node.ltr-committee-node,
+  .ltr-tree-node.ltr-member-node {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 1rem 0.5rem;
+  }
+}
 </style>
 
-<section class="container py-4">
-    <h1 class="display-8 fw-bold text-center mb-2">উপ-কমিটি ২০২৫-২০২৬</h1>
-    <p class="lead text-center mb-2 fs-6 fw-bold text-success">উত্তরা সেক্টর ১৩ ওয়েলফেয়ার সোসাইটির ২০২৫-২০২৬ সালের উপ-কমিটিসমূহ। প্রতিটি কমিটি সমাজকল্যাণের নির্দিষ্ট ক্ষেত্রে কাজ করে। কমিটিতে ক্লিক করে সদস্যদের দেখুন।</p>
+<section class="container py-5">
+    <h1 class="display-5 fw-bold text-center mb-4">উপ-কমিটি ২০২৫-২০২৬</h1>
+    <p class="lead text-center mb-5">উত্তরা সেক্টর ১৩ ওয়েলফেয়ার সোসাইটির ২০২৫-২০২৬ সালের উপ-কমিটিসমূহ। প্রতিটি কমিটি সমাজকল্যাণের নির্দিষ্ট ক্ষেত্রে কাজ করে। কমিটিতে ক্লিক করে সদস্যদের দেখুন।</p>
 
     <div class="ltr-tree-wrapper">
         <div class="ltr-tree-iframe-box"><div id="ltrTree"></div></div>
@@ -269,7 +515,6 @@ const memberImagesRaw = {
   'ইঞ্জিনিয়ার মোঃ জালাল উদ্দিন খান': 'https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752468731/13_d8tfua.jpg',
   'আনোয়ার হোসেন': 'https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752468731/14_sv8u8j.jpg',
   'মোঃ রিয়াজুল আলম': 'https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752468731/15_epjl5p.jpg',
-  'রিয়াজুল আলম': 'https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752468731/15_epjl5p.jpg',
   'আফরোজা বেগম': 'https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752468732/16_v9llem.jpg'
 };
 const memberImages = {};
@@ -635,3 +880,23 @@ window.onload = function() {
     setTimeout(drawLTRConnectors, 500);
 };
 </script> 
+
+<!-- Member Details Modal -->
+<div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="memberModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="memberModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="modalPhoto" src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752468731/14_sv8u8j.jpg" alt="Member Photo" class="mb-3 rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #90caf9;">
+        <p><strong>পদবী:</strong> <span id="modalRole"></span></p>
+        <p><strong>ফোন:</strong> <span id="modalPhone"></span></p>
+        <p><strong>বিস্তারিত:</strong> <span id="modalDetails"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>
