@@ -552,5 +552,53 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email ?? string.Empty });
             }
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+            if (ModelState.IsValid)
+            {
+                // Get the information about the user from the external login provider
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return RedirectToAction(nameof(Login));
+                }
+
+                var user = new ApplicationUser 
+                { 
+                    UserName = model.Email, 
+                    Email = model.Email,
+                    EmailConfirmed = true,
+                    PhoneNumber = model.PhoneNumber,
+                    PhoneNumberConfirmed = true
+                };
+
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        // Add user to Member role by default
+                        await _userManager.AddToRoleAsync(user, "Member");
+                        
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                        return LocalRedirect("/Dashboard/Member");
+                    }
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(model);
+        }
     }
 } 
