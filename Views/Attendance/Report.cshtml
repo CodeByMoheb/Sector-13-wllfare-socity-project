@@ -1,0 +1,57 @@
+@model IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.Attendance>
+@{
+    ViewData["Title"] = "Attendance Report";
+    Layout = "_DashboardLayout";
+    var employees = ViewBag.Employees as List<Sector_13_Welfare_Society___Digital_Management_System.Models.Employee>;
+    int? selectedEmployeeId = ViewBag.EmployeeId as int?;
+    DateTime from = ViewBag.From;
+    DateTime to = ViewBag.To;
+}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Attendance Report</h2>
+        <button class="btn btn-secondary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+    </div>
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <label for="employeeId" class="form-label">Employee</label>
+            <select id="employeeId" name="employeeId" class="form-select">
+                <option value="">All Employees</option>
+                @foreach (var emp in employees)
+                {
+                    string selected = selectedEmployeeId == emp.Id ? "selected" : "";
+                    @:<option value="@emp.Id" @selected>@emp.Name (@emp.Role)</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="from" class="form-label">From</label>
+            <input type="date" id="from" name="from" class="form-control" value="@from.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-md-3">
+            <label for="to" class="form-label">To</label>
+            <input type="date" id="to" name="to" class="form-control" value="@to.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var att in Model) {
+            <tr>
+                <td>@employees.FirstOrDefault(e => e.Id == att.EmployeeId)?.Name (@employees.FirstOrDefault(e => e.Id == att.EmployeeId)?.Role)</td>
+                <td>@att.Date.ToString("dd MMM yyyy")</td>
+                <td>@(att.IsPresent ? "Present" : "Absent")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div> 

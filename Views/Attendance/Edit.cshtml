@@ -1,0 +1,27 @@
+@@model Sector_13_Welfare_Society___Digital_Management_System.Models.Attendance
+@{
+    ViewData["Title"] = "Edit Attendance";
+    Layout = "_DashboardLayout";
+    var employee = ViewBag.Employee;
+}
+<div class="container mt-4">
+    <h2>Edit Attendance</h2>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" name="employeeId" value="@Model.EmployeeId" />
+        <input type="hidden" name="date" value="@Model.Date.ToString("yyyy-MM-dd")" />
+        <div class="mb-3">
+            <label class="form-label">Employee</label>
+            <input type="text" class="form-control" value="@employee.Name (@employee.Role)" readonly />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Date</label>
+            <input type="text" class="form-control" value="@Model.Date.ToString("dd MMM yyyy")" readonly />
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="isPresent" name="isPresent" value="true" @(Model.IsPresent ? "checked" : "") />
+            <label class="form-check-label" for="isPresent">Present</label>
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="@Url.Action("Index", "Attendance", new { date = Model.Date.ToString("yyyy-MM-dd") })" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div> 

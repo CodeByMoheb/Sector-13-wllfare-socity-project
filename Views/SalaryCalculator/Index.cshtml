@@ -1,0 +1,133 @@
+@model IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.SalarySheetViewModel>
+@{
+    ViewData["Title"] = "Salary Calculator";
+    Layout = "_DashboardLayout";
+    int month = ViewBag.Month;
+    int year = ViewBag.Year;
+    var monthName = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
+}
+<style>
+@@media print {
+    .no-print { display: none !important; }
+    .print-header { display: block !important; }
+    .salary-slip { page-break-after: always; }
+}
+.print-header { display: none; text-align: center; margin-bottom: 20px; }
+.salary-slip { border: 1px solid #ccc; padding: 20px; margin-bottom: 30px; }
+.salary-title { font-size: 1.7rem; font-weight: 700; text-align: center; margin-bottom: 0.2em; }
+.salary-subtitle { font-size: 1.1rem; text-align: center; margin-bottom: 1.5em; }
+</style>
+<div class="container mt-4">
+    <div class="card shadow p-4 mb-4">
+        <div class="salary-title">উত্তরা ১৩নং সেক্টর ওয়েলফেয়ার সোসাইটি</div>
+        <div class="salary-subtitle">Salary Sheet - @monthName @year</div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <form method="get" class="d-flex align-items-center gap-2 no-print">
+                <label for="month" class="mb-0">Month (মাস):</label>
+                <select id="month" name="month" class="form-select d-inline w-auto mx-2">
+                    @for (int m = 1; m <= 12; m++)
+                    {
+                        string selected = m == month ? "selected" : "";
+                        @:<option value="@m" @selected>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(m)</option>
+                    }
+                </select>
+                <label for="year" class="mb-0">Year (বছর):</label>
+                <input type="number" id="year" name="year" value="@year" class="form-control d-inline w-auto mx-2" style="width:100px;" />
+                <button type="submit" class="btn btn-primary">Show</button>
+            </form>
+            <button class="btn btn-outline-primary no-print" onclick="window.print()"><i class="fas fa-print"></i> Print All</button>
+        </div>
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info text-center">No salary data available for this month. Please ensure employees and attendance are entered.</div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped salary-sheet align-middle text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ক্রমিক<br/>No.</th>
+                            <th>নাম<br/>Name</th>
+                            <th>পদবী<br/>Role</th>
+                            <th>চাকুরীতে যোগদানের তারিখ<br/>Joining Date</th>
+                            <th>মূল বেতন<br/>Base Salary</th>
+                            <th>দৈনিক হাজিরা<br/>Daily Wage</th>
+                            <th>কর্ম দিন<br/>Working Days</th>
+                            <th>মোট<br/>Total</th>
+                            <th>ক্যান্টিন ভাতা<br/>Food Allowance</th>
+                            <th>স্টাফ লোন<br/>Staff Loan</th>
+                            <th>Net Salary</th>
+                            <th class="no-print">Print</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @{
+                        int i = 1;
+                        decimal totalNet = 0;
+                    }
+                    @foreach (var emp in Model)
+                    {
+                        totalNet += emp.NetSalary;
+                        <tr>
+                            <td>@i</td>
+                            <td>@emp.Name</td>
+                            <td>@emp.Role</td>
+                            <td>@emp.JoiningDate.ToShortDateString()</td>
+                            <td>@emp.BaseSalary.ToString("C")</td>
+                            <td>@emp.DailyWage.ToString("C")</td>
+                            <td>@emp.WorkingDays</td>
+                            <td>@emp.Total.ToString("C")</td>
+                            <td>@emp.FoodAllowance.ToString("C")</td>
+                            <td>@emp.StaffLoan.ToString("C")</td>
+                            <td>@emp.NetSalary.ToString("C")</td>
+                            <td class="no-print">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="printSlip(@emp.EmployeeId)"><i class="fas fa-print"></i></button>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-secondary">
+                            <th colspan="10" class="text-end">Total Net Salary (মোট):</th>
+                            <th>@totalNet.ToString("C")</th>
+                            <th class="no-print"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- Individual Salary Slips (hidden, print one at a time) -->
+            @foreach (var emp in Model)
+            {
+                <div id="slip-@emp.EmployeeId" class="salary-slip print-header" style="display:none;">
+                    <div class="salary-title">উত্তরা ১৩নং সেক্টর ওয়েলফেয়ার সোসাইটি</div>
+                    <div class="salary-subtitle">Salary Slip - @monthName @year</div>
+                    <table class="table table-bordered">
+                        <tr><th>নাম</th><td>@emp.Name</td></tr>
+                        <tr><th>পদবী</th><td>@emp.Role</td></tr>
+                        <tr><th>চাকুরীতে যোগদানের তারিখ</th><td>@emp.JoiningDate.ToShortDateString()</td></tr>
+                        <tr><th>মূল বেতন</th><td>@emp.BaseSalary.ToString("C")</td></tr>
+                        <tr><th>দৈনিক হাজিরা</th><td>@emp.DailyWage.ToString("C")</td></tr>
+                        <tr><th>কর্ম দিন</th><td>@emp.WorkingDays</td></tr>
+                        <tr><th>মোট</th><td>@emp.Total.ToString("C")</td></tr>
+                        <tr><th>ক্যান্টিন ভাতা</th><td>@emp.FoodAllowance.ToString("C")</td></tr>
+                        <tr><th>স্টাফ লোন</th><td>@emp.StaffLoan.ToString("C")</td></tr>
+                        <tr><th>Net Salary</th><td>@emp.NetSalary.ToString("C")</td></tr>
+                    </table>
+                </div>
+            }
+        }
+    </div>
+</div>
+<script>
+function printSlip(empId) {
+    document.querySelectorAll('.salary-slip').forEach(e => e.style.display = 'none');
+    var slip = document.getElementById('slip-' + empId);
+    if (slip) {
+        slip.style.display = 'block';
+        window.print();
+        slip.style.display = 'none';
+    }
+}
+</script> 

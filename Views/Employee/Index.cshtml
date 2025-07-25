@@ -1,0 +1,38 @@
+@model IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.Employee>
+@{
+    ViewData["Title"] = "Employee List";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container mt-4">
+    <h2>Employee List</h2>
+    <a class="btn btn-primary mb-3" href="@Url.Action("Create")">Add Employee</a>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Joining Date</th>
+                <th>Base Salary</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>@emp.Name</td>
+                <td>@emp.Role</td>
+                <td>@emp.JoiningDate.ToShortDateString()</td>
+                <td>@emp.BaseSalary.ToString("C")</td>
+                <td>@(emp.IsActive ? "Active" : "Inactive")</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" href="@Url.Action("Edit", new { id = emp.Id })">Edit</a>
+                    <a class="btn btn-sm btn-danger" href="@Url.Action("Delete", new { id = emp.Id })">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div> 
