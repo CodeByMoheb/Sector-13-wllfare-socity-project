@@ -3,20 +3,26 @@ using Sector_13_Welfare_Society___Digital_Management_System.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Sector_13_Welfare_Society___Digital_Management_System.Data;
+using System.Linq;
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            var latestNotice = _context.Notices.Where(n => n.IsApproved).OrderByDescending(n => n.ApprovedAt).FirstOrDefault();
+            ViewBag.LatestNotice = latestNotice;
             return View();
         }
         

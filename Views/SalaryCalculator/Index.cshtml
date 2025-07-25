@@ -8,19 +8,21 @@
 }
 <style>
 @@media print {
-    .no-print { display: none !important; }
-    .print-header { display: block !important; }
-    .salary-slip { page-break-after: always; }
+    @@page { size: A4; margin: 10mm 10mm 10mm 10mm; }
+    body * { visibility: hidden !important; }
+    .print-area, .print-area * { visibility: visible !important; }
+    .print-area { position: absolute; left: 0; top: 0; width: 100vw; background: #fff; z-index: 9999; }
+    .no-print, nav, .sidebar, .main-footer, .topbar, .sidebar-overlay { display: none !important; }
+    .salary-title, .salary-subtitle { display: block !important; }
 }
-.print-header { display: none; text-align: center; margin-bottom: 20px; }
-.salary-slip { border: 1px solid #ccc; padding: 20px; margin-bottom: 30px; }
 .salary-title { font-size: 1.7rem; font-weight: 700; text-align: center; margin-bottom: 0.2em; }
 .salary-subtitle { font-size: 1.1rem; text-align: center; margin-bottom: 1.5em; }
+.salary-slip { border: 1px solid #ccc; padding: 20px; margin-bottom: 30px; }
 </style>
 <div class="container mt-4">
     <div class="card shadow p-4 mb-4">
-        <div class="salary-title">উত্তরা ১৩নং সেক্টর ওয়েলফেয়ার সোসাইটি</div>
-        <div class="salary-subtitle">Salary Sheet - @monthName @year</div>
+        <div class="salary-title print-only">উত্তরা ১৩নং সেক্টর ওয়েলফেয়ার সোসাইটি</div>
+        <div class="salary-subtitle print-only">Salary Sheet - @monthName @year</div>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <form method="get" class="d-flex align-items-center gap-2 no-print">
                 <label for="month" class="mb-0">Month (মাস):</label>
@@ -35,7 +37,7 @@
                 <input type="number" id="year" name="year" value="@year" class="form-control d-inline w-auto mx-2" style="width:100px;" />
                 <button type="submit" class="btn btn-primary">Show</button>
             </form>
-            <button class="btn btn-outline-primary no-print" onclick="window.print()"><i class="fas fa-print"></i> Print All</button>
+            <button class="btn btn-outline-primary no-print" onclick="printAllSalary()"><i class="fas fa-print"></i> Print All</button>
         </div>
         @if (!Model.Any())
         {
@@ -43,7 +45,9 @@
         }
         else
         {
-            <div class="table-responsive">
+            <div class="table-responsive print-area" id="salaryTableArea">
+                <div class="salary-title">উত্তরা ১৩নং সেক্টর ওয়েলফেয়ার সোসাইটি</div>
+                <div class="salary-subtitle">Salary Sheet - @monthName @year</div>
                 <table class="table table-bordered table-striped salary-sheet align-middle text-center">
                     <thead class="table-dark">
                         <tr>
@@ -74,13 +78,13 @@
                             <td>@emp.Name</td>
                             <td>@emp.Role</td>
                             <td>@emp.JoiningDate.ToShortDateString()</td>
-                            <td>@emp.BaseSalary.ToString("C")</td>
-                            <td>@emp.DailyWage.ToString("C")</td>
+                            <td>@emp.BaseSalary.ToString("N2")</td>
+                            <td>@emp.DailyWage.ToString("N2")</td>
                             <td>@emp.WorkingDays</td>
-                            <td>@emp.Total.ToString("C")</td>
-                            <td>@emp.FoodAllowance.ToString("C")</td>
-                            <td>@emp.StaffLoan.ToString("C")</td>
-                            <td>@emp.NetSalary.ToString("C")</td>
+                            <td>@emp.Total.ToString("N2")</td>
+                            <td>@emp.FoodAllowance.ToString("N2")</td>
+                            <td>@emp.StaffLoan.ToString("N2")</td>
+                            <td>@emp.NetSalary.ToString("N2")</td>
                             <td class="no-print">
                                 <button class="btn btn-outline-secondary btn-sm" onclick="printSlip(@emp.EmployeeId)"><i class="fas fa-print"></i></button>
                             </td>
@@ -91,7 +95,7 @@
                     <tfoot>
                         <tr class="table-secondary">
                             <th colspan="10" class="text-end">Total Net Salary (মোট):</th>
-                            <th>@totalNet.ToString("C")</th>
+                            <th>@totalNet.ToString("N2")</th>
                             <th class="no-print"></th>
                         </tr>
                     </tfoot>
@@ -100,20 +104,20 @@
             <!-- Individual Salary Slips (hidden, print one at a time) -->
             @foreach (var emp in Model)
             {
-                <div id="slip-@emp.EmployeeId" class="salary-slip print-header" style="display:none;">
+                <div id="slip-@emp.EmployeeId" class="salary-slip print-area" style="display:none;">
                     <div class="salary-title">উত্তরা ১৩নং সেক্টর ওয়েলফেয়ার সোসাইটি</div>
                     <div class="salary-subtitle">Salary Slip - @monthName @year</div>
                     <table class="table table-bordered">
                         <tr><th>নাম</th><td>@emp.Name</td></tr>
                         <tr><th>পদবী</th><td>@emp.Role</td></tr>
                         <tr><th>চাকুরীতে যোগদানের তারিখ</th><td>@emp.JoiningDate.ToShortDateString()</td></tr>
-                        <tr><th>মূল বেতন</th><td>@emp.BaseSalary.ToString("C")</td></tr>
-                        <tr><th>দৈনিক হাজিরা</th><td>@emp.DailyWage.ToString("C")</td></tr>
+                        <tr><th>মূল বেতন</th><td>@emp.BaseSalary.ToString("N2")</td></tr>
+                        <tr><th>দৈনিক হাজিরা</th><td>@emp.DailyWage.ToString("N2")</td></tr>
                         <tr><th>কর্ম দিন</th><td>@emp.WorkingDays</td></tr>
-                        <tr><th>মোট</th><td>@emp.Total.ToString("C")</td></tr>
-                        <tr><th>ক্যান্টিন ভাতা</th><td>@emp.FoodAllowance.ToString("C")</td></tr>
-                        <tr><th>স্টাফ লোন</th><td>@emp.StaffLoan.ToString("C")</td></tr>
-                        <tr><th>Net Salary</th><td>@emp.NetSalary.ToString("C")</td></tr>
+                        <tr><th>মোট</th><td>@emp.Total.ToString("N2")</td></tr>
+                        <tr><th>ক্যান্টিন ভাতা</th><td>@emp.FoodAllowance.ToString("N2")</td></tr>
+                        <tr><th>স্টাফ লোন</th><td>@emp.StaffLoan.ToString("N2")</td></tr>
+                        <tr><th>Net Salary</th><td>@emp.NetSalary.ToString("N2")</td></tr>
                     </table>
                 </div>
             }
@@ -121,13 +125,25 @@
     </div>
 </div>
 <script>
-function printSlip(empId) {
+function printAllSalary() {
+    // Hide all individual slips
     document.querySelectorAll('.salary-slip').forEach(e => e.style.display = 'none');
+    // Show the salary table area
+    document.getElementById('salaryTableArea').style.display = 'block';
+    window.print();
+}
+function printSlip(empId) {
+    // Hide the salary table area
+    document.getElementById('salaryTableArea').style.display = 'none';
+    // Hide all slips
+    document.querySelectorAll('.salary-slip').forEach(e => e.style.display = 'none');
+    // Show only the selected slip
     var slip = document.getElementById('slip-' + empId);
     if (slip) {
         slip.style.display = 'block';
         window.print();
         slip.style.display = 'none';
+        document.getElementById('salaryTableArea').style.display = 'block';
     }
 }
 </script> 

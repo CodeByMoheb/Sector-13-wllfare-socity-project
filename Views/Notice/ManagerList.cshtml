@@ -1,0 +1,35 @@
+@model IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.Notice>
+@{
+    ViewData["Title"] = "My Notices";
+    Layout = "_DashboardLayout";
+}
+<div class="container mt-4">
+    <h2>My Notices</h2>
+    <a class="btn btn-primary mb-3" href="@Url.Action("Create")">Create New Notice</a>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Created At</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var notice in Model) {
+            <tr>
+                <td>@notice.Title</td>
+                <td>@notice.Content</td>
+                <td>@notice.CreatedAt.ToString("g")</td>
+                <td>
+                    @if (notice.IsApproved) {
+                        <span class="badge bg-success">Approved</span>
+                    } else {
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div> 

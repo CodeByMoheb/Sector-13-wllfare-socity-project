@@ -1747,3 +1747,28 @@
     }
 
 </style>
+
+@if (ViewBag.LatestNotice != null)
+{
+    <div class="container mt-3">
+        <div class="alert alert-info shadow-sm" style="font-size:1.2rem;">
+            <strong>Notice:</strong> <span id="notice-typing"></span>
+        </div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var text = "@ViewBag.LatestNotice.Title: @ViewBag.LatestNotice.Content";
+        var i = 0;
+        var speed = 40;
+        function typeWriter() {
+            if (i < text.length) {
+                document.getElementById("notice-typing").innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+        document.getElementById("notice-typing").innerHTML = "";
+        typeWriter();
+    });
+    </script>
+}
