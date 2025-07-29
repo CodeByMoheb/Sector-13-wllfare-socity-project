@@ -24,6 +24,22 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
 builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 
+// Configure SMS Settings
+builder.Services.Configure<SmsSettings>(builder.Configuration.GetSection("SmsSettings"));
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<ISmsService, SmsService>();
+
+// Debug: Log SMS configuration
+var smsSettings = builder.Configuration.GetSection("SmsSettings").Get<SmsSettings>();
+if (smsSettings != null)
+{
+    Console.WriteLine($"SMS Settings loaded - IsEnabled: {smsSettings.IsEnabled}, ApiKey: {smsSettings.ApiKey}, SenderId: {smsSettings.SenderId}");
+}
+else
+{
+    Console.WriteLine("SMS Settings not found in configuration");
+}
+
 // Remove AddDefaultIdentity
 // builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
 //     .AddRoles<IdentityRole>()

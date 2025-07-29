@@ -3,20 +3,127 @@
     ViewData["Title"] = "Create Notice";
     Layout = "_DashboardLayout";
 }
+
 <div class="container mt-4">
-    <h2>Create Notice</h2>
-    <form asp-action="Create" method="post">
-        <div class="mb-3">
-            <label asp-for="Title" class="form-label"></label>
-            <input asp-for="Title" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0"><i class="fas fa-bullhorn me-2"></i>Create Notice</h2>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>@TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post">
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <h6><i class="fas fa-exclamation-triangle me-2"></i>Please correct the following errors:</h6>
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                            </div>
+                        }
+                        
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label fw-bold">
+                                <i class="fas fa-heading me-1"></i>Notice Title <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Title" class="form-control @(ViewData.ModelState["Title"]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                                   placeholder="Enter notice title..." />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                            <div class="form-text">Maximum 200 characters allowed.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Content" class="form-label fw-bold">
+                                <i class="fas fa-file-text me-1"></i>Notice Content <span class="text-danger">*</span>
+                            </label>
+                            <textarea asp-for="Content" class="form-control @(ViewData.ModelState["Content"]?.Errors.Count > 0 ? "is-invalid" : "")" 
+                                      rows="8" placeholder="Enter the full notice content here..."></textarea>
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                            <div class="form-text">Provide detailed information about the notice.</div>
+                        </div>
+                        
+                        <!-- Hidden fields for automatic values -->
+                        <input type="hidden" asp-for="CreatedBy" value="@User.Identity.Name" />
+                        <input type="hidden" asp-for="CreatedAt" value="@DateTime.Now" />
+                        <input type="hidden" asp-for="IsApproved" value="false" />
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Note:</strong> Your notice will be sent to the Secretary for approval before being published.
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Submit for Approval
+                            </button>
+                            <a class="btn btn-secondary" href="@Url.Action("ManagerList")">
+                                <i class="fas fa-arrow-left me-2"></i>Back to My Notices
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label asp-for="Content" class="form-label"></label>
-            <textarea asp-for="Content" class="form-control" rows="5"></textarea>
-            <span asp-validation-for="Content" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-success">Submit</button>
-        <a class="btn btn-secondary" href="@Url.Action("ManagerList")">Cancel</a>
-    </form>
-</div> 
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Auto-resize textarea
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.querySelector('textarea');
+            if (textarea) {
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            }
+            
+            // Show validation errors immediately
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const title = document.querySelector('#Title');
+                    const content = document.querySelector('#Content');
+                    
+                    let hasErrors = false;
+                    
+                    if (!title.value.trim()) {
+                        title.classList.add('is-invalid');
+                        hasErrors = true;
+                    } else {
+                        title.classList.remove('is-invalid');
+                    }
+                    
+                    if (!content.value.trim()) {
+                        content.classList.add('is-invalid');
+                        hasErrors = true;
+                    } else {
+                        content.classList.remove('is-invalid');
+                    }
+                    
+                    if (hasErrors) {
+                        e.preventDefault();
+                        alert('Please fill in all required fields.');
+                    }
+                });
+            }
+        });
+    </script>
+} 

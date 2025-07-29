@@ -1,0 +1,259 @@
+@{
+    ViewData["Title"] = "Test SMS";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-sms me-2"></i>SMS Test Panel
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Note:</strong> This panel allows you to test SMS functionality. Make sure SMS is properly configured in appsettings.json
+                    </div>
+
+                    <!-- SMS Status -->
+                    <div class="mb-4">
+                        <h5><i class="fas fa-cog me-2"></i>SMS Service Status</h5>
+                        <div id="smsStatus" class="alert alert-secondary">
+                            <i class="fas fa-spinner fa-spin me-2"></i>Checking SMS service status...
+                        </div>
+                        
+                        <!-- Balance Check Section -->
+                        <div class="mt-3 p-3 border rounded bg-light">
+                            <h6><i class="fas fa-wallet me-2"></i>Account Balance</h6>
+                            <button type="button" class="btn btn-primary" onclick="checkBalance()">
+                                <i class="fas fa-wallet me-1"></i>Check Balance
+                            </button>
+                            <div id="balanceResult" class="mt-2"></div>
+                        </div>
+                        
+                        <!-- Debug Section -->
+                        <div class="mt-3 p-3 border rounded bg-light">
+                            <h6><i class="fas fa-bug me-2"></i>Debug Tools</h6>
+                            <button type="button" class="btn btn-warning me-2" onclick="debugSettings()">
+                                <i class="fas fa-bug me-1"></i>Debug Settings
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="testConfig()">
+                                <i class="fas fa-cog me-1"></i>Test Config
+                            </button>
+                            <div id="debugResult" class="mt-2"></div>
+                            <div id="configResult" class="mt-2"></div>
+                        </div>
+                    </div>
+
+                    <!-- Test Single SMS -->
+                    <div class="mb-4">
+                        <h5><i class="fas fa-mobile-alt me-2"></i>Test Single SMS</h5>
+                        <form id="singleSmsForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                                        <input type="text" class="form-control" id="phoneNumber" 
+                                               placeholder="01712345678" value="01712345678">
+                                        <div class="form-text">Enter a valid Bangladesh phone number</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="message" class="form-label">Message</label>
+                                        <input type="text" class="form-control" id="message" 
+                                               placeholder="Test message" value="Test SMS from Sector 13 Welfare Society">
+                                        <div class="form-text">Maximum 160 characters</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Send Test SMS
+                            </button>
+                        </form>
+                        <div id="singleSmsResult" class="mt-3"></div>
+                    </div>
+
+                    <!-- Test Bulk SMS -->
+                    <div class="mb-4">
+                        <h5><i class="fas fa-users me-2"></i>Test Bulk SMS to All Members</h5>
+                        <form id="bulkSmsForm">
+                            <div class="mb-3">
+                                <label for="bulkMessage" class="form-label">Message</label>
+                                <textarea class="form-control" id="bulkMessage" rows="3" 
+                                          placeholder="Test bulk message">Test bulk SMS from Sector 13 Welfare Society</textarea>
+                                <div class="form-text">This will send SMS to all members with phone numbers</div>
+                            </div>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-broadcast-tower me-2"></i>Send Bulk SMS
+                            </button>
+                        </form>
+                        <div id="bulkSmsResult" class="mt-3"></div>
+                    </div>
+
+                    <!-- Member Phone Numbers -->
+                    <div class="mb-4">
+                        <h5><i class="fas fa-phone me-2"></i>Member Phone Numbers</h5>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Members with phone numbers for bulk SMS</span>
+                            <a href="@Url.Action("ManageMembers")" class="btn btn-sm btn-outline-success">
+                                <i class="fas fa-edit me-1"></i>Manage Members
+                            </a>
+                        </div>
+                        <div id="memberPhones" class="alert alert-secondary">
+                            <i class="fas fa-spinner fa-spin me-2"></i>Loading member phone numbers...
+                        </div>
+                    </div>
+
+                    <!-- Back Button -->
+                    <div class="text-center">
+                        <a href="@Url.Action("AllNotices")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to All Notices
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Check SMS status
+            checkSmsStatus();
+            loadMemberPhones();
+
+            // Single SMS form submission
+            $('#singleSmsForm').on('submit', function(e) {
+                e.preventDefault();
+                sendSingleSms();
+            });
+
+            // Bulk SMS form submission
+            $('#bulkSmsForm').on('submit', function(e) {
+                e.preventDefault();
+                sendBulkSms();
+            });
+        });
+
+        function checkSmsStatus() {
+            $.get('@Url.Action("TestSms")', function(data) {
+                if (data.IsEnabled) {
+                    $('#smsStatus').removeClass('alert-secondary alert-danger')
+                                 .addClass('alert-success')
+                                 .html('<i class="fas fa-check-circle me-2"></i>SMS service is enabled and ready');
+                } else {
+                    $('#smsStatus').removeClass('alert-secondary alert-success')
+                                 .addClass('alert-danger')
+                                 .html('<i class="fas fa-exclamation-triangle me-2"></i>SMS service is not enabled or not configured properly');
+                }
+            }).fail(function() {
+                $('#smsStatus').removeClass('alert-secondary alert-success')
+                             .addClass('alert-danger')
+                             .html('<i class="fas fa-exclamation-triangle me-2"></i>Failed to check SMS status');
+            });
+        }
+
+        function sendSingleSms() {
+            const phoneNumber = $('#phoneNumber').val();
+            const message = $('#message').val();
+            
+            if (!phoneNumber || !message) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            $('#singleSmsResult').html('<div class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Sending SMS...</div>');
+
+            $.get('@Url.Action("TestSms")', { phoneNumber: phoneNumber, message: message }, function(data) {
+                if (data.Success) {
+                    $('#singleSmsResult').html('<div class="alert alert-success"><i class="fas fa-check-circle me-2"></i>' + data.Message + '</div>');
+                } else {
+                    $('#singleSmsResult').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>' + (data.Message || data.Error) + '</div>');
+                }
+            }).fail(function() {
+                $('#singleSmsResult').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Failed to send SMS</div>');
+            });
+        }
+
+        function sendBulkSms() {
+            const message = $('#bulkMessage').val();
+            
+            if (!message) {
+                alert('Please enter a message');
+                return;
+            }
+
+            if (!confirm('This will send SMS to all members. Are you sure?')) {
+                return;
+            }
+
+            $('#bulkSmsResult').html('<div class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Sending bulk SMS...</div>');
+
+            $.get('@Url.Action("TestBulkSms")', { message: message }, function(data) {
+                if (data.Success) {
+                    $('#bulkSmsResult').html('<div class="alert alert-success"><i class="fas fa-check-circle me-2"></i>' + data.Message + ' to ' + data.MemberCount + ' members</div>');
+                } else {
+                    $('#bulkSmsResult').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>' + (data.Message || data.Error) + '</div>');
+                }
+            }).fail(function() {
+                $('#bulkSmsResult').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Failed to send bulk SMS</div>');
+            });
+        }
+
+        function loadMemberPhones() {
+            $.get('@Url.Action("TestBulkSms")', function(data) {
+                if (data.PhoneNumbers && data.PhoneNumbers.length > 0) {
+                    const phoneList = data.PhoneNumbers.map(phone => '<span class="badge bg-primary me-1">' + phone + '</span>').join('');
+                    $('#memberPhones').removeClass('alert-secondary')
+                                    .addClass('alert-info')
+                                    .html('<strong>Members with phone numbers (' + data.PhoneNumbers.length + '):</strong><br>' + phoneList);
+                } else {
+                    $('#memberPhones').removeClass('alert-secondary')
+                                    .addClass('alert-warning')
+                                    .html('<i class="fas fa-exclamation-triangle me-2"></i>No members with phone numbers found');
+                }
+            }).fail(function() {
+                $('#memberPhones').removeClass('alert-secondary')
+                                .addClass('alert-danger')
+                                .html('<i class="fas fa-exclamation-triangle me-2"></i>Failed to load member phone numbers');
+            });
+        }
+
+        function checkBalance() {
+            $('#balanceResult').html('<div class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Checking balance...</div>');
+            
+            $.get('@Url.Action("CheckSmsBalance")', function(data) {
+                if (data.Success) {
+                    $('#balanceResult').html('<div class="alert alert-success"><i class="fas fa-wallet me-2"></i><strong>Balance:</strong> ' + data.Balance + '</div>');
+                } else {
+                    $('#balanceResult').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Failed to check balance: ' + (data.Error || 'Unknown error') + '</div>');
+                }
+            }).fail(function() {
+                $('#balanceResult').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Failed to check balance</div>');
+            });
+        }
+
+        function debugSettings() {
+            $('#debugResult').html('<div class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Debugging settings...</div>');
+            $.get('@Url.Action("DebugSmsSettings")', function(data) {
+                $('#debugResult').html('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
+            }).fail(function() {
+                $('#debugResult').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Failed to debug settings</div>');
+            });
+        }
+
+        function testConfig() {
+            $('#configResult').html('<div class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Testing configuration...</div>');
+            $.get('@Url.Action("TestConfig")', function(data) {
+                $('#configResult').html('<pre>' + JSON.stringify(data, null, 2) + '</pre>');
+            }).fail(function() {
+                $('#configResult').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Failed to test configuration</div>');
+            });
+        }
+    </script>
+} 

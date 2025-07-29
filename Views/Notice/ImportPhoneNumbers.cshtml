@@ -1,0 +1,160 @@
+@{
+    ViewData["Title"] = "Import Phone Numbers from Sheet";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-upload me-2"></i>Import Phone Numbers from Sheet
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>@TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-file-upload me-2"></i>Upload Sheet File</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form method="post" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <label for="file" class="form-label">Select File</label>
+                                            <input type="file" class="form-control" id="file" name="file" accept=".csv,.xlsx,.xls" required />
+                                            <div class="form-text">Supported formats: CSV, Excel (.xlsx, .xls)</div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-upload me-2"></i>Import Phone Numbers
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-info-circle me-2"></i>File Format</h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6>CSV Format:</h6>
+                                    <pre class="bg-light p-2 rounded">
+Name,Phone Number
+John Doe,01712345678
+Jane Smith,01812345678
+                                    </pre>
+                                    
+                                    <h6 class="mt-3">Excel Format:</h6>
+                                    <p class="text-muted">Same format as CSV, with columns:</p>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Column A:</strong> Member Name</li>
+                                        <li><strong>Column B:</strong> Phone Number</li>
+                                    </ul>
+                                    
+                                    <div class="alert alert-info mt-3">
+                                        <i class="fas fa-lightbulb me-2"></i>
+                                        <strong>Note:</strong> First row should be headers. Phone numbers should be in Bangladesh format (e.g., 01712345678).
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sample Download -->
+                    <div class="mt-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-download me-2"></i>Sample Files</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Download sample files to understand the correct format:</p>
+                                <a href="#" class="btn btn-outline-primary me-2" onclick="downloadSampleCsv()">
+                                    <i class="fas fa-file-csv me-2"></i>Download Sample CSV
+                                </a>
+                                <a href="#" class="btn btn-outline-success" onclick="downloadSampleExcel()">
+                                    <i class="fas fa-file-excel me-2"></i>Download Sample Excel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Database Setup -->
+                    <div class="mt-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-database me-2"></i>Database Setup</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>If you're getting database errors, click the button below to create the required table:</p>
+                                <button type="button" class="btn btn-warning" onclick="createTable()">
+                                    <i class="fas fa-database me-2"></i>Create SheetMembers Table
+                                </button>
+                                <div id="tableResult" class="mt-3"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="text-center mt-4">
+                        <a href="@Url.Action("ManageSheetMembers")" class="btn btn-success">
+                            <i class="fas fa-users me-2"></i>Manage Sheet Members
+                        </a>
+                        <a href="@Url.Action("AllNotices")" class="btn btn-secondary ms-2">
+                            <i class="fas fa-arrow-left me-2"></i>Back to All Notices
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function downloadSampleCsv() {
+            const csvContent = "Name,Phone Number\nJohn Doe,01712345678\nJane Smith,01812345678\nAhmed Khan,01912345678\nFatima Begum,01612345678";
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'sample_members.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function downloadSampleExcel() {
+            alert('Excel sample download feature will be implemented. For now, please use the CSV format.');
+        }
+
+        function createTable() {
+            $('#tableResult').html('<div class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Creating table...</div>');
+            
+            $.get('@Url.Action("CreateSheetMembersTable")', function(data) {
+                if (data.Success) {
+                    $('#tableResult').html('<div class="alert alert-success"><i class="fas fa-check-circle me-2"></i>' + data.Message + '</div>');
+                } else {
+                    $('#tableResult').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Error: ' + (data.Error || 'Unknown error') + '</div>');
+                }
+            }).fail(function() {
+                $('#tableResult').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Failed to create table</div>');
+            });
+        }
+    </script>
+} 

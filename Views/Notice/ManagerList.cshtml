@@ -3,33 +3,116 @@
     ViewData["Title"] = "My Notices";
     Layout = "_DashboardLayout";
 }
+
 <div class="container mt-4">
-    <h2>My Notices</h2>
-    <a class="btn btn-primary mb-3" href="@Url.Action("Create")">Create New Notice</a>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Created At</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var notice in Model) {
-            <tr>
-                <td>@notice.Title</td>
-                <td>@notice.Content</td>
-                <td>@notice.CreatedAt.ToString("g")</td>
-                <td>
-                    @if (notice.IsApproved) {
-                        <span class="badge bg-success">Approved</span>
-                    } else {
-                        <span class="badge bg-warning text-dark">Pending</span>
-                    }
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-bullhorn me-2"></i>My Notices</h2>
+        <a class="btn btn-primary" href="@Url.Action("Create")">
+            <i class="fas fa-plus me-2"></i>Create New Notice
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>@TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>No notices found.</strong> Create your first notice to get started.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fas fa-list me-2"></i>Notice List</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th><i class="fas fa-heading me-1"></i>Title</th>
+                                <th><i class="fas fa-file-text me-1"></i>Content</th>
+                                <th><i class="fas fa-calendar me-1"></i>Created At</th>
+                                <th><i class="fas fa-clock me-1"></i>Status</th>
+                                <th><i class="fas fa-user me-1"></i>Approved By</th>
+                                <th><i class="fas fa-calendar-check me-1"></i>Approved At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var notice in Model) {
+                            <tr>
+                                <td>
+                                    <strong>@notice.Title</strong>
+                                </td>
+                                <td>
+                                    @if (notice.Content.Length > 100)
+                                    {
+                                        @(notice.Content.Substring(0, 100) + "...")
+                                    }
+                                    else
+                                    {
+                                        @notice.Content
+                                    }
+                                </td>
+                                <td>
+                                    <small class="text-muted">
+                                        @notice.CreatedAt.ToString("MMM dd, yyyy HH:mm")
+                                    </small>
+                                </td>
+                                <td>
+                                    @if (notice.IsApproved) {
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check me-1"></i>Approved
+                                        </span>
+                                    } else {
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fas fa-clock me-1"></i>Pending
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(notice.ApprovedBy))
+                                    {
+                                        <small class="text-success">@notice.ApprovedBy</small>
+                                    }
+                                    else
+                                    {
+                                        <small class="text-muted">-</small>
+                                    }
+                                </td>
+                                <td>
+                                    @if (notice.ApprovedAt.HasValue)
+                                    {
+                                        <small class="text-muted">
+                                            @notice.ApprovedAt.Value.ToString("MMM dd, yyyy HH:mm")
+                                        </small>
+                                    }
+                                    else
+                                    {
+                                        <small class="text-muted">-</small>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
 </div> 

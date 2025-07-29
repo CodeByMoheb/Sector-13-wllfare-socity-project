@@ -16,6 +16,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Notice> Notices { get; set; }
+        public DbSet<SheetMember> SheetMembers { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {

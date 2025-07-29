@@ -109,6 +109,17 @@
                         <i class="fas fa-users"></i>
                         <span class="menu-text">Admin</span>
                     </a></li>
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Notice Management <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("AllNotices", "Notice")"><i class="fas fa-list"></i> <span class="menu-text">All Notices</span></a></li>
+                            <li><a href="@Url.Action("PublicList", "Notice")"><i class="fas fa-eye"></i> <span class="menu-text">Published Notices</span></a></li>
+                            <li><a href="@Url.Action("ManageMembers", "Notice")"><i class="fas fa-phone"></i> <span class="menu-text">Manage Members</span></a></li>
+                            <li><a href="@Url.Action("TestSms", "Notice")"><i class="fas fa-sms"></i> <span class="menu-text">Test SMS</span></a></li>
+                        </ul>
+                    </li>
                 }
                 @if (roles.Contains("Member")) {
                     <li><a href="@Url.Action("Member", "Dashboard")" class="@(roles.Contains("Member") ? "active" : "")">
@@ -127,6 +138,15 @@
                         <i class="fas fa-user-graduate"></i>
                         <span class="menu-text">Secretary</span>
                     </a></li>
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Notice Management <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("SecretaryList", "Notice")"><i class="fas fa-clock"></i> <span class="menu-text">Pending Approvals</span></a></li>
+                            <li><a href="@Url.Action("PublicList", "Notice")"><i class="fas fa-eye"></i> <span class="menu-text">Published Notices</span></a></li>
+                        </ul>
+                    </li>
                 }
             </ul>
         </nav>
