@@ -99,5 +99,42 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Models
 
             await SendEmailAsync(to, subject, body);
         }
+
+        public async Task SendEmailWithAttachmentAsync(string to, string subject, string bodyHtml, byte[] attachmentBytes, string attachmentName, string contentType = "application/pdf")
+        {
+            var smtpServer = _configuration["EmailSettings:SmtpServer"];
+            var smtpPort = _configuration["EmailSettings:SmtpPort"];
+            var smtpUsername = _configuration["EmailSettings:SmtpUsername"];
+            var smtpPassword = _configuration["EmailSettings:SmtpPassword"];
+            var senderEmail = _configuration["EmailSettings:SenderEmail"];
+            var senderName = _configuration["EmailSettings:SenderName"];
+
+            if (string.IsNullOrEmpty(smtpServer) || string.IsNullOrEmpty(smtpUsername) || 
+                string.IsNullOrEmpty(smtpPassword) || string.IsNullOrEmpty(senderEmail))
+            {
+                // Log only in dev if not configured
+                Console.WriteLine($"EMAIL WITH ATTACHMENT NOT SENT: {subject} to {to} (email not configured)");
+                return;
+            }
+
+            using (var client = new SmtpClient(smtpServer, int.Parse(smtpPort ?? "587")))
+            {
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+                client.EnableSsl = true;
+
+                var message = new MailMessage
+                {
+                    From = new MailAddress(senderEmail, senderName),
+                    Subject = subject,
+                    Body = bodyHtml,
+                    IsBodyHtml = true
+                };
+                message.To.Add(to);
+                var attachment = new Attachment(new MemoryStream(attachmentBytes), attachmentName, contentType);
+                message.Attachments.Add(attachment);
+                await client.SendMailAsync(message);
+            }
+        }
     }
 } 
