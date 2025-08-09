@@ -56,11 +56,6 @@
                             <div class="form-text">Provide detailed information about the notice.</div>
                         </div>
                         
-                        <!-- Hidden fields for automatic values -->
-                        <input type="hidden" asp-for="CreatedBy" value="@User.Identity.Name" />
-                        <input type="hidden" asp-for="CreatedAt" value="@DateTime.Now" />
-                        <input type="hidden" asp-for="IsApproved" value="false" />
-                        
                         <div class="alert alert-info">
                             <i class="fas fa-info-circle me-2"></i>
                             <strong>Note:</strong> Your notice will be sent to the Secretary for approval before being published.

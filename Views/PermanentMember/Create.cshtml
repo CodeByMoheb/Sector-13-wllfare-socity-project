@@ -1,0 +1,164 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.PermanentMember
+
+@{
+    ViewData["Title"] = "Add New Permanent Member";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Add New Permanent Member</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="row">
+                            <!-- Basic Information -->
+                            <div class="col-md-6">
+                                <h5 class="text-primary mb-3">Basic Information</h5>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Name" class="form-label"></label>
+                                    <input asp-for="Name" class="form-control" placeholder="Enter member name" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="FathersOrHusbandsName" class="form-label"></label>
+                                    <input asp-for="FathersOrHusbandsName" class="form-control" placeholder="Enter father's or husband's name" />
+                                    <span asp-validation-for="FathersOrHusbandsName" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="PhoneNumber" class="form-label"></label>
+                                    <input asp-for="PhoneNumber" class="form-control" placeholder="Enter mobile number (e.g., 01712345678)" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    <small class="form-text text-muted">Format: 01712345678 or +8801712345678</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input asp-for="Email" class="form-control" placeholder="Enter email address (optional)" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Address Information -->
+                            <div class="col-md-6">
+                                <h5 class="text-primary mb-3">Address Information</h5>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="Address" class="form-label"></label>
+                                    <textarea asp-for="Address" class="form-control" rows="3" placeholder="Enter full address"></textarea>
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="Sector" class="form-label"></label>
+                                            <input asp-for="Sector" class="form-control" placeholder="Sector" />
+                                            <span asp-validation-for="Sector" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="RoadNo" class="form-label"></label>
+                                            <input asp-for="RoadNo" class="form-control" placeholder="Road No" />
+                                            <span asp-validation-for="RoadNo" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label asp-for="HouseNo" class="form-label"></label>
+                                            <input asp-for="HouseNo" class="form-control" placeholder="House No" />
+                                            <span asp-validation-for="HouseNo" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Additional Information -->
+                            <div class="col-md-6">
+                                <h5 class="text-primary mb-3">Additional Information</h5>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="DateOfBirth" class="form-label"></label>
+                                    <input asp-for="DateOfBirth" class="form-control" type="date" />
+                                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="NationalId" class="form-label"></label>
+                                    <input asp-for="NationalId" class="form-control" placeholder="Enter national ID (optional)" />
+                                    <span asp-validation-for="NationalId" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Membership Information -->
+                            <div class="col-md-6">
+                                <h5 class="text-primary mb-3">Membership Information</h5>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="MembershipDate" class="form-label"></label>
+                                    <input asp-for="MembershipDate" class="form-control" type="date" />
+                                    <span asp-validation-for="MembershipDate" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Notes" class="form-label"></label>
+                                    <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Enter any additional notes (optional)"></textarea>
+                                    <span asp-validation-for="Notes" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between">
+                                    <a asp-action="Index" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> Back to List
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Save Member
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            // Auto-format phone number
+            $('#PhoneNumber').on('input', function() {
+                let value = $(this).val().replace(/\D/g, '');
+                if (value.length > 0) {
+                    if (value.startsWith('88')) {
+                        value = value.substring(2);
+                    }
+                    if (value.startsWith('0')) {
+                        value = value.substring(1);
+                    }
+                    if (value.length > 0 && !value.startsWith('1')) {
+                        value = '1' + value;
+                    }
+                }
+                $(this).val(value);
+            });
+        });
+    </script>
+}

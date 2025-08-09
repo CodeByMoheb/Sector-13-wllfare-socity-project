@@ -1,0 +1,83 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.PermanentMember
+
+@{
+    ViewData["Title"] = "Delete Member";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title text-danger">
+                        <i class="fas fa-exclamation-triangle"></i> Delete Member
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <h5>Are you sure you want to delete this member?</h5>
+                        <p class="mb-0">This action cannot be undone. All member data will be permanently removed.</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="text-primary mb-3">Member Information</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Name:</dt>
+                                <dd class="col-sm-8">@Model.Name</dd>
+
+                                <dt class="col-sm-4">Phone Number:</dt>
+                                <dd class="col-sm-8">@Model.PhoneNumber</dd>
+
+                                <dt class="col-sm-4">Sector:</dt>
+                                <dd class="col-sm-8">@Model.Sector</dd>
+
+                                <dt class="col-sm-4">Road No:</dt>
+                                <dd class="col-sm-8">@Model.RoadNo</dd>
+
+                                <dt class="col-sm-4">House No:</dt>
+                                <dd class="col-sm-8">@Model.HouseNo</dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5 class="text-primary mb-3">Membership Details</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Membership Date:</dt>
+                                <dd class="col-sm-8">@Model.MembershipDate.ToString("dd/MM/yyyy")</dd>
+
+                                <dt class="col-sm-4">Status:</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.IsActive)
+                                    {
+                                        <span class="badge bg-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Inactive</span>
+                                    }
+                                </dd>
+
+                                <dt class="col-sm-4">Created At:</dt>
+                                <dd class="col-sm-8">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete" method="post" class="mt-4">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete Member
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

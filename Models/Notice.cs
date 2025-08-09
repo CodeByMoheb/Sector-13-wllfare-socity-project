@@ -17,6 +17,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Models
         [Display(Name = "Notice Content")]
         public string Content { get; set; } = string.Empty;
         
+        [Required]
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; } = string.Empty;
         

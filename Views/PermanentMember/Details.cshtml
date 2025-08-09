@@ -1,0 +1,119 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.PermanentMember
+
+@{
+    ViewData["Title"] = "Member Details";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="card-title">Member Details</h3>
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="text-primary mb-3">Basic Information</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Name:</dt>
+                                <dd class="col-sm-8">@Model.Name</dd>
+
+                                <dt class="col-sm-4">Father's/Husband's Name:</dt>
+                                <dd class="col-sm-8">@Model.FathersOrHusbandsName</dd>
+
+                                <dt class="col-sm-4">Phone Number:</dt>
+                                <dd class="col-sm-8">@Model.PhoneNumber</dd>
+
+                                <dt class="col-sm-4">Email:</dt>
+                                <dd class="col-sm-8">@(Model.Email ?? "Not provided")</dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5 class="text-primary mb-3">Address Information</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Address:</dt>
+                                <dd class="col-sm-8">@Model.Address</dd>
+
+                                <dt class="col-sm-4">Sector:</dt>
+                                <dd class="col-sm-8">@Model.Sector</dd>
+
+                                <dt class="col-sm-4">Road No:</dt>
+                                <dd class="col-sm-8">@Model.RoadNo</dd>
+
+                                <dt class="col-sm-4">House No:</dt>
+                                <dd class="col-sm-8">@Model.HouseNo</dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h5 class="text-primary mb-3">Additional Information</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Date of Birth:</dt>
+                                <dd class="col-sm-8">@(Model.DateOfBirth?.ToString("dd/MM/yyyy") ?? "Not provided")</dd>
+
+                                <dt class="col-sm-4">National ID:</dt>
+                                <dd class="col-sm-8">@(Model.NationalId ?? "Not provided")</dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5 class="text-primary mb-3">Membership Information</h5>
+                            <dl class="row">
+                                <dt class="col-sm-4">Membership Date:</dt>
+                                <dd class="col-sm-8">@Model.MembershipDate.ToString("dd/MM/yyyy")</dd>
+
+                                <dt class="col-sm-4">Status:</dt>
+                                <dd class="col-sm-8">
+                                    @if (Model.IsActive)
+                                    {
+                                        <span class="badge bg-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">Inactive</span>
+                                    }
+                                </dd>
+
+                                <dt class="col-sm-4">Created At:</dt>
+                                <dd class="col-sm-8">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                                @if (Model.UpdatedAt.HasValue)
+                                {
+                                    <dt class="col-sm-4">Updated At:</dt>
+                                    <dd class="col-sm-8">@Model.UpdatedAt.Value.ToString("dd/MM/yyyy HH:mm")</dd>
+                                }
+                            </dl>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Notes))
+                    {
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h5 class="text-primary mb-3">Notes</h5>
+                                <div class="alert alert-info">
+                                    @Model.Notes
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

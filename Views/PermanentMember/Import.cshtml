@@ -1,0 +1,97 @@
+@{
+    ViewData["Title"] = "Import Permanent Members";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Import Permanent Members</h3>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5 class="text-primary mb-3">Upload CSV File</h5>
+                            <form asp-action="Import" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="file" class="form-label">Select CSV File</label>
+                                    <input type="file" class="form-control" id="file" name="file" accept=".csv" required />
+                                    <div class="form-text">Please upload a CSV file with the following columns: Name, Father's/Husband's Name, Address, Road No, House No, Sector, Phone Number, Email (optional), National ID (optional)</div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <a asp-action="Index" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> Back to List
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-upload"></i> Import Members
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">CSV Format Instructions</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p class="small">Your CSV file should have the following format:</p>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-bordered">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>Column</th>
+                                                    <th>Required</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr><td>Name</td><td><span class="badge bg-danger">Yes</span></td></tr>
+                                                <tr><td>Father's/Husband's Name</td><td><span class="badge bg-danger">Yes</span></td></tr>
+                                                <tr><td>Address</td><td><span class="badge bg-danger">Yes</span></td></tr>
+                                                <tr><td>Road No</td><td><span class="badge bg-danger">Yes</span></td></tr>
+                                                <tr><td>House No</td><td><span class="badge bg-danger">Yes</span></td></tr>
+                                                <tr><td>Sector</td><td><span class="badge bg-danger">Yes</span></td></tr>
+                                                <tr><td>Phone Number</td><td><span class="badge bg-danger">Yes</span></td></tr>
+                                                <tr><td>Email</td><td><span class="badge bg-warning">No</span></td></tr>
+                                                <tr><td>National ID</td><td><span class="badge bg-warning">No</span></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card bg-light mt-3">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">Sample CSV</h6>
+                                </div>
+                                <div class="card-body">
+                                    <pre class="small">Name,Father's/Husband's Name,Address,Road No,House No,Sector,Phone Number,Email,National ID
+John Doe,Robert Doe,123 Main Street,1,15,13,01712345678,john@example.com,1234567890
+Jane Smith,William Smith,456 Oak Avenue,2,25,13,01812345678,jane@example.com,0987654321</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
