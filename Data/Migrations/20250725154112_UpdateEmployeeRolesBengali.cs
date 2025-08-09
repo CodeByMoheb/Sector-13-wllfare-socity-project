@@ -47,51 +47,40 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Data.Migrations
                 oldType: "nvarchar(128)",
                 oldMaxLength: 128);
 
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    JoiningDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BaseSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
-                });
+            // Create Employees table only if it does not already exist
+            migrationBuilder.Sql(@"
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Employees]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [dbo].[Employees](
+        [Id] [int] IDENTITY(1,1) NOT NULL,
+        [Name] [nvarchar](100) NOT NULL,
+        [Role] [nvarchar](50) NOT NULL,
+        [JoiningDate] [datetime2] NOT NULL,
+        [BaseSalary] [decimal](18,2) NOT NULL,
+        [IsActive] [bit] NOT NULL,
+        [CreatedAt] [datetime2] NOT NULL,
+        [UpdatedAt] [datetime2] NULL,
+        CONSTRAINT [PK_Employees] PRIMARY KEY CLUSTERED ([Id] ASC)
+    );
+END
+");
 
-            migrationBuilder.CreateTable(
-                name: "Attendances",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsPresent = table.Column<bool>(type: "bit", nullable: false),
-                    Remarks = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attendances", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Attendances_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attendances_EmployeeId",
-                table: "Attendances",
-                column: "EmployeeId");
+            // Create Attendances table only if it does not already exist
+            migrationBuilder.Sql(@"
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Attendances]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE [dbo].[Attendances](
+        [Id] [int] IDENTITY(1,1) NOT NULL,
+        [EmployeeId] [int] NOT NULL,
+        [Date] [datetime2] NOT NULL,
+        [IsPresent] [bit] NOT NULL,
+        [Remarks] [nvarchar](200) NULL,
+        CONSTRAINT [PK_Attendances] PRIMARY KEY CLUSTERED ([Id] ASC),
+        CONSTRAINT [FK_Attendances_Employees_EmployeeId] FOREIGN KEY([EmployeeId]) REFERENCES [dbo].[Employees]([Id]) ON DELETE CASCADE
+    );
+    CREATE INDEX [IX_Attendances_EmployeeId] ON [dbo].[Attendances]([EmployeeId]);
+END
+");
         }
 
         /// <inheritdoc />

@@ -16,6 +16,17 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             _context = context;
         }
 
+        // GET: PermanentMember/ManagerList
+        [Authorize(Roles = "Manager,Admin,President,Secretary")]
+        public async Task<IActionResult> ManagerList()
+        {
+            var members = await _context.PermanentMembers
+                .AsNoTracking()
+                .OrderBy(m => m.Name)
+                .ToListAsync();
+            return View(members);
+        }
+
         // GET: PermanentMember
         public async Task<IActionResult> Index(string searchString, string sortOrder, int? pageNumber)
         {

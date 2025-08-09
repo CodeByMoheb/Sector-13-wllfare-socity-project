@@ -22,7 +22,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.Configure<SmsSettings>(builder.Configuration.GetSection("SmsSettings"));
 builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
+builder.Services.AddScoped<Sector_13_Welfare_Society___Digital_Management_System.Models.Services.Sms.ISmsSender, Sector_13_Welfare_Society___Digital_Management_System.Models.Services.Sms.BulkSmsBdSender>();
 
 // Remove AddDefaultIdentity
 // builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)

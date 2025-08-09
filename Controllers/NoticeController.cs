@@ -6,15 +6,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Sector_13_Welfare_Society___Digital_Management_System.Models.Services.Sms;
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
     public class NoticeController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public NoticeController(ApplicationDbContext context)
+        private readonly ISmsSender _smsSender;
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
+        public NoticeController(ApplicationDbContext context, ISmsSender smsSender, IEmailService emailService, IConfiguration configuration)
         {
             _context = context;
+            _smsSender = smsSender;
+            _emailService = emailService;
+            _configuration = configuration;
         }
 
         // GET: /Notice/ManagerList
@@ -111,7 +118,34 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                     notice.ApprovedAt = DateTime.Now;
                     await _context.SaveChangesAsync();
                     
-                    TempData["Success"] = "Notice approved successfully.";
+                    // Send notifications inline to avoid disposed scoped services
+                    try
+                    {
+                        var shouldSendSms = _configuration.GetValue<bool>("SmsSettings:SendOnNoticePublish");
+                        var smsBody = $"Notice: {notice.Title}\n{(notice.Content.Length > 120 ? notice.Content.Substring(0,120)+"..." : notice.Content)}";
+
+                        if (shouldSendSms)
+                        {
+                            var phones = await _context.PermanentMembers.Where(m => m.IsActive && !string.IsNullOrEmpty(m.PhoneNumber))
+                                .Select(m => m.PhoneNumber).ToArrayAsync();
+                            if (phones.Length > 0)
+                            {
+                                await _smsSender.SendBulkAsync(phones, smsBody);
+                            }
+                        }
+
+                        var emails = await _context.PermanentMembers.Where(m => m.IsActive && m.Email != null && m.Email != "")
+                            .Select(m => m.Email!).ToListAsync();
+                        foreach (var email in emails)
+                        {
+                            await _emailService.SendEmailAsync(email, $"New Notice Published: {notice.Title}", $"<p>{notice.Content}</p>");
+                        }
+                        TempData["Success"] = "Notice approved successfully and notifications attempted.";
+                    }
+                    catch
+                    {
+                        TempData["Warning"] = "Notice approved. Failed to send some notifications.";
+                    }
                 }
                 else
                 {

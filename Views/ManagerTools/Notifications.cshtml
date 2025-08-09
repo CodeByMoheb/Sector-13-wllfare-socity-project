@@ -1,0 +1,83 @@
+@{
+    ViewData["Title"] = "Notifications Status";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container mt-4">
+    <h2><i class="fas fa-bell me-2"></i>Notifications Status</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light"><strong>Configuration</strong></div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">SMS API Key: <span class="badge bg-@(ViewBag.Config.SmsApiKey=="Configured"?"success":"danger")">@ViewBag.Config.SmsApiKey</span></li>
+                        <li class="list-group-item">SMS Sender ID: <strong>@ViewBag.Config.SmsSenderId</strong></li>
+                        <li class="list-group-item">SMS On Publish: <strong>@ViewBag.Config.SmsOnPublish</strong></li>
+                        <li class="list-group-item">Email Host: <strong>@ViewBag.Config.EmailHost</strong></li>
+                        <li class="list-group-item">Email User: <span class="badge bg-@(ViewBag.Config.EmailUser=="Configured"?"success":"danger")">@ViewBag.Config.EmailUser</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light"><strong>Member Stats</strong></div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Active Members: <strong>@ViewBag.ActiveMembers</strong></li>
+                        <li class="list-group-item">With Phone: <strong>@ViewBag.WithPhone</strong></li>
+                        <li class="list-group-item">With Email: <strong>@ViewBag.WithEmail</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mt-3">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header"><strong>Send Test SMS</strong></div>
+                <div class="card-body">
+                    <form asp-action="TestSms" asp-controller="ManagerTools" method="post">
+                        <div class="mb-2">
+                            <label class="form-label">Phone number</label>
+                            <input name="testNumber" class="form-control" placeholder="01XXXXXXXXX or 8801XXXXXXXXX" />
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Message</label>
+                            <input name="message" class="form-control" value="TestSMS from Sector 13" />
+                        </div>
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-paper-plane me-1"></i>Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header"><strong>Send Test Email</strong></div>
+                <div class="card-body">
+                    <form asp-action="TestEmail" asp-controller="ManagerTools" method="post">
+                        <div class="mb-2">
+                            <label class="form-label">Email</label>
+                            <input name="testEmail" type="email" class="form-control" placeholder="you@example.com" />
+                        </div>
+                        <button class="btn btn-primary" type="submit"><i class="fas fa-envelope me-1"></i>Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

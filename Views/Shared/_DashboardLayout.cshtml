@@ -101,6 +101,15 @@
                         <ul class="sidebar-dropdown" style="display:none;">
                             <li><a href="@Url.Action("Create", "Notice")"><i class="fas fa-plus"></i> <span class="menu-text">Create Notice</span></a></li>
                             <li><a href="@Url.Action("ManagerList", "Notice")"><i class="fas fa-list"></i> <span class="menu-text">My Notices</span></a></li>
+                            <li><a href="@Url.Action("Notifications", "ManagerTools")"><i class="fas fa-bell"></i> <span class="menu-text">Notifications Status</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Permanent Members <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("ManagerList", "PermanentMember")"><i class="fas fa-address-book"></i> <span class="menu-text">Members</span></a></li>
                         </ul>
                     </li>
                 }
