@@ -41,6 +41,13 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Notice notice)
         {
+            // Server-set fields should not participate in client validation
+            ModelState.Remove(nameof(Notice.CreatedBy));
+            ModelState.Remove(nameof(Notice.CreatedAt));
+            ModelState.Remove(nameof(Notice.IsApproved));
+            ModelState.Remove(nameof(Notice.ApprovedBy));
+            ModelState.Remove(nameof(Notice.ApprovedAt));
+
             if (ModelState.IsValid)
             {
                 try
@@ -77,6 +84,17 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             return View(notices);
         }
 
+        // GET: /Notice/PublishedList
+        [Authorize(Roles = "Secretary")]
+        public IActionResult PublishedList()
+        {
+            var notices = _context.Notices
+                .Where(n => n.IsApproved)
+                .OrderByDescending(n => n.ApprovedAt)
+                .ToList();
+            return View(notices);
+        }
+
         // POST: /Notice/Approve/{id}
         [HttpPost]
         [Authorize(Roles = "Secretary")]
@@ -105,6 +123,33 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 TempData["Error"] = "An error occurred while approving the notice.";
             }
             
+            return RedirectToAction("SecretaryList");
+        }
+
+        // POST: /Notice/Delete/{id}
+        [HttpPost]
+        [Authorize(Roles = "Secretary")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var notice = await _context.Notices.FirstOrDefaultAsync(n => n.Id == id);
+                if (notice == null)
+                {
+                    TempData["Error"] = "Notice not found.";
+                    return RedirectToAction("SecretaryList");
+                }
+
+                _context.Notices.Remove(notice);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Notice deleted successfully.";
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "An error occurred while deleting the notice.";
+            }
+
             return RedirectToAction("SecretaryList");
         }
 
