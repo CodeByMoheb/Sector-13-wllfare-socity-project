@@ -10,15 +10,21 @@ using Sector_13_Welfare_Society___Digital_Management_System.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
+using Microsoft.AspNetCore.OutputCaching;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-// Use SQL Server for both development and production
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+// Use SQL Server for both development and production with context pooling
+builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
@@ -63,6 +69,27 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+// Compression & caching
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
+    {
+        "text/plain","text/html","text/css","application/javascript","application/json","image/svg+xml"
+    });
+});
+builder.Services.Configure<BrotliCompressionProviderOptions>(o => o.Level = CompressionLevel.Fastest);
+builder.Services.Configure<GzipCompressionProviderOptions>(o => o.Level = CompressionLevel.Fastest);
+builder.Services.AddResponseCaching();
+builder.Services.AddOutputCache(options =>
+{
+    options.AddPolicy("Public60", b => b.Expire(TimeSpan.FromSeconds(60)).SetVaryByRouteValue("id"));
+    options.AddPolicy("Public300", b => b.Expire(TimeSpan.FromSeconds(300)));
+});
+builder.Services.AddMemoryCache();
+
 // Register Google authentication AFTER Identity
 builder.Services.AddAuthentication()
     .AddGoogle(options =>
@@ -89,13 +116,25 @@ else
     app.UseHttpsRedirection();
 }
 
-app.UseStaticFiles();
+app.UseResponseCompression();
+
+// Cache static files aggressively in production
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        const int oneYearSeconds = 60 * 60 * 24 * 365;
+        ctx.Context.Response.Headers["Cache-Control"] = $"public,max-age={oneYearSeconds},immutable";
+    }
+});
 // Add localization middleware before UseRouting
 var locOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(locOptions.Value);
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseResponseCaching();
+app.UseOutputCache();
 
 app.MapControllerRoute(
     name: "default",

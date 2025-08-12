@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Sector_13_Welfare_Society___Digital_Management_System.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Localization;
@@ -19,6 +20,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             _context = context;
         }
 
+        [OutputCache(PolicyName = "Public300")]
         public IActionResult Index()
         {
             var latestNotice = _context.Notices.Where(n => n.IsApproved).OrderByDescending(n => n.ApprovedAt).FirstOrDefault();

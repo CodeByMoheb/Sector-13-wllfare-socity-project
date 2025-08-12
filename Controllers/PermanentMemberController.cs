@@ -20,7 +20,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [Authorize(Roles = "Manager,Admin,President,Secretary")]
         public async Task<IActionResult> ManagerList()
         {
-            var members = await _context.PermanentMembers
+            var members = await _context.PermanentMembers.AsNoTracking()
                 .AsNoTracking()
                 .OrderBy(m => m.Name)
                 .ToListAsync();
@@ -35,7 +35,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["CurrentFilter"] = searchString;
 
-            var members = from m in _context.PermanentMembers
+            var members = from m in _context.PermanentMembers.AsNoTracking()
                          select m;
 
             if (!String.IsNullOrEmpty(searchString))

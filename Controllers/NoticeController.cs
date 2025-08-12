@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Sector_13_Welfare_Society___Digital_Management_System.Models.Services.Sms;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
@@ -28,7 +29,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [Authorize(Roles = "Manager")]
         public IActionResult ManagerList()
         {
-            var notices = _context.Notices
+            var notices = _context.Notices.AsNoTracking()
                 .Where(n => n.CreatedBy == User.Identity.Name)
                 .OrderByDescending(n => n.CreatedAt)
                 .ToList();
@@ -84,7 +85,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [Authorize(Roles = "Secretary")]
         public IActionResult SecretaryList()
         {
-            var notices = _context.Notices
+            var notices = _context.Notices.AsNoTracking()
                 .Where(n => !n.IsApproved)
                 .OrderByDescending(n => n.CreatedAt)
                 .ToList();
@@ -95,7 +96,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [Authorize(Roles = "Secretary")]
         public IActionResult PublishedList()
         {
-            var notices = _context.Notices
+            var notices = _context.Notices.AsNoTracking()
                 .Where(n => n.IsApproved)
                 .OrderByDescending(n => n.ApprovedAt)
                 .ToList();
@@ -188,11 +189,13 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         }
 
         // GET: /Notice/PublicList - Public notice listing
+        [OutputCache(PolicyName = "Public60")]
         public async Task<IActionResult> PublicList()
         {
             var approvedNotices = await _context.Notices
                 .Where(n => n.IsApproved)
                 .OrderByDescending(n => n.ApprovedAt)
+                .AsNoTracking()
                 .ToListAsync();
             
             return View(approvedNotices);
