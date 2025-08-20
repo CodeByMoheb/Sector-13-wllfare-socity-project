@@ -704,12 +704,13 @@ async function loadRecentDonations() {
                         </div>
                         <div>
                             <strong>${donor.isAnonymous ? 'Anonymous Donor' : donor.name}</strong>
+                            <span class="badge bg-success fs-6">৳${parseFloat(donor.amount).toLocaleString()}</span>
                             ${donor.message ? `<br><small class="text-muted">"${donor.message}"</small>` : ''}
                         </div>
                     </div>
                 </td>
                 <td>
-                    <span class="badge bg-success fs-6">৳${parseFloat(donor.amount).toLocaleString()}</span>
+                    @* <span class="badge bg-success fs-6">৳${parseFloat(donor.amount).toLocaleString()}</span> *@
                 </td>
                 <td>
                     <span class="badge bg-primary">${donor.donationType || 'General'}</span>

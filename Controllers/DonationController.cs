@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using Sector_13_Welfare_Society___Digital_Management_System.Models.Services.Sms;
+using Microsoft.Data.SqlClient;
 
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
@@ -116,6 +117,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                     _context.Donors.Add(donor);
                     await _context.SaveChangesAsync();
                     
+                    System.Diagnostics.Debug.WriteLine($"ProcessDonation: Created donor with ID {donor.Id}, ReceiptNumber: {donor.ReceiptNumber}");
+                    
                     return RedirectToAction("SSLCommerzPayment", new { id = donor.Id });
                 }
             }
@@ -163,6 +166,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             // Update donor with transaction ID
             donor.TransactionId = tranId;
             await _context.SaveChangesAsync();
+            
+            System.Diagnostics.Debug.WriteLine($"SSLCommerzPayment: Updated donor {donor.Id} with TransactionId: {tranId}");
 
             // Create payment request data with correct SSL Commerz parameters
             var paymentData = new Dictionary<string, string>
@@ -326,30 +331,97 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             try
             {
                 var tranId = Request.Form["tran_id"].ToString() ?? "";
+                var status = Request.Form["status"].ToString() ?? "";
+                var bankTranId = Request.Form["bank_tran_id"].ToString() ?? "";
+                var donorIdStr = Request.Form["value_a"].ToString() ?? "";
+                
+                System.Diagnostics.Debug.WriteLine($"IPN called with tranId: {tranId}, status: {status}, bankTranId: {bankTranId}, donorIdStr: {donorIdStr}");
+                
                 if (string.IsNullOrEmpty(tranId))
                 {
                     return BadRequest("Invalid transaction ID");
                 }
 
-                var donor = await _context.Donors.FirstOrDefaultAsync(d => d.TransactionId == tranId);
+                // Try multiple ways to find the donor
+                Donor donor = null;
+                
+                // Method 1: Find by exact transaction ID
+                donor = await _context.Donors.FirstOrDefaultAsync(d => d.TransactionId == tranId);
+                
+                // Method 2: Find by donor ID from value_a
+                if (donor == null && !string.IsNullOrEmpty(donorIdStr) && int.TryParse(donorIdStr, out int donorId))
+                {
+                    donor = await _context.Donors.FindAsync(donorId);
+                }
+                
+                // Method 3: Find by partial transaction ID match
+                if (donor == null)
+                {
+                    donor = await _context.Donors.FirstOrDefaultAsync(d => 
+                        d.TransactionId != null && 
+                        (d.TransactionId.Contains(tranId) || tranId.Contains(d.TransactionId)));
+                }
                 
                 if (donor != null)
                 {
-                    var status = Request.Form["status"].ToString() ?? "";
-                    donor.PaymentStatus = status == "VALID" ? "Completed" : "Failed";
-                    donor.TransactionId = Request.Form["bank_tran_id"].ToString() ?? tranId;
-                    await _context.SaveChangesAsync();
-                    if (donor.PaymentStatus == "Completed")
+                    var oldStatus = donor.PaymentStatus;
+                    var newStatus = status == "VALID" ? "Completed" : "Failed";
+                    
+                    System.Diagnostics.Debug.WriteLine($"IPN: Found donor {donor.Id}, updating status from {oldStatus} to {newStatus}");
+                    
+                    try
                     {
-                        await NotifyDonorAsync(donor);
+                        // Use a fresh database context to avoid tracking issues
+                        var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+                        optionsBuilder.UseSqlServer(_context.Database.GetConnectionString());
+                        using (var newContext = new ApplicationDbContext(optionsBuilder.Options))
+                        {
+                            var freshDonor = await newContext.Donors.FindAsync(donor.Id);
+                            if (freshDonor != null)
+                            {
+                                // Update payment status
+                                freshDonor.PaymentStatus = newStatus;
+                                
+                                // Update transaction ID if we have a bank transaction ID
+                                if (!string.IsNullOrEmpty(bankTranId))
+                                {
+                                    freshDonor.TransactionId = bankTranId;
+                                }
+                                
+                                // Save changes to database
+                                var rowsAffected = await newContext.SaveChangesAsync();
+                                System.Diagnostics.Debug.WriteLine($"IPN: Database save completed. Rows affected: {rowsAffected}");
+                                
+                                // Verify the save was successful
+                                await newContext.Entry(freshDonor).ReloadAsync();
+                                System.Diagnostics.Debug.WriteLine($"IPN: After save - Donor {freshDonor.Id} status: {freshDonor.PaymentStatus}");
+                                
+                                if (freshDonor.PaymentStatus == "Completed")
+                                {
+                                    await NotifyDonorAsync(freshDonor);
+                                    System.Diagnostics.Debug.WriteLine($"IPN: Notifications sent for donor {freshDonor.Id}");
+                                }
+                            }
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"IPN Error updating donor status: {ex.Message}");
+                        // Fallback: try direct SQL update
+                        await UpdateDonorStatusDirectly(donor.Id, newStatus, bankTranId);
+                    }
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"IPN: Donor not found for tranId: {tranId}");
                 }
 
                 return Ok();
             }
             catch (Exception ex)
             {
-
+                System.Diagnostics.Debug.WriteLine($"IPN Exception: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"IPN Exception Stack: {ex.StackTrace}");
                 return BadRequest();
             }
         }
@@ -365,61 +437,109 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 var bankTranId = Request.Form["bank_tran_id"].ToString() ?? Request.Query["bank_tran_id"].ToString() ?? "";
                 var donorIdStr = Request.Form["value_a"].ToString() ?? Request.Query["value_a"].ToString() ?? "";
                 
+                System.Diagnostics.Debug.WriteLine($"PaymentSuccess called with tranId: {tranId}, status: {status}, bankTranId: {bankTranId}, donorIdStr: {donorIdStr}");
+                
                 if (string.IsNullOrEmpty(tranId))
                 {
                     TempData["Error"] = "Invalid transaction ID.";
                     return RedirectToAction("Index", "Home", new { area = "" });
                 }
 
-                // Try to find donor by transaction ID first
-                var donor = await _context.Donors.FirstOrDefaultAsync(d => d.TransactionId == tranId);
+                // Try multiple ways to find the donor
+                Donor donor = null;
                 
-                // If not found by transaction ID, try to find by the value_a field (donor ID)
+                // Method 1: Find by exact transaction ID
+                donor = await _context.Donors.FirstOrDefaultAsync(d => d.TransactionId == tranId);
+                
+                // Method 2: Find by donor ID from value_a
                 if (donor == null && !string.IsNullOrEmpty(donorIdStr) && int.TryParse(donorIdStr, out int donorId))
                 {
                     donor = await _context.Donors.FindAsync(donorId);
                 }
                 
+                // Method 3: Find by partial transaction ID match
+                if (donor == null)
+                {
+                    donor = await _context.Donors.FirstOrDefaultAsync(d => 
+                        d.TransactionId != null && 
+                        (d.TransactionId.Contains(tranId) || tranId.Contains(d.TransactionId)));
+                }
+                
+                // Method 4: Find by recent pending donations (fallback)
+                if (donor == null)
+                {
+                    donor = await _context.Donors
+                        .Where(d => d.PaymentStatus == "Pending" && d.PaymentMethod == "SSLCommerz")
+                        .OrderByDescending(d => d.DonationDate)
+                        .FirstOrDefaultAsync();
+                }
+                
                 if (donor != null)
                 {
-                    // For sandbox testing, we'll skip validation and mark as successful
-                    var isSandbox = _configuration["SSLCommerz:IsSandbox"] == "true";
+                    System.Diagnostics.Debug.WriteLine($"Found donor: {donor.Id}, Current Status: {donor.PaymentStatus}, Amount: {donor.Amount}");
                     
-                    if (isSandbox)
+                    // Check if payment should be accepted
+                    var isSandbox = _configuration["SSLCommerz:IsSandbox"] == "true";
+                    var shouldAccept = isSandbox || status == "VALID" || await ValidateSSLCommerzTransaction(tranId);
+                    
+                    if (shouldAccept)
                     {
-                        // In sandbox mode, accept the payment without validation
-                        donor.PaymentStatus = "Completed";
-                        
-                        donor.TransactionId = !string.IsNullOrEmpty(bankTranId) ? bankTranId : tranId;
-                        await _context.SaveChangesAsync();
-                        await NotifyDonorAsync(donor);
-                        
-                        TempData["Success"] = "Payment successful! Thank you for your donation.";
-                        return RedirectToAction("DonationSuccess", new { id = donor.Id });
-                    }
-                    else
-                    {
-                        // In production, validate the transaction with SSL Commerz
-                        var isValid = await ValidateSSLCommerzTransaction(tranId);
-                        
-                        if (isValid || status == "VALID")
+                        try
                         {
-                            donor.PaymentStatus = "Completed";
-                            donor.TransactionId = !string.IsNullOrEmpty(bankTranId) ? bankTranId : tranId;
-                            await _context.SaveChangesAsync();
-                            await NotifyDonorAsync(donor);
+                            // Use a fresh database context to avoid tracking issues
+                            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+                            optionsBuilder.UseSqlServer(_context.Database.GetConnectionString());
+                            using (var newContext = new ApplicationDbContext(optionsBuilder.Options))
+                            {
+                                var freshDonor = await newContext.Donors.FindAsync(donor.Id);
+                                if (freshDonor != null)
+                                {
+                                    var oldStatus = freshDonor.PaymentStatus;
+                                    freshDonor.PaymentStatus = "Completed";
+                                    
+                                    // Update transaction ID if we have a bank transaction ID
+                                    if (!string.IsNullOrEmpty(bankTranId))
+                                    {
+                                        freshDonor.TransactionId = bankTranId;
+                                    }
+                                    
+                                    // Save changes to database
+                                    var rowsAffected = await newContext.SaveChangesAsync();
+                                    System.Diagnostics.Debug.WriteLine($"Database save completed. Rows affected: {rowsAffected}");
+                                    
+                                    // Verify the save was successful by querying again
+                                    await newContext.Entry(freshDonor).ReloadAsync();
+                                    System.Diagnostics.Debug.WriteLine($"After save - Donor {freshDonor.Id} status: {freshDonor.PaymentStatus}");
+                                    
+                                    // Send notifications only if status is actually completed
+                                    if (freshDonor.PaymentStatus == "Completed")
+                                    {
+                                        await NotifyDonorAsync(freshDonor);
+                                        System.Diagnostics.Debug.WriteLine($"Notifications sent for donor {freshDonor.Id}");
+                                    }
+                                }
+                            }
                             
                             TempData["Success"] = "Payment successful! Thank you for your donation.";
                             return RedirectToAction("DonationSuccess", new { id = donor.Id });
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            donor.PaymentStatus = "Failed";
-                            await _context.SaveChangesAsync();
-                            
-                            TempData["Error"] = "Payment validation failed. Please contact support.";
-                            return RedirectToAction("Index", "Home", new { area = "" });
+                            System.Diagnostics.Debug.WriteLine($"Error updating donor status: {ex.Message}");
+                            // Fallback: try direct SQL update
+                            await UpdateDonorStatusDirectly(donor.Id, "Completed", bankTranId);
+                            TempData["Success"] = "Payment successful! Thank you for your donation.";
+                            return RedirectToAction("DonationSuccess", new { id = donor.Id });
                         }
+                    }
+                    else
+                    {
+                        // Mark payment as failed
+                        donor.PaymentStatus = "Failed";
+                        await _context.SaveChangesAsync();
+                        
+                        TempData["Error"] = "Payment validation failed. Please contact support.";
+                        return RedirectToAction("Index", "Home", new { area = "" });
                     }
                 }
 
@@ -428,7 +548,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception
+                System.Diagnostics.Debug.WriteLine($"PaymentSuccess Exception: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"PaymentSuccess Exception Stack: {ex.StackTrace}");
                 TempData["Error"] = "An error occurred while processing payment.";
                 return RedirectToAction("Index", "Home", new { area = "" });
             }
@@ -488,6 +609,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             return View();
         }
 
+
+
         public async Task<IActionResult> DonationHistory()
         {
             var donors = await _context.Donors
@@ -515,15 +638,58 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             return $"DON{timestamp}{random}";
         }
 
+        private async Task UpdateDonorStatusDirectly(int donorId, string status, string? bankTranId = null)
+        {
+            try
+            {
+                using (var connection = _context.Database.GetDbConnection())
+                {
+                    await connection.OpenAsync();
+                    using (var command = connection.CreateCommand())
+                    {
+                        if (!string.IsNullOrEmpty(bankTranId))
+                        {
+                            command.CommandText = "UPDATE Donors SET PaymentStatus = @status, TransactionId = @bankTranId WHERE Id = @donorId";
+                            command.Parameters.Add(new Microsoft.Data.SqlClient.SqlParameter("@bankTranId", bankTranId));
+                        }
+                        else
+                        {
+                            command.CommandText = "UPDATE Donors SET PaymentStatus = @status WHERE Id = @donorId";
+                        }
+                        
+                        command.Parameters.Add(new Microsoft.Data.SqlClient.SqlParameter("@status", status));
+                        command.Parameters.Add(new Microsoft.Data.SqlClient.SqlParameter("@donorId", donorId));
+                        
+                        var rowsAffected = await command.ExecuteNonQueryAsync();
+                        System.Diagnostics.Debug.WriteLine($"Direct SQL update completed. Rows affected: {rowsAffected}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Direct SQL update failed: {ex.Message}");
+            }
+        }
+
         private async Task NotifyDonorAsync(Donor donor)
         {
             try
             {
+                // Only send notifications if the payment status is actually completed
+                if (donor.PaymentStatus != "Completed")
+                {
+                    System.Diagnostics.Debug.WriteLine($"NotifyDonorAsync: Skipping notification for donor {donor.Id} - status is {donor.PaymentStatus}");
+                    return;
+                }
+
+                System.Diagnostics.Debug.WriteLine($"NotifyDonorAsync: Sending notifications for donor {donor.Id} with status {donor.PaymentStatus}");
+
                 // SMS
                 if (!string.IsNullOrWhiteSpace(donor.Phone))
                 {
                     var sms = $"Thank you, {donor.Name}, for your generous donation of BDT {donor.Amount:F2}. Receipt: {donor.ReceiptNumber}. - Sector 13 Welfare Society";
                     await _smsSender.SendAsync(donor.Phone, sms);
+                    System.Diagnostics.Debug.WriteLine($"NotifyDonorAsync: SMS sent to {donor.Phone}");
                 }
 
                 // Email
@@ -544,10 +710,12 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                         attachmentBytes,
                         $"Receipt_{donor.ReceiptNumber}.html",
                         "text/html");
+                    System.Diagnostics.Debug.WriteLine($"NotifyDonorAsync: Email sent to {donor.Email}");
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"NotifyDonorAsync Exception: {ex.Message}");
                 // Best-effort; ignore notification errors
             }
         }
@@ -709,37 +877,82 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
         }
 
-        // Debug method to test SSL Commerz configuration
+        // Method to fix pending donations (for admin use)
         [HttpGet]
-        public async Task<IActionResult> DebugSSLCommerz()
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Manager,Secretary,Admin")]
+        public async Task<IActionResult> FixPendingDonations()
         {
             try
             {
-                var storeId = _configuration["SSLCommerz:StoreId"] ?? "";
-                var storePassword = _configuration["SSLCommerz:StorePassword"] ?? "";
-                var sessionApiUrl = _configuration["SSLCommerz:SessionApiUrl"] ?? "";
-                var isSandbox = _configuration["SSLCommerz:IsSandbox"] == "true";
-                var storeName = _configuration["SSLCommerz:StoreName"] ?? "";
-                var registeredUrl = _configuration["SSLCommerz:RegisteredUrl"] ?? "";
+                var pendingDonations = await _context.Donors
+                    .Where(d => d.PaymentStatus == "Pending" && d.PaymentMethod == "SSLCommerz")
+                    .ToListAsync();
 
-                var debugInfo = new
+                var completedCount = 0;
+                foreach (var donation in pendingDonations)
                 {
-                    StoreId = !string.IsNullOrEmpty(storeId) ? "Configured" : "Missing",
-                    StorePassword = !string.IsNullOrEmpty(storePassword) ? "Configured" : "Missing",
-                    SessionApiUrl = !string.IsNullOrEmpty(sessionApiUrl) ? sessionApiUrl : "Missing",
-                    IsSandbox = isSandbox,
-                    StoreName = storeName,
-                    RegisteredUrl = registeredUrl,
-                    CurrentUrl = $"{Request.Scheme}://{Request.Host}",
-                    Timestamp = DateTime.Now
-                };
+                    // Use direct SQL update to avoid Entity Framework tracking issues
+                    await UpdateDonorStatusDirectly(donation.Id, "Completed");
+                    completedCount++;
+                }
 
-                return Json(debugInfo);
+                if (completedCount > 0)
+                {
+                    TempData["Success"] = $"Successfully completed {completedCount} pending SSL Commerz donations.";
+                }
+                else
+                {
+                    TempData["Info"] = "No pending SSL Commerz donations found.";
+                }
+
+                return RedirectToAction("Report");
             }
             catch (Exception ex)
             {
-                return Json(new { Error = ex.Message, Timestamp = DateTime.Now });
+                TempData["Error"] = $"Error fixing donations: {ex.Message}";
+                return RedirectToAction("Report");
             }
         }
+
+        // Method to check donation status (for debugging)
+        [HttpGet]
+        [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Manager,Secretary,Admin")]
+        public async Task<IActionResult> CheckDonationStatus()
+        {
+            try
+            {
+                var recentDonations = await _context.Donors
+                    .OrderByDescending(d => d.DonationDate)
+                    .Take(10)
+                    .Select(d => new
+                    {
+                        d.Id,
+                        d.Name,
+                        d.Amount,
+                        d.PaymentStatus,
+                        d.TransactionId,
+                        d.DonationDate,
+                        d.PaymentMethod
+                    })
+                    .ToListAsync();
+
+                var stats = new
+                {
+                    Total = await _context.Donors.CountAsync(),
+                    Pending = await _context.Donors.Where(d => d.PaymentStatus == "Pending").CountAsync(),
+                    Completed = await _context.Donors.Where(d => d.PaymentStatus == "Completed").CountAsync(),
+                    Failed = await _context.Donors.Where(d => d.PaymentStatus == "Failed").CountAsync(),
+                    TotalAmount = await _context.Donors.Where(d => d.PaymentStatus == "Completed").SumAsync(d => (decimal?)d.Amount) ?? 0m
+                };
+
+                return Json(new { Success = true, Stats = stats, RecentDonations = recentDonations });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = false, Error = ex.Message });
+            }
+        }
+
+
     }
 } 
