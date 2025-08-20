@@ -5,137 +5,328 @@
 }
 
 <div class="container-fluid">
-    <div class="row">
+    <!-- Header Section -->
+    <div class="row mb-4">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h3 class="card-title"><i class="fas fa-donate me-2"></i>Donation Insights</h3>
-                    <form class="d-flex gap-2" method="get">
-                        <input type="date" name="StartDate" class="form-control form-control-sm" value="@Model.Filter.StartDate?.ToString("yyyy-MM-dd")"/>
-                        <input type="date" name="EndDate" class="form-control form-control-sm" value="@Model.Filter.EndDate?.ToString("yyyy-MM-dd")"/>
-                        <select name="PaymentMethod" class="form-select form-select-sm">
-                            <option value="">All Methods</option>
-                            @foreach (var m in Model.AvailablePaymentMethods) {
-                                <option value="@m" selected="@(Model.Filter.PaymentMethod==m)">@m</option>
-                            }
-                        </select>
-                        <select name="Status" class="form-select form-select-sm">
-                            <option value="">All Status</option>
-                            @foreach (var s in Model.AvailableStatuses) {
-                                <option value="@s" selected="@(Model.Filter.Status==s)">@s</option>
-                            }
-                        </select>
-                        <select name="DonationType" class="form-select form-select-sm">
-                            <option value="">All Types</option>
-                            @foreach (var t in Model.AvailableTypes) {
-                                <option value="@t" selected="@(Model.Filter.DonationType==t)">@t</option>
-                            }
-                        </select>
-                        <input type="text" name="Search" class="form-control form-control-sm" placeholder="Search name/email/phone/txn" value="@Model.Filter.Search"/>
-                        <button class="btn btn-sm btn-primary"><i class="fas fa-filter me-1"></i>Filter</button>
-                        <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("Report","Donation")">Reset</a>
-                    </form>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">
+                        <i class="fas fa-chart-line text-primary me-2"></i>
+                        Donation Insights
+                    </h2>
+                    <p class="text-muted mb-0">Comprehensive overview of all donations and donor activities</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-primary" onclick="window.print()">
+                        <i class="fas fa-print me-1"></i>
+                        <span class="d-none d-md-inline">Print Report</span>
+                    </button>
+                    <a href="/Donation/FixPendingDonations" class="btn btn-warning">
+                        <i class="fas fa-tools me-1"></i>
+                        <span class="d-none d-md-inline">Fix Pending</span>
+                    </a>
+                    <button class="btn btn-info" id="filterToggleBtn" onclick="toggleFilters()">
+                        <i class="fas fa-filter me-1"></i>
+                        <span class="d-none d-md-inline">Filters</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Collapsible Filter Section -->
+    <div class="row mb-4" id="filterSection" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow-sm border-0 filter-card">
+                <div class="card-header bg-gradient-info text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-search me-2"></i>
+                            Advanced Filters
+                        </h5>
+                        <button class="btn btn-sm btn-outline-light" onclick="toggleFilters()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-3">
-                            <div class="p-3 rounded border bg-light">
-                                <div class="text-muted">Total Received</div>
-                                <div class="fs-4 fw-bold text-success">৳ @Model.TotalAmount.ToString("N2")</div>
-                                <div class="small text-muted">@Model.TotalCount donation(s) • Avg ৳@Model.AveragePerDonation.ToString("N2")</div>
+                    <form method="get" class="row g-3">
+                        <div class="col-lg-2 col-md-4 col-sm-6">
+                            <label class="form-label small fw-bold text-muted">
+                                <i class="fas fa-calendar me-1"></i>Start Date
+                            </label>
+                            <input type="date" name="StartDate" class="form-control form-control-sm" value="@Model.Filter.StartDate?.ToString("yyyy-MM-dd")"/>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-6">
+                            <label class="form-label small fw-bold text-muted">
+                                <i class="fas fa-calendar me-1"></i>End Date
+                            </label>
+                            <input type="date" name="EndDate" class="form-control form-control-sm" value="@Model.Filter.EndDate?.ToString("yyyy-MM-dd")"/>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-6">
+                            <label class="form-label small fw-bold text-muted">
+                                <i class="fas fa-credit-card me-1"></i>Payment Method
+                            </label>
+                            <select name="PaymentMethod" class="form-select form-select-sm">
+                                <option value="">All Methods</option>
+                                @foreach (var m in Model.AvailablePaymentMethods) {
+                                    <option value="@m" selected="@(Model.Filter.PaymentMethod==m)">@m</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-6">
+                            <label class="form-label small fw-bold text-muted">
+                                <i class="fas fa-check-circle me-1"></i>Status
+                            </label>
+                            <select name="Status" class="form-select form-select-sm">
+                                <option value="">All Status</option>
+                                @foreach (var s in Model.AvailableStatuses) {
+                                    <option value="@s" selected="@(Model.Filter.Status==s)">@s</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-6">
+                            <label class="form-label small fw-bold text-muted">
+                                <i class="fas fa-tag me-1"></i>Donation Type
+                            </label>
+                            <select name="DonationType" class="form-select form-select-sm">
+                                <option value="">All Types</option>
+                                @foreach (var t in Model.AvailableTypes) {
+                                    <option value="@t" selected="@(Model.Filter.DonationType==t)">@t</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-6">
+                            <label class="form-label small fw-bold text-muted">
+                                <i class="fas fa-search me-1"></i>Search
+                            </label>
+                            <input type="text" name="Search" class="form-control form-control-sm" placeholder="Name/Email/Phone/TXN" value="@Model.Filter.Search"/>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="btn btn-info btn-sm">
+                                    <i class="fas fa-search me-1"></i>
+                                    Apply Filters
+                                </button>
+                                <a class="btn btn-outline-secondary btn-sm" href="@Url.Action("Report","Donation")">
+                                    <i class="fas fa-refresh me-1"></i>
+                                    Reset
+                                </a>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="p-3 rounded border bg-light">
-                                <div class="text-muted">Today</div>
-                                <div class="fs-5 fw-bold">৳ @Model.TodayAmount.ToString("N2")</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="p-3 rounded border bg-light">
-                                <div class="text-muted">This Week</div>
-                                <div class="fs-5 fw-bold">৳ @Model.ThisWeekAmount.ToString("N2")</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="p-3 rounded border bg-light">
-                                <div class="text-muted">This Month</div>
-                                <div class="fs-5 fw-bold">৳ @Model.ThisMonthAmount.ToString("N2")</div>
-                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-lg-6 col-md-6 mb-3">
+            <div class="stat-card bg-gradient-success text-white">
+                <div class="stat-card-body">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-card-content">
+                        <h3 class="stat-card-value">৳@Model.TotalAmount.ToString("N0")</h3>
+                        <p class="stat-card-label">Total Received</p>
+                        <div class="stat-card-details">
+                            <span class="badge bg-white bg-opacity-25">@Model.TotalCount donations</span>
+                            <span class="badge bg-white bg-opacity-25">Avg ৳@Model.AveragePerDonation.ToString("N0")</span>
                         </div>
                     </div>
-
-                    <div class="row mt-4 g-3">
-                        <div class="col-lg-5">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-header bg-white fw-bold">Top Donors</div>
-                                <div class="card-body p-0">
-                                    <table class="table table-sm mb-0">
-                                        <thead>
-                                            <tr><th>Name</th><th class="text-end">Total</th><th class="text-end">Count</th></tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var d in Model.TopDonors) {
-                                                <tr>
-                                                    <td>
-                                                        <div class="fw-bold">@d.Name</div>
-                                                        <div class="small text-muted">@d.Phone • @d.Email</div>
-                                                    </td>
-                                                    <td class="text-end">৳ @d.TotalAmount.ToString("N2")</td>
-                                                    <td class="text-end">@d.Donations</td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6 mb-3">
+            <div class="stat-card bg-gradient-info text-white">
+                <div class="stat-card-body">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-card-content">
+                        <h3 class="stat-card-value">৳@Model.TodayAmount.ToString("N0")</h3>
+                        <p class="stat-card-label">Today's Donations</p>
+                        <div class="stat-card-details">
+                            <span class="badge bg-white bg-opacity-25">Today</span>
                         </div>
-                        <div class="col-lg-7">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-header bg-white fw-bold">Recent Donations</div>
-                                <div class="card-body p-0">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Date</th>
-                                                    <th>Donor</th>
-                                                    <th>Contact</th>
-                                                    <th>Type</th>
-                                                    <th class="text-end">Amount</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach (var item in Model.Donations) {
-                                                <tr>
-                                                    <td>@item.DonationDate.ToString("dd/MM/yyyy HH:mm")</td>
-                                                    <td>
-                                                        <div class="fw-bold">@item.Name</div>
-                                                        <div class="small text-muted">@item.ReceiptNumber</div>
-                                                    </td>
-                                                    <td class="small">@item.Phone<br/>@item.Email</td>
-                                                    <td>@(item.DonationType ?? "General")</td>
-                                                    <td class="text-end">৳ @item.Amount.ToString("N2")</td>
-                                                    <td>
-                                                        @if (item.PaymentStatus == "Completed") { <span class="badge bg-success">Completed</span>; }
-                                                        else if (item.PaymentStatus == "Pending") { <span class="badge bg-warning text-dark">Pending</span>; }
-                                                        else { <span class="badge bg-danger">@item.PaymentStatus</span>; }
-                                                    </td>
-                                                </tr>
-                                            }
-                                            </tbody>
-                                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6 mb-3">
+            <div class="stat-card bg-gradient-warning text-white">
+                <div class="stat-card-body">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <div class="stat-card-content">
+                        <h3 class="stat-card-value">৳@Model.ThisWeekAmount.ToString("N0")</h3>
+                        <p class="stat-card-label">This Week</p>
+                        <div class="stat-card-details">
+                            <span class="badge bg-white bg-opacity-25">7 days</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6 mb-3">
+            <div class="stat-card bg-gradient-primary text-white">
+                <div class="stat-card-body">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-card-content">
+                        <h3 class="stat-card-value">৳@Model.ThisMonthAmount.ToString("N0")</h3>
+                        <p class="stat-card-label">This Month</p>
+                        <div class="stat-card-details">
+                            <span class="badge bg-white bg-opacity-25">30 days</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="row">
+        <!-- Top Donors Section -->
+        <div class="col-lg-5 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-gradient-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-trophy me-2"></i>
+                        Top Donors
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="top-donors-list">
+                        @if (Model.TopDonors.Any())
+                        {
+                            @foreach (var donor in Model.TopDonors)
+                            {
+                                <div class="donor-item">
+                                    <div class="donor-avatar">
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                    <div class="donor-info">
+                                        <h6 class="donor-name mb-1">@donor.Name</h6>
+                                        <p class="donor-contact mb-1">
+                                            <i class="fas fa-phone me-1"></i>@donor.Phone
+                                        </p>
+                                        <p class="donor-email mb-0">
+                                            <i class="fas fa-envelope me-1"></i>@donor.Email
+                                        </p>
+                                    </div>
+                                    <div class="donor-stats">
+                                        <div class="donor-amount">৳@donor.TotalAmount.ToString("N0")</div>
+                                        <div class="donor-count">@donor.Donations donation(s)</div>
                                     </div>
                                 </div>
-                                <div class="card-footer d-flex justify-content-between align-items-center">
-                                    <div class="small text-muted">Page @Model.Donations.PageIndex of @Model.Donations.TotalPages</div>
-                                    <div>
-                                        <a class="btn btn-sm btn-outline-secondary @(Model.Donations.HasPreviousPage?"":"disabled")" href="@Url.Action("Report","Donation", new { PageNumber = Model.Donations.PageIndex - 1, Model.Filter.StartDate, Model.Filter.EndDate, Model.Filter.PaymentMethod, Model.Filter.Status, Model.Filter.DonationType, Model.Filter.Search })">Prev</a>
-                                        <a class="btn btn-sm btn-outline-secondary @(Model.Donations.HasNextPage?"":"disabled")" href="@Url.Action("Report","Donation", new { PageNumber = Model.Donations.PageIndex + 1, Model.Filter.StartDate, Model.Filter.EndDate, Model.Filter.PaymentMethod, Model.Filter.Status, Model.Filter.DonationType, Model.Filter.Search })">Next</a>
-                                    </div>
-                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-center py-4">
+                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No donor data available</p>
                             </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Donations Section -->
+        <div class="col-lg-7 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-gradient-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list me-2"></i>
+                        Recent Donations
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Donor</th>
+                                    <th>Type</th>
+                                    <th class="text-end">Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Donations)
+                                {
+                                    <tr class="donation-row">
+                                        <td>
+                                            <div class="donation-date">
+                                                <div class="date-main">@item.DonationDate.ToString("dd MMM")</div>
+                                                <div class="date-time">@item.DonationDate.ToString("HH:mm")</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="donor-info-compact">
+                                                <div class="donor-name-compact">@item.Name</div>
+                                                <div class="donor-receipt">@item.ReceiptNumber</div>
+                                                <div class="donor-contact-compact">
+                                                    <i class="fas fa-phone me-1"></i>@item.Phone
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="donation-type-badge">@(item.DonationType ?? "General")</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <div class="donation-amount">৳@item.Amount.ToString("N0")</div>
+                                        </td>
+                                        <td>
+                                            @if (item.PaymentStatus == "Completed")
+                                            {
+                                                <span class="status-badge status-completed">
+                                                    <i class="fas fa-check-circle me-1"></i>Completed
+                                                </span>
+                                            }
+                                            else if (item.PaymentStatus == "Pending")
+                                            {
+                                                <span class="status-badge status-pending">
+                                                    <i class="fas fa-clock me-1"></i>Pending
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="status-badge status-failed">
+                                                    <i class="fas fa-times-circle me-1"></i>@item.PaymentStatus
+                                                </span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="pagination-info">
+                            <small class="text-muted">
+                                Page @Model.Donations.PageIndex of @Model.Donations.TotalPages 
+                                (@Model.Donations.TotalCount total donations)
+                            </small>
+                        </div>
+                        <div class="pagination-controls">
+                            <a class="btn btn-sm btn-outline-primary @(Model.Donations.HasPreviousPage?"":"disabled")" 
+                               href="@Url.Action("Report","Donation", new { PageNumber = Model.Donations.PageIndex - 1, Model.Filter.StartDate, Model.Filter.EndDate, Model.Filter.PaymentMethod, Model.Filter.Status, Model.Filter.DonationType, Model.Filter.Search })">
+                                <i class="fas fa-chevron-left me-1"></i>Previous
+                            </a>
+                            <a class="btn btn-sm btn-outline-primary @(Model.Donations.HasNextPage?"":"disabled")" 
+                               href="@Url.Action("Report","Donation", new { PageNumber = Model.Donations.PageIndex + 1, Model.Filter.StartDate, Model.Filter.EndDate, Model.Filter.PaymentMethod, Model.Filter.Status, Model.Filter.DonationType, Model.Filter.Search })">
+                                Next<i class="fas fa-chevron-right ms-1"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -143,5 +334,404 @@
         </div>
     </div>
 </div>
+
+<script>
+function toggleFilters() {
+    const filterSection = document.getElementById('filterSection');
+    const filterBtn = document.getElementById('filterToggleBtn');
+    
+    if (filterSection.style.display === 'none') {
+        filterSection.style.display = 'block';
+        filterSection.style.animation = 'slideDown 0.3s ease-out';
+        filterBtn.innerHTML = '<i class="fas fa-filter me-1"></i><span class="d-none d-md-inline">Hide Filters</span>';
+        filterBtn.classList.remove('btn-info');
+        filterBtn.classList.add('btn-outline-info');
+    } else {
+        filterSection.style.animation = 'slideUp 0.3s ease-out';
+        setTimeout(() => {
+            filterSection.style.display = 'none';
+        }, 300);
+        filterBtn.innerHTML = '<i class="fas fa-filter me-1"></i><span class="d-none d-md-inline">Filters</span>';
+        filterBtn.classList.remove('btn-outline-info');
+        filterBtn.classList.add('btn-info');
+    }
+}
+</script>
+
+<style>
+/* Gradient Backgrounds */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+}
+
+/* Filter Card Styles */
+.filter-card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.filter-card .card-header {
+    border-bottom: none;
+}
+
+.filter-card .form-control,
+.filter-card .form-select {
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.filter-card .form-control:focus,
+.filter-card .form-select:focus {
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+}
+
+/* Animation for filter toggle */
+@@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Statistics Cards */
+.stat-card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.stat-card-body {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-card-icon {
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+
+.stat-card-content {
+    flex: 1;
+}
+
+.stat-card-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.stat-card-label {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.stat-card-details {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.stat-card-details .badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Top Donors List */
+.top-donors-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.donor-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.3s ease;
+}
+
+.donor-item:hover {
+    background-color: #f8f9fa;
+}
+
+.donor-item:last-child {
+    border-bottom: none;
+}
+
+.donor-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.donor-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.donor-name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.donor-contact, .donor-email {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.donor-stats {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.donor-amount {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #28a745;
+}
+
+.donor-count {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/* Donation Table Styles */
+.donation-row {
+    transition: background-color 0.3s ease;
+}
+
+.donation-row:hover {
+    background-color: #f8f9fa;
+}
+
+.donation-date {
+    text-align: center;
+}
+
+.date-main {
+    font-weight: 600;
+    color: #333;
+}
+
+.date-time {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.donor-info-compact {
+    min-width: 0;
+}
+
+.donor-name-compact {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.donor-receipt {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.donor-contact-compact {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.donation-type-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.donation-amount {
+    font-weight: 700;
+    color: #28a745;
+    font-size: 1.1rem;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-completed {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.status-pending {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    color: #212529;
+}
+
+.status-failed {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+}
+
+/* Responsive Design */
+@@media (max-width: 768px) {
+    .stat-card-body {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .stat-card-icon {
+        font-size: 2rem;
+    }
+    
+    .stat-card-value {
+        font-size: 1.5rem;
+    }
+    
+    .donor-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .donor-avatar {
+        margin-right: 0;
+    }
+    
+    .donor-stats {
+        text-align: center;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .donation-date, .donor-info-compact, .donation-amount {
+        text-align: center;
+    }
+}
+
+@@media (max-width: 576px) {
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+    
+    .card-header {
+        padding: 0.75rem;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
+    
+    .donor-item {
+        padding: 0.75rem;
+    }
+    
+    .donor-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .donation-type-badge, .status-badge {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+/* Print Styles */
+@@media print {
+    .btn, .card-header {
+        display: none !important;
+    }
+    
+    .card {
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+    }
+    
+    .stat-card {
+        break-inside: avoid;
+    }
+}
+
+/* Custom Scrollbar */
+.top-donors-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.top-donors-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.top-donors-list::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.top-donors-list::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+</style>
 
 
