@@ -262,40 +262,8 @@
             </div>
             <!-- Main Content -->
             <div class="main-content">
-                @* Role-based Quick Actions *@
-                <div class="quick-actions mb-4">
-                    @if (roles.Contains("Admin")) {
-                        <div class="d-flex flex-wrap gap-2 mb-2">
-                            <a href="@Url.Action("ListUsers", "UserManagement")" class="btn btn-primary"><i class="fas fa-users"></i> Manage Users</a>
-                            <a href="@Url.Action("Create", "Project")" class="btn btn-success"><i class="fas fa-plus"></i> New Project</a>
-                            <a href="@Url.Action("ViewUsers", "Database")" class="btn btn-info"><i class="fas fa-database"></i> View Database</a>
-                        </div>
-                    } else if (roles.Contains("Manager")) {
-                        <div class="d-flex flex-wrap gap-2 mb-2">
-                            <a href="#" class="btn btn-warning"><i class="fas fa-tasks"></i> Assign Task</a>
-                            <a href="#" class="btn btn-success"><i class="fas fa-check"></i> Mark Complete</a>
-                        </div>
-                    } else if (roles.Contains("Member")) {
-                        <div class="d-flex flex-wrap gap-2 mb-2">
-                            <a href="#" class="btn btn-info"><i class="fas fa-eye"></i> View Activities</a>
-                            <a href="#" class="btn btn-success"><i class="fas fa-comment"></i> Give Feedback</a>
-                            <a href="#" class="btn btn-outline-primary"><i class="fas fa-bullhorn"></i> Notices</a>
-                            <a href="#" class="btn btn-outline-success"><i class="fas fa-money-bill-wave"></i> Payment & Dues</a>
-                            <a href="#" class="btn btn-outline-info"><i class="fas fa-file-alt"></i> View Documents</a>
-                            <a href="#" class="btn btn-outline-danger"><i class="fas fa-phone-alt"></i> Emergency Contacts</a>
-                        </div>
-                    } else if (roles.Contains("President")) {
-                        <div class="d-flex flex-wrap gap-2 mb-2">
-                            <a href="#" class="btn btn-primary"><i class="fas fa-calendar-alt"></i> Schedule Meeting</a>
-                            <a href="#" class="btn btn-info"><i class="fas fa-file-signature"></i> Approve Projects</a>
-                        </div>
-                    } else if (roles.Contains("Secretary")) {
-                        <div class="d-flex flex-wrap gap-2 mb-2">
-                            <a href="#" class="btn btn-info"><i class="fas fa-file-upload"></i> Upload Document</a>
-                            <a href="#" class="btn btn-warning"><i class="fas fa-bullhorn"></i> Send Notice</a>
-                        </div>
-                    }
-                </div>
+                
+               
                 @RenderBody()
             </div>
 
