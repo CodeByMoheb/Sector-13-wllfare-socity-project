@@ -15,7 +15,7 @@
                     <span class="badge bg-info">@ViewBag.Employee?.EmployeeId</span>
                 </div>
                 <div class="card-body">
-                    <form asp-action="LeaveRequest" asp-controller="EmployeeAttendance" method="post">
+                    <form asp-action="LeaveRequest" asp-controller="Dashboard" method="post">
                         @Html.AntiForgeryToken()
                         <div class="row">
                             <div class="col-md-6 mb-3">

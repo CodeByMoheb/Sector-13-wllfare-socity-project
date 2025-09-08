@@ -34,33 +34,11 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        // GET: Employee Dashboard
-        public async Task<IActionResult> Dashboard()
+        // GET: Employee Dashboard - Redirect to Member Dashboard
+        public IActionResult Dashboard()
         {
-            var employeeId = User.Identity?.Name;
-            if (string.IsNullOrEmpty(employeeId))
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var employee = await _context.Employees
-                .Include(e => e.Shift)
-                .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
-
-            if (employee == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var today = DateTime.Today;
-            var todayAttendance = await _context.Attendances
-                .FirstOrDefaultAsync(a => a.EmployeeId == employee.Id && a.Date == today);
-
-            ViewBag.Employee = employee;
-            ViewBag.TodayAttendance = todayAttendance;
-            ViewBag.CurrentTime = DateTime.Now;
-
-            return View();
+            // Redirect to the Member Dashboard where attendance system is integrated
+            return RedirectToAction("Member", "Dashboard");
         }
 
         // GET: Leave Request Form
@@ -89,9 +67,12 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LeaveRequest(Leave leave)
         {
+            System.Diagnostics.Debug.WriteLine($"Leave request submitted: LeaveType={leave.LeaveType}, StartDate={leave.StartDate}, EndDate={leave.EndDate}, NumberOfDays={leave.NumberOfDays}");
+            
             var employeeId = User.Identity?.Name;
             if (string.IsNullOrEmpty(employeeId))
             {
+                System.Diagnostics.Debug.WriteLine("Leave request failed: No employee ID");
                 TempData["ErrorMessage"] = "Please login first";
                 return RedirectToAction("Login", "Account");
             }
@@ -107,10 +88,14 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 
             try
             {
+                System.Diagnostics.Debug.WriteLine($"Employee found: {employee.EmployeeId}, ID: {employee.Id}");
+                
                 // Populate server-controlled fields and re-validate the model
                 // EmployeeId and ApprovalStatus are [Required] but not posted from the form
                 leave.EmployeeId = employee.Id;
                 leave.ApprovalStatus = "Pending";
+
+                System.Diagnostics.Debug.WriteLine($"Model populated: EmployeeId={leave.EmployeeId}, ApprovalStatus={leave.ApprovalStatus}");
 
                 // Clear existing model state (which may have errors for the above fields)
                 ModelState.Clear();
@@ -118,6 +103,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 // Re-validate with server-populated values
                 if (TryValidateModel(leave))
                 {
+                    System.Diagnostics.Debug.WriteLine("Model validation passed");
                     // Validate dates
                     if (leave.StartDate < DateTime.Today)
                     {
@@ -144,6 +130,11 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 }
                 else
                 {
+                    System.Diagnostics.Debug.WriteLine("Model validation failed");
+                    foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Validation error: {error.ErrorMessage}");
+                    }
                     TempData["ErrorMessage"] = "Please correct the errors below";
                 }
             }
