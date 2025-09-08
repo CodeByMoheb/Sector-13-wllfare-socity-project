@@ -1,0 +1,63 @@
+@{
+    ViewData["Title"] = "Employee Sync Result";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header @(ViewBag.Success == true ? "bg-success" : "bg-danger") text-white">
+                    <h4><i class="fas fa-sync"></i> Employee Sync Result</h4>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.Success == true)
+                    {
+                        <div class="alert alert-success">
+                            <h5><i class="fas fa-check-circle"></i> Sync Completed Successfully!</h5>
+                            <p class="mb-0">@ViewBag.Summary</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger">
+                            <h5><i class="fas fa-exclamation-triangle"></i> Sync Failed</h5>
+                            <p class="mb-0">@ViewBag.Error</p>
+                        </div>
+                    }
+
+                    @if (ViewBag.Messages != null)
+                    {
+                        <h6>Detailed Results:</h6>
+                        <div class="border rounded p-3" style="max-height: 400px; overflow-y: auto;">
+                            @foreach (var message in ViewBag.Messages)
+                            {
+                                <div class="mb-1">@message</div>
+                            }
+                        </div>
+                    }
+
+                    <div class="mt-4">
+                        <h6>Next Steps:</h6>
+                        <ul>
+                            <li>Employees can now login at <a href="/Account/Login">/Account/Login</a></li>
+                            <li>Use Employee ID as username (e.g., EMP0001)</li>
+                            <li>Default password: <strong>123456</strong></li>
+                            <li>Employees will be assigned the "Member" role</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="/Employee" class="btn btn-primary">
+                            <i class="fas fa-arrow-left"></i> Back to Employee Management
+                        </a>
+                        <a href="/Account/Login" class="btn btn-success">
+                            <i class="fas fa-sign-in-alt"></i> Go to Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

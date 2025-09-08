@@ -1,0 +1,900 @@
+@{
+    ViewData["Title"] = "Employee Dashboard";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <!-- Enhanced Welcome Header -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-gradient-primary text-white mb-4 border-0 shadow-lg">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="card-title mb-3">
+                                <i class="fas fa-user-clock me-3"></i>
+                                Employee Dashboard
+                            </h2>
+                            <p class="card-text mb-2 fs-5">
+                                Welcome back, <strong>@ViewBag.Employee?.Name</strong>! 
+                                <span class="badge bg-light text-dark ms-2">ID: @ViewBag.Employee?.EmployeeId</span>
+                            </p>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-clock me-2"></i>
+                                <span class="me-3">Current Time: <strong id="current-time-display">@ViewBag.CurrentTime.ToString("dddd, dd MMMM yyyy HH:mm:ss")</strong></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="shift-badge">
+                                <div class="badge bg-light text-dark fs-6 p-3">
+                                    <i class="fas fa-clock me-2"></i>
+                                    <strong>@(ViewBag.Employee?.Shift?.Name ?? "No Shift Assigned")</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Today's Attendance Status -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg mb-4 attendance-status-card">
+                <div class="card-header bg-gradient-info text-white py-4 border-0">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calendar-day me-3"></i>
+                        Today's Attendance Status
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    @if (ViewBag.TodayAttendance != null)
+                    {
+                        var attendance = ViewBag.TodayAttendance as Attendance;
+                        <div class="attendance-status-grid">
+                    }
+                    else
+                    {
+                        <div class="attendance-status-grid">
+                            <div class="status-item">
+                                <div class="status-icon status-pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="status-content">
+                                    <h6 class="status-title">Check In</h6>
+                                    <div class="status-time pending">Not checked in</div>
+                                </div>
+                                <div class="status-action">
+                                    <button type="button" class="btn btn-success btn-sm check-in-btn" data-location="">
+                                        <i class="fas fa-sign-in-alt me-1"></i>Check In
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="status-item">
+                                <div class="status-icon status-pending">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="status-content">
+                                    <h6 class="status-title">Check Out</h6>
+                                    <div class="status-time pending">Please check in first</div>
+                                </div>
+                                <div class="status-action">
+                                    <button type="button" class="btn btn-secondary btn-sm" disabled>
+                                        <i class="fas fa-sign-out-alt me-1"></i>Check Out
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                            <div class="status-item">
+                                <div class="status-icon @(attendance.CheckInTime.HasValue ? "status-success" : "status-pending")">
+                                    <i class="fas @(attendance.CheckInTime.HasValue ? "fa-check-circle" : "fa-clock")"></i>
+                                </div>
+                                <div class="status-content">
+                                    <h6 class="status-title">Check In</h6>
+                                    @if (attendance.CheckInTime.HasValue)
+                                    {
+                                        <div class="status-time success">@attendance.CheckInTime.Value.ToString("HH:mm:ss")</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="status-time pending">Not checked in</div>
+                                    }
+                                </div>
+                                @if (!attendance.CheckInTime.HasValue)
+                                {
+                                    <div class="status-action">
+                                        <button type="button" class="btn btn-success btn-sm check-in-btn" data-location="">
+                                            <i class="fas fa-sign-in-alt me-1"></i>Check In
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="status-item">
+                                <div class="status-icon @(attendance.CheckOutTime.HasValue ? "status-success" : "status-pending")">
+                                    <i class="fas @(attendance.CheckOutTime.HasValue ? "fa-check-circle" : "fa-clock")"></i>
+                                </div>
+                                <div class="status-content">
+                                    <h6 class="status-title">Check Out</h6>
+                                    @if (attendance.CheckOutTime.HasValue)
+                                    {
+                                        <div class="status-time success">@attendance.CheckOutTime.Value.ToString("HH:mm:ss")</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="status-time pending">Not checked out</div>
+                                    }
+                                </div>
+                                @if (attendance.CheckInTime.HasValue && !attendance.CheckOutTime.HasValue)
+                                {
+                                    <div class="status-action">
+                                        <button type="button" class="btn btn-danger btn-sm check-out-btn">
+                                            <i class="fas fa-sign-out-alt me-1"></i>Check Out
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="attendance-details">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="detail-card">
+                                        <div class="detail-icon status">
+                                            <i class="fas fa-flag"></i>
+                                        </div>
+                                        <div class="detail-content">
+                                            <h6 class="detail-label">Status</h6>
+                                            <span class="detail-value status-badge @(attendance.Status == "Late" ? "late" : 
+                                                                                       attendance.Status == "Absent" ? "absent" : 
+                                                                                       attendance.Status == "On-time" ? "ontime" : "present")">
+                                                @attendance.Status
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="detail-card">
+                                        <div class="detail-icon hours">
+                                            <i class="fas fa-hourglass-half"></i>
+                                        </div>
+                                        <div class="detail-content">
+                                            <h6 class="detail-label">Total Hours</h6>
+                                            @if (attendance.TotalHours.HasValue)
+                                            {
+                                                <span class="detail-value hours">@attendance.TotalHours.Value hours</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="detail-value pending">-</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="detail-card">
+                                        <div class="detail-icon location">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="detail-content">
+                                            <h6 class="detail-label">Location</h6>
+                                            @if (!string.IsNullOrEmpty(attendance.Location))
+                                            {
+                                                <span class="detail-value location">@attendance.Location</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="detail-value pending">-</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="no-attendance">
+                            <div class="no-attendance-icon">
+                                <i class="fas fa-calendar-plus"></i>
+                            </div>
+                            <h5 class="no-attendance-title">No attendance record for today</h5>
+                            <p class="no-attendance-text">Use the buttons below to mark your attendance.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Quick Actions -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg mb-4">
+                <div class="card-header bg-gradient-success text-white py-3 border-0">
+                    <h6 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>
+                        Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="quick-actions-grid">
+                        <a href="@Url.Action("MyAttendance")" class="quick-action-item attendance">
+                            <div class="action-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div class="action-content">
+                                <span class="action-title">View Attendance History</span>
+                                <span class="action-subtitle">Check your records</span>
+                            </div>
+                        </a>
+                        <a href="@Url.Action("LeaveRequest")" class="quick-action-item leave">
+                            <div class="action-icon">
+                                <i class="fas fa-calendar-plus"></i>
+                            </div>
+                            <div class="action-content">
+                                <span class="action-title">Apply for Leave</span>
+                                <span class="action-subtitle">Submit request</span>
+                            </div>
+                        </a>
+                        <a href="@Url.Action("MyLeaves")" class="quick-action-item status">
+                            <div class="action-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="action-content">
+                                <span class="action-title">My Leave Requests</span>
+                                <span class="action-subtitle">Track status</span>
+                            </div>
+                        </a>
+                        <a href="@Url.Action("ChangePassword")" class="quick-action-item password">
+                            <div class="action-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <div class="action-content">
+                                <span class="action-title">Change Password</span>
+                                <span class="action-subtitle">Update credentials</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Employee Info -->
+            <div class="card border-0 shadow-lg mb-4">
+                <div class="card-header bg-gradient-warning text-white py-3 border-0">
+                    <h6 class="mb-0">
+                        <i class="fas fa-user me-2"></i>
+                        Employee Information
+                    </h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon category">
+                                <i class="fas fa-tag"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">Category</span>
+                                <span class="info-value">@(ViewBag.Employee?.Category ?? "Not Assigned")</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon shift">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="info-content">
+                                <span class="info-label">Shift</span>
+                                @if (ViewBag.Employee?.Shift != null)
+                                {
+                                    <span class="info-value">@ViewBag.Employee.Shift.Name</span>
+                                    <small class="info-subtitle">@ViewBag.Employee.Shift.StartTime.ToString("HH:mm") - @ViewBag.Employee.Shift.EndTime.ToString("HH:mm")</small>
+                                }
+                                else
+                                {
+                                    <span class="info-value text-muted">No shift assigned</span>
+                                }
+                            </div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(ViewBag.Employee?.Phone))
+                        {
+                            <div class="info-item">
+                                <div class="info-icon phone">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="info-content">
+                                    <span class="info-label">Phone</span>
+                                    <span class="info-value">@ViewBag.Employee.Phone</span>
+                                </div>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(ViewBag.Employee?.Email))
+                        {
+                            <div class="info-item">
+                                <div class="info-icon email">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="info-content">
+                                    <span class="info-label">Email</span>
+                                    <span class="info-value">@ViewBag.Employee.Email</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Summary Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-lg mb-4">
+                <div class="card-header bg-gradient-secondary text-white py-3 border-0">
+                    <h6 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        This Month Summary
+                    </h6>
+                </div>
+                <div class="card-body p-4">
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-icon shift">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="summary-content">
+                                <h4 class="summary-value">@ViewBag.Employee?.Shift?.Name</h4>
+                                <span class="summary-label">Current Shift</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon date">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                            <div class="summary-content">
+                                <h4 class="summary-value" id="current-day">@DateTime.Now.Day</h4>
+                                <span class="summary-label">Day of Month</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon month">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="summary-content">
+                                <h4 class="summary-value" id="current-month">@DateTime.Now.ToString("MMMM")</h4>
+                                <span class="summary-label">Current Month</span>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon year">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <div class="summary-content">
+                                <h4 class="summary-value" id="current-year">@DateTime.Now.Year</h4>
+                                <span class="summary-label">Current Year</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Enhanced Dashboard Styling */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .bg-gradient-secondary {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    }
+
+    .shift-badge {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @@keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+
+    /* Attendance Status Card */
+    .attendance-status-card {
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .attendance-status-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.15) !important;
+    }
+
+    /* Status Grid */
+    .attendance-status-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .status-item {
+        display: flex;
+        align-items: center;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .status-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .status-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .status-icon.status-success {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .status-icon.status-pending {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .status-content {
+        flex: 1;
+    }
+
+    .status-title {
+        margin: 0 0 0.5rem 0;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .status-time {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .status-time.success {
+        color: #28a745;
+    }
+
+    .status-time.pending {
+        color: #ffc107;
+    }
+
+    .status-action {
+        margin-left: auto;
+        padding-left: 1rem;
+    }
+
+    .status-action .btn {
+        border-radius: 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .status-action .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Attendance Details */
+    .attendance-details {
+        margin-top: 2rem;
+    }
+
+    .detail-card {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .detail-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .detail-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        color: white;
+        font-size: 1.2rem;
+    }
+
+    .detail-icon.status { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .detail-icon.hours { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .detail-icon.location { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+    .detail-content {
+        flex: 1;
+    }
+
+    .detail-label {
+        margin: 0 0 0.25rem 0;
+        font-size: 0.9rem;
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .detail-value {
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: white;
+    }
+
+    .status-badge.ontime { background: #28a745; }
+    .status-badge.late { background: #ffc107; color: #212529; }
+    .status-badge.absent { background: #dc3545; }
+    .status-badge.present { background: #17a2b8; }
+
+    .detail-value.hours { color: #17a2b8; }
+    .detail-value.location { color: #28a745; }
+    .detail-value.pending { color: #6c757d; }
+
+    /* No Attendance State */
+    .no-attendance {
+        text-align: center;
+        padding: 3rem 2rem;
+    }
+
+    .no-attendance-icon {
+        font-size: 4rem;
+        color: #dee2e6;
+        margin-bottom: 1rem;
+    }
+
+    .no-attendance-title {
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+
+    .no-attendance-text {
+        color: #adb5bd;
+    }
+
+    /* Quick Actions */
+    .quick-actions-grid {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .quick-action-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        text-decoration: none;
+        color: #495057;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .quick-action-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        text-decoration: none;
+        color: #495057;
+    }
+
+    .quick-action-item.attendance:hover { border-color: #007bff; }
+    .quick-action-item.leave:hover { border-color: #ffc107; }
+    .quick-action-item.status:hover { border-color: #17a2b8; }
+    .quick-action-item.password:hover { border-color: #6c757d; }
+
+    .action-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        color: white;
+        font-size: 1.1rem;
+    }
+
+    .quick-action-item.attendance .action-icon { background: #007bff; }
+    .quick-action-item.leave .action-icon { background: #ffc107; }
+    .quick-action-item.status .action-icon { background: #17a2b8; }
+    .quick-action-item.password .action-icon { background: #6c757d; }
+
+    .action-content {
+        flex: 1;
+    }
+
+    .action-title {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .action-subtitle {
+        display: block;
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+
+    /* Employee Info */
+    .info-grid {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .info-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .info-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.75rem;
+        color: white;
+        font-size: 1rem;
+    }
+
+    .info-icon.category { background: #6f42c1; }
+    .info-icon.shift { background: #fd7e14; }
+    .info-icon.phone { background: #28a745; }
+    .info-icon.email { background: #17a2b8; }
+
+    .info-content {
+        flex: 1;
+    }
+
+    .info-label {
+        display: block;
+        font-size: 0.8rem;
+        color: #6c757d;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+        display: block;
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .info-subtitle {
+        display: block;
+        font-size: 0.75rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+
+    /* Summary Grid */
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .summary-item {
+        text-align: center;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .summary-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .summary-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .summary-icon.shift { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .summary-icon.date { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    .summary-icon.month { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .summary-icon.year { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+
+    .summary-value {
+        color: #495057;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+    }
+
+    .summary-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .attendance-status-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .status-item, .detail-card, .quick-action-item, .info-item {
+            padding: 1rem;
+        }
+    }
+</style>
+
+<script>
+    $(function () {
+        // Update current time every second
+        setInterval(function() {
+            var now = new Date();
+            $('#current-time-display').text(now.toLocaleDateString('en-US', { 
+                weekday: 'long',
+                day: '2-digit', 
+                month: 'long', 
+                year: 'numeric' 
+            }) + ' ' + now.toLocaleTimeString());
+            
+            $('#current-day').text(now.getDate());
+            $('#current-month').text(now.toLocaleDateString('en-US', { month: 'long' }));
+            $('#current-year').text(now.getFullYear());
+        }, 1000);
+
+        // Add hover effects to cards
+        $('.card').hover(
+            function() { $(this).addClass('card-hover'); },
+            function() { $(this).removeClass('card-hover'); }
+        );
+
+        // Check In functionality
+        $('.check-in-btn').on('click', function() {
+            var userLocation = prompt('Enter your location (optional):') || '';
+            var btn = $(this);
+            
+            btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i>Processing...');
+            
+            $.post('@Url.Action("CheckIn", "EmployeeAttendance")', { location: userLocation })
+                .done(function(response) {
+                    if (response.success) {
+                        showAlert('success', response.message);
+                        // Disable check-in and enable check-out immediately
+                        $('.check-in-btn').prop('disabled', true).addClass('disabled');
+                        $('.check-out-btn').prop('disabled', false).removeClass('disabled');
+                        setTimeout(() => window.location.reload(), 1200);
+                    } else {
+                        showAlert('error', response.message);
+                        btn.prop('disabled', false).html('<i class="fas fa-sign-in-alt me-1"></i>Check In');
+                    }
+                })
+                .fail(function() {
+                    showAlert('error', 'An error occurred. Please try again.');
+                    btn.prop('disabled', false).html('<i class="fas fa-sign-in-alt me-1"></i>Check In');
+                });
+        });
+
+        // Check Out functionality
+        $('.check-out-btn').on('click', function() {
+            var btn = $(this);
+            
+            btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i>Processing...');
+            
+            $.post('@Url.Action("CheckOut", "EmployeeAttendance")')
+                .done(function(response) {
+                    if (response.success) {
+                        showAlert('success', response.message);
+                        // Disable checkout after success
+                        $('.check-out-btn').prop('disabled', true).addClass('disabled');
+                        setTimeout(() => window.location.reload(), 1200);
+                    } else {
+                        showAlert('error', response.message);
+                        btn.prop('disabled', false).html('<i class="fas fa-sign-out-alt me-1"></i>Check Out');
+                    }
+                })
+                .fail(function() {
+                    showAlert('error', 'An error occurred. Please try again.');
+                    btn.prop('disabled', false).html('<i class="fas fa-sign-out-alt me-1"></i>Check Out');
+                });
+        });
+
+        // Show alerts
+        function showAlert(type, message) {
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            
+            const alertHtml = `
+                <div class="alert ${alertClass} alert-dismissible fade show position-fixed" 
+                     style="top: 20px; right: 20px; z-index: 9999; min-width: 300px;" role="alert">
+                    <i class="fas ${iconClass} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            
+            $('body').append(alertHtml);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                $('.alert').fadeOut();
+            }, 5000);
+        }
+
+        // Show TempData messages if any
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+            showAlert('success', '@TempData["SuccessMessage"]');
+            </text>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+            showAlert('error', '@TempData["ErrorMessage"]');
+            </text>
+        }
+    });
+</script>

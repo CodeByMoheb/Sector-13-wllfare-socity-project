@@ -34,7 +34,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             foreach (var emp in employees)
             {
                 // Count present days for this employee in the selected month
-                var presentDays = attendances.Count(a => a.EmployeeId == emp.Id && a.IsPresent);
+                var presentDays = attendances.Count(a => a.EmployeeId == emp.Id && 
+                    (a.Status == "Present" || a.Status == "On-time" || a.Status == "Late"));
                 decimal dailyWage = Math.Round(emp.BaseSalary / 30, 2); // Assuming 30 days in a month
                 decimal total = Math.Round(dailyWage * presentDays, 2);
                 decimal foodAllowance = 200; // Static for now, can be dynamic

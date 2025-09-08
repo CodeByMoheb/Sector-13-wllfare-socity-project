@@ -18,6 +18,77 @@
         </div>
     </div>
 
+    <!-- Attendance Management Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-gradient-primary text-white py-3 border-0">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-clock me-2"></i>
+                        Employee Attendance Management
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <a href="@Url.Action("Manage", "Attendance")" class="btn btn-primary w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                <i class="fas fa-calendar-day fa-2x mb-2"></i>
+                                <span class="fw-bold">Daily Attendance</span>
+                                <small class="text-muted">View and manage today's attendance</small>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="@Url.Action("AllRecords", "Attendance")" class="btn btn-info w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                <i class="fas fa-list fa-2x mb-2"></i>
+                                <span class="fw-bold">All Records</span>
+                                <small class="text-muted">Browse complete attendance history</small>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="@Url.Action("Report", "Attendance")" class="btn btn-success w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                <i class="fas fa-chart-bar fa-2x mb-2"></i>
+                                <span class="fw-bold">Reports</span>
+                                <small class="text-muted">Generate attendance reports</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leave Management Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-gradient-success text-white py-3 border-0">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calendar-check me-2"></i>
+                        Leave Request Management
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <a href="@Url.Action("Index", "LeaveApproval")" class="btn btn-success w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                <i class="fas fa-clock fa-2x mb-2"></i>
+                                <span class="fw-bold">Leave Approvals</span>
+                                <small class="text-muted">Approve or reject leave requests</small>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="@Url.Action("AllLeaves", "LeaveApproval")" class="btn btn-warning w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                <i class="fas fa-calendar-alt fa-2x mb-2"></i>
+                                <span class="fw-bold">All Leave Requests</span>
+                                <small class="text-muted">View complete leave history</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
@@ -99,18 +170,18 @@
                             </a>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <a href="#" class="btn btn-success btn-block">
-                                <i class="fas fa-check me-2"></i>Mark Complete
-                            </a>
-                        </div>
-                        <div class="col-md-6 mb-3">
                             <a href="#" class="btn btn-primary btn-block">
                                 <i class="fas fa-users me-2"></i>Manage Team
                             </a>
                         </div>
                         <div class="col-md-6 mb-3">
+                            <a href="#" class="btn btn-success btn-block">
+                                <i class="fas fa-chart-line me-2"></i>View Reports
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
                             <a href="#" class="btn btn-info btn-block">
-                                <i class="fas fa-exclamation me-2"></i>Resolve Issue
+                                <i class="fas fa-cog me-2"></i>Settings
                             </a>
                         </div>
                     </div>
@@ -120,31 +191,31 @@
         <div class="col-lg-6">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-warning">Recent Manager Activities</h6>
+                    <h6 class="m-0 font-weight-bold text-warning">Quick Access</h6>
                 </div>
                 <div class="card-body">
                     <div class="list-group list-group-flush">
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="@Url.Action("Index", "Employee")" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
-                                <strong>Task assigned</strong>
-                                <br><small class="text-muted">Cleanliness drive</small>
+                                <strong>Employee Management</strong>
+                                <br><small class="text-muted">Add, edit, and manage employees</small>
                             </div>
-                            <span class="badge bg-primary rounded-pill">Today</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <i class="fas fa-chevron-right text-muted"></i>
+                        </a>
+                        <a href="@Url.Action("Index", "Notice")" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
-                                <strong>Issue resolved</strong>
-                                <br><small class="text-muted">Water supply fixed</small>
+                                <strong>Notice Management</strong>
+                                <br><small class="text-muted">Create and manage notices</small>
                             </div>
-                            <span class="badge bg-success rounded-pill">Yesterday</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <i class="fas fa-chevron-right text-muted"></i>
+                        </a>
+                        <a href="@Url.Action("SalaryCalculation", "Attendance")" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                             <div>
-                                <strong>Team meeting</strong>
-                                <br><small class="text-muted">Weekly sync-up</small>
+                                <strong>Salary Calculation</strong>
+                                <br><small class="text-muted">Calculate employee salaries</small>
                             </div>
-                            <span class="badge bg-info rounded-pill">2 days ago</span>
-                        </div>
+                            <i class="fas fa-chevron-right text-muted"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -153,28 +224,32 @@
 </div>
 
 <style>
-    .border-left-primary {
-        border-left: 0.25rem solid #4e73df !important;
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
-    .border-left-success {
-        border-left: 0.25rem solid #1cc88a !important;
+    
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
     }
-    .border-left-info {
-        border-left: 0.25rem solid #36b9cc !important;
+    
+    .btn {
+        transition: all 0.3s ease;
+        border-radius: 12px;
     }
-    .border-left-warning {
-        border-left: 0.25rem solid #f6c23e !important;
+    
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
-    .text-gray-800 {
-        color: #5a5c69 !important;
+    
+    .list-group-item {
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        margin-bottom: 5px;
     }
-    .text-gray-300 {
-        color: #dddfeb !important;
-    }
-    .font-weight-bold {
-        font-weight: 700 !important;
-    }
-    .text-xs {
-        font-size: 0.7rem;
+    
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+        transform: translateX(5px);
     }
 </style> 

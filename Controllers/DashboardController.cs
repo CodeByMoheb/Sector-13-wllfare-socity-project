@@ -128,6 +128,10 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             ViewBag.Email = user.Email;
             ViewBag.ProfilePictureUrl = !string.IsNullOrEmpty(user.ProfilePictureUrl) ? user.ProfilePictureUrl : Url.Content("~/Photos/logo.png");
             ViewBag.LastLogin = user.LastLoginTime?.ToString("g") ?? "Never";
+
+            // Expose whether this identity account is an employee login (EmployeeID as username)
+            ViewBag.IsEmployeeUser = !string.IsNullOrWhiteSpace(user.UserName) && user.UserName.StartsWith("EMP", StringComparison.OrdinalIgnoreCase);
+            ViewBag.EmployeeId = user.UserName;
             return View();
         }
     }

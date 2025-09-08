@@ -34,7 +34,7 @@
                     <td>@emp.Name</td>
                     <td>@emp.Role</td>
                     <td>
-                        <input type="checkbox" name="presentEmployeeIds" value="@emp.Id" @(att != null && att.IsPresent ? "checked" : "") />
+                        <input type="checkbox" name="presentEmployeeIds" value="@emp.Id" @(att != null && (att.Status == "Present" || att.Status == "On-time" || att.Status == "Late") ? "checked" : "") />
                         @if (att != null) {
                             <a href="@Url.Action("Edit", "Attendance", new { employeeId = emp.Id, date = date.ToString("yyyy-MM-dd") })" class="btn btn-sm btn-primary ms-2">Edit</a>
                         }

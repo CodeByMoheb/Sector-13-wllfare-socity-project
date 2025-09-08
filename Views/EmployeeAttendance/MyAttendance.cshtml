@@ -1,0 +1,182 @@
+@model List<Attendance>
+@{
+    ViewData["Title"] = "My Attendance";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-secondary">
+                        <i class="fas fa-history me-2"></i>My Attendance History
+                    </h6>
+                    <span class="badge bg-info">@ViewBag.Employee?.EmployeeId</span>
+                </div>
+                <div class="card-body">
+                    <!-- Date Filter -->
+                    <form method="get" class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label for="from" class="form-label">From Date</label>
+                            <input type="date" class="form-control" id="from" name="from" value="@ViewBag.From.ToString("yyyy-MM-dd")" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="to" class="form-label">To Date</label>
+                            <input type="date" class="form-control" id="to" name="to" value="@ViewBag.To.ToString("yyyy-MM-dd")" />
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="fas fa-filter me-1"></i>Filter
+                            </button>
+                            <a href="@Url.Action("MyAttendance")" class="btn btn-outline-secondary">
+                                <i class="fas fa-undo me-1"></i>Reset
+                            </a>
+                        </div>
+                    </form>
+
+                    @if (Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Status</th>
+                                        <th>Total Hours</th>
+                                        <th>Location</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var attendance in Model)
+                                    {
+                                        <tr class="@(attendance.Status == "Late" ? "table-warning" : attendance.Status == "Absent" ? "table-danger" : "table-success")">
+                                            <td>@attendance.Date.ToString("dd/MM/yyyy")</td>
+                                            <td>
+                                                @if (attendance.CheckInTime.HasValue)
+                                                {
+                                                    <span class="badge bg-success">@attendance.CheckInTime.Value.ToString("HH:mm:ss")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (attendance.CheckOutTime.HasValue)
+                                                {
+                                                    <span class="badge bg-danger">@attendance.CheckOutTime.Value.ToString("HH:mm:ss")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <span class="badge @(attendance.Status == "Late" ? "bg-warning" : 
+                                                                   attendance.Status == "Absent" ? "bg-danger" : 
+                                                                   attendance.Status == "On-time" ? "bg-success" : "bg-primary")">
+                                                    @attendance.Status
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if (attendance.TotalHours.HasValue)
+                                                {
+                                                    <span class="badge bg-info">@attendance.TotalHours.Value hours</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(attendance.Location))
+                                                {
+                                                    <small class="text-muted">@attendance.Location</small>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(attendance.Remarks))
+                                                {
+                                                    <small>@attendance.Remarks</small>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body text-center">
+                                        <h5>@Model.Count(a => a.Status == "Present" || a.Status == "On-time" || a.Status == "Late")</h5>
+                                        <small>Present Days</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body text-center">
+                                        <h5>@Model.Count(a => a.Status == "Late")</h5>
+                                        <small>Late Days</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-danger text-white">
+                                    <div class="card-body text-center">
+                                        <h5>@Model.Count(a => a.Status == "Absent")</h5>
+                                        <small>Absent Days</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-info text-white">
+                                    <div class="card-body text-center">
+                                        <h5>@Model.Where(a => a.TotalHours.HasValue).Sum(a => a.TotalHours.Value).ToString("F1")</h5>
+                                        <small>Total Hours</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No attendance records found</h5>
+                            <p class="text-muted">No attendance records found for the selected date range.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            // Auto-submit form when dates change
+            $('#from, #to').on('change', function () {
+                if ($('#from').val() && $('#to').val()) {
+                    $('form').submit();
+                }
+            });
+        });
+    </script>
+}
