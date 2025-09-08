@@ -15,7 +15,7 @@
                     <span class="badge bg-info">@ViewBag.Employee?.EmployeeId</span>
                 </div>
                 <div class="card-body">
-                    <form asp-action="LeaveRequest" asp-controller="Dashboard" method="post">
+                    <form asp-action="LeaveRequest" asp-controller="Dashboard" method="post" id="leaveRequestForm">
                         @Html.AntiForgeryToken()
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -59,9 +59,11 @@
                             <a href="@Url.Action("Member", "Dashboard")" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
                             </a>
-                            <button type="submit" class="btn btn-primary" id="submitBtn">
-                                <i class="fas fa-paper-plane me-1"></i>Submit Request
-                            </button>
+                            <div>
+                                <button type="submit" class="btn btn-primary" id="submitBtn">
+                                    <i class="fas fa-paper-plane me-1"></i>Submit Request
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -100,8 +102,9 @@
 @section Scripts {
     <script>
         $(function () {
-            // Add form submission debugging and loading state
+            // Single form submission handler with validation and debugging
             $('form').on('submit', function(e) {
+                console.log('=== FORM SUBMISSION START ===');
                 console.log('Form submitted');
                 console.log('Leave Type:', $('#LeaveType').val());
                 console.log('Start Date:', $('#StartDate').val());
@@ -109,11 +112,58 @@
                 console.log('Number of Days:', $('#NumberOfDays').val());
                 console.log('Reason:', $('#Reason').val());
                 
+                // Log the form action URL
+                var formAction = $('#leaveRequestForm').attr('action');
+                console.log('Form action URL:', formAction);
+                
+                // Validate required fields
+                if (!$('#LeaveType').val()) {
+                    alert('Please select a leave type');
+                    e.preventDefault();
+                    return false;
+                }
+                if (!$('#StartDate').val()) {
+                    alert('Please select a start date');
+                    e.preventDefault();
+                    return false;
+                }
+                if (!$('#EndDate').val()) {
+                    alert('Please select an end date');
+                    e.preventDefault();
+                    return false;
+                }
+                if (!$('#NumberOfDays').val()) {
+                    alert('Please enter number of days');
+                    e.preventDefault();
+                    return false;
+                }
+                if (!$('#Reason').val()) {
+                    alert('Please provide a reason for leave');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                console.log('All validations passed, form submitting...');
+                
                 // Add loading state to submit button
                 var submitBtn = $('#submitBtn');
                 submitBtn.prop('disabled', true);
                 submitBtn.html('<i class="fas fa-spinner fa-spin me-1"></i>Submitting...');
+                
+                // Let the form submit naturally
+                return true;
             });
+            
+            // Additional debugging - check if form exists
+            console.log('Form element found:', $('#leaveRequestForm').length > 0);
+            console.log('Form action:', $('#leaveRequestForm').attr('action'));
+            console.log('Form method:', $('#leaveRequestForm').attr('method'));
+            
+            // Check CSRF token
+            var csrfToken = $('input[name="__RequestVerificationToken"]').val();
+            console.log('CSRF Token found:', csrfToken ? 'Yes' : 'No');
+            console.log('CSRF Token value:', csrfToken);
+            
             
             // Auto-calculate number of days when dates change
             $('#StartDate, #EndDate').on('change', function() {

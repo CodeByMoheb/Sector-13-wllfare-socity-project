@@ -143,9 +143,13 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [Authorize(Roles = "Member")]
         public async Task<IActionResult> LeaveRequest()
         {
+            System.Diagnostics.Debug.WriteLine($"=== LEAVE REQUEST GET METHOD ===");
             var employeeId = User.Identity?.Name;
+            System.Diagnostics.Debug.WriteLine($"Employee ID: {employeeId}");
+            
             if (string.IsNullOrEmpty(employeeId))
             {
+                System.Diagnostics.Debug.WriteLine("No employee ID, redirecting to login");
                 return RedirectToAction("Login", "Account");
             }
 
@@ -154,9 +158,11 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 
             if (employee == null)
             {
+                System.Diagnostics.Debug.WriteLine("Employee not found, redirecting to login");
                 return RedirectToAction("Login", "Account");
             }
 
+            System.Diagnostics.Debug.WriteLine($"Employee found: {employee.EmployeeId}, Name: {employee.Name}");
             ViewBag.Employee = employee;
             return View();
         }
@@ -167,9 +173,32 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [Authorize(Roles = "Member")]
         public async Task<IActionResult> LeaveRequest(Leave leave)
         {
-            System.Diagnostics.Debug.WriteLine($"Leave request submitted: LeaveType={leave.LeaveType}, StartDate={leave.StartDate}, EndDate={leave.EndDate}, NumberOfDays={leave.NumberOfDays}");
+            System.Diagnostics.Debug.WriteLine($"=== LEAVE REQUEST SUBMISSION START ===");
+            System.Diagnostics.Debug.WriteLine($"Leave request submitted: LeaveType={leave?.LeaveType}, StartDate={leave?.StartDate}, EndDate={leave?.EndDate}, NumberOfDays={leave?.NumberOfDays}");
+            System.Diagnostics.Debug.WriteLine($"Model is null: {leave == null}");
+            
+            // Log all form data
+            System.Diagnostics.Debug.WriteLine($"Request.Form data:");
+            foreach (var key in Request.Form.Keys)
+            {
+                System.Diagnostics.Debug.WriteLine($"  {key}: {Request.Form[key]}");
+            }
+            
+            if (leave != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"Leave object details:");
+                System.Diagnostics.Debug.WriteLine($"- LeaveType: {leave.LeaveType}");
+                System.Diagnostics.Debug.WriteLine($"- StartDate: {leave.StartDate}");
+                System.Diagnostics.Debug.WriteLine($"- EndDate: {leave.EndDate}");
+                System.Diagnostics.Debug.WriteLine($"- NumberOfDays: {leave.NumberOfDays}");
+                System.Diagnostics.Debug.WriteLine($"- Reason: {leave.Reason}");
+            }
             
             var employeeId = User.Identity?.Name;
+            System.Diagnostics.Debug.WriteLine($"Employee ID from User.Identity.Name: {employeeId}");
+            System.Diagnostics.Debug.WriteLine($"User is authenticated: {User.Identity?.IsAuthenticated}");
+            System.Diagnostics.Debug.WriteLine($"User claims: {string.Join(", ", User.Claims.Select(c => $"{c.Type}={c.Value}"))}");
+            
             if (string.IsNullOrEmpty(employeeId))
             {
                 System.Diagnostics.Debug.WriteLine("Leave request failed: No employee ID");
@@ -180,8 +209,15 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             var employee = await _context.Employees
                 .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
 
+            System.Diagnostics.Debug.WriteLine($"Employee lookup result: {employee != null}");
+            if (employee != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"Employee found: ID={employee.Id}, EmployeeId={employee.EmployeeId}, Name={employee.Name}");
+            }
+
             if (employee == null)
             {
+                System.Diagnostics.Debug.WriteLine("Employee not found in database");
                 TempData["ErrorMessage"] = "Employee not found";
                 return RedirectToAction("Login", "Account");
             }
@@ -201,6 +237,20 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 ModelState.Clear();
 
                 // Re-validate with server-populated values
+                System.Diagnostics.Debug.WriteLine($"ModelState.IsValid: {ModelState.IsValid}");
+                if (!ModelState.IsValid)
+                {
+                    System.Diagnostics.Debug.WriteLine("ModelState errors:");
+                    foreach (var key in ModelState.Keys)
+                    {
+                        var errors = ModelState[key].Errors;
+                        if (errors.Any())
+                        {
+                            System.Diagnostics.Debug.WriteLine($"  {key}: {string.Join(", ", errors.Select(e => e.ErrorMessage))}");
+                        }
+                    }
+                }
+                
                 if (TryValidateModel(leave))
                 {
                     System.Diagnostics.Debug.WriteLine("Model validation passed");
@@ -222,10 +272,23 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                     leave.CreatedAt = DateTime.UtcNow;
                     leave.UpdatedAt = DateTime.UtcNow;
 
+                    System.Diagnostics.Debug.WriteLine($"About to save leave request to database:");
+                    System.Diagnostics.Debug.WriteLine($"- EmployeeId: {leave.EmployeeId}");
+                    System.Diagnostics.Debug.WriteLine($"- LeaveType: {leave.LeaveType}");
+                    System.Diagnostics.Debug.WriteLine($"- StartDate: {leave.StartDate}");
+                    System.Diagnostics.Debug.WriteLine($"- EndDate: {leave.EndDate}");
+                    System.Diagnostics.Debug.WriteLine($"- NumberOfDays: {leave.NumberOfDays}");
+                    System.Diagnostics.Debug.WriteLine($"- Reason: {leave.Reason}");
+                    System.Diagnostics.Debug.WriteLine($"- ApprovalStatus: {leave.ApprovalStatus}");
+
                     _context.Leaves.Add(leave);
-                    await _context.SaveChangesAsync();
+                    System.Diagnostics.Debug.WriteLine($"Leave added to context, about to save changes...");
+                    
+                    var changes = await _context.SaveChangesAsync();
+                    System.Diagnostics.Debug.WriteLine($"Database save completed. Changes saved: {changes}");
 
                     TempData["SuccessMessage"] = "Leave request submitted successfully! Your request is pending approval.";
+                    System.Diagnostics.Debug.WriteLine($"Redirecting to MyLeaves...");
                     return RedirectToAction("MyLeaves");
                 }
                 else
@@ -240,6 +303,14 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"=== LEAVE REQUEST ERROR ===");
+                System.Diagnostics.Debug.WriteLine($"Exception: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
+                if (ex.InnerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                
                 TempData["ErrorMessage"] = "An error occurred while submitting your leave request. Please try again.";
                 // Log the exception for debugging
                 System.Diagnostics.Debug.WriteLine($"Leave request error: {ex.Message}");
@@ -307,5 +378,6 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 
             return View(attendances);
         }
+
     }
 } 
