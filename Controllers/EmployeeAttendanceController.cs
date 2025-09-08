@@ -217,6 +217,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 
         // POST: Check In
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckIn(string location = "")
         {
             var employeeId = User.Identity?.Name;
@@ -268,7 +269,11 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                     return Json(new { success = false, message = "Already checked in today" });
                 }
 
+                System.Diagnostics.Debug.WriteLine($"Check-in: Employee {employee.EmployeeId}, CheckIn: {attendance.CheckInTime}, Date: {attendance.Date}");
+
                 await _context.SaveChangesAsync();
+
+                System.Diagnostics.Debug.WriteLine($"Check-in saved successfully for employee {employee.EmployeeId}");
 
                 return Json(new { success = true, message = "Check-in successful at " + now.ToString("HH:mm:ss"), checkInTime = now.ToString("HH:mm:ss") });
             }
@@ -279,8 +284,58 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
         }
 
+        // GET: Get Current Attendance Status
+        [HttpGet]
+        public async Task<IActionResult> GetCurrentAttendanceStatus()
+        {
+            var employeeId = User.Identity?.Name;
+            if (string.IsNullOrEmpty(employeeId))
+            {
+                return Json(new { success = false, message = "Please login first" });
+            }
+
+            var employee = await _context.Employees
+                .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+
+            if (employee == null)
+            {
+                return Json(new { success = false, message = "Employee not found" });
+            }
+
+            try
+            {
+                var today = DateTime.Today;
+                var attendance = await _context.Attendances
+                    .FirstOrDefaultAsync(a => a.EmployeeId == employee.Id && a.Date == today);
+
+                if (attendance == null)
+                {
+                    return Json(new { 
+                        success = true, 
+                        hasCheckIn = false, 
+                        hasCheckOut = false 
+                    });
+                }
+
+                return Json(new { 
+                    success = true, 
+                    hasCheckIn = attendance.CheckInTime != null,
+                    hasCheckOut = attendance.CheckOutTime != null,
+                    checkInTime = attendance.CheckInTime?.ToString("HH:mm:ss"),
+                    checkOutTime = attendance.CheckOutTime?.ToString("HH:mm:ss"),
+                    totalHours = attendance.TotalHours
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Get attendance status error: {ex.Message}");
+                return Json(new { success = false, message = "Error retrieving attendance status" });
+            }
+        }
+
         // POST: Check Out
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckOut()
         {
             var employeeId = User.Identity?.Name;
@@ -301,12 +356,22 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             {
                 var today = DateTime.Today;
                 var now = DateTime.Now;
+                
+                System.Diagnostics.Debug.WriteLine($"Check-out attempt: Employee {employee.EmployeeId}, Today: {today}, Now: {now}");
 
                 var attendance = await _context.Attendances
                     .FirstOrDefaultAsync(a => a.EmployeeId == employee.Id && a.Date == today);
 
+                System.Diagnostics.Debug.WriteLine($"Found attendance record: {attendance != null}, CheckInTime: {attendance?.CheckInTime}, CheckOutTime: {attendance?.CheckOutTime}");
+                
+                if (attendance != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Attendance ID: {attendance.AttendanceId}, Employee ID: {attendance.EmployeeId}, Date: {attendance.Date}");
+                }
+
                 if (attendance == null || attendance.CheckInTime == null)
                 {
+                    System.Diagnostics.Debug.WriteLine($"Check-out failed: No attendance record or no check-in time");
                     return Json(new { success = false, message = "Please check in first" });
                 }
 
@@ -319,9 +384,36 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 attendance.TotalHours = CalculateTotalHours(attendance.CheckInTime.Value, now);
                 attendance.UpdatedAt = now;
 
-                await _context.SaveChangesAsync();
+                System.Diagnostics.Debug.WriteLine($"Check-out: Employee {employee.EmployeeId}, CheckIn: {attendance.CheckInTime}, CheckOut: {attendance.CheckOutTime}, TotalHours: {attendance.TotalHours}");
+                
+                // Ensure Entity Framework is tracking the changes
+                _context.Attendances.Update(attendance);
+                System.Diagnostics.Debug.WriteLine($"Entity Framework tracking: {_context.Entry(attendance).State}");
 
-                return Json(new { success = true, message = "Check-out successful at " + now.ToString("HH:mm:ss"), checkOutTime = now.ToString("HH:mm:ss") });
+                try
+                {
+                    var changes = await _context.SaveChangesAsync();
+                    System.Diagnostics.Debug.WriteLine($"Check-out saved successfully for employee {employee.EmployeeId}. Changes: {changes}");
+                    
+                    // Verify the data was actually saved
+                    var savedAttendance = await _context.Attendances
+                        .FirstOrDefaultAsync(a => a.EmployeeId == employee.Id && a.Date == today);
+                    
+                    if (savedAttendance?.CheckOutTime == null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"ERROR: Check-out time was not saved to database!");
+                        return Json(new { success = false, message = "Failed to save check-out time. Please try again." });
+                    }
+                    
+                    System.Diagnostics.Debug.WriteLine($"Verified: Check-out time saved as {savedAttendance.CheckOutTime}, TotalHours: {savedAttendance.TotalHours}");
+                }
+                catch (Exception saveEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Database save error: {saveEx.Message}");
+                    return Json(new { success = false, message = "Failed to save check-out data. Please try again." });
+                }
+
+                return Json(new { success = true, message = "Check-out successful at " + now.ToString("HH:mm:ss"), checkOutTime = now.ToString("HH:mm:ss"), totalHours = attendance.TotalHours });
             }
             catch (Exception ex)
             {

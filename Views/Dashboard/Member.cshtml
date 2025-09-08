@@ -3,6 +3,15 @@
     Layout = "_DashboardLayout";
 }
 
+@Html.AntiForgeryToken()
+
+<!-- Debug Information -->
+<div style="display: none;" id="debug-info">
+    <p>IsEmployeeUser: @ViewBag.IsEmployeeUser</p>
+    <p>EmployeeId: @ViewBag.EmployeeId</p>
+    <p>UserName: @ViewBag.UserName</p>
+</div>
+
 <div class="container-fluid">
     <!-- Quick Access Buttons Row -->
     <div class="row">
@@ -230,98 +239,38 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-secondary">Member Actions</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <a href="#" class="btn btn-secondary btn-block">
-                                <i class="fas fa-eye me-2"></i>View Activities
-                            </a>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <a href="#" class="btn btn-primary btn-block">
-                                <i class="fas fa-newspaper me-2"></i>Read News
-                            </a>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <a href="#" class="btn btn-info btn-block">
-                                <i class="fas fa-calendar-alt me-2"></i>See Events
-                            </a>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <a href="#" class="btn btn-success btn-block">
-                                <i class="fas fa-comment me-2"></i>Give Feedback
-                            </a>
-                        </div>
-                        <!-- New Buttons -->
-                        <div class="col-md-6 mb-3">
-                            <a href="#" class="btn btn-outline-primary btn-block">
-                                <i class="fas fa-bullhorn me-2"></i> Notices
-                            </a>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <a href="#" class="btn btn-outline-success btn-block">
-                                <i class="fas fa-money-bill-wave me-2"></i> Payment & Dues
-                            </a>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <a href="#" class="btn btn-outline-info btn-block">
-                                <i class="fas fa-file-alt me-2"></i> View Documents
-                            </a>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <a href="#" class="btn btn-outline-danger btn-block">
-                                <i class="fas fa-phone-alt me-2"></i> Emergency Contacts
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-secondary">Recent Member Activities</h6>
-                </div>
-                <div class="card-body">
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>Attended event</strong>
-                                <br><small class="text-muted">Annual General Meeting</small>
-                            </div>
-                            <span class="badge bg-primary rounded-pill">Today</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>Feedback given</strong>
-                                <br><small class="text-muted">On cleanliness drive</small>
-                            </div>
-                            <span class="badge bg-success rounded-pill">Yesterday</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>Read news</strong>
-                                <br><small class="text-muted">Society newsletter</small>
-                            </div>
-                            <span class="badge bg-info rounded-pill">2 days ago</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 </div>
 
 @section Scripts {
     <script>
-        $(function () {
+        $(document).ready(function () {
+            // Check if jQuery is loaded
+            if (typeof $ === 'undefined') {
+                console.error('jQuery is not loaded. Please check the jQuery library inclusion.');
+                return;
+            }
+
+            console.log('jQuery loaded successfully');
+            console.log('ViewBag.IsEmployeeUser:', @(ViewBag.IsEmployeeUser == true ? "true" : "false"));
+            console.log('Check-in button exists:', $('#empCheckIn').length > 0);
+            console.log('Check-out button exists:', $('#empCheckOut').length > 0);
+            
+            // Show debug information
+            console.log('Debug info:', $('#debug-info').html());
+            
+            // Test basic button functionality regardless of employee status
+            $('#empCheckIn').on('click', function(e) {
+                console.log('Basic check-in click detected');
+            });
+            
+            $('#empCheckOut').on('click', function(e) {
+                console.log('Basic check-out click detected');
+            });
+
             if (@(ViewBag.IsEmployeeUser == true ? "true" : "false")) {
+                console.log('Employee user detected, initializing attendance system...');
+                
                 // Update current time every second
                 setInterval(function() {
                     var now = new Date();
@@ -333,84 +282,149 @@
                     }));
                 }, 1000);
 
+                // Test if buttons exist and add basic click handler
+                console.log('Setting up button event handlers...');
+                
                 // Enhanced Check In functionality
-                $('#empCheckIn').on('click', function () {
+                $('#empCheckIn').on('click', function (e) {
+                    e.preventDefault();
                     var btn = $(this);
                     var originalText = btn.find('.btn-title').text();
+                    
+                    console.log('Check-in button clicked - event handler triggered');
                     
                     // Show loading state
                     btn.prop('disabled', true);
                     btn.find('.btn-title').text('Processing...');
                     btn.find('.icon-container i').removeClass('fa-sign-in-alt').addClass('fa-spinner fa-spin');
                     
-                    $.post('/EmployeeAttendance/CheckIn')
-                        .done(function (res) {
-                            if (res.success) {
+                    // Add CSRF token for the request
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    if (!token) {
+                        // Try to get token from meta tag
+                        token = $('meta[name="__RequestVerificationToken"]').attr('content');
+                    }
+                    console.log('CSRF Token found:', token ? 'Yes' : 'No');
+                    
+                    $.ajax({
+                        url: '/EmployeeAttendance/CheckIn',
+                        type: 'POST',
+                        data: {
+                            __RequestVerificationToken: token
+                        },
+                        dataType: 'json',
+                        success: function (res) {
+                            console.log('Check-in response:', res);
+                            if (res && res.success) {
                                 showStatus('success', res.message || 'Successfully checked in!');
                                 if (res.checkInTime) {
                                     $('#emp-attn-today').text('Checked in at ' + res.checkInTime);
                                 }
-                                // Animate button success
+                                // Disable check-in button permanently after successful check-in
+                                btn.prop('disabled', true);
                                 btn.addClass('btn-success').removeClass('btn-checkin');
-                                setTimeout(() => {
-                                    btn.removeClass('btn-success').addClass('btn-checkin');
-                                }, 2000);
+                                btn.find('.btn-title').text('Already Checked In');
+                                btn.find('.btn-subtitle').text('Ready to check out');
                             } else {
                                 showStatus('error', res.message || 'Check-in failed');
                             }
-                        })
-                        .fail(function () {
-                            showStatus('error', 'Check-in failed. Please try again.');
-                        })
-                        .always(function () {
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Check-in error:', error, xhr.responseText);
+                            var errorMessage = 'Check-in failed. Please try again.';
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                errorMessage = xhr.responseJSON.message;
+                            }
+                            showStatus('error', errorMessage);
+                        },
+                        complete: function () {
                             // Restore button state
                             btn.prop('disabled', false);
                             btn.find('.btn-title').text(originalText);
                             btn.find('.icon-container i').removeClass('fa-spinner fa-spin').addClass('fa-sign-in-alt');
-                        });
+                        }
+                    });
                 });
 
                 // Enhanced Check Out functionality
-                $('#empCheckOut').on('click', function () {
+                $('#empCheckOut').on('click', function (e) {
+                    e.preventDefault();
                     var btn = $(this);
                     var originalText = btn.find('.btn-title').text();
+                    
+                    console.log('Check-out button clicked');
                     
                     // Show loading state
                     btn.prop('disabled', true);
                     btn.find('.btn-title').text('Processing...');
                     btn.find('.icon-container i').removeClass('fa-sign-out-alt').addClass('fa-spinner fa-spin');
                     
-                    $.post('/EmployeeAttendance/CheckOut')
-                        .done(function (res) {
-                            if (res.success) {
+                    // Add CSRF token for the request
+                    var token = $('input[name="__RequestVerificationToken"]').val();
+                    if (!token) {
+                        // Try to get token from meta tag
+                        token = $('meta[name="__RequestVerificationToken"]').attr('content');
+                    }
+                    console.log('CSRF Token found:', token ? 'Yes' : 'No');
+                    
+                    $.ajax({
+                        url: '/EmployeeAttendance/CheckOut',
+                        type: 'POST',
+                        data: {
+                            __RequestVerificationToken: token
+                        },
+                        dataType: 'json',
+                        success: function (res) {
+                            console.log('Check-out response:', res);
+                            console.log('Check-out success:', res.success);
+                            console.log('Check-out time:', res.checkOutTime);
+                            console.log('Total hours:', res.totalHours);
+                            if (res && res.success) {
                                 showStatus('success', res.message || 'Successfully checked out!');
                                 if (res.checkOutTime) {
                                     $('#emp-attn-today').text('Checked out at ' + res.checkOutTime);
                                 }
-                                // Animate button success
+                                if (res.totalHours) {
+                                    console.log('Total hours calculated:', res.totalHours);
+                                }
+                                // Disable check-out button permanently after successful check-out
+                                btn.prop('disabled', true);
                                 btn.addClass('btn-success').removeClass('btn-checkout');
-                                setTimeout(() => {
-                                    btn.removeClass('btn-success').addClass('btn-checkout');
-                                }, 2000);
+                                btn.find('.btn-title').text('Already Checked Out');
+                                btn.find('.btn-subtitle').text('Completed for today');
+                                
+                                // Also disable check-in button to prevent multiple check-ins
+                                $('#empCheckIn').prop('disabled', true);
+                                $('#empCheckIn').addClass('btn-secondary').removeClass('btn-checkin');
+                                $('#empCheckIn').find('.btn-title').text('Already Checked In');
+                                $('#empCheckIn').find('.btn-subtitle').text('Completed for today');
                             } else {
                                 showStatus('error', res.message || 'Check-out failed');
                             }
-                        })
-                        .fail(function () {
-                            showStatus('error', 'Check-out failed. Please try again.');
-                        })
-                        .always(function () {
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Check-out error:', error, xhr.responseText);
+                            var errorMessage = 'Check-out failed. Please try again.';
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                errorMessage = xhr.responseJSON.message;
+                            }
+                            showStatus('error', errorMessage);
+                        },
+                        complete: function () {
                             // Restore button state
                             btn.prop('disabled', false);
                             btn.find('.btn-title').text(originalText);
                             btn.find('.icon-container i').removeClass('fa-spinner fa-spin').addClass('fa-sign-out-alt');
-                        });
+                        }
+                    });
                 });
 
                 // Enhanced status display function
                 function showStatus(type, message) {
                     var statusDiv = $('#emp-attn-status');
                     var statusText = $('#status-text');
+                    
+                    console.log('Showing status:', type, message);
                     
                     // Remove existing classes
                     statusDiv.removeClass('alert-info alert-success alert-danger alert-warning');
@@ -436,6 +450,50 @@
                         statusDiv.removeClass('status-animate');
                     }, 500);
                 }
+                
+                // Initialize status
+                showStatus('info', 'Ready to mark your attendance');
+                
+                // Check current attendance status
+                checkCurrentAttendanceStatus();
+                
+                // Function to check current attendance status
+                function checkCurrentAttendanceStatus() {
+                    $.ajax({
+                        url: '/EmployeeAttendance/GetCurrentAttendanceStatus',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (res) {
+                            console.log('Current attendance status:', res);
+                            if (res && res.hasCheckIn) {
+                                $('#empCheckIn').prop('disabled', true);
+                                $('#empCheckIn').addClass('btn-success').removeClass('btn-checkin');
+                                $('#empCheckIn').find('.btn-title').text('Already Checked In');
+                                $('#empCheckIn').find('.btn-subtitle').text('Ready to check out');
+                                
+                                if (res.checkInTime) {
+                                    $('#emp-attn-today').text('Checked in at ' + res.checkInTime);
+                                }
+                                
+                                if (res.hasCheckOut) {
+                                    $('#empCheckOut').prop('disabled', true);
+                                    $('#empCheckOut').addClass('btn-success').removeClass('btn-checkout');
+                                    $('#empCheckOut').find('.btn-title').text('Already Checked Out');
+                                    $('#empCheckOut').find('.btn-subtitle').text('Completed for today');
+                                    
+                                    if (res.checkOutTime) {
+                                        $('#emp-attn-today').text('Checked out at ' + res.checkOutTime);
+                                    }
+                                }
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('Could not check attendance status:', error);
+                        }
+                    });
+                }
+            } else {
+                console.log('Non-employee user, attendance system not initialized');
             }
         });
     </script>

@@ -297,8 +297,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </footer>
         </div>
     </div>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    @await RenderSectionAsync("Scripts", required: false)
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <script>
