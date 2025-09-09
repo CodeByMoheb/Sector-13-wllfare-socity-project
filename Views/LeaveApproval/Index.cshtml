@@ -352,6 +352,9 @@
                     
                     fetch('@Url.Action("Approve")', {
                         method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
                         body: formData
                     })
                     .then(response => {
@@ -414,6 +417,9 @@
                     
                     fetch('@Url.Action("Reject")', {
                         method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
                         body: formData
                     })
                     .then(response => {

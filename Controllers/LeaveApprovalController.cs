@@ -169,7 +169,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 }
                 else
                 {
-                    // Regular form submission - redirect back to index
+                    // Regular form submission - redirect back to index with success message
+                    TempData["SuccessMessage"] = $"Leave request for {leave.Employee.Name} has been approved.";
                     return RedirectToAction("Index");
                 }
             }
@@ -244,7 +245,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 }
                 else
                 {
-                    // Regular form submission - redirect back to index
+                    // Regular form submission - redirect back to index with success message
+                    TempData["SuccessMessage"] = $"Leave request for {leave.Employee.Name} has been rejected.";
                     return RedirectToAction("Index");
                 }
             }
