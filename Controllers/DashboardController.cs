@@ -171,11 +171,11 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Member")]
-        public async Task<IActionResult> LeaveRequest(Leave leave)
+        public async Task<IActionResult> LeaveRequest(LeaveRequestViewModel model)
         {
             System.Diagnostics.Debug.WriteLine($"=== LEAVE REQUEST SUBMISSION START ===");
-            System.Diagnostics.Debug.WriteLine($"Leave request submitted: LeaveType={leave?.LeaveType}, StartDate={leave?.StartDate}, EndDate={leave?.EndDate}, NumberOfDays={leave?.NumberOfDays}");
-            System.Diagnostics.Debug.WriteLine($"Model is null: {leave == null}");
+            System.Diagnostics.Debug.WriteLine($"Leave request submitted: LeaveType={model?.LeaveType}, StartDate={model?.StartDate}, EndDate={model?.EndDate}, NumberOfDays={model?.NumberOfDays}");
+            System.Diagnostics.Debug.WriteLine($"Model is null: {model == null}");
             
             // Log all form data
             System.Diagnostics.Debug.WriteLine($"Request.Form data:");
@@ -184,20 +184,38 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 System.Diagnostics.Debug.WriteLine($"  {key}: {Request.Form[key]}");
             }
             
-            if (leave != null)
+            if (model != null)
             {
-                System.Diagnostics.Debug.WriteLine($"Leave object details:");
-                System.Diagnostics.Debug.WriteLine($"- LeaveType: {leave.LeaveType}");
-                System.Diagnostics.Debug.WriteLine($"- StartDate: {leave.StartDate}");
-                System.Diagnostics.Debug.WriteLine($"- EndDate: {leave.EndDate}");
-                System.Diagnostics.Debug.WriteLine($"- NumberOfDays: {leave.NumberOfDays}");
-                System.Diagnostics.Debug.WriteLine($"- Reason: {leave.Reason}");
+                System.Diagnostics.Debug.WriteLine($"Model object details:");
+                System.Diagnostics.Debug.WriteLine($"- LeaveType: {model.LeaveType}");
+                System.Diagnostics.Debug.WriteLine($"- StartDate: {model.StartDate}");
+                System.Diagnostics.Debug.WriteLine($"- EndDate: {model.EndDate}");
+                System.Diagnostics.Debug.WriteLine($"- NumberOfDays: {model.NumberOfDays}");
+                System.Diagnostics.Debug.WriteLine($"- Reason: {model.Reason}");
             }
             
             var employeeId = User.Identity?.Name;
             System.Diagnostics.Debug.WriteLine($"Employee ID from User.Identity.Name: {employeeId}");
             System.Diagnostics.Debug.WriteLine($"User is authenticated: {User.Identity?.IsAuthenticated}");
             System.Diagnostics.Debug.WriteLine($"User claims: {string.Join(", ", User.Claims.Select(c => $"{c.Type}={c.Value}"))}");
+            
+            // Try to get employee ID from email if User.Identity.Name is not working
+            if (string.IsNullOrEmpty(employeeId))
+            {
+                var userEmail = User.Identity?.Name ?? User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+                System.Diagnostics.Debug.WriteLine($"Trying to find employee by email: {userEmail}");
+                
+                if (!string.IsNullOrEmpty(userEmail))
+                {
+                    var employeeByEmail = await _context.Employees
+                        .FirstOrDefaultAsync(e => e.Email == userEmail);
+                    if (employeeByEmail != null)
+                    {
+                        employeeId = employeeByEmail.EmployeeId;
+                        System.Diagnostics.Debug.WriteLine($"Found employee by email: {employeeId}");
+                    }
+                }
+            }
             
             if (string.IsNullOrEmpty(employeeId))
             {
@@ -226,17 +244,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             {
                 System.Diagnostics.Debug.WriteLine($"Employee found: {employee.EmployeeId}, ID: {employee.Id}");
                 
-                // Populate server-controlled fields and re-validate the model
-                // EmployeeId and ApprovalStatus are [Required] but not posted from the form
-                leave.EmployeeId = employee.Id;
-                leave.ApprovalStatus = "Pending";
-
-                System.Diagnostics.Debug.WriteLine($"Model populated: EmployeeId={leave.EmployeeId}, ApprovalStatus={leave.ApprovalStatus}");
-
-                // Clear existing model state (which may have errors for the above fields)
-                ModelState.Clear();
-
-                // Re-validate with server-populated values
+                // Check if the model is valid
                 System.Diagnostics.Debug.WriteLine($"ModelState.IsValid: {ModelState.IsValid}");
                 if (!ModelState.IsValid)
                 {
@@ -249,28 +257,41 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                             System.Diagnostics.Debug.WriteLine($"  {key}: {string.Join(", ", errors.Select(e => e.ErrorMessage))}");
                         }
                     }
+                    ViewBag.Employee = employee;
+                    return View(model);
                 }
                 
-                if (TryValidateModel(leave))
+                if (ModelState.IsValid)
                 {
                     System.Diagnostics.Debug.WriteLine("Model validation passed");
                     // Validate dates
-                    if (leave.StartDate < DateTime.Today)
+                    if (model.StartDate < DateTime.Today)
                     {
                         ModelState.AddModelError("StartDate", "Start date cannot be in the past");
                         ViewBag.Employee = employee;
-                        return View(leave);
+                        return View(model);
                     }
 
-                    if (leave.EndDate < leave.StartDate)
+                    if (model.EndDate < model.StartDate)
                     {
                         ModelState.AddModelError("EndDate", "End date must be after start date");
                         ViewBag.Employee = employee;
-                        return View(leave);
+                        return View(model);
                     }
 
-                    leave.CreatedAt = DateTime.UtcNow;
-                    leave.UpdatedAt = DateTime.UtcNow;
+                    // Create Leave object from the model
+                    var leave = new Leave
+                    {
+                        EmployeeId = employee.Id,
+                        LeaveType = model.LeaveType,
+                        StartDate = model.StartDate,
+                        EndDate = model.EndDate,
+                        NumberOfDays = model.NumberOfDays,
+                        Reason = model.Reason,
+                        ApprovalStatus = "Pending",
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow
+                    };
 
                     System.Diagnostics.Debug.WriteLine($"About to save leave request to database:");
                     System.Diagnostics.Debug.WriteLine($"- EmployeeId: {leave.EmployeeId}");
@@ -298,7 +319,8 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                     {
                         System.Diagnostics.Debug.WriteLine($"Validation error: {error.ErrorMessage}");
                     }
-                    TempData["ErrorMessage"] = "Please correct the errors below";
+                    ViewBag.Employee = employee;
+                    return View(model);
                 }
             }
             catch (Exception ex)
@@ -317,7 +339,7 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             }
 
             ViewBag.Employee = employee;
-            return View(leave);
+            return View(model);
         }
 
         // GET: My Leave Requests

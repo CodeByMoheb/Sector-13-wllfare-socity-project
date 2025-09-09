@@ -27,8 +27,9 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Models
         [Required]
         public int NumberOfDays { get; set; }
 
+        [Required]
         [StringLength(500)]
-        public string? Reason { get; set; }
+        public string Reason { get; set; }
 
         [Required]
         [StringLength(20)]

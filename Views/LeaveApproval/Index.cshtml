@@ -4,6 +4,20 @@
 }
 
 <div class="container-fluid">
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
     <!-- Header -->
     <div class="row">
         <div class="col-12">
@@ -25,7 +39,7 @@
             <div class="card border-0 shadow-lg bg-gradient-warning text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-clock fa-3x mb-3"></i>
-                    <h3 class="card-title">@ViewBag.PendingLeaves.Count</h3>
+                    <h3 class="card-title">@(ViewBag.PendingLeaves?.Count ?? 0)</h3>
                     <p class="card-text">Pending Approvals</p>
                 </div>
             </div>
@@ -34,7 +48,7 @@
             <div class="card border-0 shadow-lg bg-gradient-success text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-check-circle fa-3x mb-3"></i>
-                    <h3 class="card-title">@ViewBag.ApprovedLeaves.Count</h3>
+                    <h3 class="card-title">@(ViewBag.ApprovedLeaves?.Count ?? 0)</h3>
                     <p class="card-text">Approved Requests</p>
                 </div>
             </div>
@@ -43,7 +57,7 @@
             <div class="card border-0 shadow-lg bg-gradient-danger text-white">
                 <div class="card-body text-center">
                     <i class="fas fa-times-circle fa-3x mb-3"></i>
-                    <h3 class="card-title">@ViewBag.RejectedLeaves.Count</h3>
+                    <h3 class="card-title">@(ViewBag.RejectedLeaves?.Count ?? 0)</h3>
                     <p class="card-text">Rejected Requests</p>
                 </div>
             </div>
@@ -61,7 +75,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if (ViewBag.PendingLeaves.Count > 0)
+                    @if (ViewBag.PendingLeaves != null && ViewBag.PendingLeaves.Count > 0)
                     {
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -135,6 +149,19 @@
                                                         <i class="fas fa-eye me-1"></i>View
                                                     </a>
                                                 </div>
+                                                <!-- Fallback forms for direct submission -->
+                                                <div style="display: none;">
+                                                    <form id="approve-form-@leave.LeaveId" method="post" action="@Url.Action("Approve")">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="id" value="@leave.LeaveId" />
+                                                        <input type="hidden" name="remarks" value="" />
+                                                    </form>
+                                                    <form id="reject-form-@leave.LeaveId" method="post" action="@Url.Action("Reject")">
+                                                        @Html.AntiForgeryToken()
+                                                        <input type="hidden" name="id" value="@leave.LeaveId" />
+                                                        <input type="hidden" name="remarks" value="" />
+                                                    </form>
+                                                </div>
                                             </td>
                                         </tr>
                                     }
@@ -166,7 +193,7 @@
                     </h6>
                 </div>
                 <div class="card-body">
-                    @if (ViewBag.ApprovedLeaves.Count > 0)
+                    @if (ViewBag.ApprovedLeaves != null && ViewBag.ApprovedLeaves.Count > 0)
                     {
                         <div class="list-group list-group-flush">
                             @foreach (var leave in ViewBag.ApprovedLeaves)
@@ -198,7 +225,7 @@
                     </h6>
                 </div>
                 <div class="card-body">
-                    @if (ViewBag.RejectedLeaves.Count > 0)
+                    @if (ViewBag.RejectedLeaves != null && ViewBag.RejectedLeaves.Count > 0)
                     {
                         <div class="list-group list-group-flush">
                             @foreach (var leave in ViewBag.RejectedLeaves)
@@ -271,6 +298,7 @@
 </div>
 
 @section Scripts {
+    @Html.AntiForgeryToken()
     <script>
         $(function () {
             let currentLeaveId = null;
@@ -307,22 +335,53 @@
                 if (currentLeaveId && currentAction === 'approve') {
                     const remarks = $('#approvalRemarks').val();
                     
-                    $.post('@Url.Action("Approve")', {
+                    // Disable button to prevent double-clicking
+                    $(this).prop('disabled', true).text('Approving...');
+                    
+                    console.log('Sending approval request:', {
                         id: currentLeaveId,
-                        remarks: remarks
+                        remarks: remarks,
+                        token: $('input[name="__RequestVerificationToken"]').val()
+                    });
+                    
+                    // Create form data
+                    const formData = new FormData();
+                    formData.append('id', currentLeaveId);
+                    formData.append('remarks', remarks);
+                    formData.append('__RequestVerificationToken', $('input[name="__RequestVerificationToken"]').val());
+                    
+                    fetch('@Url.Action("Approve")', {
+                        method: 'POST',
+                        body: formData
                     })
-                    .done(function (response) {
-                        if (response.success) {
-                            showAlert('success', response.message);
-                            setTimeout(() => location.reload(), 1500);
+                    .then(response => {
+                        console.log('Response status:', response.status);
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Approval response:', data);
+                        if (data.success) {
+                            showAlert('success', data.message);
+                            // Reload immediately
+                            location.reload();
                         } else {
-                            showAlert('error', response.message);
+                            showAlert('error', data.message);
+                            $(this).prop('disabled', false).text('Approve');
                         }
                     })
-                    .fail(function () {
-                        showAlert('error', 'An error occurred. Please try again.');
+                    .catch(error => {
+                        console.log('Approval failed, trying fallback method:', error);
+                        // Fallback: use form submission
+                        const form = document.getElementById(`approve-form-${currentLeaveId}`);
+                        if (form) {
+                            form.querySelector('input[name="remarks"]').value = remarks;
+                            form.submit();
+                        } else {
+                            showAlert('error', 'An error occurred. Please try again.');
+                            $(this).prop('disabled', false).text('Approve');
+                        }
                     })
-                    .always(function () {
+                    .finally(() => {
                         $('#approvalModal').modal('hide');
                     });
                 }
@@ -338,22 +397,53 @@
                         return;
                     }
                     
-                    $.post('@Url.Action("Reject")', {
+                    // Disable button to prevent double-clicking
+                    $(this).prop('disabled', true).text('Rejecting...');
+                    
+                    console.log('Sending rejection request:', {
                         id: currentLeaveId,
-                        remarks: remarks
+                        remarks: remarks,
+                        token: $('input[name="__RequestVerificationToken"]').val()
+                    });
+                    
+                    // Create form data
+                    const formData = new FormData();
+                    formData.append('id', currentLeaveId);
+                    formData.append('remarks', remarks);
+                    formData.append('__RequestVerificationToken', $('input[name="__RequestVerificationToken"]').val());
+                    
+                    fetch('@Url.Action("Reject")', {
+                        method: 'POST',
+                        body: formData
                     })
-                    .done(function (response) {
-                        if (response.success) {
-                            showAlert('success', response.message);
-                            setTimeout(() => location.reload(), 1500);
+                    .then(response => {
+                        console.log('Response status:', response.status);
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Rejection response:', data);
+                        if (data.success) {
+                            showAlert('success', data.message);
+                            // Reload immediately
+                            location.reload();
                         } else {
-                            showAlert('error', response.message);
+                            showAlert('error', data.message);
+                            $(this).prop('disabled', false).text('Reject');
                         }
                     })
-                    .fail(function () {
-                        showAlert('error', 'An error occurred. Please try again.');
+                    .catch(error => {
+                        console.log('Rejection failed, trying fallback method:', error);
+                        // Fallback: use form submission
+                        const form = document.getElementById(`reject-form-${currentLeaveId}`);
+                        if (form) {
+                            form.querySelector('input[name="remarks"]').value = remarks;
+                            form.submit();
+                        } else {
+                            showAlert('error', 'An error occurred. Please try again.');
+                            $(this).prop('disabled', false).text('Reject');
+                        }
                     })
-                    .always(function () {
+                    .finally(() => {
                         $('#rejectionModal').modal('hide');
                     });
                 }

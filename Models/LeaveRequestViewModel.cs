@@ -20,6 +20,10 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Models
         public DateTime EndDate { get; set; }
 
         [Required]
+        [Display(Name = "Number of Days")]
+        public int NumberOfDays { get; set; }
+
+        [Required]
         [Display(Name = "Reason")]
         [StringLength(500)]
         public string Reason { get; set; }

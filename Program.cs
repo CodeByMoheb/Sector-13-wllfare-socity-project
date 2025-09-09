@@ -142,28 +142,36 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 // Seed roles and SuperAdmin
-using (var scope = app.Services.CreateScope())
+try
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-    var roles = new[] { "SuperAdmin", "Admin", "President", "Secretary", "Manager", "Member" };
-    foreach (var role in roles)
+    using (var scope = app.Services.CreateScope())
     {
-        if (!await roleManager.RoleExistsAsync(role))
-            await roleManager.CreateAsync(new IdentityRole(role));
-    }
-    // Seed SuperAdmin user
-    var superAdminEmail = "superadmin@sec13.com";
-    var superAdminUser = await userManager.FindByEmailAsync(superAdminEmail);
-    if (superAdminUser == null)
-    {
-        var user = new ApplicationUser { UserName = superAdminEmail, Email = superAdminEmail, EmailConfirmed = true };
-        var result = await userManager.CreateAsync(user, "SuperAdmin@123");
-        if (result.Succeeded)
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var roles = new[] { "SuperAdmin", "Admin", "President", "Secretary", "Manager", "Member" };
+        foreach (var role in roles)
         {
-            await userManager.AddToRoleAsync(user, "SuperAdmin");
+            if (!await roleManager.RoleExistsAsync(role))
+                await roleManager.CreateAsync(new IdentityRole(role));
+        }
+        // Seed SuperAdmin user
+        var superAdminEmail = "superadmin@sec13.com";
+        var superAdminUser = await userManager.FindByEmailAsync(superAdminEmail);
+        if (superAdminUser == null)
+        {
+            var user = new ApplicationUser { UserName = superAdminEmail, Email = superAdminEmail, EmailConfirmed = true };
+            var result = await userManager.CreateAsync(user, "SuperAdmin@123");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "SuperAdmin");
+            }
         }
     }
+}
+catch (Exception ex)
+{
+    // Log the error but don't stop the application
+    Console.WriteLine($"Error during seeding: {ex.Message}");
 }
 
 app.Run();
