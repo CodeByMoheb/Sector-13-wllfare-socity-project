@@ -1,0 +1,55 @@
+@model List<Sector_13_Welfare_Society___Digital_Management_System.Models.LeaveBalance>
+@{
+    ViewData["Title"] = "My Leave Balances";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid py-2">
+    <div class="row g-3">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-balance-scale me-2"></i>My Leave Balances (@ViewBag.Year)</h5>
+                    <span class="badge bg-info">@ViewBag.Employee?.EmployeeId</span>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Leave Type</th>
+                                        <th class="text-center">Entitled</th>
+                                        <th class="text-center">Used</th>
+                                        <th class="text-center">Pending</th>
+                                        <th class="text-center">Remaining</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var b in Model.OrderBy(m => m.LeaveType))
+                                    {
+                                        <tr>
+                                            <td><strong>@b.LeaveType</strong></td>
+                                            <td class="text-center"><span class="badge bg-primary">@b.TotalEntitled</span></td>
+                                            <td class="text-center"><span class="badge bg-success">@b.Used</span></td>
+                                            <td class="text-center"><span class="badge bg-warning">@b.Pending</span></td>
+                                            <td class="text-center"><span class="badge @(b.Remaining > 0 ? "bg-info" : "bg-danger")">@b.Remaining</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="p-3 text-center text-muted">
+                            <i class="fas fa-info-circle"></i> No balances found.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
