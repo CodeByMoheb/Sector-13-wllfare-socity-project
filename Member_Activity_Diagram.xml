@@ -1,0 +1,157 @@
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" etag="abc123" version="22.1.16" type="device">
+  <diagram name="Member Activity Diagram" id="member-activity">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Start Node -->
+        <mxCell id="start" value="Start" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="50" y="50" width="80" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Login Process -->
+        <mxCell id="login" value="Member Login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="200" y="50" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Decision: Login Success -->
+        <mxCell id="loginDecision" value="Login Successful?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="200" y="150" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Login Failed -->
+        <mxCell id="loginFailed" value="Display Error Message" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="50" y="250" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Member Dashboard -->
+        <mxCell id="dashboard" value="Member Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="400" y="150" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Member Activities -->
+        <mxCell id="viewDirectory" value="View Member Directory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="200" y="300" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="makeDonation" value="Make Donation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="400" y="300" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="viewNotices" value="View Notices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="600" y="300" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="updateProfile" value="Update Profile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="200" y="400" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="trackDonations" value="Track Donation History" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="400" y="400" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Payment Process -->
+        <mxCell id="paymentProcess" value="Payment Processing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="400" y="500" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Payment Success -->
+        <mxCell id="paymentSuccess" value="Payment Successful" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="600" y="500" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Logout -->
+        <mxCell id="logout" value="Logout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="200" y="600" width="120" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- End Node -->
+        <mxCell id="end" value="End" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="200" y="700" width="80" height="40" as="geometry" />
+        </mxCell>
+        
+        <!-- Connections -->
+        <mxCell id="edge1" edge="1" parent="1" source="start" target="login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge2" edge="1" parent="1" source="login" target="loginDecision">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge3" edge="1" parent="1" source="loginDecision" target="loginFailed">
+          <mxGeometry relative="1" as="geometry" />
+          <mxPoint x="260" y="180" as="sourcePoint" />
+          <mxPoint x="110" y="270" as="targetPoint" />
+        </mxCell>
+        
+        <mxCell id="edge4" edge="1" parent="1" source="loginDecision" target="dashboard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge5" edge="1" parent="1" source="dashboard" target="viewDirectory">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge6" edge="1" parent="1" source="dashboard" target="makeDonation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge7" edge="1" parent="1" source="dashboard" target="viewNotices">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge8" edge="1" parent="1" source="dashboard" target="updateProfile">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge9" edge="1" parent="1" source="dashboard" target="trackDonations">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge10" edge="1" parent="1" source="makeDonation" target="paymentProcess">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge11" edge="1" parent="1" source="paymentProcess" target="paymentSuccess">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge12" edge="1" parent="1" source="viewDirectory" target="logout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge13" edge="1" parent="1" source="viewNotices" target="logout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge14" edge="1" parent="1" source="updateProfile" target="logout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge15" edge="1" parent="1" source="trackDonations" target="logout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge16" edge="1" parent="1" source="paymentSuccess" target="logout">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="edge17" edge="1" parent="1" source="logout" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Labels -->
+        <mxCell id="label1" value="No" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="200" width="30" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label2" value="Yes" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="350" y="180" width="30" height="20" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

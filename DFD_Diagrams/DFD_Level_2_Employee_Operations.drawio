@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-15T00:00:00.000Z" agent="5.0" version="24.7.17" etag="draw.io">
+  <diagram name="Level 2 - Employee Operations" id="level-2-employee">
+    <mxGraphModel dx="1422" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Level 2 DFD - Employee Self-Service Operations" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="500" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- External Entities -->
+        <!-- Employee -->
+        <mxCell id="employee" value="Employee" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="200" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Manager (for approvals) -->
+        <mxCell id="manager" value="Manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="500" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-processes for Employee Self-Service -->
+        <!-- E1 Employee Login -->
+        <mxCell id="processE1" value="E1&#xa;Employee&#xa;Login" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="220" y="120" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- E2 Employee Dashboard -->
+        <mxCell id="processE2" value="E2&#xa;Employee&#xa;Dashboard" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="420" y="120" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- E3 Profile Management -->
+        <mxCell id="processE3" value="E3&#xa;Profile&#xa;Management" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="120" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- E4 Attendance Check-in/out -->
+        <mxCell id="processE4" value="E4&#xa;Attendance&#xa;Check-in/out" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="220" y="250" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- E5 Attendance History -->
+        <mxCell id="processE5" value="E5&#xa;Attendance&#xa;History" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="420" y="250" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- E6 Shift Information -->
+        <mxCell id="processE6" value="E6&#xa;Shift&#xa;Information" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="250" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- E7 Leave Application -->
+        <mxCell id="processE7" value="E7&#xa;Leave&#xa;Application" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="220" y="380" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- E8 Leave Balance -->
+        <mxCell id="processE8" value="E8&#xa;Leave&#xa;Balance" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="420" y="380" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- E9 Leave History -->
+        <mxCell id="processE9" value="E9&#xa;Leave&#xa;History" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="380" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- E10 Salary Information -->
+        <mxCell id="processE10" value="E10&#xa;Salary&#xa;Information" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="420" y="510" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Data Stores -->
+        <!-- Employee Database -->
+        <mxCell id="ds1" value="D3 | Employee Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="850" y="150" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- User Database -->
+        <mxCell id="ds2" value="D1 | User Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="850" y="210" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Attendance Database -->
+        <mxCell id="ds3" value="D4 | Attendance Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="850" y="270" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Shift Database -->
+        <mxCell id="ds4" value="D9 | Shift Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="850" y="330" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Leave Database -->
+        <mxCell id="ds5" value="D10 | Leave Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="850" y="390" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Salary Database -->
+        <mxCell id="ds6" value="D11 | Salary Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="850" y="510" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Employee flows to processes -->
+        <!-- Login -->
+        <mxCell id="employee-login" edge="1" parent="1" source="employee" target="processE1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-login-label" value="EmployeeID + Password" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="employee-login">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Dashboard Access -->
+        <mxCell id="employee-dashboard" edge="1" parent="1" source="employee" target="processE2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-dashboard-label" value="dashboard request" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="employee-dashboard">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Profile Update -->
+        <mxCell id="employee-profile" edge="1" parent="1" source="employee" target="processE3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-profile-label" value="profile update" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="employee-profile">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Attendance Check-in/out -->
+        <mxCell id="employee-checkin" edge="1" parent="1" source="employee" target="processE4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-checkin-label" value="check-in/out" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="employee-checkin">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Attendance History -->
+        <mxCell id="employee-att-history" edge="1" parent="1" source="employee" target="processE5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-att-history-label" value="view history" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="employee-att-history">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Shift Information -->
+        <mxCell id="employee-shift" edge="1" parent="1" source="employee" target="processE6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-shift-label" value="view shift" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="employee-shift">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Leave Application -->
+        <mxCell id="employee-leave-app" edge="1" parent="1" source="employee" target="processE7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-leave-app-label" value="apply leave" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="employee-leave-app">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Leave Balance -->
+        <mxCell id="employee-leave-balance" edge="1" parent="1" source="employee" target="processE8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-leave-balance-label" value="check balance" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="employee-leave-balance">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Leave History -->
+        <mxCell id="employee-leave-history" edge="1" parent="1" source="employee" target="processE9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-leave-history-label" value="view leave history" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="employee-leave-history">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Salary Information -->
+        <mxCell id="employee-salary" edge="1" parent="1" source="employee" target="processE10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-salary-label" value="view salary" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="employee-salary">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Manager interaction for leave approval -->
+        <mxCell id="manager-leave-approval" edge="1" parent="1" source="manager" target="processE7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="manager-approval-label" value="approve/reject" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="manager-leave-approval">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Inter-process flows -->
+        <!-- Login to Dashboard -->
+        <mxCell id="login-dashboard" edge="1" parent="1" source="processE1" target="processE2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="login-dashboard-label" value="authenticated user" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="login-dashboard">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Dashboard to Profile -->
+        <mxCell id="dashboard-profile" edge="1" parent="1" source="processE2" target="processE3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dashboard-profile-label" value="profile access" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="dashboard-profile">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Attendance Check-in to History -->
+        <mxCell id="checkin-history" edge="1" parent="1" source="processE4" target="processE5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="checkin-history-label" value="attendance data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="checkin-history">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Shift to Check-in validation -->
+        <mxCell id="shift-checkin" edge="1" parent="1" source="processE6" target="processE4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="shift-checkin-label" value="shift validation" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="shift-checkin">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Leave Application to Balance -->
+        <mxCell id="leave-app-balance" edge="1" parent="1" source="processE7" target="processE8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="leave-app-balance-label" value="update balance" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="leave-app-balance">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Leave Application to History -->
+        <mxCell id="leave-app-history" edge="1" parent="1" source="processE7" target="processE9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="leave-app-history-label" value="leave record" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="leave-app-history">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Attendance to Salary -->
+        <mxCell id="attendance-salary" edge="1" parent="1" source="processE5" target="processE10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="attendance-salary-label" value="attendance impact" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="attendance-salary">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Database interactions -->
+        <!-- Login to User DB -->
+        <mxCell id="login-user-db" edge="1" parent="1" source="processE1" target="ds2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="login-user-db-label" value="authenticate" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="login-user-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Dashboard to Employee DB -->
+        <mxCell id="dashboard-emp-db" edge="1" parent="1" source="processE2" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dashboard-emp-db-label" value="employee data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="dashboard-emp-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Profile to Employee DB -->
+        <mxCell id="profile-emp-db" edge="1" parent="1" source="processE3" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="profile-emp-db-label" value="update profile" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="profile-emp-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Check-in to Attendance DB -->
+        <mxCell id="checkin-att-db" edge="1" parent="1" source="processE4" target="ds3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="checkin-att-db-label" value="store attendance" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="checkin-att-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Attendance History to Attendance DB -->
+        <mxCell id="history-att-db" edge="1" parent="1" source="processE5" target="ds3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="history-att-db-label" value="retrieve history" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="history-att-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Shift to Shift DB -->
+        <mxCell id="shift-shift-db" edge="1" parent="1" source="processE6" target="ds4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="shift-shift-db-label" value="retrieve shift" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="shift-shift-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Leave processes to Leave DB -->
+        <mxCell id="leave-app-leave-db" edge="1" parent="1" source="processE7" target="ds5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="leave-app-leave-db-label" value="store application" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="leave-app-leave-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leave-balance-leave-db" edge="1" parent="1" source="processE8" target="ds5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="leave-balance-leave-db-label" value="retrieve balance" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="leave-balance-leave-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leave-history-leave-db" edge="1" parent="1" source="processE9" target="ds5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="leave-history-leave-db-label" value="retrieve history" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="leave-history-leave-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Salary to Salary DB -->
+        <mxCell id="salary-salary-db" edge="1" parent="1" source="processE10" target="ds6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="salary-salary-db-label" value="retrieve salary" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="salary-salary-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Return flows to Employee -->
+        <mxCell id="login-return" edge="1" parent="1" source="processE1" target="employee">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="login-return-label" value="login status" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="login-return">
+          <mxGeometry x="0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dashboard-return" edge="1" parent="1" source="processE2" target="employee">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dashboard-return-label" value="dashboard data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="dashboard-return">
+          <mxGeometry x="0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="checkin-return" edge="1" parent="1" source="processE4" target="employee">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="checkin-return-label" value="attendance confirmation" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="checkin-return">
+          <mxGeometry x="0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="leave-app-return" edge="1" parent="1" source="processE7" target="employee">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="leave-app-return-label" value="application status" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="leave-app-return">
+          <mxGeometry x="0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Manager return flow -->
+        <mxCell id="manager-return" edge="1" parent="1" source="processE7" target="manager">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="manager-return-label" value="approval notification" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="manager-return">
+          <mxGeometry x="0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
+
+
+
+
+
+

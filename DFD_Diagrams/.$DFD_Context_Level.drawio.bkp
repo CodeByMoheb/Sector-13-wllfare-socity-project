@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-15T00:00:00.000Z" agent="5.0" version="24.7.17" etag="draw.io">
+  <diagram name="Context Level DFD" id="context-level">
+    <mxGraphModel dx="1422" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Context Level DFD - Sector 13 Welfare Society Management System" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="569" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Central System Process -->
+        <mxCell id="central-system" value="Sector 13 Welfare Society&#xa;Digital Management System" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="460" y="350" width="250" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- External Entities -->
+        <!-- Member -->
+        <mxCell id="member" value="Member" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Manager -->
+        <mxCell id="manager" value="Manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1000" y="120" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Secretary -->
+        <mxCell id="secretary" value="Secretary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="650" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Employee -->
+        <mxCell id="employee" value="Employee" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1000" y="650" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Data Flows from Member -->
+        <mxCell id="member-to-system" edge="1" parent="1" source="member" target="central-system">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="member-flow-label" value="Member registration&#xa;Profile updates&#xa;Donation requests" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="member-to-system">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="system-to-member" edge="1" parent="1" source="central-system" target="member">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="member-return-label" value="Member dashboard&#xa;Profile information&#xa;Notices &amp; updates" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="system-to-member">
+          <mxGeometry x="0.1" y="-2" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Data Flows from Manager -->
+        <mxCell id="manager-to-system" edge="1" parent="1" source="manager" target="central-system">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="manager-flow-label" value="Employee management&#xa;Attendance oversight&#xa;Leave approvals&#xa;Report requests" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="manager-to-system">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="system-to-manager" edge="1" parent="1" source="central-system" target="manager">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="manager-return-label" value="Management dashboard&#xa;Attendance reports&#xa;Employee data&#xa;Operational analytics" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="system-to-manager">
+          <mxGeometry x="0.1" y="-2" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Data Flows from Secretary -->
+        <mxCell id="secretary-to-system" edge="1" parent="1" source="secretary" target="central-system">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="secretary-flow-label" value="Notice creation&#xa;Member verification&#xa;Record keeping&#xa;Content management" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="secretary-to-system">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="system-to-secretary" edge="1" parent="1" source="central-system" target="secretary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="secretary-return-label" value="Administrative dashboard&#xa;Notice management&#xa;Member records&#xa;Approval status" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="system-to-secretary">
+          <mxGeometry x="0.1" y="-2" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Data Flows from Employee -->
+        <mxCell id="employee-to-system" edge="1" parent="1" source="employee" target="central-system">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-flow-label" value="Attendance check-in/out&#xa;Leave applications&#xa;Profile updates&#xa;Password changes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="employee-to-system">
+          <mxGeometry x="-0.1" y="2" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="system-to-employee" edge="1" parent="1" source="central-system" target="employee">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="employee-return-label" value="Employee dashboard&#xa;Attendance history&#xa;Leave balance&#xa;Shift information" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="system-to-employee">
+          <mxGeometry x="0.1" y="-2" relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

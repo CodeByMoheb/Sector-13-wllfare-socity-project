@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-15T00:00:00.000Z" agent="5.0" version="24.7.17" etag="draw.io">
+  <diagram name="Level 2 - Process 9.0 Content Management" id="level-2-process-9">
+    <mxGraphModel dx="1422" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="2nd Level Content Management DFD - 9.0" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="400" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- External Entities -->
+        <!-- Secretary -->
+        <mxCell id="secretary" value="Secretary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Admin -->
+        <mxCell id="admin" value="Admin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Member -->
+        <mxCell id="member" value="Member" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="750" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Public -->
+        <mxCell id="public" value="Public" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="750" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-processes -->
+        <!-- 9.1 Leadership Messages -->
+        <mxCell id="process91" value="9.1&#xa;&#xa;Leadership Messages" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="230" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 9.2 Elected Candidates -->
+        <mxCell id="process92" value="9.2&#xa;&#xa;Elected Candidates" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="430" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 9.3 Previous Candidates -->
+        <mxCell id="process93" value="9.3&#xa;&#xa;Previous Candidates" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="630" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 9.4 Website Content -->
+        <mxCell id="process94" value="9.4&#xa;&#xa;Website Content" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="330" y="250" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 9.5 Gallery Management -->
+        <mxCell id="process95" value="9.5&#xa;&#xa;Gallery Management" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="530" y="250" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Data Stores -->
+        <!-- Content Database -->
+        <mxCell id="ds1" value="Content Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="450" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Media Storage -->
+        <mxCell id="ds2" value="Media Storage" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="500" y="450" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Data Flows -->
+        <!-- Secretary interactions -->
+        <mxCell id="secretary-leadership" edge="1" parent="1" source="secretary" target="process91">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="secretary-candidates" edge="1" parent="1" source="secretary" target="process92">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="secretary-previous" edge="1" parent="1" source="secretary" target="process93">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="secretary-website" edge="1" parent="1" source="secretary" target="process94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Admin interactions -->
+        <mxCell id="admin-website" edge="1" parent="1" source="admin" target="process94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="admin-gallery" edge="1" parent="1" source="admin" target="process95">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Inter-process flows -->
+        <mxCell id="leadership-website" edge="1" parent="1" source="process91" target="process94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="candidates-website" edge="1" parent="1" source="process92" target="process94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="previous-website" edge="1" parent="1" source="process93" target="process94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gallery-website" edge="1" parent="1" source="process95" target="process94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Content delivery to external entities -->
+        <mxCell id="website-member" edge="1" parent="1" source="process94" target="member">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="website-public" edge="1" parent="1" source="process94" target="public">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Database interactions -->
+        <mxCell id="leadership-content-db" edge="1" parent="1" source="process91" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="candidates-content-db" edge="1" parent="1" source="process92" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="previous-content-db" edge="1" parent="1" source="process93" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="website-content-db" edge="1" parent="1" source="process94" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gallery-media-storage" edge="1" parent="1" source="process95" target="ds2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Return flows -->
+        <mxCell id="leadership-return" edge="1" parent="1" source="process91" target="secretary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="candidates-return" edge="1" parent="1" source="process92" target="secretary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="website-admin-return" edge="1" parent="1" source="process94" target="admin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gallery-admin-return" edge="1" parent="1" source="process95" target="admin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Feedback from external entities -->
+        <mxCell id="member-feedback" edge="1" parent="1" source="member" target="process94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="public-feedback" edge="1" parent="1" source="public" target="process94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
