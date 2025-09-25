@@ -1,0 +1,54 @@
+@model List<Sector_13_Welfare_Society___Digital_Management_System.Models.LeaveEntitlementPolicy>
+@{
+    ViewData["Title"] = "Dynamic Leave Balance";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4><i class="fas fa-sliders-h me-2"></i> Dynamic Leave Balance</h4>
+        <a class="btn btn-primary" href="@Url.Action("Create")"><i class="fas fa-plus me-1"></i> Add Leave Type</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Leave Type</th>
+                            <th>Default Entitled</th>
+                            <th>Carry Forward</th>
+                            <th>Max Carry</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in Model)
+                        {
+                            <tr>
+                                <td><strong>@p.LeaveType</strong></td>
+                                <td>@p.DefaultEntitled</td>
+                                <td>@(p.CarryForwardEnabled ? "Yes" : "No")</td>
+                                <td>@(p.MaxCarryForward?.ToString() ?? "-")</td>
+                                <td>
+                                    <span class="badge @(p.IsActive ? "bg-success" : "bg-secondary")">@(p.IsActive ? "Active" : "Inactive")</span>
+                                </td>
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-outline-primary" href="@Url.Action("Edit", new { id = p.Id })"><i class="fas fa-edit"></i></a>
+                                    <form method="post" action="@Url.Action("ToggleActive")" style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@p.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-warning"><i class="fas fa-toggle-on"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
