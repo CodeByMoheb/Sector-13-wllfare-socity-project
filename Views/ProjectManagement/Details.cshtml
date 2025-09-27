@@ -1,0 +1,339 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.Project
+@{
+    ViewData["Title"] = "Project Details";
+    Layout = "_DashboardLayout";
+
+    var fundingDetails = ViewBag.FundingDetails as Sector_13_Welfare_Society___Digital_Management_System.Models.ProjectFundingViewModel;
+    var allocations = ViewBag.Allocations as IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.DonationAllocation>;
+    var progress = ViewBag.Progress as IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.ProjectProgress>;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- Project Header -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">
+                        <i class="fas fa-project-diagram mr-2"></i>
+                        @Model.Name
+                        @if (Model.IsPublic)
+                        {
+                            <span class="badge badge-info ml-2">Public</span>
+                        }
+                    </h3>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a asp-controller="DonationAllocation" asp-action="Allocate" asp-route-projectId="@Model.Id" class="btn btn-success btn-sm">
+                            <i class="fas fa-hand-holding-usd"></i> Allocate Funds
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5>Description</h5>
+                            <p class="text-muted">@Model.Description</p>
+                            
+                            @if (!string.IsNullOrEmpty(Model.Objectives))
+                            {
+                                <h5>Objectives</h5>
+                                <p class="text-muted">@Model.Objectives</p>
+                            }
+                            
+                            @if (!string.IsNullOrEmpty(Model.ExpectedOutcomes))
+                            {
+                                <h5>Expected Outcomes</h5>
+                                <p class="text-muted">@Model.ExpectedOutcomes</p>
+                            }
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-info">
+                                    <i class="fas fa-tag"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Category</span>
+                                    <span class="info-box-number">@Model.Category</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-box">
+                                <span class="info-box-icon bg-warning">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Location</span>
+                                    <span class="info-box-number">@(Model.Location ?? "Not specified")</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-box">
+                                <span class="info-box-icon bg-success">
+                                    <i class="fas fa-user-tie"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Project Manager</span>
+                                    <span class="info-box-number">@(Model.ProjectManager ?? "Not assigned")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Funding Progress -->
+            @if (fundingDetails != null)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            Funding Progress
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="progress mb-3" style="height: 30px;">
+                                    <div class="progress-bar @(fundingDetails.FundingPercentage >= 100 ? "bg-success" : fundingDetails.FundingPercentage >= 75 ? "bg-info" : fundingDetails.FundingPercentage >= 50 ? "bg-warning" : "bg-danger")" 
+                                         role="progressbar" 
+                                         style="width: @(fundingDetails.FundingPercentage)%" 
+                                         aria-valuenow="@fundingDetails.FundingPercentage" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <strong>@fundingDetails.FundingPercentage.ToString("F1")%</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row text-center">
+                                    <div class="col-4">
+                                        <div class="description-block border-right">
+                                            <span class="description-percentage text-success">
+                                                <i class="fas fa-arrow-up"></i> BDT @fundingDetails.AllocatedAmount.ToString("N0")
+                                            </span>
+                                            <h5 class="description-header">Raised</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="description-block border-right">
+                                            <span class="description-percentage text-info">
+                                                <i class="fas fa-bullseye"></i> BDT @fundingDetails.RequiredAmount.ToString("N0")
+                                            </span>
+                                            <h5 class="description-header">Target</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="description-block">
+                                            <span class="description-percentage text-warning">
+                                                <i class="fas fa-arrow-down"></i> BDT @fundingDetails.RemainingAmount.ToString("N0")
+                                            </span>
+                                            <h5 class="description-header">Remaining</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Project Timeline -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        Project Timeline
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-primary">
+                                    <i class="fas fa-play"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Start Date</span>
+                                    <span class="info-box-number">@Model.StartDate.ToString("dd MMMM yyyy")</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-secondary">
+                                    <i class="fas fa-flag-checkered"></i>
+                                </span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">End Date</span>
+                                    <span class="info-box-number">@(Model.EndDate?.ToString("dd MMMM yyyy") ?? "Not specified")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Status Management -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-cogs mr-2"></i>
+                        Project Management
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Current Status</label>
+                                <select id="statusSelect" class="form-control">
+                                    <option value="Planning" selected="@(Model.Status == "Planning")">Planning</option>
+                                    <option value="Active" selected="@(Model.Status == "Active")">Active</option>
+                                    <option value="Completed" selected="@(Model.Status == "Completed")">Completed</option>
+                                    <option value="Cancelled" selected="@(Model.Status == "Cancelled")">Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" class="btn btn-primary btn-block" onclick="updateStatus()">
+                                    <i class="fas fa-save"></i> Update Status
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a asp-action="AddProgress" asp-route-projectId="@Model.Id" class="btn btn-success btn-block">
+                                <i class="fas fa-plus"></i> Add Progress Update
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a asp-controller="Contribution" asp-action="ProjectProgress" asp-route-id="@Model.Id" class="btn btn-info btn-block">
+                                <i class="fas fa-history"></i> View Progress History
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Progress -->
+            @if (progress != null && progress.Any())
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-chart-bar mr-2"></i>
+                            Recent Progress Updates
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var update in progress.Take(3))
+                        {
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-@(update.Status switch {
+                                    "Completed" => "success",
+                                    "Active" => "primary",
+                                    "On Hold" => "warning",
+                                    _ => "secondary"
+                                })"></div>
+                                <div class="timeline-content">
+                                    <h4 class="timeline-title">@update.Title</h4>
+                                    <p class="timeline-text">@update.Description</p>
+                                    <div class="progress mb-2" style="height: 20px;">
+                                        <div class="progress-bar" role="progressbar" style="width: @update.ProgressPercentage%">
+                                            @update.ProgressPercentage%
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar"></i> @update.UpdateDate.ToString("dd MMM yyyy") 
+                                        | <i class="fas fa-dollar-sign"></i> BDT @update.AmountUtilized.ToString("N0") utilized
+                                        | <span class="badge badge-@(update.Status switch {
+                                            "Completed" => "success",
+                                            "Active" => "primary",
+                                            "On Hold" => "warning",
+                                            _ => "secondary"
+                                        })">@update.Status</span>
+                                    </small>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Donation Allocations -->
+            @if (allocations != null && allocations.Any())
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-hand-holding-usd mr-2"></i>
+                            Donation Allocations
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Donor</th>
+                                        <th>Amount</th>
+                                        <th>Allocation Date</th>
+                                        <th>Status</th>
+                                        <th>Purpose</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var allocation in allocations)
+                                    {
+                                        <tr>
+                                            <td>@allocation.Donor.Name</td>
+                                            <td><strong class="text-success">BDT @allocation.Amount.ToString("N2")</strong></td>
+                                            <td>@allocation.AllocationDate.ToString("dd MMM yyyy")</td>
+                                            <td>
+                                                <span class="badge badge-@(allocation.Status switch {
+                                                    "Allocated" => "primary",
+                                                    "Utilized" => "success",
+                                                    "Refunded" => "warning",
+                                                    _ => "secondary"
+                                                })">@allocation.Status</span>
+                                            </td>
+                                            <td>@(allocation.Purpose ?? "General")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateStatus() {
+            var newStatus = document.getElementById('statusSelect').value;
+            var projectId = @Model.Id;
+            
+            $.post('@Url.Action("UpdateStatus", "ProjectManagement")', {
+                projectId: projectId,
+                status: newStatus
+            }, function(response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert('Error updating status: ' + response.message);
+                }
+            });
+        }
+    </script>
+}
