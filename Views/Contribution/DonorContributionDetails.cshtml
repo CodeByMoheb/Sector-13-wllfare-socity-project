@@ -1,0 +1,272 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.ContributionTrackingViewModel
+@{
+    ViewData["Title"] = "Your Donation Details";
+}
+
+<div class="container-fluid">
+    <!-- Donor Information Header -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-gradient-success text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="mb-2">
+                                <i class="fas fa-user-circle mr-3"></i>
+                                @Model.DonorName
+                            </h2>
+                            <p class="mb-0">
+                                <i class="fas fa-envelope mr-2"></i>
+                                @Model.DonorEmail
+                            </p>
+                            <p class="mb-0">
+                                <i class="fas fa-phone mr-2"></i>
+                                @Model.DonorPhone
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <h3 class="mb-0">BDT @Model.TotalDonated.ToString("N2")</h3>
+                            <p class="mb-0">Total Donated</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contribution Summary -->
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-donate fa-2x mb-2"></i>
+                    <h4 class="mb-0">BDT @Model.TotalDonated.ToString("N2")</h4>
+                    <p class="mb-0">Total Donated</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
+                    <h4 class="mb-0">BDT @Model.TotalAllocated.ToString("N2")</h4>
+                    <p class="mb-0">Total Allocated</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-clock fa-2x mb-2"></i>
+                    <h4 class="mb-0">BDT @Model.RemainingBalance.ToString("N2")</h4>
+                    <p class="mb-0">Available Balance</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar fa-2x mb-2"></i>
+                    <h4 class="mb-0">@Model.LastDonationDate.ToString("dd MMM yyyy")</h4>
+                    <p class="mb-0">Last Donation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Allocation Progress -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-chart-pie mr-2"></i>
+                        Donation Allocation Overview
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @if (Model.TotalDonated > 0)
+                    {
+                        var allocatedPercentage = (Model.TotalAllocated / Model.TotalDonated) * 100;
+                        var remainingPercentage = (Model.RemainingBalance / Model.TotalDonated) * 100;
+                        
+                        <div class="progress mb-3" style="height: 30px;">
+                            <div class="progress-bar bg-success" role="progressbar" 
+                                 style="width: @allocatedPercentage%" 
+                                 title="Allocated: @allocatedPercentage.ToString("F1")%">
+                                <strong>@allocatedPercentage.ToString("F1")% Allocated</strong>
+                            </div>
+                            <div class="progress-bar bg-warning" role="progressbar" 
+                                 style="width: @remainingPercentage%" 
+                                 title="Available: @remainingPercentage.ToString("F1")%">
+                                @if (remainingPercentage > 10)
+                                {
+                                    <strong>@remainingPercentage.ToString("F1")% Available</strong>
+                                }
+                            </div>
+                        </div>
+                    }
+                    
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <h5 class="text-success">BDT @Model.TotalAllocated.ToString("N2")</h5>
+                            <p class="text-muted">Already helping projects</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="text-warning">BDT @Model.RemainingBalance.ToString("N2")</h5>
+                            <p class="text-muted">Available for future allocation</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="text-info">@Model.Allocations.Count</h5>
+                            <p class="text-muted">Projects supported</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Allocations -->
+    @if (Model.Allocations.Any())
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-project-diagram mr-2"></i>
+                            Your Project Allocations
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Project</th>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                        <th>Allocation Date</th>
+                                        <th>Status</th>
+                                        <th>Purpose</th>
+                                        <th>Progress</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var allocation in Model.Allocations)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@allocation.ProjectName</strong>
+                                                <br>
+                                                <small class="text-muted">Project ID: @allocation.ProjectId</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-@(allocation.ProjectCategory switch {
+                                                    "Healthcare" => "danger",
+                                                    "Education" => "info",
+                                                    "Emergency" => "warning",
+                                                    "Infrastructure" => "primary",
+                                                    "Environment" => "success",
+                                                    _ => "secondary"
+                                                })">@allocation.ProjectCategory</span>
+                                            </td>
+                                            <td>
+                                                <strong class="text-success">BDT @allocation.Amount.ToString("N2")</strong>
+                                            </td>
+                                            <td>@allocation.AllocationDate.ToString("dd MMM yyyy")</td>
+                                            <td>
+                                                <span class="badge badge-@(allocation.Status switch {
+                                                    "Allocated" => "primary",
+                                                    "Utilized" => "success",
+                                                    "Refunded" => "warning",
+                                                    _ => "secondary"
+                                                })">@allocation.Status</span>
+                                                @if (allocation.UtilizedDate.HasValue)
+                                                {
+                                                    <br>
+                                                    <small class="text-muted">Used: @allocation.UtilizedDate.Value.ToString("dd MMM yyyy")</small>
+                                                }
+                                            </td>
+                                            <td>@(string.IsNullOrEmpty(allocation.Purpose) ? "General support" : allocation.Purpose)</td>
+                                            <td>
+                                                <div class="progress" style="height: 20px;">
+                                                    <div class="progress-bar @(allocation.ProgressPercentage >= 100 ? "bg-success" : allocation.ProgressPercentage >= 75 ? "bg-info" : allocation.ProgressPercentage >= 50 ? "bg-warning" : "bg-danger")" 
+                                                         role="progressbar" 
+                                                         style="width: @allocation.ProgressPercentage%" 
+                                                         aria-valuenow="@allocation.ProgressPercentage" 
+                                                         aria-valuemin="0" 
+                                                         aria-valuemax="100">
+                                                        @allocation.ProgressPercentage%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-hand-holding-usd fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No allocations found</h5>
+                        <p class="text-muted">Your donations haven't been allocated to specific projects yet.</p>
+                        <p class="text-muted">Allocations are made by our management team based on project needs and priorities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Action Buttons -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="fas fa-heart text-danger mr-2"></i>
+                        Continue Making a Difference
+                    </h5>
+                    <p class="card-text">Your contributions are making a real impact in our community.</p>
+                    <div class="btn-group" role="group">
+                        <a asp-controller="Donation" asp-action="Index" class="btn btn-danger">
+                            <i class="fas fa-donate"></i> Make Another Donation
+                        </a>
+                        <a asp-action="Index" class="btn btn-info">
+                            <i class="fas fa-eye"></i> View All Projects
+                        </a>
+                        <a asp-action="Statistics" class="btn btn-success">
+                            <i class="fas fa-chart-bar"></i> View Statistics
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Add some interactivity to the progress bars
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.transition = 'width 1s ease-in-out';
+                    bar.style.width = width;
+                }, 100);
+            });
+        });
+    </script>
+}

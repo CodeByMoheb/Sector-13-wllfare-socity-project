@@ -1,0 +1,124 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.LeadershipMessage
+@{
+    ViewData["Title"] = "Create Leadership Message";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4><i class="fas fa-plus me-2"></i>Create Leadership Message</h4>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    @if (TempData["Debug"] != null)
+                    {
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <strong>Debug Info:</strong> @TempData["Debug"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    <form asp-action="CreateLeadershipMessage" method="post" enctype="multipart/form-data" id="leadershipForm">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Name" class="form-label">Name *</label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter full name" id="Name" name="Name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Designation" class="form-label">Designation *</label>
+                                <input asp-for="Designation" class="form-control" placeholder="e.g., President, Secretary" id="Designation" name="Designation" />
+                                <span asp-validation-for="Designation" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Phone" class="form-label">Phone</label>
+                                <input asp-for="Phone" class="form-control" placeholder="Enter phone number" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="MessageType" class="form-label">Message Type *</label>
+                                <select asp-for="MessageType" class="form-select" id="MessageType" name="MessageType">
+                                    <option value="">Select Message Type</option>
+                                    <option value="President">President</option>
+                                    <option value="VicePresident">Vice President</option>
+                                    <option value="Secretary">Secretary</option>
+                                    <option value="Security">Security Secretary</option>
+                                    <option value="Sports">Sports Secretary</option>
+                                    <option value="Education">Education Secretary</option>
+                                    <option value="Cleaning">Cleaning Secretary</option>
+                                </select>
+                                <span asp-validation-for="MessageType" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="imageFile" class="form-label">Upload Photo</label>
+                            <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/*" />
+                            <div class="form-text">Upload a photo of the person (JPG, PNG, GIF)</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Message" class="form-label">Message *</label>
+                            <textarea asp-for="Message" class="form-control" rows="6" placeholder="Enter the leadership message" id="Message" name="Message"></textarea>
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="DisplayOrder" class="form-label">Display Order</label>
+                                <input asp-for="DisplayOrder" type="number" class="form-control" value="0" />
+                                <div class="form-text">Lower numbers appear first</div>
+                                <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check mt-4">
+                                    <input asp-for="IsActive" class="form-check-input" type="checkbox" checked />
+                                    <label asp-for="IsActive" class="form-check-label">
+                                        Active
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="@Url.Action("LeadershipMessages")" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Create Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

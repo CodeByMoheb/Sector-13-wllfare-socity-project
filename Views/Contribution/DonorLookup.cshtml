@@ -1,0 +1,134 @@
+@{
+    ViewData["Title"] = "Track Your Donation";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-search mr-2"></i>
+                        Track Your Donation
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-center text-muted mb-4">
+                        Enter your email address or phone number to see how your donations are being used
+                    </p>
+
+                    <form asp-action="SearchDonor" method="post">
+                        <div class="form-group">
+                            <label for="email" class="control-label">
+                                <i class="fas fa-envelope mr-1"></i>
+                                Email Address
+                            </label>
+                            <input type="email" name="email" id="email" class="form-control" 
+                                   placeholder="Enter your email address" />
+                            <small class="form-text text-muted">Use the email address you provided when making your donation</small>
+                        </div>
+
+                        <div class="text-center my-3">
+                            <span class="text-muted">OR</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone" class="control-label">
+                                <i class="fas fa-phone mr-1"></i>
+                                Phone Number
+                            </label>
+                            <input type="tel" name="phone" id="phone" class="form-control" 
+                                   placeholder="Enter your phone number" />
+                            <small class="form-text text-muted">Use the phone number you provided when making your donation</small>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-search"></i> Track My Donation
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Don't have a donation record? 
+                            <a asp-controller="Donation" asp-action="Index" class="text-primary">
+                                Make a donation today
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Information Card -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-shield-alt text-success mr-2"></i>
+                        Privacy & Transparency
+                    </h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success mr-2"></i>
+                            We only show public project information
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success mr-2"></i>
+                            Your personal details are kept confidential
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success mr-2"></i>
+                            You can see how your specific donations are allocated
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-check text-success mr-2"></i>
+                            Track project progress and fund utilization
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+        @TempData["Error"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+}
+
+@if (TempData["Info"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+        @TempData["Info"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            
+            if (!email && !phone) {
+                e.preventDefault();
+                alert('Please provide either email address or phone number.');
+                return false;
+            }
+        });
+
+        // Auto-dismiss alerts after 5 seconds
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 5000);
+    </script>
+}
