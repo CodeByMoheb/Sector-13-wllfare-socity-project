@@ -98,10 +98,9 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 {
                     var shifts = new[]
                     {
-                        new Shift { Name = "Morning Shift", StartTime = new TimeSpan(8, 0, 0), EndTime = new TimeSpan(16, 0, 0), Description = "8 AM to 4 PM", IsActive = true },
-                        new Shift { Name = "Evening Shift", StartTime = new TimeSpan(16, 0, 0), EndTime = new TimeSpan(0, 0, 0), Description = "4 PM to 12 AM", IsActive = true },
-                        new Shift { Name = "Night Shift", StartTime = new TimeSpan(0, 0, 0), EndTime = new TimeSpan(8, 0, 0), Description = "12 AM to 8 AM", IsActive = true },
-                        new Shift { Name = "Day Shift", StartTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(17, 0, 0), Description = "9 AM to 5 PM", IsActive = true }
+                        new Shift { Name = "Morning Shift", StartTime = new TimeSpan(6, 0, 0), EndTime = new TimeSpan(14, 0, 0), Description = "6 AM to 2 PM (8 hours)", IsActive = true },
+                        new Shift { Name = "Afternoon Shift", StartTime = new TimeSpan(14, 0, 0), EndTime = new TimeSpan(22, 0, 0), Description = "2 PM to 10 PM (8 hours)", IsActive = true },
+                        new Shift { Name = "Night Shift", StartTime = new TimeSpan(22, 0, 0), EndTime = new TimeSpan(6, 0, 0), Description = "10 PM to 6 AM (8 hours)", IsActive = true }
                     };
 
                     _context.Shifts.AddRange(shifts);
@@ -141,10 +140,11 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                     {
                         var defaultShift = employee.Role switch
                         {
-                            "অফিস ম্যানেজার" or "কম্পিউটার অপারেটর" or "অফিস সহকারী" => await _context.Shifts.FirstOrDefaultAsync(s => s.Name == "Day Shift"),
-                            "মাঠ সুপারভাইজার" or "কমান্ডার" or "সহঃ কমান্ডার" or "গার্ড" => await _context.Shifts.FirstOrDefaultAsync(s => s.Name == "Morning Shift"),
+                            "অফিস ম্যানেজার" or "কম্পিউটার অপারেটর" or "অফিস সহকারী" => await _context.Shifts.FirstOrDefaultAsync(s => s.Name == "Morning Shift"),
+                            "মাঠ সুপারভাইজার" or "কমান্ডার" or "সহঃ কমান্ডার" => await _context.Shifts.FirstOrDefaultAsync(s => s.Name == "Afternoon Shift"),
+                            "গার্ড" => await _context.Shifts.FirstOrDefaultAsync(s => s.Name == "Night Shift"),
                             "কালেক্টর" or "মালি" or "পিয়ন" => await _context.Shifts.FirstOrDefaultAsync(s => s.Name == "Morning Shift"),
-                            _ => await _context.Shifts.FirstOrDefaultAsync(s => s.Name == "Day Shift")
+                            _ => await _context.Shifts.FirstOrDefaultAsync(s => s.Name == "Morning Shift")
                         };
 
                         if (defaultShift != null)
