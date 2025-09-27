@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .entity-box { fill: white; stroke: black; stroke-width: 2; }
+      .process-circle { fill: #e8f4fd; stroke: black; stroke-width: 2; }
+      .datastore { fill: #fff2cc; stroke: black; stroke-width: 2; }
+      .arrow { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .text { font-family: Arial, sans-serif; font-size: 12px; text-anchor: middle; }
+      .flow-label { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+      .title { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; text-anchor: middle; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="30" class="title">Level 2 DFD - Report Generation (Process 10.0)</text>
+
+  <!-- External Entities -->
+  <rect x="50" y="100" width="100" height="60" class="entity-box"/>
+  <text x="100" y="135" class="text">Admin</text>
+
+  <rect x="50" y="200" width="100" height="60" class="entity-box"/>
+  <text x="100" y="235" class="text">Manager</text>
+
+  <rect x="50" y="300" width="100" height="60" class="entity-box"/>
+  <text x="100" y="335" class="text">Secretary</text>
+
+  <rect x="50" y="400" width="100" height="60" class="entity-box"/>
+  <text x="100" y="435" class="text">President</text>
+
+  <!-- Sub-processes -->
+  <!-- 10.1 Data Collection -->
+  <ellipse cx="300" cy="200" rx="80" ry="30" class="process-circle"/>
+  <text x="300" y="195" class="text">10.1</text>
+  <text x="300" y="210" class="text">Data Collection</text>
+
+  <!-- 10.2 Data Analysis -->
+  <ellipse cx="500" cy="150" rx="80" ry="30" class="process-circle"/>
+  <text x="500" y="145" class="text">10.2</text>
+  <text x="500" y="160" class="text">Data Analysis</text>
+
+  <!-- 10.3 Report Formatting -->
+  <ellipse cx="700" cy="200" rx="80" ry="30" class="process-circle"/>
+  <text x="700" y="195" class="text">10.3</text>
+  <text x="700" y="210" class="text">Report Formatting</text>
+
+  <!-- 10.4 Report Distribution -->
+  <ellipse cx="500" cy="350" rx="80" ry="30" class="process-circle"/>
+  <text x="500" y="345" class="text">10.4</text>
+  <text x="500" y="360" class="text">Report Distribution</text>
+
+  <!-- 10.5 Report Archive -->
+  <ellipse cx="300" cy="450" rx="80" ry="30" class="process-circle"/>
+  <text x="300" y="445" class="text">10.5</text>
+  <text x="300" y="460" class="text">Report Archive</text>
+
+  <!-- Data Stores -->
+  <rect x="900" y="100" width="120" height="50" class="datastore"/>
+  <text x="960" y="130" class="text">User Database</text>
+
+  <rect x="900" y="170" width="120" height="50" class="datastore"/>
+  <text x="960" y="200" class="text">Member Database</text>
+
+  <rect x="900" y="240" width="120" height="50" class="datastore"/>
+  <text x="960" y="270" class="text">Donation Database</text>
+
+  <rect x="900" y="310" width="120" height="50" class="datastore"/>
+  <text x="960" y="340" class="text">Employee Database</text>
+
+  <rect x="900" y="380" width="120" height="50" class="datastore"/>
+  <text x="960" y="410" class="text">Attendance Database</text>
+
+  <rect x="900" y="450" width="120" height="50" class="datastore"/>
+  <text x="960" y="480" class="text">Notice Database</text>
+
+  <rect x="900" y="520" width="120" height="50" class="datastore"/>
+  <text x="960" y="550" class="text">Report Archive</text>
+
+  <!-- Data Flows from External Entities -->
+  <!-- Admin request -->
+  <line x1="150" y1="130" x2="220" y2="190" class="arrow"/>
+  <text x="185" y="155" class="flow-label">report request</text>
+
+  <!-- Manager request -->
+  <line x1="150" y1="230" x2="220" y2="210" class="arrow"/>
+  <text x="185" y="215" class="flow-label">operational report</text>
+
+  <!-- Secretary request -->
+  <line x1="150" y1="330" x2="220" y2="220" class="arrow"/>
+  <text x="185" y="270" class="flow-label">administrative report</text>
+
+  <!-- President request -->
+  <line x1="150" y1="430" x2="220" y2="230" class="arrow"/>
+  <text x="185" y="330" class="flow-label">executive report</text>
+
+  <!-- Inter-process flows -->
+  <line x1="380" y1="200" x2="420" y2="160" class="arrow"/>
+  <text x="400" y="175" class="flow-label">raw data</text>
+
+  <line x1="580" y1="150" x2="620" y2="190" class="arrow"/>
+  <text x="600" y="165" class="flow-label">analyzed data</text>
+
+  <line x1="700" y1="230" x2="500" y2="320" class="arrow"/>
+  <text x="600" y="275" class="flow-label">formatted report</text>
+
+  <line x1="580" y1="350" x2="380" y2="440" class="arrow"/>
+  <text x="480" y="395" class="flow-label">distributed report</text>
+
+  <!-- Data Collection to all databases -->
+  <line x1="380" y1="190" x2="900" y2="120" class="arrow"/>
+  <text x="640" y="150" class="flow-label">retrieve user data</text>
+
+  <line x1="380" y1="200" x2="900" y2="190" class="arrow"/>
+  <text x="640" y="190" class="flow-label">retrieve member data</text>
+
+  <line x1="380" y1="210" x2="900" y2="260" class="arrow"/>
+  <text x="640" y="230" class="flow-label">retrieve donation data</text>
+
+  <line x1="380" y1="220" x2="900" y2="330" class="arrow"/>
+  <text x="640" y="270" class="flow-label">retrieve employee data</text>
+
+  <line x1="380" y1="230" x2="900" y2="400" class="arrow"/>
+  <text x="640" y="315" class="flow-label">retrieve attendance data</text>
+
+  <line x1="380" y1="240" x2="900" y2="470" class="arrow"/>
+  <text x="640" y="355" class="flow-label">retrieve notice data</text>
+
+  <!-- Report Archive to Report Archive Database -->
+  <line x1="380" y1="450" x2="900" y2="540" class="arrow"/>
+  <text x="640" y="495" class="flow-label">store report</text>
+
+  <line x1="900" y1="550" x2="320" y2="480" class="arrow"/>
+  <text x="610" y="515" class="flow-label">retrieve archived report</text>
+
+  <!-- Report Distribution to External Entities -->
+  <line x1="420" y1="340" x2="150" y2="120" class="arrow"/>
+  <text x="285" y="230" class="flow-label">admin report</text>
+
+  <line x1="420" y1="350" x2="150" y2="220" class="arrow"/>
+  <text x="285" y="285" class="flow-label">management report</text>
+
+  <line x1="420" y1="360" x2="150" y2="320" class="arrow"/>
+  <text x="285" y="335" class="flow-label">administrative report</text>
+
+  <line x1="420" y1="370" x2="150" y2="420" class="arrow"/>
+  <text x="285" y="390" class="flow-label">executive summary</text>
+
+  <!-- Return flows for confirmation -->
+  <line x1="220" y1="180" x2="150" y2="110" class="arrow"/>
+  <text x="185" y="140" class="flow-label">request received</text>
+
+  <line x1="220" y1="200" x2="150" y2="210" class="arrow"/>
+  <text x="185" y="200" class="flow-label">processing status</text>
+
+  <line x1="220" y1="420" x2="150" y2="310" class="arrow"/>
+  <text x="185" y="360" class="flow-label">archive status</text>
+
+  <line x1="220" y1="440" x2="150" y2="410" class="arrow"/>
+  <text x="185" y="420" class="flow-label">archive confirmation</text>
+</svg>
+
+
+
+
+
+
+
+

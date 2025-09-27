@@ -1,0 +1,170 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.0.6 Chrome/138.0.7204.100 Electron/37.2.3 Safari/537.36" version="28.0.6">
+  <diagram name="Level 2 - Process 2.0 Member Management" id="level-2-process-2">
+    <mxGraphModel dx="1281" dy="660" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="secretary-verification" parent="1" source="secretary" target="process22" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="verification-return" parent="1" source="process22" target="secretary" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="300" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="member-update" parent="1" source="member" target="process24" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="title" value="Level 2 of Process 2 &#39;Member Management &#39;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="310" y="40" width="350" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="member" value="Member" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="120" y="130" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="secretary" value="Secretary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="120" y="280" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="manager" value="Manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="110" y="460" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="process21" value="2.1" style="swimlane;;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;startSize=23;" parent="1" vertex="1">
+          <mxGeometry x="410" y="80" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pGR5tT0BZIReviafjjDd-1" value="&lt;br style=&quot;font-weight: 700; text-wrap-mode: wrap;&quot;&gt;&lt;span style=&quot;font-weight: 700; text-wrap-mode: wrap;&quot;&gt;Member Registration&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="process21" vertex="1">
+          <mxGeometry x="-10" y="20" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="process22" value="2.2" style="swimlane;;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="416" y="190" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="process23" value="2.3" style="swimlane;;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="415" y="310" width="126" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pGR5tT0BZIReviafjjDd-3" value="&lt;br style=&quot;font-weight: 700; text-wrap-mode: wrap;&quot;&gt;&lt;br style=&quot;font-weight: 700; text-wrap-mode: wrap;&quot;&gt;&lt;span style=&quot;font-weight: 700; text-wrap-mode: wrap;&quot;&gt;Member Directory&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="process23" vertex="1">
+          <mxGeometry x="-4" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="process24" value="2.5" style="swimlane;;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;startSize=23;" parent="1" vertex="1">
+          <mxGeometry x="415" y="550" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pGR5tT0BZIReviafjjDd-5" value="&lt;span style=&quot;font-weight: 700; text-wrap-mode: wrap;&quot;&gt;Profile Update&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="process24" vertex="1">
+          <mxGeometry x="13" y="30" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="process25" value="2.4" style="swimlane;;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="415" y="450" width="131" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pGR5tT0BZIReviafjjDd-4" value="&lt;br style=&quot;font-weight: 700; text-wrap-mode: wrap;&quot;&gt;&lt;span style=&quot;font-weight: 700; text-wrap-mode: wrap;&quot;&gt;Status Management&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="process25" vertex="1">
+          <mxGeometry x="-9" y="20" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ds1" value="" style="html=1;dashed=0;whiteSpace=wrap;shape=mxgraph.dfd.dataStoreID;align=left;spacingLeft=3;points=[[0,0],[0.5,0],[1,0],[0,0.5],[1,0.5],[0,1],[0.5,1],[1,1]];fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="710" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="member-registration" style="exitX=1;exitY=0.75;exitDx=0;exitDy=0;" parent="1" source="member" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="160" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="440" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="member-directory" style="exitX=0.662;exitY=0.993;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="member" target="process23" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="190" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="400" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manager-directory" parent="1" source="manager" target="process23" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="manager-status" parent="1" source="manager" target="process25" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="registration-verification" parent="1" source="process21" target="process22" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="verification-directory" parent="1" source="process22" target="process23" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="registration-db" parent="1" source="process21" target="ds1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="770" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="verification-db" style="entryX=0.188;entryY=0.027;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="process22" target="ds1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="730" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="directory-db" parent="1" target="ds1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="360" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="910" y="360" />
+              <mxPoint x="910" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="update-db" parent="1" source="process24" target="ds1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="780" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="status-db" style="entryX=0.25;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="process25" target="ds1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="740" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="registration-return" style="exitX=0.084;exitY=0.04;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="pGR5tT0BZIReviafjjDd-1" target="member" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="directory-return" style="entryX=0.998;entryY=0.873;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="member" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="415" y="324.99875" as="sourcePoint" />
+            <mxPoint x="220" y="194.53" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="240" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="directory-manager-return" parent="1" source="process23" target="manager" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="310" y="400" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pGR5tT0BZIReviafjjDd-2" value="&lt;br style=&quot;font-weight: 700; text-wrap-mode: wrap;&quot;&gt;&lt;span style=&quot;font-weight: 700; text-wrap-mode: wrap;&quot;&gt;Member Registration&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="400" y="213" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="jHb5GnN3CIuitX9rZWb5-2" value="&lt;span style=&quot;text-align: left; text-wrap-mode: wrap;&quot;&gt;Member Database&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="720" y="295" width="120" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
+
+

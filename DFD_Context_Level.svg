@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .entity-box { fill: white; stroke: black; stroke-width: 2; }
+      .process-circle { fill: #e8f4fd; stroke: black; stroke-width: 2; }
+      .arrow { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .text { font-family: Arial, sans-serif; font-size: 14px; text-anchor: middle; }
+      .flow-label { font-family: Arial, sans-serif; font-size: 12px; text-anchor: middle; }
+      .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="30" class="title">Context Level DFD - Sector 13 Welfare Society Management System</text>
+
+  <!-- External Entities -->
+  <!-- Admin -->
+  <rect x="50" y="100" width="120" height="80" class="entity-box"/>
+  <text x="110" y="145" class="text">Admin</text>
+
+  <!-- Member -->
+  <rect x="1030" y="100" width="120" height="80" class="entity-box"/>
+  <text x="1090" y="145" class="text">Member</text>
+
+  <!-- Employee -->
+  <rect x="50" y="300" width="120" height="80" class="entity-box"/>
+  <text x="110" y="345" class="text">Employee</text>
+
+  <!-- Donor -->
+  <rect x="1030" y="300" width="120" height="80" class="entity-box"/>
+  <text x="1090" y="345" class="text">Donor</text>
+
+  <!-- President -->
+  <rect x="50" y="500" width="120" height="80" class="entity-box"/>
+  <text x="110" y="545" class="text">President</text>
+
+  <!-- Secretary -->
+  <rect x="1030" y="500" width="120" height="80" class="entity-box"/>
+  <text x="1090" y="545" class="text">Secretary</text>
+
+  <!-- Manager -->
+  <rect x="50" y="650" width="120" height="80" class="entity-box"/>
+  <text x="110" y="695" class="text">Manager</text>
+
+  <!-- Visitor -->
+  <rect x="1030" y="650" width="120" height="80" class="entity-box"/>
+  <text x="1090" y="695" class="text">Visitor</text>
+
+  <!-- Central Process -->
+  <ellipse cx="600" cy="400" rx="200" ry="120" class="process-circle"/>
+  <text x="600" y="395" class="text">Sector 13 Welfare Society</text>
+  <text x="600" y="415" class="text">Digital Management System</text>
+
+  <!-- Data Flows from Admin -->
+  <line x1="170" y1="140" x2="400" y2="320" class="arrow"/>
+  <text x="285" y="225" class="flow-label">User management</text>
+  <text x="285" y="240" class="flow-label">System administration</text>
+
+  <line x1="400" y1="300" x2="170" y2="160" class="arrow"/>
+  <text x="300" y="210" class="flow-label">Admin reports</text>
+
+  <!-- Data Flows from Member -->
+  <line x1="1030" y1="140" x2="800" y2="320" class="arrow"/>
+  <text x="915" y="225" class="flow-label">Member registration</text>
+  <text x="915" y="240" class="flow-label">Profile updates</text>
+
+  <line x1="800" y1="300" x2="1030" y2="160" class="arrow"/>
+  <text x="900" y="210" class="flow-label">Member information</text>
+
+  <!-- Data Flows from Employee -->
+  <line x1="170" y1="340" x2="400" y2="380" class="arrow"/>
+  <text x="285" y="355" class="flow-label">Attendance</text>
+  <text x="285" y="370" class="flow-label">Leave requests</text>
+
+  <line x1="400" y1="420" x2="170" y2="360" class="arrow"/>
+  <text x="300" y="405" class="flow-label">Employee dashboard</text>
+
+  <!-- Data Flows from Donor -->
+  <line x1="1030" y1="340" x2="800" y2="380" class="arrow"/>
+  <text x="915" y="355" class="flow-label">Donations</text>
+  <text x="915" y="370" class="flow-label">Payment details</text>
+
+  <line x1="800" y1="420" x2="1030" y2="360" class="arrow"/>
+  <text x="900" y="405" class="flow-label">Donation receipts</text>
+
+  <!-- Data Flows from President -->
+  <line x1="170" y1="540" x2="400" y2="480" class="arrow"/>
+  <text x="285" y="505" class="flow-label">Executive decisions</text>
+  <text x="285" y="520" class="flow-label">Content approval</text>
+
+  <line x1="400" y1="460" x2="170" y2="520" class="arrow"/>
+  <text x="300" y="475" class="flow-label">Executive reports</text>
+
+  <!-- Data Flows from Secretary -->
+  <line x1="1030" y1="540" x2="800" y2="480" class="arrow"/>
+  <text x="915" y="505" class="flow-label">Notice creation</text>
+  <text x="915" y="520" class="flow-label">Record keeping</text>
+
+  <line x1="800" y1="460" x2="1030" y2="520" class="arrow"/>
+  <text x="900" y="475" class="flow-label">Administrative data</text>
+
+  <!-- Data Flows from Manager -->
+  <line x1="170" y1="680" x2="450" y2="520" class="arrow"/>
+  <text x="310" y="595" class="flow-label">Operational data</text>
+  <text x="310" y="610" class="flow-label">Staff management</text>
+
+  <line x1="450" y1="500" x2="170" y2="660" class="arrow"/>
+  <text x="325" y="565" class="flow-label">Management reports</text>
+
+  <!-- Data Flows from Visitor -->
+  <line x1="1030" y1="680" x2="750" y2="520" class="arrow"/>
+  <text x="890" y="595" class="flow-label">Information requests</text>
+  <text x="890" y="610" class="flow-label">Contact forms</text>
+
+  <line x1="750" y1="500" x2="1030" y2="660" class="arrow"/>
+  <text x="875" y="565" class="flow-label">Public information</text>
+</svg>
+
+

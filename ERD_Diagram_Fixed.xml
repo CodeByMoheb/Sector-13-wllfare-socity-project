@@ -1,0 +1,94 @@
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" etag="erd123" version="22.1.16" type="device">
+  <diagram name="Sector 13 Welfare Society ERD" id="welfare-erd">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- ApplicationUser Entity -->
+        <mxCell id="applicationUser" value="ApplicationUser&#xa;(Users/Members)&#xa;&#xa;Id (PK)&#xa;UserName&#xa;Email&#xa;PhoneNumber&#xa;Name&#xa;FathersOrHusbandsName&#xa;HouseNo&#xa;Ward&#xa;Holding&#xa;Sector&#xa;Profession&#xa;Designation&#xa;BloodGroup&#xa;EducationalQualification&#xa;NumberOfChildren&#xa;Telephone&#xa;FlatNo&#xa;RoadNo&#xa;ProfilePictureUrl&#xa;LastLoginTime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="50" width="200" height="400" as="geometry" />
+        </mxCell>
+        
+        <!-- Employee Entity -->
+        <mxCell id="employee" value="Employee&#xa;&#xa;Id (PK)&#xa;EmployeeId (UK)&#xa;Name&#xa;Role&#xa;Category&#xa;BaseSalary&#xa;ShiftId (FK)&#xa;JoiningDate&#xa;Email&#xa;Phone&#xa;Address&#xa;PasswordHash&#xa;PasswordSalt&#xa;IsActive&#xa;CreatedAt&#xa;UpdatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="300" y="50" width="200" height="350" as="geometry" />
+        </mxCell>
+        
+        <!-- Shift Entity -->
+        <mxCell id="shift" value="Shift&#xa;&#xa;ShiftId (PK)&#xa;Name&#xa;StartTime&#xa;EndTime&#xa;Description&#xa;IsActive&#xa;CreatedAt&#xa;UpdatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="550" y="50" width="150" height="200" as="geometry" />
+        </mxCell>
+        
+        <!-- Attendance Entity -->
+        <mxCell id="attendance" value="Attendance&#xa;&#xa;AttendanceId (PK)&#xa;EmployeeId (FK)&#xa;Date&#xa;CheckInTime&#xa;CheckOutTime&#xa;Status&#xa;TotalHours&#xa;Location&#xa;Remarks&#xa;CreatedAt&#xa;UpdatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="300" y="450" width="200" height="250" as="geometry" />
+        </mxCell>
+        
+        <!-- Leave Entity -->
+        <mxCell id="leave" value="Leave&#xa;&#xa;LeaveId (PK)&#xa;EmployeeId (FK)&#xa;LeaveType&#xa;StartDate&#xa;EndDate&#xa;NumberOfDays&#xa;Reason&#xa;ApprovalStatus&#xa;ApprovalRemarks&#xa;ApprovedById (FK)&#xa;ApprovalDate&#xa;CreatedAt&#xa;UpdatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="550" y="450" width="200" height="300" as="geometry" />
+        </mxCell>
+        
+        <!-- Donor Entity -->
+        <mxCell id="donor" value="Donor&#xa;&#xa;Id (PK)&#xa;Name&#xa;Email&#xa;Phone&#xa;Address&#xa;Amount&#xa;PaymentMethod&#xa;TransactionId&#xa;PaymentStatus&#xa;DonationDate&#xa;Message&#xa;IsAnonymous&#xa;DonationType&#xa;ReceiptNumber" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="800" y="50" width="200" height="350" as="geometry" />
+        </mxCell>
+        
+        <!-- Notice Entity -->
+        <mxCell id="notice" value="Notice&#xa;&#xa;Id (PK)&#xa;Title&#xa;Content&#xa;CreatedBy&#xa;CreatedAt&#xa;IsApproved&#xa;ApprovedBy&#xa;ApprovedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="450" width="200" height="200" as="geometry" />
+        </mxCell>
+        
+        <!-- ApprovalRequest Entity -->
+        <mxCell id="approvalRequest" value="ApprovalRequest&#xa;&#xa;Id (PK)&#xa;Title&#xa;Description&#xa;RequestType&#xa;Amount&#xa;RequestedBy&#xa;RequestedByName&#xa;RequestDate&#xa;Status&#xa;SecretaryApprovalBy&#xa;SecretaryApprovalDate&#xa;SecretaryComments&#xa;PresidentApprovalBy&#xa;PresidentApprovalDate&#xa;PresidentComments&#xa;RejectionReason&#xa;RejectionDate&#xa;RejectedBy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="50" width="200" height="400" as="geometry" />
+        </mxCell>
+        
+        <!-- PermanentMember Entity -->
+        <mxCell id="permanentMember" value="PermanentMember&#xa;&#xa;Id (PK)&#xa;Name&#xa;FathersOrHusbandsName&#xa;Address&#xa;RoadNo&#xa;HouseNo&#xa;Sector&#xa;PhoneNumber&#xa;Email&#xa;DateOfBirth&#xa;NationalId&#xa;MembershipDate&#xa;IsActive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="500" width="200" height="300" as="geometry" />
+        </mxCell>
+        
+        <!-- Relationships -->
+        <!-- Employee to Shift (Many-to-One) -->
+        <mxCell id="rel1" edge="1" parent="1" source="employee" target="shift" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Employee to Attendance (One-to-Many) -->
+        <mxCell id="rel2" edge="1" parent="1" source="employee" target="attendance" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Employee to Leave (One-to-Many) -->
+        <mxCell id="rel3" edge="1" parent="1" source="employee" target="leave" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- ApplicationUser to Leave (One-to-Many for Approval) -->
+        <mxCell id="rel4" edge="1" parent="1" source="applicationUser" target="leave" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.8;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Labels for relationships -->
+        <mxCell id="label1" value="belongs to" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="420" y="200" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label2" value="has many" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="400" y="400" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label3" value="requests" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="400" y="600" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label4" value="approves" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="250" y="600" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

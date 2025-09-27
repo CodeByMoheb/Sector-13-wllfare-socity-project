@@ -7,23 +7,22 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Models
     public class Employee
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
         [StringLength(20)]
-        public string EmployeeId { get; set; } // Unique Employee ID for login
+        public string EmployeeId { get; set; } = string.Empty; // Unique Employee ID for login
 
         [Required]
         [StringLength(100)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Role { get; set; }
+        public required string Role { get; set; }
 
-        [Required]
         [StringLength(50)]
-        public string Category { get; set; } // Employee category
+        public string Category { get; set; } = string.Empty; // Employee category
 
         [Required]
         [DataType(DataType.Currency)]

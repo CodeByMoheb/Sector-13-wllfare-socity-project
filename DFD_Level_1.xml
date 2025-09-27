@@ -1,0 +1,233 @@
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" etag="dfd123" version="22.1.16" type="device">
+  <diagram name="Level 1 DFD" id="level1-dfd">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- External Entities -->
+        <mxCell id="admin" value="Admin" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="member" value="Member" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="50" y="500" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="employee" value="Employee" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="donor" value="Donor" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="500" width="100" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Processes -->
+        <mxCell id="process1" value="1.0&#xa;Login" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="250" y="200" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="process2" value="2.0&#xa;User Management" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="450" y="200" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="process3" value="3.0&#xa;Donation Management" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="650" y="200" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="process4" value="4.0&#xa;Attendance Management" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="850" y="200" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="process5" value="5.0&#xa;Notice Management" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="250" y="400" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="process6" value="6.0&#xa;Report Management" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="450" y="400" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="process7" value="7.0&#xa;Employee Management" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="650" y="400" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="process8" value="8.0&#xa;Payment Processing" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="850" y="400" width="100" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Store -->
+        <mxCell id="datastore" value="Welfare Society&#xa;Database" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="300" width="120" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flows from Admin -->
+        <mxCell id="flow1" edge="1" parent="1" source="admin" target="process1" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow2" edge="1" parent="1" source="admin" target="process2" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow3" edge="1" parent="1" source="admin" target="process6" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flows from Member -->
+        <mxCell id="flow4" edge="1" parent="1" source="member" target="process1" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow5" edge="1" parent="1" source="member" target="process3" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow6" edge="1" parent="1" source="member" target="process5" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flows from Employee -->
+        <mxCell id="flow7" edge="1" parent="1" source="employee" target="process1" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow8" edge="1" parent="1" source="employee" target="process4" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow9" edge="1" parent="1" source="employee" target="process7" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flows from Donor -->
+        <mxCell id="flow10" edge="1" parent="1" source="donor" target="process3" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow11" edge="1" parent="1" source="donor" target="process8" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flows to Database -->
+        <mxCell id="flow12" edge="1" parent="1" source="process1" target="datastore" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow13" edge="1" parent="1" source="process2" target="datastore" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow14" edge="1" parent="1" source="process3" target="datastore" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow15" edge="1" parent="1" source="process4" target="datastore" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow16" edge="1" parent="1" source="process5" target="datastore" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow17" edge="1" parent="1" source="process6" target="datastore" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow18" edge="1" parent="1" source="process7" target="datastore" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow19" edge="1" parent="1" source="process8" target="datastore" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Data Flows from Database -->
+        <mxCell id="flow20" edge="1" parent="1" source="datastore" target="process1" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow21" edge="1" parent="1" source="datastore" target="process2" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow22" edge="1" parent="1" source="datastore" target="process3" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow23" edge="1" parent="1" source="datastore" target="process4" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow24" edge="1" parent="1" source="datastore" target="process5" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow25" edge="1" parent="1" source="datastore" target="process6" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow26" edge="1" parent="1" source="datastore" target="process7" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="flow27" edge="1" parent="1" source="datastore" target="process8" style="endArrow=classic;html=1;rounded=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Labels -->
+        <mxCell id="label1" value="login details" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="150" y="180" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label2" value="user data" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="150" y="200" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label3" value="report request" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="150" y="220" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label4" value="login details" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="150" y="480" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label5" value="donation details" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="150" y="500" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label6" value="notice request" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="150" y="520" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label7" value="login details" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="180" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label8" value="attendance data" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="200" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label9" value="employee data" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="220" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label10" value="donation details" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="480" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label11" value="payment details" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="500" width="60" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label12" value="Store" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="320" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="label13" value="Retrieve" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="340" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

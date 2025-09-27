@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-15T00:00:00.000Z" agent="5.0" version="24.7.17" etag="draw.io">
+  <diagram name="Level 2 - Member Management" id="level-2-member">
+    <mxGraphModel dx="1422" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="Level 2 DFD - Member Management (Process 2.0)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="500" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- External Entities -->
+        <!-- Member -->
+        <mxCell id="member" value="Member" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="100" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Secretary -->
+        <mxCell id="secretary" value="Secretary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="400" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Manager -->
+        <mxCell id="manager" value="Manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="600" width="80" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-processes -->
+        <!-- 2.1 Member Registration -->
+        <mxCell id="process21" value="2.1&#xa;Member&#xa;Registration" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="250" y="120" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 2.2 Profile Verification -->
+        <mxCell id="process22" value="2.2&#xa;Profile&#xa;Verification" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="450" y="180" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 2.3 Member Directory -->
+        <mxCell id="process23" value="2.3&#xa;Member&#xa;Directory" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="650" y="120" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 2.4 Profile Update -->
+        <mxCell id="process24" value="2.4&#xa;Profile&#xa;Update" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="450" y="320" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 2.5 Membership Status -->
+        <mxCell id="process25" value="2.5&#xa;Membership&#xa;Status" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="250" y="420" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 2.6 Member Dashboard -->
+        <mxCell id="process26" value="2.6&#xa;Member&#xa;Dashboard" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="650" y="320" width="90" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Data Stores -->
+        <!-- Member Database -->
+        <mxCell id="ds1" value="D2 | Member Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="900" y="250" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Verification Database -->
+        <mxCell id="ds2" value="D8 | Verification Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="900" y="350" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- User Database -->
+        <mxCell id="ds3" value="D1 | User Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="900" y="450" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Data Flows -->
+        <!-- Member to Registration -->
+        <mxCell id="member-registration" edge="1" parent="1" source="member" target="process21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="member-reg-label" value="registration data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="member-registration">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Member to Profile Update -->
+        <mxCell id="member-update" edge="1" parent="1" source="member" target="process24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="member-update-label" value="update request" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="member-update">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Member to Directory -->
+        <mxCell id="member-directory" edge="1" parent="1" source="member" target="process23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="member-dir-label" value="browse request" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="member-directory">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Member to Dashboard -->
+        <mxCell id="member-dashboard" edge="1" parent="1" source="member" target="process26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="member-dash-label" value="dashboard access" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="member-dashboard">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Secretary interactions -->
+        <mxCell id="secretary-verification" edge="1" parent="1" source="secretary" target="process22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="secretary-ver-label" value="verification" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="secretary-verification">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="secretary-status" edge="1" parent="1" source="secretary" target="process25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="secretary-status-label" value="status update" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="secretary-status">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Manager interactions -->
+        <mxCell id="manager-directory" edge="1" parent="1" source="manager" target="process23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="manager-dir-label" value="view directory" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="manager-directory">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="manager-status" edge="1" parent="1" source="manager" target="process25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="manager-status-label" value="manage status" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="manager-status">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Inter-process flows -->
+        <mxCell id="registration-verification" edge="1" parent="1" source="process21" target="process22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reg-ver-label" value="member data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="registration-verification">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="verification-directory" edge="1" parent="1" source="process22" target="process23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ver-dir-label" value="verified member" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="verification-directory">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Database interactions -->
+        <!-- Registration to Member DB -->
+        <mxCell id="registration-db" edge="1" parent="1" source="process21" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reg-db-label" value="store member" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="registration-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Verification to Verification DB -->
+        <mxCell id="verification-db" edge="1" parent="1" source="process22" target="ds2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ver-db-label" value="store verification" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="verification-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Directory to Member DB -->
+        <mxCell id="directory-db" edge="1" parent="1" source="process23" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dir-db-label" value="retrieve members" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="directory-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Profile Update to Member DB -->
+        <mxCell id="update-db" edge="1" parent="1" source="process24" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="update-db-label" value="update profile" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="update-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Status to Member DB -->
+        <mxCell id="status-db" edge="1" parent="1" source="process25" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="status-db-label" value="update status" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="status-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Dashboard to User DB -->
+        <mxCell id="dashboard-user-db" edge="1" parent="1" source="process26" target="ds3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dash-user-label" value="retrieve user data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="dashboard-user-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Dashboard to Member DB -->
+        <mxCell id="dashboard-member-db" edge="1" parent="1" source="process26" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dash-member-label" value="retrieve member data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="dashboard-member-db">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Return flows -->
+        <mxCell id="registration-return" edge="1" parent="1" source="process21" target="member">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reg-return-label" value="registration status" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="registration-return">
+          <mxGeometry x="0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="directory-return" edge="1" parent="1" source="process23" target="member">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dir-return-label" value="member list" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="directory-return">
+          <mxGeometry x="0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="dashboard-return" edge="1" parent="1" source="process26" target="member">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dash-return-label" value="dashboard data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="dashboard-return">
+          <mxGeometry x="0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="verification-return" edge="1" parent="1" source="process22" target="secretary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ver-return-label" value="verification status" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="verification-return">
+          <mxGeometry x="0.1" y="-1" relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
+
+
+
+
+
+
