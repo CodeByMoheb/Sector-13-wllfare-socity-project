@@ -1,0 +1,392 @@
+@{
+    ViewData["Title"] = "Employee Dashboard";
+    Layout = "_Layout";
+    var employee = ViewBag.Employee as Sector_13_Welfare_Society___Digital_Management_System.Models.Employee;
+    var todaysAttendance = ViewBag.TodaysAttendance as Sector_13_Welfare_Society___Digital_Management_System.Models.Attendance;
+    var recentAttendances = ViewBag.RecentAttendances as List<Sector_13_Welfare_Society___Digital_Management_System.Models.Attendance>;
+}
+
+<div class="container-fluid py-4">
+    
+    <!-- Welcome Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="mb-1">
+                                <i class="fas fa-user-tie"></i> Welcome, @employee.Name
+                            </h3>
+                            <p class="mb-0">Employee ID: <strong>@employee.EmployeeId</strong> | Role: <strong>@employee.Role</strong></p>
+                            <p class="mb-0">Category: @employee.Category | Joining Date: @employee.JoiningDate.ToString("dd MMM yyyy")</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <p class="mb-1"><i class="fas fa-clock"></i> @DateTime.Now.ToString("dddd, dd MMMM yyyy")</p>
+                            <p class="mb-0" id="currentTime"><i class="fas fa-stopwatch"></i> @DateTime.Now.ToString("HH:mm:ss")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    @if (TempData["LoginSuccess"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> @TempData["LoginSuccess"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Quick Actions & Today's Attendance -->
+    <div class="row mb-4">
+        <!-- Today's Attendance Card -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-calendar-day"></i> Today's Attendance</h5>
+                </div>
+                <div class="card-body">
+                    @if (todaysAttendance != null)
+                    {
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-sign-in-alt text-success me-2"></i>
+                                    <span><strong>Check-in:</strong> @todaysAttendance.CheckInTime?.ToString("HH:mm")</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                @if (todaysAttendance.CheckOutTime.HasValue)
+                                {
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-sign-out-alt text-danger me-2"></i>
+                                        <span><strong>Check-out:</strong> @todaysAttendance.CheckOutTime?.ToString("HH:mm")</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Not checked out yet</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <span class="badge bg-@(todaysAttendance.Status == "Present" ? "success" : todaysAttendance.Status == "Late" ? "warning" : "danger")">
+                                    @todaysAttendance.Status
+                                </span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-3">You haven't checked in today yet.</p>
+                    }
+                    
+                    <!-- Attendance Buttons -->
+                    <div class="mt-3">
+                        @if (todaysAttendance == null)
+                        {
+                            <button class="btn btn-success" onclick="markAttendance('checkin')">
+                                <i class="fas fa-sign-in-alt"></i> Check In
+                            </button>
+                        }
+                        else if (!todaysAttendance.CheckOutTime.HasValue)
+                        {
+                            <button class="btn btn-danger" onclick="markAttendance('checkout')">
+                                <i class="fas fa-sign-out-alt"></i> Check Out
+                            </button>
+                        }
+                        else
+                        {
+                            <span class="text-success"><i class="fas fa-check"></i> Attendance marked for today</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Statistics -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-bar"></i> This Month's Statistics</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="stat-item">
+                                <h4 class="text-success">@ViewBag.MonthlyPresentDays</h4>
+                                <small class="text-muted">Present</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-item">
+                                <h4 class="text-warning">@ViewBag.MonthlyLateDays</h4>
+                                <small class="text-muted">Late</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-item">
+                                <h4 class="text-danger">@ViewBag.MonthlyAbsentDays</h4>
+                                <small class="text-muted">Absent</small>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <span class="text-muted">Total Working Days: @ViewBag.TotalWorkingDays</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Information & Recent Attendance -->
+    <div class="row">
+        <!-- Employee Information -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-user"></i> Employee Information</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td><strong>Name:</strong></td>
+                            <td>@employee.Name</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Employee ID:</strong></td>
+                            <td>@employee.EmployeeId</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Role:</strong></td>
+                            <td>@employee.Role</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Category:</strong></td>
+                            <td>@employee.Category</td>
+                        </tr>
+                        @if (!string.IsNullOrEmpty(employee.Email))
+                        {
+                            <tr>
+                                <td><strong>Email:</strong></td>
+                                <td>@employee.Email</td>
+                            </tr>
+                        }
+                        @if (!string.IsNullOrEmpty(employee.Phone))
+                        {
+                            <tr>
+                                <td><strong>Phone:</strong></td>
+                                <td>@employee.Phone</td>
+                            </tr>
+                        }
+                        @if (employee.Shift != null)
+                        {
+                            <tr>
+                                <td><strong>Shift:</strong></td>
+                                <td>@employee.Shift.Name (@($"{employee.Shift.StartTime.Hours}:{employee.Shift.StartTime.Minutes:D2}") - @($"{employee.Shift.EndTime.Hours}:{employee.Shift.EndTime.Minutes:D2}"))</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td><strong>Joining Date:</strong></td>
+                            <td>@employee.JoiningDate.ToString("dd MMM yyyy")</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Status:</strong></td>
+                            <td>
+                                <span class="badge bg-@(employee.IsActive ? "success" : "danger")">
+                                    @(employee.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Attendance -->
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-history"></i> Recent Attendance (Last 7 Days)</h5>
+                </div>
+                <div class="card-body">
+                    @if (recentAttendances != null && recentAttendances.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Check-in</th>
+                                        <th>Check-out</th>
+                                        <th>Status</th>
+                                        <th>Hours</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var attendance in recentAttendances)
+                                    {
+                                        <tr>
+                                            <td>@attendance.Date.ToString("dd MMM")</td>
+                                            <td>@attendance.CheckInTime?.ToString("HH:mm")</td>
+                                            <td>@(attendance.CheckOutTime?.ToString("HH:mm") ?? "-")</td>
+                                            <td>
+                                                <span class="badge bg-@(attendance.Status == "Present" ? "success" : attendance.Status == "Late" ? "warning" : "danger")">
+                                                    @attendance.Status
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if (attendance.CheckInTime.HasValue && attendance.CheckOutTime.HasValue)
+                                                {
+                                                    var hours = (attendance.CheckOutTime.Value - attendance.CheckInTime.Value).TotalHours;
+                                                    @($"{hours:F1}h")
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center">No recent attendance records found.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <form asp-controller="Account" asp-action="EmployeeLogout" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-outline-danger">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .stat-item h4 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+    
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+    }
+    
+    .badge {
+        font-size: 0.8rem;
+    }
+    
+    .table td {
+        padding: 8px 12px;
+    }
+    
+    .alert {
+        border-radius: 8px;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // Update current time every second
+        setInterval(function() {
+            var now = new Date();
+            var timeString = now.toLocaleTimeString('en-GB');
+            document.getElementById('currentTime').innerHTML = '<i class="fas fa-stopwatch"></i> ' + timeString;
+        }, 1000);
+
+        // Mark attendance function
+        function markAttendance(action) {
+            var button = event.target;
+            var originalText = button.innerHTML;
+            
+            // Disable button and show loading
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            
+            $.ajax({
+                url: '@Url.Action("MarkAttendance", "Dashboard")',
+                type: 'POST',
+                data: {
+                    action: action,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Show success message
+                        toastr.success(response.message);
+                        
+                        // Reload page after short delay to update attendance status
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        // Show error message
+                        toastr.error(response.message);
+                        
+                        // Re-enable button
+                        button.disabled = false;
+                        button.innerHTML = originalText;
+                    }
+                },
+                error: function() {
+                    toastr.error('An error occurred. Please try again.');
+                    
+                    // Re-enable button
+                    button.disabled = false;
+                    button.innerHTML = originalText;
+                }
+            });
+        }
+
+        // Add CSRF token to all AJAX requests
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("RequestVerificationToken", $('input[name="__RequestVerificationToken"]').val());
+                }
+            }
+        });
+
+        // Auto-dismiss alerts after 5 seconds
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 5000);
+    </script>
+    
+    <!-- Add toastr for notifications if not already included -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    <!-- Add CSRF token for AJAX requests -->
+    @Html.AntiForgeryToken()
+}
