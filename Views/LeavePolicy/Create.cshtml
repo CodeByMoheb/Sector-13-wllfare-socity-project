@@ -1,0 +1,52 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.LeaveEntitlementPolicy
+@{
+    ViewData["Title"] = "Add Leave Type";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container mt-3">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-plus me-2"></i>Add Leave Type</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="LeaveType" class="form-label"></label>
+                        <input asp-for="LeaveType" class="form-control" />
+                        <span asp-validation-for="LeaveType" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="DefaultEntitled" class="form-label"></label>
+                        <input asp-for="DefaultEntitled" class="form-control" type="number" min="0" max="365" />
+                        <span asp-validation-for="DefaultEntitled" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="IsActive" class="form-label"></label>
+                        <select asp-for="IsActive" class="form-select"><option value="true">Active</option><option value="false">Inactive</option></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="form-check mt-4">
+                            <input asp-for="CarryForwardEnabled" class="form-check-input" type="checkbox" />
+                            <label asp-for="CarryForwardEnabled" class="form-check-label">Allow Carry Forward</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="MaxCarryForward" class="form-label"></label>
+                        <input asp-for="MaxCarryForward" class="form-control" type="number" min="0" max="365" />
+                        <span asp-validation-for="MaxCarryForward" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a class="btn btn-secondary" href="@Url.Action("Index")"><i class="fas fa-arrow-left"></i> Back</a>
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

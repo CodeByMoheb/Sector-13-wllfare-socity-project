@@ -18,7 +18,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 order-md-1">
                             <h6 class="text-primary mb-3">Employee Information</h6>
                             <table class="table table-borderless">
                                 <tr>
@@ -39,7 +39,7 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 order-md-2">
                             <h6 class="text-primary mb-3">Leave Information</h6>
                             <table class="table table-borderless">
                                 <tr>
@@ -63,6 +63,51 @@
                                     <td>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
                                 </tr>
                             </table>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-light">
+                                    <strong>Employee Leave Balances (@DateTime.Now.Year)</strong>
+                                </div>
+                                <div class="card-body p-2">
+                                    @{ var balances = ViewBag.LeaveBalances as List<LeaveBalance> ?? new List<LeaveBalance>(); }
+                                    @if (balances.Any())
+                                    {
+                                        <div class="table-responsive">
+                                            <table class="table table-sm mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Type</th>
+                                                        <th class="text-center">Entitled</th>
+                                                        <th class="text-center">Used</th>
+                                                        <th class="text-center">Pending</th>
+                                                        <th class="text-center">Remaining</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var b in balances)
+                                                    {
+                                                        <tr>
+                                                            <td>@b.LeaveType</td>
+                                                            <td class="text-center"><span class="badge bg-primary">@b.TotalEntitled</span></td>
+                                                            <td class="text-center"><span class="badge bg-success">@b.Used</span></td>
+                                                            <td class="text-center"><span class="badge bg-warning">@b.Pending</span></td>
+                                                            <td class="text-center"><span class="badge @(b.Remaining > 0 ? "bg-info" : "bg-danger")">@b.Remaining</span></td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-muted small">No balances found.</div>
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
 

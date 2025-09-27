@@ -118,34 +118,14 @@
                         var nextDisabled = !Model.HasNextPage ? "disabled" : "";
                     }
 
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item @prevDisabled">
-                                <a class="page-link" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                                    Previous
-                                </a>
-                            </li>
-                            @for (int i = 1; i <= Model.TotalPages; i++)
-                            {
-                                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
-                                    <a class="page-link" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@i" asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                                        @i
-                                    </a>
-                                </li>
-                            }
-                            <li class="page-item @nextDisabled">
-                                <a class="page-link" asp-action="Index" asp-route-sortOrder="@ViewData["CurrentSort"]" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                                    Next
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-
-                    <div class="text-center">
-                        <p class="text-muted">
-                            Showing @((Model.PageIndex - 1) * Model.Count + 1) to @(Math.Min(Model.PageIndex * Model.Count, Model.TotalCount)) of @Model.TotalCount members
-                        </p>
-                    </div>
+                    @await Html.PartialAsync("_PaginationPartial", new { 
+                        PageIndex = Model.PageIndex, 
+                        TotalPages = Model.TotalPages, 
+                        HasNextPage = Model.HasNextPage, 
+                        HasPreviousPage = Model.HasPreviousPage,
+                        TotalCount = Model.TotalCount,
+                        PageSize = 20
+                    })
                 </div>
             </div>
         </div>
