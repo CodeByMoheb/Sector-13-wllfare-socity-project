@@ -1,0 +1,254 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.DonationAllocation
+@{
+    ViewData["Title"] = "Allocation Successful";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Success Header -->
+            <div class="card border-success mb-4">
+                <div class="card-header bg-success text-white">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle fa-2x me-3"></i>
+                        <div>
+                            <h3 class="mb-0">Donation Allocation Successful!</h3>
+                            <p class="mb-0">Allocation ID: #@Model.Id</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Allocation Details -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-user me-2"></i>Donor Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <strong>Name:</strong> @Model.Donor?.Name
+                            </div>
+                            <div class="mb-3">
+                                <strong>Email:</strong> @Model.Donor?.Email
+                            </div>
+                            <div class="mb-3">
+                                <strong>Phone:</strong> @Model.Donor?.Phone
+                            </div>
+                            <div class="mb-3">
+                                <strong>Total Donated:</strong> 
+                                <span class="text-success fw-bold">BDT @(Model.Donor?.Amount.ToString("N2") ?? "0.00")</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Previously Allocated:</strong> 
+                                <span class="text-info">BDT @(Model.Donor?.Amount - Model.Amount ?? 0).ToString("N2")</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Remaining Balance:</strong> 
+                                <span class="text-warning fw-bold">BDT @((Model.Donor?.Amount - Model.Amount ?? 0).ToString("N2"))</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0"><i class="fas fa-project-diagram me-2"></i>Project Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <strong>Project Name:</strong> @Model.Project?.Name
+                            </div>
+                            <div class="mb-3">
+                                <strong>Category:</strong> @Model.Project?.Category
+                            </div>
+                            <div class="mb-3">
+                                <strong>Total Required:</strong> 
+                                <span class="text-primary fw-bold">BDT @(Model.Project?.RequiredAmount.ToString("N2") ?? "0.00")</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Previously Allocated:</strong> 
+                                <span class="text-success">BDT @(Model.Project?.AllocatedAmount.ToString("N2") ?? "0.00")</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Remaining Needed:</strong> 
+                                <span class="text-danger fw-bold">BDT @(Model.Project?.RemainingAmount.ToString("N2") ?? "0.00")</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Funding Progress:</strong>
+                                @{
+                                    var progressPercentage = Model.Project?.RequiredAmount > 0 
+                                        ? (Model.Project?.AllocatedAmount / Model.Project?.RequiredAmount * 100) ?? 0 
+                                        : 0;
+                                }
+                                <div class="progress mt-2">
+                                    <div class="progress-bar bg-success" role="progressbar" 
+                                         style="width: @(Math.Min(progressPercentage, 100))%" 
+                                         aria-valuenow="@progressPercentage" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        @progressPercentage.ToString("F1")%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Allocation Summary -->
+            <div class="card mt-4">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-hand-holding-usd me-2"></i>Allocation Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h4 class="text-success">BDT @Model.Amount.ToString("N2")</h4>
+                                <small class="text-muted">Amount Allocated</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h4 class="text-info">@Model.AllocationDate.ToString("dd MMM yyyy")</h4>
+                                <small class="text-muted">Allocation Date</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h4 class="text-primary">@Model.Status</h4>
+                                <small class="text-muted">Current Status</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h4 class="text-warning">@(Model.Project?.RemainingAmount.ToString("N2") ?? "0.00")</h4>
+                                <small class="text-muted">Project Still Needs</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    @if (!string.IsNullOrEmpty(Model.Purpose))
+                    {
+                        <div class="mt-3">
+                            <strong>Purpose:</strong> @Model.Purpose
+                        </div>
+                    }
+                    
+                    @if (!string.IsNullOrEmpty(Model.Notes))
+                    {
+                        <div class="mt-3">
+                            <strong>Notes:</strong> @Model.Notes
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Notification Status -->
+            <div class="card mt-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-bell me-2"></i>Notification Status</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-sms text-success me-2"></i>
+                                <span>SMS notification sent to @Model.Donor?.Phone</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-envelope text-success me-2"></i>
+                                <span>Email notification sent to @Model.Donor?.Email</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="card mt-4">
+                <div class="card-body text-center">
+                    <div class="btn-group" role="group">
+                        <a href="@Url.Action("Allocate", "DonationAllocation")" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Make Another Allocation
+                        </a>
+                        <a href="@Url.Action("Index", "DonationAllocation")" class="btn btn-info">
+                            <i class="fas fa-list me-2"></i>View All Allocations
+                        </a>
+                        <a href="@Url.Action("Details", "ProjectManagement", new { id = Model.ProjectId })" class="btn btn-success">
+                            <i class="fas fa-eye me-2"></i>View Project Details
+                        </a>
+                        <a href="@Url.Action("Index", "Contribution")" class="btn btn-secondary">
+                            <i class="fas fa-chart-line me-2"></i>Public Tracking
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Allocations for Same Donor -->
+            <div class="card mt-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Allocations by @Model.Donor?.Name</h5>
+                </div>
+                <div class="card-body">
+                    <div id="recentAllocations">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Loading recent allocations...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            loadRecentAllocations();
+        });
+
+        function loadRecentAllocations() {
+            $.ajax({
+                url: '@Url.Action("GetDonorRecentAllocations", "DonationAllocation")',
+                type: 'GET',
+                data: { donorId: @Model.DonorId },
+                success: function(data) {
+                    if (data.success && data.allocations && data.allocations.length > 0) {
+                        let html = '<div class="table-responsive"><table class="table table-hover">';
+                        html += '<thead class="table-light"><tr>';
+                        html += '<th>Date</th><th>Project</th><th>Amount</th><th>Status</th><th>Actions</th>';
+                        html += '</tr></thead><tbody>';
+                        
+                        data.allocations.forEach(function(allocation) {
+                            html += '<tr>';
+                            html += '<td>' + new Date(allocation.allocationDate).toLocaleDateString() + '</td>';
+                            html += '<td>' + allocation.projectName + '</td>';
+                            html += '<td class="text-success fw-bold">BDT ' + parseFloat(allocation.amount).toFixed(2) + '</td>';
+                            html += '<td><span class="badge bg-' + (allocation.status === 'Allocated' ? 'primary' : 'success') + '">' + allocation.status + '</span></td>';
+                            html += '<td><a href="@Url.Action("Details", "DonationAllocation")/' + allocation.id + '" class="btn btn-sm btn-outline-primary">View</a></td>';
+                            html += '</tr>';
+                        });
+                        
+                        html += '</tbody></table></div>';
+                        $('#recentAllocations').html(html);
+                    } else {
+                        $('#recentAllocations').html('<p class="text-muted">No recent allocations found.</p>');
+                    }
+                },
+                error: function() {
+                    $('#recentAllocations').html('<p class="text-danger">Error loading recent allocations.</p>');
+                }
+            });
+        }
+    </script>
+}
