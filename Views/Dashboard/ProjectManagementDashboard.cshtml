@@ -1,0 +1,378 @@
+@{
+    ViewData["Title"] = "Project & Donation Management Dashboard";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-primary text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="card-title mb-2">
+                                <i class="fas fa-project-diagram mr-3"></i>
+                                Project & Donation Management
+                            </h2>
+                            <p class="card-text mb-0">Comprehensive overview of all welfare projects and donation allocations</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4 class="mb-0" id="totalProjects">0</h4>
+                                    <small>Total Projects</small>
+                                </div>
+                                <div class="col-6">
+                                    <h4 class="mb-0" id="totalAllocations">0</h4>
+                                    <small>Total Allocations</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Active Projects</h6>
+                            <h3 class="mb-0" id="activeProjects">0</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-play-circle fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Completed Projects</h6>
+                            <h3 class="mb-0" id="completedProjects">0</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-check-circle fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Total Raised</h6>
+                            <h3 class="mb-0" id="totalRaised">BDT 0</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-hand-holding-usd fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Pending Allocations</h6>
+                            <h3 class="mb-0" id="pendingAllocations">0</h3>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-clock fa-2x opacity-75"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-bolt mr-2"></i>
+                        Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="@Url.Action("Create", "ProjectManagement")" class="btn btn-primary btn-block h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                <i class="fas fa-plus-circle fa-2x mb-2"></i>
+                                <span class="fw-bold">Create Project</span>
+                                <small class="text-muted">Start a new welfare project</small>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="@Url.Action("Allocate", "DonationAllocation")" class="btn btn-success btn-block h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                <i class="fas fa-hand-holding-usd fa-2x mb-2"></i>
+                                <span class="fw-bold">Allocate Donations</span>
+                                <small class="text-muted">Assign donations to projects</small>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="@Url.Action("Index", "DonationAllocation")" class="btn btn-info btn-block h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                <i class="fas fa-list fa-2x mb-2"></i>
+                                <span class="fw-bold">View Allocations</span>
+                                <small class="text-muted">Manage existing allocations</small>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <a href="@Url.Action("Index", "Contribution")" class="btn btn-warning btn-block h-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                <i class="fas fa-chart-line fa-2x mb-2"></i>
+                                <span class="fw-bold">View Reports</span>
+                                <small class="text-muted">Public contribution tracking</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Overview -->
+    <div class="row">
+        <div class="col-lg-8 mb-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-project-diagram mr-2"></i>
+                        Recent Projects
+                    </h5>
+                    <a href="@Url.Action("Index", "ProjectManagement")" class="btn btn-sm btn-outline-primary">
+                        View All <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div id="projectsList">
+                        <div class="text-center py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <p class="mt-2 text-muted">Loading projects...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-pie mr-2"></i>
+                        Project Categories
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="categoryChart">
+                        <div class="text-center py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <p class="mt-2 text-muted">Loading chart...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Allocations -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-hand-holding-usd mr-2"></i>
+                        Recent Donation Allocations
+                    </h5>
+                    <a href="@Url.Action("Index", "DonationAllocation")" class="btn btn-sm btn-outline-success">
+                        View All <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div id="allocationsList">
+                        <div class="text-center py-4">
+                            <div class="spinner-border text-success" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <p class="mt-2 text-muted">Loading allocations...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            loadDashboardData();
+        });
+
+        function loadDashboardData() {
+            loadProjectStats();
+            loadRecentProjects();
+            loadProjectCategories();
+            loadRecentAllocations();
+        }
+
+        function loadProjectStats() {
+            $.get('@Url.Action("GetProjectStats", "Dashboard")', function(data) {
+                if (data.success) {
+                    $('#totalProjects').text(data.totalProjects);
+                    $('#activeProjects').text(data.activeProjects);
+                    $('#completedProjects').text(data.completedProjects);
+                    $('#totalRaised').text('BDT ' + data.totalRaised.toLocaleString());
+                    $('#totalAllocations').text(data.totalAllocations);
+                    $('#pendingAllocations').text(data.pendingAllocations);
+                }
+            });
+        }
+
+        function loadRecentProjects() {
+            $.get('@Url.Action("GetRecentProjects", "Dashboard")', function(data) {
+                if (data.success) {
+                    let html = '';
+                    if (data.projects.length > 0) {
+                        data.projects.forEach(function(project) {
+                            html += `
+                                <div class="d-flex align-items-center mb-3 p-3 border rounded">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">${project.name}</h6>
+                                        <small class="text-muted">${project.category}</small>
+                                        <div class="progress mt-2" style="height: 6px;">
+                                            <div class="progress-bar ${project.fundingPercentage >= 100 ? 'bg-success' : project.fundingPercentage >= 75 ? 'bg-info' : project.fundingPercentage >= 50 ? 'bg-warning' : 'bg-danger'}" 
+                                                 style="width: ${project.fundingPercentage}%"></div>
+                                        </div>
+                                        <small class="text-muted">${project.fundingPercentage.toFixed(1)}% funded</small>
+                                    </div>
+                                    <div class="ml-3 text-right">
+                                        <span class="badge badge-${project.status === 'Active' ? 'success' : project.status === 'Completed' ? 'primary' : project.status === 'Planning' ? 'warning' : 'secondary'}">${project.status}</span>
+                                        <br>
+                                        <small class="text-muted">BDT ${project.allocatedAmount.toLocaleString()}</small>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        html = '<p class="text-muted text-center py-4">No projects found. <a href="@Url.Action("Create", "ProjectManagement")">Create your first project</a></p>';
+                    }
+                    $('#projectsList').html(html);
+                }
+            });
+        }
+
+        function loadProjectCategories() {
+            $.get('@Url.Action("GetProjectCategories", "Dashboard")', function(data) {
+                if (data.success) {
+                    let html = '';
+                    if (data.categories.length > 0) {
+                        data.categories.forEach(function(category) {
+                            const percentage = (category.count / data.totalProjects * 100).toFixed(1);
+                            html += `
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted">${category.name}</span>
+                                        <span class="text-muted">${category.count}</span>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-primary" style="width: ${percentage}%"></div>
+                                    </div>
+                                    <small class="text-muted">${percentage}%</small>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        html = '<p class="text-muted text-center py-4">No categories found</p>';
+                    }
+                    $('#categoryChart').html(html);
+                }
+            });
+        }
+
+        function loadRecentAllocations() {
+            $.get('@Url.Action("GetRecentAllocations", "Dashboard")', function(data) {
+                if (data.success) {
+                    let html = '';
+                    if (data.allocations.length > 0) {
+                        data.allocations.forEach(function(allocation) {
+                            const statusClass = allocation.status === 'Allocated' ? 'primary' : allocation.status === 'Utilized' ? 'success' : 'warning';
+                            html += `
+                                <div class="d-flex align-items-center mb-3 p-3 border rounded">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">${allocation.donorName}</h6>
+                                        <small class="text-muted">${allocation.projectName}</small>
+                                        <br>
+                                        <small class="text-muted">${allocation.purpose || 'General support'}</small>
+                                    </div>
+                                    <div class="ml-3 text-right">
+                                        <span class="badge badge-${statusClass}">${allocation.status}</span>
+                                        <br>
+                                        <strong class="text-success">BDT ${allocation.amount.toLocaleString()}</strong>
+                                        <br>
+                                        <small class="text-muted">${new Date(allocation.allocationDate).toLocaleDateString()}</small>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        html = '<p class="text-muted text-center py-4">No allocations found. <a href="@Url.Action("Allocate", "DonationAllocation")">Create your first allocation</a></p>';
+                    }
+                    $('#allocationsList').html(html);
+                }
+            });
+        }
+    </script>
+}
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .btn {
+        transition: all 0.3s ease;
+        border-radius: 12px;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .progress {
+        border-radius: 10px;
+    }
+    
+    .progress-bar {
+        border-radius: 10px;
+    }
+</style>
