@@ -63,8 +63,8 @@
                                 {
                                     <tr>
                                         <td><strong>@shift.Name</strong></td>
-                                        <td>@shift.StartTime.ToString("HH:mm")</td>
-                                        <td>@shift.EndTime.ToString("HH:mm")</td>
+                                        <td>@string.Format("{0:hh\\:mm}", shift.StartTime)</td>
+                                        <td>@string.Format("{0:hh\\:mm}", shift.EndTime)</td>
                                         <td>
                                             @{
                                                 var duration = shift.EndTime - shift.StartTime;
