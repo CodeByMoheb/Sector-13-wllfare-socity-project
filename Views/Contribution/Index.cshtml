@@ -1,0 +1,257 @@
+@model IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.ProjectFundingViewModel>
+@{
+    ViewData["Title"] = "Contribution Tracking";
+}
+
+<div class="container-fluid">
+    <!-- Hero Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-primary">
+                <div class="card-body text-center text-white">
+                    <h1 class="display-4 mb-3">
+                        <i class="fas fa-heart mr-3"></i>
+                        Our Community Impact
+                    </h1>
+                    <p class="lead mb-4">Transparency in action - See how your donations are making a difference</p>
+                    
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h2 class="mb-0">BDT @ViewBag.TotalAllocated.ToString("N0")</h2>
+                                <p class="mb-0">Total Raised</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h2 class="mb-0">BDT @ViewBag.TotalRequired.ToString("N0")</h2>
+                                <p class="mb-0">Total Target</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h2 class="mb-0">@ViewBag.OverallProgress%</h2>
+                                <p class="mb-0">Overall Progress</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <h2 class="mb-0">@ViewBag.ActiveProjects</h2>
+                                <p class="mb-0">Active Projects</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Overall Progress Bar -->
+                    <div class="mt-4">
+                        <div class="progress" style="height: 30px;">
+                            <div class="progress-bar bg-white" role="progressbar" 
+                                 style="width: @ViewBag.OverallProgress%" 
+                                 aria-valuenow="@ViewBag.OverallProgress" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                                <strong>@ViewBag.OverallProgress% Complete</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="fas fa-search mr-2"></i>
+                        Track Your Donation
+                    </h5>
+                    <p class="card-text">Enter your email or phone number to see how your donations are being used</p>
+                    <a asp-action="DonorLookup" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Look Up My Donation
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">
+                        <i class="fas fa-chart-bar mr-2"></i>
+                        View Statistics
+                    </h5>
+                    <p class="card-text">See comprehensive statistics about our projects and funding</p>
+                    <a asp-action="Statistics" class="btn btn-info">
+                        <i class="fas fa-chart-bar"></i> View Statistics
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="row">
+        <div class="col-12">
+            <h3 class="mb-3">
+                <i class="fas fa-project-diagram mr-2"></i>
+                Active Projects
+            </h3>
+        </div>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var project in Model)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">@project.ProjectName</h5>
+                            <span class="badge badge-@(project.ProjectCategory switch {
+                                "Healthcare" => "danger",
+                                "Education" => "info",
+                                "Emergency" => "warning",
+                                "Infrastructure" => "primary",
+                                "Environment" => "success",
+                                _ => "secondary"
+                            })">@project.ProjectCategory</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text text-muted">@(project.Description.Length > 100 ? project.Description.Substring(0, 100) + "..." : project.Description)</p>
+                            
+                            <!-- Progress Bar -->
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <small class="text-muted">Progress</small>
+                                    <small class="text-muted">@project.FundingPercentage.ToString("F1")%</small>
+                                </div>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar @(project.FundingPercentage >= 100 ? "bg-success" : project.FundingPercentage >= 75 ? "bg-info" : project.FundingPercentage >= 50 ? "bg-warning" : "bg-danger")" 
+                                         role="progressbar" 
+                                         style="width: @project.FundingPercentage%" 
+                                         aria-valuenow="@project.FundingPercentage" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        @if (project.FundingPercentage > 10)
+                                        {
+                                            <span class="text-white">@project.FundingPercentage.ToString("F1")%</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Funding Stats -->
+                            <div class="row text-center mb-3">
+                                <div class="col-4">
+                                    <div class="border-right">
+                                        <h6 class="text-success mb-0">BDT @project.AllocatedAmount.ToString("N0")</h6>
+                                        <small class="text-muted">Raised</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="border-right">
+                                        <h6 class="text-info mb-0">BDT @project.RequiredAmount.ToString("N0")</h6>
+                                        <small class="text-muted">Target</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <h6 class="text-warning mb-0">BDT @project.RemainingAmount.ToString("N0")</h6>
+                                    <small class="text-muted">Needed</small>
+                                </div>
+                            </div>
+                            
+                            <!-- Project Status -->
+                            <div class="mb-3">
+                                <span class="badge badge-@(project.Status switch {
+                                    "Planning" => "warning",
+                                    "Active" => "success",
+                                    "Completed" => "primary",
+                                    "Cancelled" => "danger",
+                                    _ => "secondary"
+                                }) badge-lg">@project.Status</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-6">
+                                    <a asp-action="ProjectDetails" asp-route-id="@project.ProjectId" 
+                                       class="btn btn-outline-primary btn-sm btn-block">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a asp-action="ProjectProgress" asp-route-id="@project.ProjectId" 
+                                       class="btn btn-outline-info btn-sm btn-block">
+                                        <i class="fas fa-history"></i> Progress
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <i class="fas fa-project-diagram fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">No public projects available</h5>
+                    <p class="text-muted">Check back later for project updates.</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Call to Action -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body text-center">
+                    <h4 class="card-title">
+                        <i class="fas fa-heart text-danger mr-2"></i>
+                        Make a Difference Today
+                    </h4>
+                    <p class="card-text">Your contribution helps us create positive change in our community.</p>
+                    <a asp-controller="Donation" asp-action="Index" class="btn btn-danger btn-lg">
+                        <i class="fas fa-donate"></i> Donate Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+        @TempData["Error"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+}
+
+@if (TempData["Info"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+        @TempData["Info"]
+        <button type="button" class="close" data-dismiss="alert">
+            <span>&times;</span>
+        </button>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // Auto-dismiss alerts after 5 seconds
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 5000);
+    </script>
+}
