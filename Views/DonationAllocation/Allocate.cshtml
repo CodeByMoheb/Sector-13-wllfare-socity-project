@@ -1,0 +1,237 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.DonationAllocationRequest
+@{
+    ViewData["Title"] = "Allocate Donation";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-hand-holding-usd mr-2"></i>
+                        Allocate Donation to Project
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Allocate" method="post" id="allocationForm">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DonorId" class="control-label">Select Donor</label>
+                                    <select asp-for="DonorId" class="form-control" id="donorSelect" onchange="loadDonorBalance()">
+                                        <option value="">-- Select Donor --</option>
+                                        @if (ViewBag.AvailableDonors != null)
+                                        {
+                                            @foreach (dynamic donor in ViewBag.AvailableDonors)
+                                            {
+                                                <option value="@donor.Id" data-balance="@donor.RemainingBalance">@donor.DisplayText</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="DonorId" class="text-danger"></span>
+                                    <small class="form-text text-muted">Showing donors with available balance</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ProjectId" class="control-label">Select Project</label>
+                                    <select asp-for="ProjectId" class="form-control" id="projectSelect" onchange="loadProjectRemaining()">
+                                        <option value="">-- Select Project --</option>
+                                        @if (ViewBag.AvailableProjects != null)
+                                        {
+                                            @foreach (dynamic project in ViewBag.AvailableProjects)
+                                            {
+                                                <option value="@project.Id" data-remaining="@project.RemainingAmount">@project.Name - @project.Category (Remaining: BDT @project.RemainingAmount.ToString("N2"))</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="ProjectId" class="text-danger"></span>
+                                    <small class="form-text text-muted">Showing active projects</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Amount" class="control-label"></label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">BDT</span>
+                                        </div>
+                                        <input asp-for="Amount" class="form-control" type="number" step="0.01" min="0" placeholder="0.00" id="amountInput" />
+                                    </div>
+                                    <span asp-validation-for="Amount" class="text-danger"></span>
+                                    <small class="form-text text-muted" id="donorBalanceText"></small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Purpose" class="control-label"></label>
+                                    <input asp-for="Purpose" class="form-control" placeholder="Purpose of allocation" />
+                                    <span asp-validation-for="Purpose" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Notes" class="control-label"></label>
+                            <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Additional notes about this allocation"></textarea>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+
+                        <!-- Allocation Summary -->
+                        <div id="allocationSummary" class="card bg-light" style="display: none;">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    Allocation Summary
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="text-center">
+                                            <h6 class="text-muted">Donor Balance</h6>
+                                            <h4 class="text-primary" id="summaryDonorBalance">BDT 0.00</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-center">
+                                            <h6 class="text-muted">Allocation Amount</h6>
+                                            <h4 class="text-success" id="summaryAmount">BDT 0.00</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-center">
+                                            <h6 class="text-muted">Remaining Balance</h6>
+                                            <h4 class="text-warning" id="summaryRemaining">BDT 0.00</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <div class="text-center">
+                                            <h6 class="text-muted">Project Remaining Need</h6>
+                                            <h4 class="text-info" id="summaryProjectRemaining">BDT 0.00</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="text-center">
+                                            <h6 class="text-muted">Project After Allocation</h6>
+                                            <h4 class="text-success" id="summaryProjectAfter">BDT 0.00</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-primary btn-block" id="submitBtn" disabled>
+                                        <i class="fas fa-save"></i> Allocate Donation
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <a asp-action="Index" class="btn btn-secondary btn-block">
+                                        <i class="fas fa-arrow-left"></i> Back to Allocations
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        let donorBalance = 0;
+        let projectRemaining = 0;
+
+        function loadDonorBalance() {
+            const donorSelect = document.getElementById('donorSelect');
+            const donorId = donorSelect.value;
+            
+            if (donorId) {
+                const selectedOption = donorSelect.options[donorSelect.selectedIndex];
+                donorBalance = parseFloat(selectedOption.getAttribute('data-balance')) || 0;
+                
+                document.getElementById('donorBalanceText').textContent = 
+                    `Available balance: BDT ${donorBalance.toFixed(2)}`;
+                
+                updateSummary();
+            } else {
+                donorBalance = 0;
+                document.getElementById('donorBalanceText').textContent = '';
+                updateSummary();
+            }
+        }
+
+        function loadProjectRemaining() {
+            const projectSelect = document.getElementById('projectSelect');
+            const projectId = projectSelect.value;
+            
+            if (projectId) {
+                const selectedOption = projectSelect.options[projectSelect.selectedIndex];
+                projectRemaining = parseFloat(selectedOption.getAttribute('data-remaining')) || 0;
+                updateSummary();
+            } else {
+                projectRemaining = 0;
+                updateSummary();
+            }
+        }
+
+        function updateSummary() {
+            const amountInput = document.getElementById('amountInput');
+            const amount = parseFloat(amountInput.value) || 0;
+            
+            if (donorBalance > 0 || projectRemaining > 0) {
+                document.getElementById('allocationSummary').style.display = 'block';
+                
+                document.getElementById('summaryDonorBalance').textContent = `BDT ${donorBalance.toFixed(2)}`;
+                document.getElementById('summaryAmount').textContent = `BDT ${amount.toFixed(2)}`;
+                document.getElementById('summaryRemaining').textContent = `BDT ${(donorBalance - amount).toFixed(2)}`;
+                document.getElementById('summaryProjectRemaining').textContent = `BDT ${projectRemaining.toFixed(2)}`;
+                document.getElementById('summaryProjectAfter').textContent = `BDT ${(projectRemaining - amount).toFixed(2)}`;
+                
+                // Enable/disable submit button based on validation
+                const submitBtn = document.getElementById('submitBtn');
+                const isValid = amount > 0 && amount <= donorBalance && donorBalance > 0 && projectRemaining > 0;
+                submitBtn.disabled = !isValid;
+                
+                // Update button text based on validation
+                if (amount > donorBalance) {
+                    submitBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Amount exceeds donor balance';
+                    submitBtn.className = 'btn btn-warning btn-block';
+                } else if (amount <= 0) {
+                    submitBtn.innerHTML = '<i class="fas fa-save"></i> Enter valid amount';
+                    submitBtn.className = 'btn btn-secondary btn-block';
+                } else {
+                    submitBtn.innerHTML = '<i class="fas fa-save"></i> Allocate Donation';
+                    submitBtn.className = 'btn btn-primary btn-block';
+                }
+            } else {
+                document.getElementById('allocationSummary').style.display = 'none';
+                document.getElementById('submitBtn').disabled = true;
+            }
+        }
+
+        // Add event listener for amount input
+        document.getElementById('amountInput').addEventListener('input', updateSummary);
+
+        // Initialize summary on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSummary();
+        });
+    </script>
+}
