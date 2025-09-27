@@ -1,0 +1,235 @@
+@model IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.DonationAllocation>
+@{
+    ViewData["Title"] = "Donation Allocations";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">
+                        <i class="fas fa-hand-holding-usd mr-2"></i>
+                        Donation Allocations
+                    </h3>
+                    <a asp-action="Allocate" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Allocate Donation
+                    </a>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["Success"]
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["Error"]
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                    }
+
+                    @if (Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Donor</th>
+                                        <th>Project</th>
+                                        <th>Amount</th>
+                                        <th>Allocation Date</th>
+                                        <th>Status</th>
+                                        <th>Purpose</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var allocation in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <strong>@allocation.Donor.Name</strong>
+                                                    <br>
+                                                    <small class="text-muted">@allocation.Donor.Email</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>@allocation.Project.Name</strong>
+                                                    <br>
+                                                    <span class="badge badge-secondary">@allocation.Project.Category</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <strong class="text-success">BDT @allocation.Amount.ToString("N2")</strong>
+                                            </td>
+                                            <td>@allocation.AllocationDate.ToString("dd MMM yyyy")</td>
+                                            <td>
+                                                <span class="badge badge-@(allocation.Status switch {
+                                                    "Allocated" => "primary",
+                                                    "Utilized" => "success",
+                                                    "Refunded" => "warning",
+                                                    _ => "secondary"
+                                                })">@allocation.Status</span>
+                                            </td>
+                                            <td>@(allocation.Purpose ?? "General")</td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a asp-action="Details" asp-route-id="@allocation.Id" 
+                                                       class="btn btn-sm btn-info" title="View Details">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    @if (allocation.Status == "Allocated")
+                                                    {
+                                                        <button type="button" class="btn btn-sm btn-success" 
+                                                                onclick="updateStatus(@allocation.Id, 'Utilized')" title="Mark as Utilized">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Summary Statistics -->
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-primary">
+                                        <i class="fas fa-hand-holding-usd"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Total Allocated</span>
+                                        <span class="info-box-number">BDT @Model.Sum(a => a.Amount).ToString("N0")</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-success">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Utilized</span>
+                                        <span class="info-box-number">BDT @Model.Where(a => a.Status == "Utilized").Sum(a => a.Amount).ToString("N0")</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-warning">
+                                        <i class="fas fa-clock"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Pending</span>
+                                        <span class="info-box-number">BDT @Model.Where(a => a.Status == "Allocated").Sum(a => a.Amount).ToString("N0")</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info">
+                                        <i class="fas fa-users"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Total Allocations</span>
+                                        <span class="info-box-number">@Model.Count()</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-hand-holding-usd fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No donation allocations found</h5>
+                            <p class="text-muted">Start by allocating donations to projects.</p>
+                            <a asp-action="Allocate" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Allocate Donation
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Status Update Modal -->
+<div class="modal fade" id="statusModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Allocation Status</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="statusForm">
+                    <input type="hidden" id="allocationId" />
+                    <input type="hidden" id="allocationStatus" />
+                    
+                    <div class="form-group">
+                        <label for="utilizationDetails">Utilization Details (Optional)</label>
+                        <textarea id="utilizationDetails" class="form-control" rows="3" 
+                                  placeholder="Describe how the funds were utilized..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="confirmStatusUpdate()">Update Status</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function updateStatus(allocationId, status) {
+            document.getElementById('allocationId').value = allocationId;
+            document.getElementById('allocationStatus').value = status;
+            $('#statusModal').modal('show');
+        }
+
+        function confirmStatusUpdate() {
+            var allocationId = document.getElementById('allocationId').value;
+            var status = document.getElementById('allocationStatus').value;
+            var utilizationDetails = document.getElementById('utilizationDetails').value;
+
+            var formData = new FormData();
+            formData.append('id', allocationId);
+            formData.append('status', status);
+            formData.append('utilizationDetails', utilizationDetails);
+
+            $.ajax({
+                url: '@Url.Action("UpdateStatus", "DonationAllocation")',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    location.reload();
+                },
+                error: function() {
+                    alert('Error updating status. Please try again.');
+                }
+            });
+        }
+    </script>
+}
