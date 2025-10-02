@@ -4,20 +4,17 @@
 }
 
 <div class="container-fluid">
-    <div class="row">
+    <!-- Welcome Header -->
+    <div class="row mb-4"></div>
         <div class="col-12">
-            <div class="card bg-warning text-white mb-4">
-                <div class="card-body">
-                    <h2 class="card-title">
-                        <i class="fas fa-user-cog me-2"></i>
-                        Manager Dashboard
-                    </h2>
-                    <p class="card-text">Welcome, @ViewBag.UserName! You are responsible for managing society operations.</p>
+            <div class="card bg-gradient-primary text-white">
+                
                 </div>
             </div>
         </div>
     </div>
 
+<<<<<<< Updated upstream
     <div class="row">
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
@@ -30,11 +27,27 @@
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-tasks fa-2x text-gray-300"></i>
+=======
+    <!-- Key Metrics Row -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Today's Attendance</h6>
+                            <h3 class="mb-0" id="todayAttendance">@ViewBag.AttendancePercentage%</h3>
+                            <small id="attendanceCount">@ViewBag.PresentToday / @ViewBag.TotalEmployees present</small>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-calendar-check fa-2x opacity-75"></i>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< Updated upstream
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
@@ -46,11 +59,25 @@
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+=======
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Pending Leave Requests</h6>
+                            <h3 class="mb-0" id="pendingLeaves">@ViewBag.PendingLeaves</h3>
+                            <small id="leaveDetails">Requires approval</small>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-clock fa-2x opacity-75"></i>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< Updated upstream
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
@@ -62,11 +89,25 @@
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-users fa-2x text-gray-300"></i>
+=======
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Total Donations</h6>
+                            <h3 class="mb-0" id="totalDonations">BDT @String.Format("{0:N0}", ViewBag.MonthlyDonations)</h3>
+                            <small id="donationDetails">This month</small>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-hand-holding-usd fa-2x opacity-75"></i>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< Updated upstream
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
@@ -78,6 +119,19 @@
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-exclamation-circle fa-2x text-gray-300"></i>
+=======
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h6 class="card-title">Project Funding</h6>
+                            <h3 class="mb-0" id="projectFunding">@ViewBag.AvgFundingPercentage%</h3>
+                            <small id="fundingDetails">Average completion</small>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-chart-line fa-2x opacity-75"></i>
+>>>>>>> Stashed changes
                         </div>
                     </div>
                 </div>
@@ -85,6 +139,7 @@
         </div>
     </div>
 
+<<<<<<< Updated upstream
     <div class="row">
         <div class="col-lg-6">
             <div class="card shadow mb-4">
@@ -114,6 +169,36 @@
                             </a>
                         </div>
                     </div>
+=======
+    <!-- Charts and Reports Row -->
+    <div class="row mb-4">
+        <!-- Attendance Chart -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-bar mr-2"></i>
+                        Weekly Attendance Trend
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="attendanceChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Project Status Chart -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-project-diagram mr-2"></i>
+                        Project Status Overview
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="projectChart" height="200"></canvas>
+>>>>>>> Stashed changes
                 </div>
             </div>
         </div>
@@ -150,12 +235,164 @@
             </div>
         </div>
     </div>
+<<<<<<< Updated upstream
 </div>
+=======
+
+  
+   
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Global chart variables to prevent multiple instances
+        let attendanceChart = null;
+        let projectChart = null;
+        let chartsInitialized = false;
+
+        $(document).ready(function() {
+            if (!chartsInitialized) {
+                initializeCharts();
+                chartsInitialized = true;
+            }
+        });
+
+        // Remove all demo loaders and use server-rendered values only
+
+        function initializeCharts() {
+            // Destroy existing charts completely before creating new ones
+            destroyCharts();
+
+            // Wait for DOM to be fully ready
+            setTimeout(() => {
+                // Attendance Chart
+                const attendanceCanvas = document.getElementById('attendanceChart');
+                if (attendanceCanvas && !attendanceChart) {
+                    const attendanceCtx = attendanceCanvas.getContext('2d');
+                    attendanceChart = new Chart(attendanceCtx, {
+                        type: 'line',
+                        data: {
+                            labels: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject((IEnumerable<string>)ViewBag.WeeklyLabels ?? Array.Empty<string>())),
+                            datasets: [{
+                                label: 'Attendance %',
+                                data: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject((IEnumerable<double>)ViewBag.WeeklyPercentages ?? Array.Empty<double>())),
+                                borderColor: 'rgb(75, 192, 192)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                tension: 0.4,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: {
+                                intersect: false,
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top'
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Project Status Chart
+                const projectCanvas = document.getElementById('projectChart');
+                if (projectCanvas && !projectChart) {
+                    const projectCtx = projectCanvas.getContext('2d');
+                    projectChart = new Chart(projectCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Active', 'Completed', 'Planning', 'On Hold'],
+                            datasets: [{
+                                data: [45, 30, 20, 5],
+                                backgroundColor: [
+                                    'rgb(54, 162, 235)',
+                                    'rgb(75, 192, 192)',
+                                    'rgb(255, 205, 86)',
+                                    'rgb(255, 99, 132)'
+                                ],
+                                borderWidth: 2,
+                                borderColor: '#fff'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        padding: 20,
+                                        usePointStyle: true
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }, 100);
+        }
+
+        function destroyCharts() {
+            if (attendanceChart) {
+                attendanceChart.destroy();
+                attendanceChart = null;
+            }
+            if (projectChart) {
+                projectChart.destroy();
+                projectChart = null;
+            }
+        }
+
+        function filterActivities(type) {
+            $('.btn-group .btn').removeClass('active');
+            event.target.classList.add('active');
+            
+            if (type === 'all') {
+                $('.activity-item').show();
+            } else {
+                $('.activity-item').hide();
+                $(`.activity-item[data-type="${type}"]`).show();
+            }
+        }
+
+        // Cleanup charts when page is unloaded
+        $(window).on('beforeunload', function() {
+            destroyCharts();
+        });
+
+        // Prevent multiple chart initializations on window resize
+        let resizeTimeout;
+        $(window).on('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                if (attendanceChart) {
+                    attendanceChart.resize();
+                }
+                if (projectChart) {
+                    projectChart.resize();
+                }
+            }, 250);
+        });
+    </script>
+}
+>>>>>>> Stashed changes
 
 <style>
     .border-left-primary {
         border-left: 0.25rem solid #4e73df !important;
     }
+<<<<<<< Updated upstream
     .border-left-success {
         border-left: 0.25rem solid #1cc88a !important;
     }
@@ -176,5 +413,57 @@
     }
     .text-xs {
         font-size: 0.7rem;
+=======
+    
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
     }
-</style> 
+    
+    .card:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .metric-card {
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .activity-item {
+        transition: all 0.3s ease;
+    }
+    
+    .activity-item:hover {
+        background-color: #f8f9fa;
+        transform: translateX(5px);
+>>>>>>> Stashed changes
+    }
+    
+    .insight-item {
+        transition: all 0.3s ease;
+    }
+    
+    .insight-item:hover {
+        background-color: #f8f9fa;
+        transform: translateY(-2px);
+    }
+    
+    /* Chart container sizing */
+    #attendanceChart, #projectChart {
+        max-width: 100%;
+        max-height: 300px;
+        width: 100% !important;
+        height: 300px !important;
+    }
+    
+    /* Prevent chart overflow */
+    .card-body canvas {
+        display: block;
+        margin: 0 auto;
+    }
+</style>

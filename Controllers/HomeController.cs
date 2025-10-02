@@ -3,6 +3,12 @@ using Sector_13_Welfare_Society___Digital_Management_System.Models;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+<<<<<<< Updated upstream
+=======
+using Sector_13_Welfare_Society___Digital_Management_System.Data;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+>>>>>>> Stashed changes
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
@@ -40,13 +46,24 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             return View();
         }
 
-        public IActionResult MessageOfChairman()
+        public async Task<IActionResult> MessageOfChairman()
         {
-            return View();
+            var leadershipMessages = await _context.LeadershipMessages
+                .Where(m => m.IsActive && (m.MessageType == "President" || m.MessageType == "VicePresident"))
+                .OrderBy(m => m.DisplayOrder)
+                .ThenBy(m => m.MessageType)
+                .ToListAsync();
+            return View(leadershipMessages);
         }
-          public IActionResult MessageOfSecretary()
+        
+        public async Task<IActionResult> MessageOfSecretary()
         {
-            return View();
+            var leadershipMessages = await _context.LeadershipMessages
+                .Where(m => m.IsActive && m.MessageType == "Secretary")
+                .OrderBy(m => m.DisplayOrder)
+                .ThenBy(m => m.MessageType)
+                .ToListAsync();
+            return View(leadershipMessages);
         }
 
         public IActionResult HowDoWeWork()
@@ -59,13 +76,24 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             return View();
         }
 
-        public IActionResult ElectedCandidates()
+        public async Task<IActionResult> ElectedCandidates()
         {
-            return View();
+            var electedCandidates = await _context.ElectedCandidates
+                .Where(c => c.IsActive)
+                .OrderBy(c => c.DisplayOrder)
+                .ThenBy(c => c.ElectionYear)
+                .ToListAsync();
+            return View(electedCandidates);
         }
-         public IActionResult PreviousElectedCandidate()
+        
+        public async Task<IActionResult> PreviousElectedCandidate()
         {
-            return View();
+            var previousCandidates = await _context.PreviousCandidates
+                .Where(c => c.IsActive)
+                .OrderBy(c => c.DisplayOrder)
+                .ThenBy(c => c.TermPeriod)
+                .ToListAsync();
+            return View(previousCandidates);
         }
 
         public IActionResult SubComitys()

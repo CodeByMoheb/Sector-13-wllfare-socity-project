@@ -17,6 +17,7 @@
     <link rel="icon" type="image/x-icon" href="~/Photos/favicon.png" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout-improvements.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
         .quick-actions .btn {
@@ -68,6 +69,300 @@
             color: #fff;
             border: none;
         }
+
+        /* Enhanced Sidebar Styles */
+        .sidebar {
+            background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+            border-right: 1px solid #dee2e6;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #6c757d #f8f9fa;
+            height: 100vh; /* Ensure full viewport height so the entire menu can scroll */
+        }
+
+        /* Custom scrollbar for webkit browsers */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #f8f9fa;
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #6c757d 0%, #495057 100%);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #495057 0%, #343a40 100%);
+            width: 8px;
+        }
+
+        /* Smooth scrolling */
+        .sidebar-menu {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Enhanced Sidebar Dropdown Styles */
+        .sidebar-dropdown-parent {
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-dropdown-toggle {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 12px;
+            margin: 3px 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: transparent;
+            border: none;
+            width: calc(100% - 16px);
+            text-align: left;
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-dropdown-toggle:hover {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.08) 0%, rgba(13, 110, 253, 0.04) 100%);
+            color: #0d6efd;
+            transform: translateX(4px) translateY(-1px);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+        }
+
+        .sidebar-dropdown-toggle:active {
+            transform: translateX(2px) translateY(0px);
+            box-shadow: 0 2px 6px rgba(13, 110, 253, 0.2);
+        }
+
+        .sidebar-dropdown-toggle i {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+
+        .sidebar-dropdown-toggle.active {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.12) 0%, rgba(13, 110, 253, 0.06) 100%);
+            color: #0d6efd;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+        }
+
+        .sidebar-dropdown-toggle.active i {
+            transform: rotate(180deg);
+            color: #0d6efd;
+        }
+
+        .sidebar-dropdown {
+            list-style: none;
+            padding: 0;
+            margin: 6px 8px 0 8px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden; /* let the sidebar handle scrolling */
+            animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: none; /* remove inner scroll restriction so the whole sidebar scrolls */
+        }
+
+        @@keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-15px) scale(0.95);
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                max-height: 400px;
+            }
+        }
+
+        @@keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                max-height: 400px;
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-15px) scale(0.95);
+                max-height: 0;
+            }
+        }
+
+        .sidebar-dropdown li {
+            border-bottom: 1px solid rgba(222, 226, 230, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-dropdown li:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-dropdown li:hover {
+            background: rgba(248, 249, 250, 0.5);
+        }
+
+        .sidebar-dropdown a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px 12px 40px;
+            color: #6c757d;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .sidebar-dropdown a:hover {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.08) 0%, rgba(13, 110, 253, 0.04) 100%);
+            color: #0d6efd;
+            transform: translateX(6px);
+            font-weight: 500;
+        }
+
+        .sidebar-dropdown a i {
+            margin-right: 12px;
+            width: 18px;
+            text-align: center;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-dropdown a:hover i {
+            color: #0d6efd;
+            transform: scale(1.1);
+        }
+
+        .sidebar-dropdown a::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            background: #dee2e6;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-dropdown a:hover::before {
+            background: #0d6efd;
+            width: 7px;
+            height: 7px;
+            box-shadow: 0 0 8px rgba(13, 110, 253, 0.4);
+        }
+
+        /* Active state for dropdown items */
+        .sidebar-dropdown a.active {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.15) 0%, rgba(13, 110, 253, 0.08) 100%);
+            color: #0d6efd;
+            font-weight: 600;
+            transform: translateX(8px);
+        }
+
+        .sidebar-dropdown a.active::before {
+            background: #0d6efd;
+            width: 7px;
+            height: 7px;
+            box-shadow: 0 0 10px rgba(13, 110, 253, 0.5);
+        }
+
+        /* Sidebar section styling */
+        .sidebar-section {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-section a {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 12px;
+            margin: 3px 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-section a:hover {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.08) 0%, rgba(13, 110, 253, 0.04) 100%);
+            color: #0d6efd;
+            transform: translateX(4px) translateY(-1px);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+        }
+
+        .sidebar-section a i {
+            margin-right: 12px;
+            width: 18px;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-section a:hover i {
+            color: #0d6efd;
+            transform: scale(1.1);
+        }
+
+        /* Sidebar title styling */
+        .sidebar-title {
+            color: #495057;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 20px 0 10px 0;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Responsive adjustments */
+        @@media (max-width: 768px) {
+            .sidebar-dropdown {
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+            
+            .sidebar-dropdown a {
+                padding: 10px 15px 10px 35px;
+                font-size: 0.85rem;
+            }
+
+            .sidebar-dropdown-toggle {
+                margin: 2px 5px;
+                width: calc(100% - 10px);
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+
+            .sidebar-section a {
+                margin: 2px 5px;
+                width: calc(100% - 10px);
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Smooth animations for all sidebar elements */
+        .sidebar * {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body>
@@ -83,6 +378,7 @@
             <div class="sidebar-title text-center fw-bold">Dashboard</div>
             <hr>
             <ul class="sidebar-menu">
+<<<<<<< Updated upstream
 
                 <li><a href="@Url.Action("Admin", "Dashboard")" class="@(roles.Contains("Admin") ? "active" : "")">
                     <i class="fas fa-user-shield"></i>
@@ -104,6 +400,120 @@
                     <i class="fas fa-user-graduate"></i>
                     <span class="menu-text">Secretary</span>
                 </a></li>
+=======
+                @if (roles.Contains("Manager")) {
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Employee Management <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("Index", "Employee")"><i class="fas fa-users"></i> <span class="menu-text">Employees</span></a></li>
+                            <li><a href="@Url.Action("Manage", "Attendance")"><i class="fas fa-calendar-day"></i> <span class="menu-text">Daily Attendance</span></a></li>
+                            <li><a href="@Url.Action("AllRecords", "Attendance")"><i class="fas fa-list"></i> <span class="menu-text">All Records</span></a></li>
+                            
+                            <li><a href="@Url.Action("Index", "SalaryCalculator")"><i class="fas fa-money-check-alt"></i> <span class="menu-text">Salary</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Leave Management <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("Index", "LeaveApproval")"><i class="fas fa-clock"></i> <span class="menu-text">Leave Approvals</span></a></li>
+                            <li><a href="@Url.Action("AllLeaves", "LeaveApproval")"><i class="fas fa-calendar-alt"></i> <span class="menu-text">All Leave Requests</span></a></li>
+                            <li><a href="@Url.Action("Index", "LeavePolicy")"><i class="fas fa-sliders-h"></i> <span class="menu-text">Leave Policies</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Project & Donation Management <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("Index", "ProjectManagement")"><i class="fas fa-project-diagram"></i> <span class="menu-text">Manage Projects</span></a></li>
+                            <li><a href="@Url.Action("Allocate", "DonationAllocation")"><i class="fas fa-hand-holding-usd"></i> <span class="menu-text">Allocate Donations</span></a></li>
+                            <li><a href="@Url.Action("Index", "DonationAllocation")"><i class="fas fa-list"></i> <span class="menu-text">All Allocations</span></a></li>
+                            <li><a href="@Url.Action("Report", "Donation")"><i class="fas fa-chart-line"></i> <span class="menu-text">Donation Reports</span></a></li>
+                            <li><a href="@Url.Action("Index", "Contribution")"><i class="fas fa-eye"></i> <span class="menu-text">Public Tracking</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Notice <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("Create", "Notice")"><i class="fas fa-plus"></i> <span class="menu-text">Create Notice</span></a></li>
+                            <li><a href="@Url.Action("ManagerList", "Notice")"><i class="fas fa-list"></i> <span class="menu-text">My Notices</span></a></li>
+                            <li><a href="@Url.Action("Notifications", "ManagerTools")"><i class="fas fa-bell"></i> <span class="menu-text">Notifications Status</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Permanent Members <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("ManagerList", "PermanentMember")"><i class="fas fa-address-book"></i> <span class="menu-text">Members</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Content Management <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("LeadershipMessages", "ContentManagement")"><i class="fas fa-comments"></i> <span class="menu-text">Leadership Messages</span></a></li>
+                            <li><a href="@Url.Action("ElectedCandidates", "ContentManagement")"><i class="fas fa-vote-yea"></i> <span class="menu-text">Elected Candidates</span></a></li>
+                            <li><a href="@Url.Action("PreviousCandidates", "ContentManagement")"><i class="fas fa-history"></i> <span class="menu-text">Previous Candidates</span></a></li>
+                        </ul>
+                    </li>
+                }
+                @if (roles.Contains("Admin")) {
+                    <li><a href="@Url.Action("ListUsers", "UserManagement")" class="@(roles.Contains("Admin") ? "active" : "")">
+                        <i class="fas fa-users"></i>
+                        <span class="menu-text">Admin</span>
+                    </a></li>
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Notice Management <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("AllNotices", "Notice")"><i class="fas fa-list"></i> <span class="menu-text">All Notices</span></a></li>
+                            <li><a href="@Url.Action("PublicList", "Notice")"><i class="fas fa-eye"></i> <span class="menu-text">Published Notices</span></a></li>
+                        </ul>
+                    </li>
+                }
+                @if (roles.Contains("Member")) {
+                    <li><a href="@Url.Action("Member", "Dashboard")" class="@(roles.Contains("Member") ? "active" : "")">
+                        <i class="fas fa-user"></i>
+                        <span class="menu-text">Member</span>
+                    </a></li>
+                }
+                @if (roles.Contains("President")) {
+                    <li><a href="@Url.Action("President", "Dashboard")" class="@(roles.Contains("President") ? "active" : "")">
+                        <i class="fas fa-crown"></i>
+                        <span class="menu-text">President</span>
+                    </a></li>
+                }
+                @if (roles.Contains("Secretary")) {
+                    <li><a href="@Url.Action("Secretary", "Dashboard")" class="@(roles.Contains("Secretary") ? "active" : "")">
+                        <i class="fas fa-user-graduate"></i>
+                        <span class="menu-text">Secretary</span>
+                    </a></li>
+                    <li class="sidebar-section sidebar-dropdown-parent">
+                        <a href="#" class="sidebar-dropdown-toggle" onclick="toggleSidebarDropdown(event)">
+                            <span>Notice Management <i class="fas fa-chevron-down ms-1"></i></span>
+                        </a>
+                        <ul class="sidebar-dropdown" style="display:none;">
+                            <li><a href="@Url.Action("SecretaryList", "Notice")"><i class="fas fa-clock"></i> <span class="menu-text">Pending Approvals</span></a></li>
+                            <li><a href="@Url.Action("PublicList", "Notice")"><i class="fas fa-eye"></i> <span class="menu-text">Published Notices</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-section">
+                        <a href="@Url.Action("Report", "Donation")">
+                            <i class="fas fa-donate"></i>
+                            <span class="menu-text">Donations</span>
+                        </a>
+                    </li>
+                }
+>>>>>>> Stashed changes
             </ul>
         </nav>
         <!-- Mobile overlay for sidebar -->
@@ -207,6 +617,7 @@
                 </div>
             </div>
             <!-- Main Content -->
+<<<<<<< Updated upstream
             <div class="main-content">
                 @* Role-based Quick Actions *@
                 <div class="quick-actions mb-4">
@@ -254,6 +665,9 @@
                         </div>
                     </div>
                 </div>
+=======
+            <div class="main-content" style="padding: 0.5rem;">
+>>>>>>> Stashed changes
                 @RenderBody()
             </div>
 
@@ -370,6 +784,91 @@ document.addEventListener('click', function(event) {
     }
 });
 
+// Enhanced sidebar dropdown toggle functionality with smooth scrolling
+function toggleSidebarDropdown(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const dropdownToggle = event.currentTarget;
+    const dropdown = dropdownToggle.nextElementSibling;
+    const chevronIcon = dropdownToggle.querySelector('i');
+    
+    // Close all other dropdowns with smooth animation
+    const allDropdowns = document.querySelectorAll('.sidebar-dropdown');
+    const allToggles = document.querySelectorAll('.sidebar-dropdown-toggle');
+    
+    allDropdowns.forEach(function(dd) {
+        if (dd !== dropdown) {
+            dd.style.display = 'none';
+            dd.style.animation = 'none';
+        }
+    });
+    
+    allToggles.forEach(function(toggle) {
+        if (toggle !== dropdownToggle) {
+            toggle.classList.remove('active');
+            const icon = toggle.querySelector('i');
+            if (icon) {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    });
+    
+    // Toggle current dropdown with smooth animation
+    if (dropdown.style.display === 'block') {
+        dropdown.style.animation = 'slideUp 0.3s ease-out forwards';
+        setTimeout(() => {
+            dropdown.style.display = 'none';
+        }, 300);
+        dropdownToggle.classList.remove('active');
+        if (chevronIcon) {
+            chevronIcon.style.transform = 'rotate(0deg)';
+        }
+    } else {
+        dropdown.style.display = 'block';
+        dropdown.style.animation = 'slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        dropdownToggle.classList.add('active');
+        if (chevronIcon) {
+            chevronIcon.style.transform = 'rotate(180deg)';
+        }
+        
+        // Smooth scroll to dropdown if it's near the bottom
+        setTimeout(() => {
+            const sidebar = document.getElementById('sidebar');
+            const dropdownRect = dropdown.getBoundingClientRect();
+            const sidebarRect = sidebar.getBoundingClientRect();
+            
+            if (dropdownRect.bottom > sidebarRect.bottom - 50) {
+                sidebar.scrollTo({
+                    top: sidebar.scrollTop + (dropdownRect.bottom - sidebarRect.bottom + 50),
+                    behavior: 'smooth'
+                });
+            }
+        }, 100);
+    }
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(event) {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar && !sidebar.contains(event.target)) {
+        const allDropdowns = document.querySelectorAll('.sidebar-dropdown');
+        const allToggles = document.querySelectorAll('.sidebar-dropdown-toggle');
+        
+        allDropdowns.forEach(function(dropdown) {
+            dropdown.style.display = 'none';
+        });
+        
+        allToggles.forEach(function(toggle) {
+            toggle.classList.remove('active');
+            const icon = toggle.querySelector('i');
+            if (icon) {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        });
+    }
+});
+
 // Theme toggle
 function toggleTheme() {
     document.body.classList.toggle('dark-theme');
@@ -378,6 +877,49 @@ function toggleTheme() {
     } else {
         localStorage.setItem('theme', 'light');
     }
+}
+
+// Enhanced sidebar scrolling functionality
+function enhanceSidebarScrolling() {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+
+    // Add momentum scrolling for better mobile experience
+    sidebar.style.webkitOverflowScrolling = 'touch';
+    
+    // Smooth scroll to top when clicking on sidebar title
+    const sidebarTitle = sidebar.querySelector('.sidebar-title');
+    if (sidebarTitle) {
+        sidebarTitle.style.cursor = 'pointer';
+        sidebarTitle.addEventListener('click', function() {
+            sidebar.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // Add scroll indicators
+    let isScrolling = false;
+    sidebar.addEventListener('scroll', function() {
+        if (!isScrolling) {
+            window.requestAnimationFrame(function() {
+                const scrollTop = sidebar.scrollTop;
+                const scrollHeight = sidebar.scrollHeight;
+                const clientHeight = sidebar.clientHeight;
+                
+                // Add subtle shadow when scrolled
+                if (scrollTop > 10) {
+                    sidebar.style.boxShadow = '2px 0 15px rgba(0,0,0,0.15)';
+                } else {
+                    sidebar.style.boxShadow = '2px 0 10px rgba(0,0,0,0.1)';
+                }
+                
+                isScrolling = false;
+            });
+            isScrolling = true;
+        }
+    });
 }
 
 // Load saved theme on page load
@@ -396,6 +938,9 @@ window.onload = function() {
             mainbar.classList.add('collapsed');
         }
     }
+    
+    // Enhance sidebar scrolling
+    enhanceSidebarScrolling();
 }
 
 // Save sidebar state when toggled

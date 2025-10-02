@@ -153,21 +153,27 @@
             </div>
         }
         <form asp-action="Login" method="post">
+<<<<<<< Updated upstream
             <input asp-for="Email" class="form-control" placeholder="Email address" />
+=======
+            <input asp-for="Email" class="form-control" placeholder="Email or Employee ID (e.g., EMP0001)" />
+>>>>>>> Stashed changes
             <span asp-validation-for="Email" class="field-validation-error"></span>
+           
             <input asp-for="Password" class="form-control" placeholder="Password" type="password" />
             <span asp-validation-for="Password" class="field-validation-error"></span>
+           
             <button type="submit" class="btn btn-login">Log In</button>
         </form>
         <div style="text-align: center; margin-top: 10px;">
             <a href="@Url.Action("ForgotPassword", "Account")" style="color: #1877f2; text-decoration: none; font-size: 0.9rem;">Forgot Password?</a>
         </div>
-        <form asp-controller="Account" asp-action="ExternalLogin" method="post">
+        @* <form asp-controller="Account" asp-action="ExternalLogin" method="post">
             <input type="hidden" name="provider" value="Google" />
             <button type="submit" class="btn-google">
                 <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" style="width:22px; height:22px;">Sign in with Google
             </button>
-        </form>
+        </form> *@
         <a href="@Url.Action("Register", "Account")" class="fb-register-link">Create new account</a>
     </div>
 </div>

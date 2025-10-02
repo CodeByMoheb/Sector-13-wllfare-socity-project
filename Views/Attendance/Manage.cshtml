@@ -1,0 +1,363 @@
+@model IEnumerable<Attendance>
+@{
+    ViewData["Title"] = "Daily Attendance Management";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-calendar-day me-2"></i>Daily Attendance Management
+                    </h6>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-info me-2">@ViewBag.Date.ToString("dd MMM yyyy")</span>
+                        <a href="@Url.Action("Manage", "Attendance", new { date = ViewBag.Date.AddDays(-1) })" class="btn btn-sm btn-outline-secondary me-1">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        <a href="@Url.Action("Manage", "Attendance", new { date = ViewBag.Date.AddDays(1) })" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Filters -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <form method="get" class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" name="date" class="form-control" value="@ViewBag.Date.ToString("yyyy-MM-dd")" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Employee</label>
+                                    <select name="employeeId" class="form-select">
+                                        <option value="">All Employees</option>
+                                        @foreach (var emp in ViewBag.Employees as List<Employee>)
+                                        {
+                                            @if (ViewBag.SelectedEmployeeId == emp.Id)
+                                            {
+                                                <option value="@emp.Id" selected>@emp.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@emp.Id">@emp.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Status</label>
+                                    <select name="status" class="form-select">
+                                        <option value="">All Status</option>
+                                        @if (ViewBag.SelectedStatus == "Present")
+                                        {
+                                            <option value="Present" selected>Present</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Present">Present</option>
+                                        }
+                                        @if (ViewBag.SelectedStatus == "Absent")
+                                        {
+                                            <option value="Absent" selected>Absent</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Absent">Absent</option>
+                                        }
+                                        @if (ViewBag.SelectedStatus == "Late")
+                                        {
+                                            <option value="Late" selected>Late</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Late">Late</option>
+                                        }
+                                        @if (ViewBag.SelectedStatus == "On-time")
+                                        {
+                                            <option value="On-time" selected>On-time</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="On-time">On-time</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">&nbsp;</label>
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search me-1"></i>Filter
+                                        </button>
+                                        <a href="@Url.Action("Manage", "Attendance")" class="btn btn-secondary">
+                                            <i class="fas fa-times me-1"></i>Clear
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Table -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Employee ID</th>
+                                    <th>Shift</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Total Hours</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    @foreach (var attendance in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2">
+                                                        @attendance.Employee.Name.Substring(0, 1).ToUpper()
+                                                    </div>
+                                                    <div>
+                                                        <strong>@attendance.Employee.Name</strong>
+                                                        <br><small class="text-muted">@attendance.Employee.Department</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>@attendance.Employee.EmployeeId</td>
+                                            <td>
+                                                @if (attendance.Employee.Shift != null)
+                                                {
+                                                    <span class="badge bg-info">@attendance.Employee.Shift.Name</span>
+                                                    <br><small class="text-muted">@string.Format("{0:hh\\:mm}", attendance.Employee.Shift.StartTime) - @string.Format("{0:hh\\:mm}", attendance.Employee.Shift.EndTime)</small>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">No Shift</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (attendance.CheckInTime.HasValue)
+                                                {
+                                                    <span class="text-success">@attendance.CheckInTime.Value.ToString("HH:mm")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">Not Checked In</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (attendance.CheckOutTime.HasValue)
+                                                {
+                                                    <span class="text-warning">@attendance.CheckOutTime.Value.ToString("HH:mm")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">Not Checked Out</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (attendance.TotalHours.HasValue)
+                                                {
+                                                    <span class="badge bg-success">@attendance.TotalHours.Value.ToString("F1")h</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @{
+                                                    var statusClass = attendance.Status switch
+                                                    {
+                                                        "Present" => "bg-success",
+                                                        "Absent" => "bg-danger",
+                                                        "Late" => "bg-warning",
+                                                        "On-time" => "bg-info",
+                                                        _ => "bg-secondary"
+                                                    };
+                                                }
+                                                <span class="badge @statusClass">@attendance.Status</span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="editAttendance(@attendance.AttendanceId)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-info" onclick="viewDetails(@attendance.AttendanceId)">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted py-4">
+                                            <i class="fas fa-calendar-times fa-3x mb-3"></i>
+                                            <br>No attendance records found for @ViewBag.Date.ToString("dd MMM yyyy")
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Summary Cards -->
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Present</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Count(a => a.Status == "Present" || a.Status == "On-time")</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card border-left-danger shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Absent</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Count(a => a.Status == "Absent")</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-times-circle fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Late</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Count(a => a.Status == "Late")</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Hours</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Where(a => a.TotalHours.HasValue).Sum(a => a.TotalHours.Value).ToString("F1")h</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Attendance Modal -->
+<div class="modal fade" id="editAttendanceModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Attendance</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editAttendanceForm">
+                    <input type="hidden" id="editAttendanceId" />
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select id="editStatus" class="form-select">
+                            <option value="Present">Present</option>
+                            <option value="Absent">Absent</option>
+                            <option value="Late">Late</option>
+                            <option value="On-time">On-time</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Remarks</label>
+                        <textarea id="editRemarks" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveAttendance()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function editAttendance(attendanceId) {
+            $('#editAttendanceId').val(attendanceId);
+            $('#editAttendanceModal').modal('show');
+        }
+
+        function viewDetails(attendanceId) {
+            // TODO: Implement view details functionality
+            alert('View details for attendance ID: ' + attendanceId);
+        }
+
+        function saveAttendance() {
+            var attendanceId = $('#editAttendanceId').val();
+            var status = $('#editStatus').val();
+            var remarks = $('#editRemarks').val();
+
+            $.ajax({
+                url: '/Attendance/UpdateStatus',
+                type: 'POST',
+                data: {
+                    attendanceId: attendanceId,
+                    status: status,
+                    remarks: remarks,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#editAttendanceModal').modal('hide');
+                        location.reload();
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('An error occurred while updating attendance.');
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-15T00:00:00.000Z" agent="5.0" version="24.7.17" etag="draw.io">
+  <diagram name="Level 2 - Process 6.0 Notice Management" id="level-2-process-6">
+    <mxGraphModel dx="1422" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="2nd Level Notice Management DFD - 6.0" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="350" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- External Entities -->
+        <!-- Secretary -->
+        <mxCell id="secretary" value="Secretary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Manager -->
+        <mxCell id="manager" value="Manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Member -->
+        <mxCell id="member" value="Member" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="750" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Public -->
+        <mxCell id="public" value="Public" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="750" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-processes -->
+        <!-- 6.1 Notice Creation -->
+        <mxCell id="process61" value="6.1&#xa;&#xa;Notice Creation" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="230" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 6.2 Notice Approval -->
+        <mxCell id="process62" value="6.2&#xa;&#xa;Notice Approval" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="150" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 6.3 Notice Publishing -->
+        <mxCell id="process63" value="6.3&#xa;&#xa;Notice Publishing" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="530" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 6.4 Notice Distribution -->
+        <mxCell id="process64" value="6.4&#xa;&#xa;Notice Distribution" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="580" y="200" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 6.5 Notice Archive -->
+        <mxCell id="process65" value="6.5&#xa;&#xa;Notice Archive" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="320" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Data Stores -->
+        <!-- Notice Database -->
+        <mxCell id="ds1" value="Notice Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="500" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Archive Database -->
+        <mxCell id="ds2" value="Archive Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="480" y="500" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Data Flows -->
+        <!-- Secretary to Creation -->
+        <mxCell id="secretary-creation" edge="1" parent="1" source="secretary" target="process61">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Manager to Approval -->
+        <mxCell id="manager-approval" edge="1" parent="1" source="manager" target="process62">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Inter-process flows -->
+        <mxCell id="creation-approval" edge="1" parent="1" source="process61" target="process62">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="approval-publishing" edge="1" parent="1" source="process62" target="process63">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="publishing-distribution" edge="1" parent="1" source="process63" target="process64">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="approval-archive" edge="1" parent="1" source="process62" target="process65">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Distribution to external entities -->
+        <mxCell id="distribution-member" edge="1" parent="1" source="process64" target="member">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="distribution-public" edge="1" parent="1" source="process64" target="public">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Database interactions -->
+        <mxCell id="creation-notice-db" edge="1" parent="1" source="process61" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="approval-notice-db" edge="1" parent="1" source="process62" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="publishing-notice-db" edge="1" parent="1" source="process63" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="distribution-notice-db" edge="1" parent="1" source="process64" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="archive-archive-db" edge="1" parent="1" source="process65" target="ds2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Return flows -->
+        <mxCell id="creation-return" edge="1" parent="1" source="process61" target="secretary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="approval-return" edge="1" parent="1" source="process62" target="manager">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="member-feedback" edge="1" parent="1" source="member" target="process64">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="public-feedback" edge="1" parent="1" source="public" target="process64">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

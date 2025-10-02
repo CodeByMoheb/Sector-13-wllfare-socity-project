@@ -1,0 +1,238 @@
+@model List<Attendance>
+@{
+    ViewData["Title"] = "My Attendance";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-secondary">
+                        <i class="fas fa-history me-2"></i>My Attendance History
+                    </h6>
+                    <div>
+                        <button class="btn btn-outline-primary btn-sm me-2" type="button" data-bs-toggle="collapse" data-bs-target="#myAttendanceFilters" aria-expanded="false" aria-controls="myAttendanceFilters">
+                            <i class="fas fa-filter me-1"></i>Filters
+                        </button>
+                        <span class="badge bg-info">@ViewBag.Employee?.EmployeeId</span>
+                        <button type="button" class="btn btn-outline-secondary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                            <i class="fas fa-key me-1"></i>Change Password
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                    }
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                    }
+                    @if (TempData["PasswordChangeStatus"] != null)
+                    {
+                        <div class="alert alert-info small">@TempData["PasswordChangeStatus"]</div>
+                    }
+                    <!-- Collapsible Date Filter -->
+                    <div class="collapse mb-3" id="myAttendanceFilters">
+                        <form method="get" class="row g-3">
+                            <div class="col-md-4">
+                                <label for="from" class="form-label">From Date</label>
+                                <input type="date" class="form-control" id="from" name="from" value="@ViewBag.From.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="to" class="form-label">To Date</label>
+                                <input type="date" class="form-control" id="to" name="to" value="@ViewBag.To.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="fas fa-filter me-1"></i>Filter
+                                </button>
+                                <a href="@Url.Action("MyAttendance")" class="btn btn-outline-secondary">
+                                    <i class="fas fa-undo me-1"></i>Reset
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                    @if (Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle w-100" style="min-width: 700px;">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col" class="text-nowrap">Date</th>
+                                        <th scope="col" class="text-nowrap">Check In</th>
+                                        <th scope="col" class="text-nowrap">Check Out</th>
+                                        <th scope="col" class="text-nowrap">Status</th>
+                                        <th scope="col" class="text-nowrap">Total Hours</th>
+                                        <th scope="col" class="text-nowrap">Location</th>
+                                        <th scope="col" class="text-nowrap">Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var attendance in Model)
+                                    {
+                                        <tr class="@(attendance.Status == "Late" ? "table-warning" : attendance.Status == "Absent" ? "table-danger" : "table-success")">
+                                            <td>@attendance.Date.ToString("dd/MM/yyyy")</td>
+                                            <td>
+                                                @if (attendance.CheckInTime.HasValue)
+                                                {
+                                                    <span class="badge bg-success">@attendance.CheckInTime.Value.ToString("HH:mm:ss")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (attendance.CheckOutTime.HasValue)
+                                                {
+                                                    <span class="badge bg-danger">@attendance.CheckOutTime.Value.ToString("HH:mm:ss")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <span class="badge @(attendance.Status == "Late" ? "bg-warning" : 
+                                                                   attendance.Status == "Absent" ? "bg-danger" : 
+                                                                   attendance.Status == "On-time" ? "bg-success" : "bg-primary")">
+                                                    @attendance.Status
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if (attendance.TotalHours.HasValue)
+                                                {
+                                                    <span class="badge bg-info">@attendance.TotalHours.Value hours</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(attendance.Location))
+                                                {
+                                                    <small class="text-muted">@attendance.Location</small>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(attendance.Remarks))
+                                                {
+                                                    <small>@attendance.Remarks</small>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body text-center">
+                                        <h5>@Model.Count(a => a.Status == "Present" || a.Status == "On-time" || a.Status == "Late")</h5>
+                                        <small>Present Days</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body text-center">
+                                        <h5>@Model.Count(a => a.Status == "Late")</h5>
+                                        <small>Late Days</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-danger text-white">
+                                    <div class="card-body text-center">
+                                        <h5>@Model.Count(a => a.Status == "Absent")</h5>
+                                        <small>Absent Days</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-info text-white">
+                                    <div class="card-body text-center">
+                                        <h5>@Model.Where(a => a.TotalHours.HasValue).Sum(a => a.TotalHours.Value).ToString("F1")</h5>
+                                        <small>Total Hours</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No attendance records found</h5>
+                            <p class="text-muted">No attendance records found for the selected date range.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordLabel"><i class="fas fa-key me-2"></i>Change Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="EmployeeAttendance" asp-action="ChangePassword" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="CurrentPassword" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="CurrentPassword" name="CurrentPassword" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="NewPassword" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="NewPassword" name="NewPassword" minlength="6" required />
+                        <div class="form-text">Use at least 6 characters with a mix of letters and numbers.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ConfirmPassword" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="ConfirmPassword" name="ConfirmPassword" minlength="6" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i>Update Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            // Auto-submit form when dates change
+            $('#from, #to').on('change', function () {
+                if ($('#from').val() && $('#to').val()) {
+                    $('form').submit();
+                }
+            });
+        });
+    </script>
+}

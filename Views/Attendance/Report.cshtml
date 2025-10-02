@@ -1,0 +1,202 @@
+@model IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.Attendance>
+
+@{
+    ViewData["Title"] = "Attendance Report";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0"><i class="fas fa-chart-bar"></i> Attendance Report</h4>
+                    <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#attendanceFilters" aria-expanded="false" aria-controls="attendanceFilters">
+                        <i class="fas fa-filter me-1"></i> Filters
+                    </button>
+                </div>
+                <div class="card-body">
+                    <!-- Collapsible Filter Form -->
+                    <div class="collapse mb-3" id="attendanceFilters">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Employee</label>
+                            <select name="employeeId" class="form-select">
+                                <option value="">All Employees</option>
+                                @foreach (var emp in ViewBag.Employees)
+                                {
+                                    if (ViewBag.EmployeeId == emp.Id)
+                                    {
+                                        <option value="@emp.Id" selected>
+                                            @emp.Name (@emp.EmployeeId)
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@emp.Id">
+                                            @emp.Name (@emp.EmployeeId)
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Category</label>
+                            <select name="category" class="form-select">
+                                <option value="">All Categories</option>
+                                @foreach (var cat in ViewBag.Categories)
+                                {
+                                    if (ViewBag.Department == cat)
+                                    {
+                                        <option value="@cat" selected>@cat</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@cat">@cat</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">From Date</label>
+                            <input type="date" name="from" class="form-control" value="@ViewBag.From.ToString("yyyy-MM-dd")" />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">To Date</label>
+                            <input type="date" name="to" class="form-control" value="@ViewBag.To.ToString("yyyy-MM-dd")" />
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Filter
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+
+                    <!-- Export Buttons -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <a href="@Url.Action("ExportReport", new { employeeId = ViewBag.EmployeeId, department = ViewBag.Department, from = ViewBag.From, to = ViewBag.To, format = "excel" })" 
+                               class="btn btn-success">
+                                <i class="fas fa-file-excel"></i> Export to Excel
+                            </a>
+                            <a href="@Url.Action("ExportReport", new { employeeId = ViewBag.EmployeeId, department = ViewBag.Department, from = ViewBag.From, to = ViewBag.To, format = "pdf" })" 
+                               class="btn btn-danger">
+                                <i class="fas fa-file-pdf"></i> Export to PDF
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Summary -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card bg-success text-white">
+                                <div class="card-body text-center">
+                                    <h5>@Model.Count(a => a.Status == "On-time" || a.Status == "Present")</h5>
+                                    <p class="mb-0">Present</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-warning text-white">
+                                <div class="card-body text-center">
+                                    <h5>@Model.Count(a => a.Status == "Late")</h5>
+                                    <p class="mb-0">Late</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-danger text-white">
+                                <div class="card-body text-center">
+                                    <h5>@Model.Count(a => a.Status == "Absent")</h5>
+                                    <p class="mb-0">Absent</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-info text-white">
+                                <div class="card-body text-center">
+                                    <h5>@Model.Count()</h5>
+                                    <p class="mb-0">Total Records</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Employee</th>
+                                    <th>Employee ID</th>
+                                    <th>Category</th>
+                                    <th>Shift</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Total Hours</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendance in Model.OrderByDescending(a => a.Date))
+                                {
+                                    <tr>
+                                        <td>@attendance.Date.ToString("dd MMM yyyy")</td>
+                                        <td>@attendance.Employee?.Name</td>
+                                        <td>@attendance.Employee?.EmployeeId</td>
+                                        <td>@attendance.Employee?.Department</td>
+                                        <td>@attendance.Employee?.Shift?.Name</td>
+                                        <td>@(attendance.CheckInTime?.ToString("HH:mm:ss") ?? "-")</td>
+                                        <td>@(attendance.CheckOutTime?.ToString("HH:mm:ss") ?? "-")</td>
+                                        <td>@(attendance.TotalHours?.ToString("F2") ?? "-")</td>
+                                        <td>
+                                            <span class="badge @(attendance.Status == "On-time" ? "bg-success" : 
+                                                             attendance.Status == "Late" ? "bg-warning" : 
+                                                             attendance.Status == "Present" ? "bg-info" : "bg-danger")">
+                                                @attendance.Status
+                                            </span>
+                                        </td>
+                                        <td>@(attendance.Location ?? "-")</td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", new { employeeId = attendance.EmployeeId, date = attendance.Date })" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if (!Model.Any())
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">No attendance records found</h5>
+                            <p class="text-muted">Try adjusting your filter criteria</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Auto-submit form when employee or category changes
+            $('select[name="employeeId"], select[name="category"]').change(function() {
+                $(this).closest('form').submit();
+            });
+        });
+    </script>
+} 

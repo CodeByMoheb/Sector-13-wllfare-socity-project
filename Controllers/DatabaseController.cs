@@ -110,6 +110,302 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 
             return View(userRoles);
         }
+<<<<<<< Updated upstream
+=======
+
+        [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SeedEmployeesToIdentity()
+        {
+            var messages = new List<string>();
+
+            // Ensure Member role exists
+            if (!await _roleManager.RoleExistsAsync("Member"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Member"));
+            }
+
+            var employees = await _context.Employees.ToListAsync();
+            int created = 0, updated = 0, skipped = 0;
+
+            foreach (var emp in employees)
+            {
+                var userName = emp.EmployeeId;
+                if (string.IsNullOrWhiteSpace(userName)) { skipped++; continue; }
+
+                var user = await _userManager.FindByNameAsync(userName);
+                if (user == null)
+                {
+                    var email = !string.IsNullOrWhiteSpace(emp.Email) ? emp.Email : $"{userName}@wfs-13.org";
+                    var newUser = new ApplicationUser
+                    {
+                        UserName = userName,
+                        Email = email,
+                        EmailConfirmed = true,
+                        PhoneNumber = string.IsNullOrWhiteSpace(emp.Phone) ? "0000000000" : emp.Phone,
+                        PhoneNumberConfirmed = !string.IsNullOrWhiteSpace(emp.Phone),
+                        Name = emp.Name
+                    };
+                    // Must satisfy Identity password policy: upper, lower, digit, non-alphanumeric
+                    var result = await _userManager.CreateAsync(newUser, "Emp@1234");
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(newUser, "Member");
+                        created++;
+                    }
+                    else
+                    {
+                        messages.Add($"❌ {userName}: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+                    }
+                }
+                else
+                {
+                    // Optionally update profile fields
+                    bool dirty = false;
+                    if (string.IsNullOrWhiteSpace(user.Name) && !string.IsNullOrWhiteSpace(emp.Name)) { user.Name = emp.Name; dirty = true; }
+                    if (string.IsNullOrWhiteSpace(user.Email) && !string.IsNullOrWhiteSpace(emp.Email)) { user.Email = emp.Email; user.EmailConfirmed = true; dirty = true; }
+                    if (dirty) { await _userManager.UpdateAsync(user); updated++; }
+                }
+            }
+
+            TempData["SeedSummary"] = $"Employees synced to Identity. Created: {created}, Updated: {updated}, Skipped: {skipped}. Default password: Emp@1234. Use EmployeeID as username at /Account/Login.";
+            return RedirectToAction("Index", "Employee");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetEmployeePasswords()
+        {
+            var users = await _userManager.Users
+                .Where(u => u.UserName != null && u.UserName.StartsWith("EMP"))
+                .ToListAsync();
+
+            int reset = 0, failed = 0;
+            var messages = new List<string>();
+
+            foreach (var user in users)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var res = await _userManager.ResetPasswordAsync(user, token, "Emp@1234");
+                if (res.Succeeded)
+                {
+                    reset++;
+                }
+                else
+                {
+                    failed++;
+                    messages.Add($"❌ {user.UserName}: {string.Join(", ", res.Errors.Select(e => e.Description))}");
+                }
+            }
+
+            TempData["SeedSummary"] = $"Employee passwords reset. Reset: {reset}, Failed: {failed}. New default: Emp@1234";
+            if (messages.Any()) TempData["SeedDetails"] = string.Join("; ", messages);
+            return RedirectToAction("Index", "Employee");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> TestSyncEmployees()
+        {
+            try
+            {
+                var messages = new List<string>();
+
+                // Ensure Member role exists
+                if (!await _roleManager.RoleExistsAsync("Member"))
+                {
+                    await _roleManager.CreateAsync(new IdentityRole("Member"));
+                    messages.Add("✅ Created Member role");
+                }
+
+                var employees = await _context.Employees.ToListAsync();
+                int created = 0, updated = 0, skipped = 0;
+
+                foreach (var emp in employees)
+                {
+                    var userName = emp.EmployeeId;
+                    if (string.IsNullOrWhiteSpace(userName)) { skipped++; continue; }
+
+                    var user = await _userManager.FindByNameAsync(userName);
+                    if (user == null)
+                    {
+                        var email = !string.IsNullOrWhiteSpace(emp.Email) ? emp.Email : $"{userName}@wfs-13.org";
+                        var newUser = new ApplicationUser
+                        {
+                            UserName = userName,
+                            Email = email,
+                            EmailConfirmed = true,
+                            PhoneNumber = string.IsNullOrWhiteSpace(emp.Phone) ? "0000000000" : emp.Phone,
+                            PhoneNumberConfirmed = !string.IsNullOrWhiteSpace(emp.Phone),
+                            Name = emp.Name
+                        };
+                        var result = await _userManager.CreateAsync(newUser, "Emp@1234");
+                        if (result.Succeeded)
+                        {
+                            await _userManager.AddToRoleAsync(newUser, "Member");
+                            created++;
+                            messages.Add($"✅ Created user: {userName}");
+                        }
+                        else
+                        {
+                            messages.Add($"❌ {userName}: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+                        }
+                    }
+                    else
+                    {
+                        updated++;
+                        messages.Add($"ℹ️ User already exists: {userName}");
+                    }
+                }
+
+                ViewBag.Messages = messages;
+                ViewBag.Summary = $"Sync completed. Created: {created}, Updated: {updated}, Skipped: {skipped}";
+                ViewBag.Success = true;
+                return View("SyncResult");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Error during sync: {ex.Message}";
+                ViewBag.Success = false;
+                return View("SyncResult");
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> TestResetEmployeePasswords()
+        {
+            try
+            {
+                var users = await _userManager.Users
+                    .Where(u => u.UserName != null && u.UserName.StartsWith("EMP"))
+                    .ToListAsync();
+
+                int reset = 0, failed = 0;
+                var messages = new List<string>();
+
+                foreach (var user in users)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var res = await _userManager.ResetPasswordAsync(user, token, "Emp@1234");
+                    if (res.Succeeded)
+                    {
+                        reset++;
+                        messages.Add($"✅ Reset password: {user.UserName}");
+                    }
+                    else
+                    {
+                        failed++;
+                        messages.Add($"❌ {user.UserName}: {string.Join(", ", res.Errors.Select(e => e.Description))}");
+                    }
+                }
+
+                ViewBag.Messages = messages;
+                ViewBag.Summary = $"Password reset completed. Reset: {reset}, Failed: {failed}.";
+                ViewBag.Success = failed == 0;
+                return View("SyncResult");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Error during reset: {ex.Message}";
+                ViewBag.Success = false;
+                return View("SyncResult");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SeedShifts()
+        {
+            try
+            {
+                var messages = new List<string>();
+                
+                // Check if shifts already exist
+                var existingShifts = await _context.Shifts.ToListAsync();
+                if (existingShifts.Any())
+                {
+                    messages.Add("⚠️ Shifts already exist. Updating existing shifts...");
+                    
+                    // Update existing shifts to ensure they are 8-hour shifts
+                    foreach (var shift in existingShifts)
+                    {
+                        switch (shift.Name)
+                        {
+                            case "Morning Shift":
+                                shift.StartTime = new TimeSpan(6, 0, 0);
+                                shift.EndTime = new TimeSpan(14, 0, 0);
+                                shift.Description = "6 AM to 2 PM (8 hours)";
+                                break;
+                            case "Afternoon Shift":
+                                shift.StartTime = new TimeSpan(14, 0, 0);
+                                shift.EndTime = new TimeSpan(22, 0, 0);
+                                shift.Description = "2 PM to 10 PM (8 hours)";
+                                break;
+                            case "Night Shift":
+                                shift.StartTime = new TimeSpan(22, 0, 0);
+                                shift.EndTime = new TimeSpan(6, 0, 0);
+                                shift.Description = "10 PM to 6 AM (8 hours)";
+                                break;
+                        }
+                        shift.UpdatedAt = DateTime.UtcNow;
+                    }
+                    await _context.SaveChangesAsync();
+                    messages.Add($"✅ Updated {existingShifts.Count} existing shifts");
+                }
+                else
+                {
+                    // Create new 8-hour shifts
+                    var shifts = new[]
+                    {
+                        new Shift 
+                        { 
+                            Name = "Morning Shift", 
+                            StartTime = new TimeSpan(6, 0, 0), 
+                            EndTime = new TimeSpan(14, 0, 0), 
+                            Description = "6 AM to 2 PM (8 hours)", 
+                            IsActive = true,
+                            CreatedAt = DateTime.UtcNow
+                        },
+                        new Shift 
+                        { 
+                            Name = "Afternoon Shift", 
+                            StartTime = new TimeSpan(14, 0, 0), 
+                            EndTime = new TimeSpan(22, 0, 0), 
+                            Description = "2 PM to 10 PM (8 hours)", 
+                            IsActive = true,
+                            CreatedAt = DateTime.UtcNow
+                        },
+                        new Shift 
+                        { 
+                            Name = "Night Shift", 
+                            StartTime = new TimeSpan(22, 0, 0), 
+                            EndTime = new TimeSpan(6, 0, 0), 
+                            Description = "10 PM to 6 AM (8 hours)", 
+                            IsActive = true,
+                            CreatedAt = DateTime.UtcNow
+                        }
+                    };
+
+                    _context.Shifts.AddRange(shifts);
+                    await _context.SaveChangesAsync();
+                    messages.Add($"✅ Created {shifts.Length} new 8-hour shifts");
+                }
+
+                ViewBag.Messages = messages;
+                ViewBag.Summary = "Shift seeding completed successfully!";
+                ViewBag.Success = true;
+                return View("SyncResult");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Error seeding shifts: {ex.Message}";
+                ViewBag.Success = false;
+                return View("SyncResult");
+            }
+        }
+>>>>>>> Stashed changes
     }
 
     public class UserRoleInfo

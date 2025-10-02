@@ -1,9 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 using Sector_13_Welfare_Society___Digital_Management_System.Models;
+using Sector_13_Welfare_Society___Digital_Management_System.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
 {
@@ -14,19 +19,22 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
+        private readonly ApplicationDbContext _context;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             IEmailService emailService,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _emailService = emailService;
             _configuration = configuration;
+            _context = context;
         }
 
         [HttpGet]
@@ -43,35 +51,149 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // Try to find user by email first, then by username
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null)
+                // First, check if this is an Employee ID login (format: EMP0001, EMP0002, etc.)
+                if (model.Email.StartsWith("EMP", StringComparison.OrdinalIgnoreCase))
                 {
-                    user = await _userManager.FindByNameAsync(model.Email);
-                }
+                    var employee = await _context.Employees
+                        .FirstOrDefaultAsync(e => e.EmployeeId == model.Email && e.IsActive);
 
-                if (user != null)
-                {
-                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
-                    if (result.Succeeded)
+                    if (employee != null && VerifyPassword(model.Password, employee.PasswordHash, employee.PasswordSalt))
                     {
-                        user.LastLoginTime = DateTime.Now;
-                        await _userManager.UpdateAsync(user);
-                        var roles = await _userManager.GetRolesAsync(user);
-                        
-                        // Redirect to role-specific dashboard
-                        if (roles.Contains("Admin"))
-                            return RedirectToAction("Admin", "Dashboard");
-                        else if (roles.Contains("President"))
-                            return RedirectToAction("President", "Dashboard");
-                        else if (roles.Contains("Secretary"))
-                            return RedirectToAction("Secretary", "Dashboard");
-                        else if (roles.Contains("Manager"))
-                            return RedirectToAction("Manager", "Dashboard");
-                        else if (roles.Contains("Member"))
-                            return RedirectToAction("Member", "Dashboard");
+                        // Create employee user in Identity system if not exists
+                        var employeeUser = await _userManager.FindByNameAsync(employee.EmployeeId);
+                        if (employeeUser == null)
+                        {
+                            employeeUser = new ApplicationUser
+                            {
+                                UserName = employee.EmployeeId,
+                                Email = employee.Email ?? $"{employee.EmployeeId}@company.local",
+                                Name = employee.Name,
+                                EmailConfirmed = true,
+                                PhoneNumber = employee.Phone ?? "",
+                                LastLoginTime = DateTime.Now
+                            };
+
+                            var createResult = await _userManager.CreateAsync(employeeUser, model.Password);
+                            if (createResult.Succeeded)
+                            {
+                                // Ensure Member role exists
+                                if (!await _roleManager.RoleExistsAsync("Member"))
+                                {
+                                    await _roleManager.CreateAsync(new IdentityRole("Member"));
+                                }
+                                
+                                var roleResult = await _userManager.AddToRoleAsync(employeeUser, "Member");
+                                if (!roleResult.Succeeded)
+                                {
+                                    ModelState.AddModelError(string.Empty, "Failed to assign role to employee.");
+                                    return View(model);
+                                }
+                            }
+                            else
+                            {
+                                foreach (var error in createResult.Errors)
+                                {
+                                    ModelState.AddModelError(string.Empty, error.Description);
+                                }
+                                return View(model);
+                            }
+                        }
                         else
-                            return RedirectToAction("Index", "Dashboard");
+                        {
+                            employeeUser.LastLoginTime = DateTime.Now;
+                            await _userManager.UpdateAsync(employeeUser);
+                            
+                            // Ensure user has Member role
+                            var userRoles = await _userManager.GetRolesAsync(employeeUser);
+                            if (!userRoles.Contains("Member"))
+                            {
+                                await _userManager.AddToRoleAsync(employeeUser, "Member");
+                            }
+                        }
+
+                        // Sign in the employee
+                        await _signInManager.SignInAsync(employeeUser, model.RememberMe);
+                        
+                        // Redirect to Member dashboard (which will show employee-specific content)
+                        return RedirectToAction("Member", "Dashboard");
+                    }
+                }
+                else
+                {
+                    // Normal member/admin login flow
+                    ApplicationUser? user = null;
+                    try
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[Login] Attempting to find user by email: {model.Email}");
+                        user = await _userManager.FindByEmailAsync(model.Email);
+                        System.Diagnostics.Debug.WriteLine($"[Login] Found user by email: {user?.UserName ?? "null"}");
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[Login] Multiple users with same email detected: {ex.Message}");
+                        
+                        // Multiple users with same email - find by username instead
+                        try
+                        {
+                            user = await _userManager.FindByNameAsync(model.Email);
+                            System.Diagnostics.Debug.WriteLine($"[Login] Found user by username: {user?.UserName ?? "null"}");
+                        }
+                        catch (Exception usernameEx)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[Login] Error finding by username: {usernameEx.Message}");
+                            
+                            // If both fail, try to get the first user with matching email using direct query
+                            try
+                            {
+                                user = await _context.Users
+                                    .Where(u => u.Email == model.Email || u.UserName == model.Email)
+                                    .FirstOrDefaultAsync();
+                                System.Diagnostics.Debug.WriteLine($"[Login] Found user by direct query: {user?.UserName ?? "null"}");
+                            }
+                            catch (Exception directEx)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"[Login] Error with direct query: {directEx.Message}");
+                            }
+                        }
+                    }
+                    
+                    if (user == null)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"[Login] No user found, trying username lookup for: {model.Email}");
+                        try
+                        {
+                            user = await _userManager.FindByNameAsync(model.Email);
+                            System.Diagnostics.Debug.WriteLine($"[Login] Username lookup result: {user?.UserName ?? "null"}");
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[Login] Username lookup failed: {ex.Message}");
+                        }
+                    }
+
+                    if (user != null)
+                    {
+                        var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
+                        if (result.Succeeded)
+                        {
+                            user.LastLoginTime = DateTime.Now;
+                            await _userManager.UpdateAsync(user);
+                            var roles = await _userManager.GetRolesAsync(user);
+                            
+                            // Redirect to role-specific dashboard
+                            if (roles.Contains("Admin"))
+                                return RedirectToAction("Admin", "Dashboard");
+                            else if (roles.Contains("President"))
+                                return RedirectToAction("President", "Dashboard");
+                            else if (roles.Contains("Secretary"))
+                                return RedirectToAction("Secretary", "Dashboard");
+                            else if (roles.Contains("Manager"))
+                                return RedirectToAction("Manager", "Dashboard");
+                            else if (roles.Contains("Member"))
+                                return RedirectToAction("Member", "Dashboard");
+                            else
+                                return RedirectToAction("Index", "Dashboard");
+                        }
                     }
                 }
                 
@@ -552,5 +674,104 @@ namespace Sector_13_Welfare_Society___Digital_Management_System.Controllers
                 return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email ?? string.Empty });
             }
         }
+<<<<<<< Updated upstream
+=======
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+            if (ModelState.IsValid)
+            {
+                // Get the information about the user from the external login provider
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return RedirectToAction(nameof(Login));
+                }
+
+                var user = new ApplicationUser 
+                { 
+                    UserName = model.Email, 
+                    Email = model.Email,
+                    EmailConfirmed = true,
+                    PhoneNumber = model.PhoneNumber,
+                    PhoneNumberConfirmed = true
+                };
+
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        // Add user to Member role by default
+                        await _userManager.AddToRoleAsync(user, "Member");
+                        
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                        return LocalRedirect("/Dashboard/Member");
+                    }
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied(string? returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> TestUserRoles()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Json(new { message = "User not found" });
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+
+            return Json(new 
+            { 
+                userName = user.UserName,
+                email = user.Email,
+                name = user.Name,
+                roles = roles,
+                claims = claims,
+                isAuthenticated = User.Identity.IsAuthenticated,
+                identityName = User.Identity.Name
+            });
+        }
+
+        // Password verification helper method
+        private bool VerifyPassword(string password, string storedHash, string storedSalt)
+        {
+            if (string.IsNullOrEmpty(storedHash) || string.IsNullOrEmpty(storedSalt))
+                return false;
+
+            using (var sha256 = SHA256.Create())
+            {
+                var combined = password + storedSalt;
+                var bytes = Encoding.UTF8.GetBytes(combined);
+                var hash = sha256.ComputeHash(bytes);
+                var computedHash = Convert.ToBase64String(hash);
+                return computedHash == storedHash;
+            }
+        }
+>>>>>>> Stashed changes
     }
 } 

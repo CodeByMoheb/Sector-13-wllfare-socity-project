@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-15T00:00:00.000Z" agent="5.0" version="24.7.17" etag="draw.io">
+  <diagram name="Level 2 - Process 8.0 Report Generation" id="level-2-process-8">
+    <mxGraphModel dx="1422" dy="754" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="2nd Level Report Generation DFD - 8.0" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="350" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- External Entities -->
+        <!-- Admin -->
+        <mxCell id="admin" value="Admin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Manager -->
+        <mxCell id="manager" value="Manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Secretary -->
+        <mxCell id="secretary" value="Secretary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="300" width="100" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-processes -->
+        <!-- 8.1 Data Collection -->
+        <mxCell id="process81" value="8.1&#xa;&#xa;Data Collection" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="230" y="120" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 8.2 Data Analysis -->
+        <mxCell id="process82" value="8.2&#xa;&#xa;Data Analysis" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="430" y="120" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 8.3 Report Formatting -->
+        <mxCell id="process83" value="8.3&#xa;&#xa;Report Formatting" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="630" y="120" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 8.4 Report Distribution -->
+        <mxCell id="process84" value="8.4&#xa;&#xa;Report Distribution" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="430" y="280" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 8.5 Report Archive -->
+        <mxCell id="process85" value="8.5&#xa;&#xa;Report Archive" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="230" y="350" width="120" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Data Stores -->
+        <!-- System Databases -->
+        <mxCell id="ds1" value="User Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="50" y="500" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds2" value="Member Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="180" y="500" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds3" value="Employee Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="310" y="500" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds4" value="Attendance Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="440" y="500" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds5" value="Donation Database" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="570" y="500" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ds6" value="Report Archive" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="700" y="500" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Data Flows -->
+        <!-- External entities to Data Collection -->
+        <mxCell id="admin-collection" edge="1" parent="1" source="admin" target="process81">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="manager-collection" edge="1" parent="1" source="manager" target="process81">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="secretary-collection" edge="1" parent="1" source="secretary" target="process81">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Inter-process flows -->
+        <mxCell id="collection-analysis" edge="1" parent="1" source="process81" target="process82">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="analysis-formatting" edge="1" parent="1" source="process82" target="process83">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="formatting-distribution" edge="1" parent="1" source="process83" target="process84">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="distribution-archive" edge="1" parent="1" source="process84" target="process85">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Data Collection to all databases -->
+        <mxCell id="collection-user-db" edge="1" parent="1" source="process81" target="ds1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="collection-member-db" edge="1" parent="1" source="process81" target="ds2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="collection-employee-db" edge="1" parent="1" source="process81" target="ds3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="collection-attendance-db" edge="1" parent="1" source="process81" target="ds4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="collection-donation-db" edge="1" parent="1" source="process81" target="ds5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Archive to Report Archive -->
+        <mxCell id="archive-report-db" edge="1" parent="1" source="process85" target="ds6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Return flows -->
+        <mxCell id="distribution-admin" edge="1" parent="1" source="process84" target="admin">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="distribution-manager" edge="1" parent="1" source="process84" target="manager">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="distribution-secretary" edge="1" parent="1" source="process84" target="secretary">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

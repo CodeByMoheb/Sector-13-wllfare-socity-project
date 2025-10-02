@@ -1,0 +1,230 @@
+@model Sector_13_Welfare_Society___Digital_Management_System.Models.Employee
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Add Employee";
+    Layout = "_DashboardLayout";
+    var roleList = ViewBag.RoleList as List<SelectListItem>;
+    var departmentList = ViewBag.DepartmentList as List<SelectListItem>;
+    var shiftList = ViewBag.ShiftList as List<SelectListItem>;
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0"><i class="fas fa-user-plus"></i> Add New Employee</h3>
+                </div>
+                <div class="card-body">
+                    @if (TempData["ValidationErrors"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> @TempData["ValidationErrors"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    
+                    <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+                    
+                    <form asp-action="Create" method="post" class="needs-validation" novalidate>
+                        
+                        <!-- Personal Information Section -->
+                        <div class="form-section mb-4">
+                            <h5 class="section-title mb-3"><i class="fas fa-user"></i> Personal Information</h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                    <input asp-for="Name" class="form-control" placeholder="Enter full name" required />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Email" class="form-label">Email Address</label>
+                                    <input asp-for="Email" type="email" class="form-control" placeholder="Enter email address" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Phone" class="form-label">Phone Number</label>
+                                    <input asp-for="Phone" class="form-control" placeholder="Enter phone number" />
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="JoiningDate" class="form-label">Joining Date <span class="text-danger">*</span></label>
+                                    <input asp-for="JoiningDate" class="form-control" type="date" required />
+                                    <span asp-validation-for="JoiningDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label asp-for="Address" class="form-label">Address</label>
+                                <textarea asp-for="Address" class="form-control" rows="3" placeholder="Enter full address"></textarea>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Job Information Section -->
+                        <div class="form-section mb-4">
+                            <h5 class="section-title mb-3"><i class="fas fa-briefcase"></i> Job Information</h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Role" class="form-label">Role/Position <span class="text-danger">*</span></label>
+                                    <select asp-for="Role" class="form-select" asp-items="roleList" required>
+                                        <option value="">-- Select Role --</option>
+                                    </select>
+                                    <span asp-validation-for="Role" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Department" class="form-label">Department <span class="text-danger">*</span></label>
+                                    <select asp-for="Department" class="form-select" asp-items="departmentList" required>
+                                        <option value="">-- Select Department --</option>
+                                    </select>
+                                    <span asp-validation-for="Department" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="BaseSalary" class="form-label">Base Salary (BDT) <span class="text-danger">*</span></label>
+                                    <input asp-for="BaseSalary" class="form-control" type="number" step="0.01" min="0" placeholder="Enter base salary" required />
+                                    <span asp-validation-for="BaseSalary" class="text-danger"></span>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="ShiftId" class="form-label">Work Shift</label>
+                                    <select asp-for="ShiftId" class="form-select" asp-items="shiftList">
+                                        <option value="">-- Select Shift (Optional) --</option>
+                                    </select>
+                                    <span asp-validation-for="ShiftId" class="text-danger"></span>
+                                    <small class="form-text text-muted">
+                                        All shifts are 8-hour shifts. If no shifts appear, click "Setup Shifts" button first.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status Information Section -->
+                        <div class="form-section mb-4">
+                            <h5 class="section-title mb-3"><i class="fas fa-toggle-on"></i> Status</h5>
+                            
+                            <div class="form-check">
+                                <input asp-for="IsActive" class="form-check-input" type="checkbox" checked />
+                                <label asp-for="IsActive" class="form-check-label">
+                                    Active Employee
+                                </label>
+                                <small class="form-text text-muted d-block">Check this to make the employee active and able to login</small>
+                            </div>
+                        </div>
+
+                        <!-- Login Information Notice -->
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-info-circle"></i> Login Information</h6>
+                            <p class="mb-0">
+                                <strong>Employee ID:</strong> Will be auto-generated (format: EMP0001, EMP0002, etc.)<br>
+                                <strong>Default Password:</strong> 123456<br>
+                                <small class="text-muted">Employee can login using Employee ID and default password. Password can be reset later if needed.</small>
+                            </p>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a class="btn btn-secondary" href="@Url.Action("Index")">
+                                <i class="fas fa-arrow-left"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Create Employee
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-section {
+        border-left: 4px solid #007bff;
+        padding-left: 15px;
+    }
+    
+    .section-title {
+        color: #007bff;
+        font-weight: 600;
+    }
+    
+    .form-label {
+        font-weight: 500;
+        color: #495057;
+    }
+    
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+    
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    
+    .alert-info {
+        background-color: #e7f3ff;
+        border-color: #b8daff;
+        color: #0c5460;
+    }
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            // Manual department selection only; no auto-mapping from role
+            
+            // Bootstrap form validation
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    var forms = document.getElementsByClassName('needs-validation');
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                console.log('Form validation failed');
+                            } else {
+                                console.log('Form validation passed - submitting...');
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+            
+            // Show validation summary if there are server-side errors
+            $(document).ready(function() {
+                var validationSummary = $('[data-valmsg-summary="true"]');
+                if (validationSummary.find('li').length > 0) {
+                    validationSummary.show();
+                }
+                
+                // Also check asp-validation-summary
+                var aspValidationSummary = $('div[asp-validation-summary]');
+                if (aspValidationSummary.find('li').length > 0) {
+                    aspValidationSummary.show();
+                }
+            });
+        });
+    </script>
+} 

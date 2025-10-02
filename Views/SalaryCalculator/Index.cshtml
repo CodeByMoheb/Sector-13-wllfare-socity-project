@@ -1,0 +1,177 @@
+@model IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.SalarySheetViewModel>
+@{
+    ViewData["Title"] = "Salary Calculator";
+    Layout = "_DashboardLayout";
+    int month = ViewBag.Month;
+    int year = ViewBag.Year;
+    var monthName = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month);
+}
+<style>
+@@media print {
+    @@page { size: A4; margin: 10mm; }
+    body * { visibility: hidden !important; }
+    .print-area, .print-area * { visibility: visible !important; }
+    .print-area { position: absolute; left: 0; top: 0; width: 100vw; background: #fff; z-index: 9999; }
+    .no-print, nav, .sidebar, .main-footer, .topbar, .sidebar-overlay { display: none !important; }
+    .salary-title, .salary-subtitle { display: block !important; }
+}
+.salary-title { font-size: 1.6rem; font-weight: 700; text-align: center; margin-bottom: 0.2em; }
+.salary-subtitle { font-size: 1.05rem; text-align: center; margin-bottom: 1.2em; }
+.salary-slip { border: 1px solid #e0e0e0; padding: 16px; margin-bottom: 24px; }
+</style>
+
+<div class="container mt-4">
+    <div class="card shadow p-4 mb-4">
+        <div class="salary-title print-only">উত্তরা সেক্টর ১৩ Salary Calculator
+</div>
+        <div class="salary-subtitle print-only">Salary Sheet - @monthName @year</div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <form method="get" class="d-flex align-items-center gap-2 no-print">
+                <label for="month" class="mb-0">Month:</label>
+                <select id="month" name="month" class="form-select d-inline w-auto mx-2">
+                    @for (int m = 1; m <= 12; m++)
+                    {
+                        string selected = m == month ? "selected" : "";
+                        @:<option value="@m" @selected>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(m)</option>
+                    }
+                </select>
+                <label for="year" class="mb-0">Year:</label>
+                <input type="number" id="year" name="year" value="@year" class="form-control d-inline w-auto mx-2" style="width:100px;" />
+                <button type="submit" class="btn btn-primary">Show</button>
+            </form>
+            <button class="btn btn-outline-primary no-print" onclick="printAllSalary()"><i class="fas fa-print"></i> Print All</button>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info text-center">No salary data available for this month.</div>
+        }
+        else
+        {
+            <div class="table-responsive print-area" id="salaryTableArea">
+                <table class="table table-bordered table-striped align-middle text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Joining Date</th>
+                            <th>Base Salary</th>
+                            <th>Daily Salary</th>
+                            <th>Attendance</th>
+                            <th>House Rent (30%)</th>
+                            <th>Medical (5%)</th>
+                            <th>Conveyance (5%)</th>
+                            <th>Gross (40%)</th>
+                            <th>Net Salary</th>
+                            <th class="no-print">Print</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @{
+                        int i = 1;
+                        decimal totalNet = 0;
+                    }
+                    @foreach (var emp in Model)
+                    {
+                        // Use controller values: DailyWage and WorkingDays; recompute earned base
+                        decimal daily = emp.DailyWage;
+                        int attendance = emp.WorkingDays;
+                        decimal earnedBase = Math.Round(daily * attendance, 2);
+                        decimal mainBase = emp.BaseSalary;
+                        decimal house = Math.Round(mainBase * 0.30m, 2);
+                        decimal medical = Math.Round(mainBase * 0.05m, 2);
+                        decimal convey = Math.Round(mainBase * 0.05m, 2);
+                        decimal gross40 = house + medical + convey; // 40% from main base
+                        decimal net = Math.Round(earnedBase + gross40, 2);
+                        totalNet += net;
+                        <tr>
+                            <td>@i</td>
+                            <td>@emp.Name</td>
+                            <td>@emp.Role</td>
+                            <td>@emp.JoiningDate.ToShortDateString()</td>
+                            <td>@emp.BaseSalary.ToString("N2")</td>
+                            <td>@daily.ToString("N2")</td>
+                            <td>@attendance</td>
+                            <td>@house.ToString("N2")</td>
+                            <td>@medical.ToString("N2")</td>
+                            <td>@convey.ToString("N2")</td>
+                            <td class="fw-bold">@gross40.ToString("N2")</td>
+                            <td class="table-success fw-bold">@net.ToString("N2")</td>
+                            <td class="no-print">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="printSlip(@emp.EmployeeId)"><i class="fas fa-print"></i></button>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-secondary">
+                            <th colspan="9" class="text-end">Total Net Salary:</th>
+                            <th>@totalNet.ToString("N2")</th>
+                            <th class="no-print"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            @foreach (var emp in Model)
+            {
+                decimal daily = emp.DailyWage;
+                int attendance = emp.WorkingDays;
+                decimal earnedBase = Math.Round(daily * attendance, 2);
+                decimal mainBase = emp.BaseSalary;
+                decimal house = Math.Round(mainBase * 0.30m, 2);
+                decimal medical = Math.Round(mainBase * 0.05m, 2);
+                decimal convey = Math.Round(mainBase * 0.05m, 2);
+                decimal gross40 = house + medical + convey; // 40% from main base
+                decimal net = Math.Round(earnedBase + gross40, 2);
+                <div id="slip-@emp.EmployeeId" class="salary-slip print-area" style="display:none;">
+                    <div class="salary-title">উত্তরা সেক্টর ১৩</div>
+                    <div class="salary-subtitle">Salary Slip - @monthName @year</div>
+                    <table class="table table-bordered">
+                        <tr><th>Name</th><td>@emp.Name</td></tr>
+                        <tr><th>Role</th><td>@emp.Role</td></tr>
+                        <tr><th>Joining Date</th><td>@emp.JoiningDate.ToShortDateString()</td></tr>
+                        <tr><th>Daily Salary</th><td>@daily.ToString("N2")</td></tr>
+                        <tr><th>Attendance</th><td>@attendance</td></tr>
+                        <tr class="table-light"><th>Final Base (daily×att)</th><td>@earnedBase.ToString("N2")</td></tr>
+                        <tr><th>House Rent (30%)</th><td>@house.ToString("N2")</td></tr>
+                        <tr><th>Medical (5%)</th><td>@medical.ToString("N2")</td></tr>
+                        <tr><th>Conveyance (5%)</th><td>@convey.ToString("N2")</td></tr>
+                        <tr class="table-light"><th>Gross (40%)</th><td>@gross40.ToString("N2")</td></tr>
+                        <tr class="table-success"><th>Net Salary</th><td>@net.ToString("N2")</td></tr>
+                    </table>
+                </div>
+            }
+
+            <nav class="no-print mt-3">
+                <ul class="pagination pagination-sm justify-content-center flex-wrap">
+                    <li class="page-item disabled"><span class="page-link">Prev</span></li>
+                    <li class="page-item active"><span class="page-link">1</span></li>
+                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                </ul>
+            </nav>
+        }
+    </div>
+</div>
+
+<script>
+function printAllSalary() {
+    document.querySelectorAll('.salary-slip').forEach(e => e.style.display = 'none');
+    document.getElementById('salaryTableArea').style.display = 'block';
+    window.print();
+}
+function printSlip(empId) {
+    document.getElementById('salaryTableArea').style.display = 'none';
+    document.querySelectorAll('.salary-slip').forEach(e => e.style.display = 'none');
+    var slip = document.getElementById('slip-' + empId);
+    if (slip) {
+        slip.style.display = 'block';
+        window.print();
+        slip.style.display = 'none';
+        document.getElementById('salaryTableArea').style.display = 'block';
+    }
+}
+</script>
