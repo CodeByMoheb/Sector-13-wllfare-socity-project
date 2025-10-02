@@ -1,10 +1,10 @@
+@model IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.PreviousCandidate>
 @{
     ViewData["Title"] = "পূর্বে নির্বাচিত সদস্যরা";
 }
 
 <style>
     .elected-candidates-content {
-      
         padding: 40px 0;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         min-height: 100vh;
@@ -106,7 +106,7 @@
 
     .members-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 30px;
         margin-bottom: 30px;
     }
@@ -220,7 +220,6 @@
 
     @@media (max-width: 768px) {
         .elected-candidates-content {
-           
             padding: 20px 0;
         }
         
@@ -332,6 +331,7 @@
         justify-content: center;
         flex-wrap: wrap;
     }
+    
     .group-header {
         display: inline-block;
         text-align: center;
@@ -346,6 +346,7 @@
         letter-spacing: 0.5px;
         border: 1px solid #b6e0fe;
     }
+    
     @@media (max-width: 768px) {
         .members-row {
             flex-direction: column;
@@ -357,210 +358,62 @@
 <div class="elected-candidates-content">
     <div class="container">
         <div class="page-header">
-            <h1>পূর্বে নির্বাচিত সদস্য  2000-2017</h1>
-            <p>সেক্টর ১৩ ওয়েলফেয়ার সোসাইটির পূর্বে নির্বাচিত সদস্যদের পরিচিতি</p>
+            
         </div>
 
-        <!-- Other Members Section -->
+        @if (Model != null && Model.Any())
+        {
+            <!-- Group candidates by term period -->
         <div class="members-section">
-            <h3 class="section-title">নির্বাহী কমিটির সদস্যগণ</h3>
+            <h3 class="section-title">পূর্বে নির্বাচিত সদস্যগণ</h3>
 
-            <!-- Group 1: Vice President & General Secretary -->
-            <div style="text-align:center;"><h4 class="group-header">সভাপতি ও সাধারণ সম্পাদক <br/> 2016-2017</h4></div>
+                @{
+                    var groupedCandidates = Model.GroupBy(c => c.TermPeriod).OrderByDescending(g => g.Key);
+                }
+
+                @foreach (var group in groupedCandidates)
+                {
+                    <div style="text-align:center;">
+                        <h4 class="group-header">সভাপতি ও সাধারণ সম্পাদক <br/> @group.Key</h4>
+            </div>
+
             <div class="members-row">
-                <!-- Vice President -->
+                        @foreach (var candidate in group)
+                        {
                 <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486165/p_14_16_xld5j1.png" alt="Vice President" class="member-image"
+                                @if (!string.IsNullOrEmpty(candidate.ImageUrl))
+                                {
+                                    <img src="@candidate.ImageUrl" alt="@candidate.Name" class="member-image"
                          onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">ব্রিগেঃ জেনারেল মোঃ জাহিদ হোসেন (অবঃ)</div>
-                    <div class="member-designation designation-vice-president">সভাপতি</div>
-                    <div class="member-details">01716834969</div>
+                                }
+                                else
+                                {
+                                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486165/p_14_16_xld5j1.png" alt="@candidate.Name" class="member-image"
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
+                                }
+                                <div class="member-name">@candidate.Name</div>
+                                <div class="member-designation designation-member">@candidate.Designation</div>
+                                @if (!string.IsNullOrEmpty(candidate.Phone))
+                                {
+                                    <div class="member-details">@candidate.Phone</div>
+                                }
                 </div>
-                <!-- General Secretary -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/S_16_ddijp5.png" alt="General Secretary" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name"> ইঞ্জিনিয়ার মাহফুজুর রহমান</div>
-                    <div class="member-designation designation-secretary"> সাধারণ সম্পাদক</div>
-                    <div class="member-details">01713049021</div>
+                        }
+            </div>
+                }
+            </div>
+        }
+        else
+        {
+            <!-- Fallback content if no dynamic data is available -->
+            <div class="members-section">
+                <h3 class="section-title">নির্বাহী কমিটির সদস্যগণ</h3>
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>No previous candidates found.</strong> Please add previous candidates through the management panel.
                 </div>
             </div>
-
-            <!-- Group 2: Treasurer & Member 1 -->
-             <div style="text-align:center;"><h4 class="group-header">সভাপতি ও সাধারণ সম্পাদক <br/> 2014-2015</h4></div>
-            <div class="members-row">
-                <!-- Treasurer -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486165/p_14_16_xld5j1.png" alt="Treasurer" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">ব্রিগেঃ জেনারেল মোঃ জাহিদ হোসেন (অবঃ)</div>
-                    <div class="member-designation designation-treasurer">সভাপতি </div>
-                    <div class="member-details">01716834969</div>
-                </div>
-                <!-- Member 1 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/S_6_8_12_14_nhfjdq.png" alt="Member 1" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">আলহাজ্ব মোঃ হারুন-অর রশিদ </div>
-                    <div class="member-designation designation-member">সাধারণ সম্পাদক</div>
-                    <div class="member-details">01712184623</div>
-                </div>
-            </div>
-
-            <!-- Group 3: Member 2 & Member 3 -->
-            <div style="text-align:center;"><h4 class="group-header">সভাপতি ও সাধারণ সম্পাদক <br/> 2012-2013</h4></div>
-            <div class="members-row">
-                <!-- Member 2 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486165/p_12_jfnchd.png" alt="Member 2" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">মোঃ আব্দুল লতিফ মন্ডল</div>
-                    <div class="member-designation designation-member">সভাপতি </div>
-                    <div class="member-details">01741330958</div>
-                </div>
-                <!-- Member 3 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/S_6_8_12_14_nhfjdq.png" alt="Member 3" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">আলহাজ্ব মোঃ হারুন-অর রশিদ </div>
-                    <div class="member-designation designation-member">সাধারণ সম্পাদক</div>
-                    <div class="member-details">01712184623</div>
-                </div>
-            </div>
-
-            <!-- Group 4: Member 4 & Member 5 -->
-            <div style="text-align:center;"><h4 class="group-header">সভাপতি ও সাধারণ সম্পাদক <br/> 2010-2011</h4></div>
-            <div class="members-row">
-                <!-- Member 4 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/p_8_10_kccfxh.png" alt="Member 4" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">ড. মোঃ শাহাদত আলী</div>
-                    <div class="member-designation designation-member">সভাপতি </div>
-                    <div class="member-details">01715782888</div>
-                </div>
-                <!-- Member 5 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/S_10_jtskgp.png" alt="Member 5" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name"> মোঃ ফজলুল হক</div>
-                    <div class="member-designation designation-member">সাধারণ সম্পাদক</div>
-                    <div class="member-details">01715408655</div>
-                </div>
-            </div>
-
-            <!-- Group 5: Member 6 & Member 7 -->
- <div style="text-align:center;"><h4 class="group-header">সভাপতি ও সাধারণ সম্পাদক <br/> 2008-2009</h4></div>
-            <div class="members-row">
-                <!-- Member 6 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/p_8_10_kccfxh.png" alt="Member 6" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">ড. মোঃ শাহাদত আলী</div>
-                    <div class="member-designation designation-member">সভাপতি </div>
-                    <div class="member-details">01715782888</div>
-                </div>
-                <!-- Member 7 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/S_6_8_12_14_nhfjdq.png" alt="Member 7" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">আলহাজ্ব মোঃ হারুন-অর রশিদ </div>
-                    <div class="member-designation designation-member">সাধারণ সম্পাদক</div>
-                    <div class="member-details">01712184623</div>
-                </div>
-            </div>
-
-            <!-- Group 6: Member 8 & Member 9 -->
-          <div style="text-align:center;"><h4 class="group-header">সভাপতি ও সাধারণ সম্পাদক <br/> 2006-2007</h4></div>
-            <div class="members-row">
-                <!-- Member 8 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486165/p_1_6_ezlvk5.png" alt="Member 8" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name"> মোঃ হুমায়ুন আলী রেজা</div>
-                    <div class="member-designation designation-member">সভাপতি </div>
-                    <div class="member-details">01199159693</div>
-                </div>
-                <!-- Member 9 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/S_6_8_12_14_nhfjdq.png" alt="Member 9" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">আলহাজ্ব মোঃ হারুন-অর রশিদ </div>
-                    <div class="member-designation designation-member">সাধারণ সম্পাদক</div>
-                    <div class="member-details">01712184623</div>
-                </div>
-            </div>
-
-            <!-- Group 7: Member 10 & Member 11 -->
- <div style="text-align:center;"><h4 class="group-header">সভাপতি ও সাধারণ সম্পাদক <br/> 2004-2005</h4></div>
-            <div class="members-row">
-                <!-- Member 10 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/p_2_4_jwa5ef.png" alt="Member 10" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">কাজী আবু তাহের</div>
-                    <div class="member-designation designation-member">সভাপতি </div>
-                    <div class="member-details">01713033133</div>
-                </div>
-                <!-- Member 11 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486165/S_4_ixy9yj.png" alt="Member 11" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">ডাঃ মোঃ ইদ্রিস আলী</div>
-                    <div class="member-designation designation-member">সাধারণ সম্পাদক </div>
-                    <div class="member-details">01827310298</div>
-                </div>
-            </div>
-
-
-           <!-- Group 7: Member 10 & Member 11 -->
- <div style="text-align:center;"><h4 class="group-header">সভাপতি ও সাধারণ সম্পাদক <br/> 2002-2003</h4></div>
-            <div class="members-row">
-                <!-- Member 10 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/p_2_4_jwa5ef.png" alt="Member 10" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">কাজী আবু তাহের</div>
-                    <div class="member-designation designation-member">সভাপতি </div>
-                    <div class="member-details">01713033133</div>
-                </div>
-                <!-- Member 11 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486165/S_2_mcpnwc.png" alt="Member 11" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name"> আসাফ -উদ্দৌলা</div>
-                    <div class="member-designation designation-member">সাধারণ সম্পাদক</div>
-                    <div class="member-details">01713000497</div>
-                </div>
-            </div>
-
-                       <!-- Group 7: Member 10 & Member 11 -->
- <div style="text-align:center;"><h4 class="group-header">সভাপতি ও সাধারণ সম্পাদক <br/> 2000-2001</h4></div>
-            <div class="members-row">
-                <!-- Member 10 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486165/p_1_6_ezlvk5.png" alt="Member 10" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name"> মোঃ হুমায়ুন আলী রেজা</div>
-                    <div class="member-designation designation-member">সভাপতি </div>
-                    <div class="member-details">01199159693</div>
-                </div>
-                <!-- Member 11 -->
-                <div class="member-card">
-                    <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752486166/S_1_evvy2d.png" alt="Member 11" class="member-image"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2MCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+Cjwvc3ZnPg=='">
-                    <div class="member-name">মরহুম জালাল আহমেদ</div>
-                    <div class="member-designation designation-member">সাধারণ সম্পাদক</div>
-                    <div class="member-details">XXXXXXXXXX</div>
-                </div>
-            </div>
-
-
-            <!-- Group 8: Member 12 (single) -->
-               
-                
-            </div>
-        </div>
+        }
     </div>
 </div>
 

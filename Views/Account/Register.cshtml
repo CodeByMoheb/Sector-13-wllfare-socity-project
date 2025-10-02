@@ -148,12 +148,12 @@
             <input type="hidden" name="SelectedRole" value="Member" />
             <button type="submit" class="btn btn-register">Sign Up</button>
         </form>
-        <form asp-controller="Account" asp-action="ExternalLogin" method="post">
+        @* <form asp-controller="Account" asp-action="ExternalLogin" method="post">
             <input type="hidden" name="provider" value="Google" />
             <button type="submit" class="btn-google">
                 <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" style="width:22px; height:22px;">Sign up with Google
             </button>
-        </form>
+        </form> *@
         <a href="@Url.Action("Login", "Account")" class="fb-login-link">Already have an account? Log In</a>
     </div>
 </div>

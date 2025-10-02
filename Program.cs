@@ -5,7 +5,6 @@ using Sector_13_Welfare_Society___Digital_Management_System.Models;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using Sector_13_Welfare_Society___Digital_Management_System.Models;
 using Sector_13_Welfare_Society___Digital_Management_System.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Localization;
@@ -32,6 +31,13 @@ builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 // Register Email Service
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+// Register Leave Management Service
+builder.Services.AddScoped<ILeaveManagementService, LeaveManagementService>();
+
+// Register Project and Donation Allocation Services
+builder.Services.AddScoped<IProjectManagementService, ProjectManagementService>();
+builder.Services.AddScoped<IDonationAllocationService, DonationAllocationService>();
+
 // Add localization services
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -54,9 +60,19 @@ builder.Services.AddRazorPages()
     .AddViewLocalization()
     .AddDataAnnotationsLocalization();
 
+// Register HttpClient factory for controllers/services needing outbound HTTP
+builder.Services.AddHttpClient();
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => 
 {
     options.SignIn.RequireConfirmedAccount = false;
+    
+    // Relax password requirements for employee accounts
+    options.Password.RequiredLength = 6;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();

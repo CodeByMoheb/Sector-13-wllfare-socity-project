@@ -1,3 +1,4 @@
+@model IEnumerable<Sector_13_Welfare_Society___Digital_Management_System.Models.LeadershipMessage>
 @{
     ViewData["Title"] = "Message of Chairman";
 }
@@ -366,74 +367,80 @@
     </div>
 </section>
 
-<!-- Chairman Intro Section -->
-<section class="chairman-intro">
-    <div class="chairman-container">
-        <!-- Left: Chairman Photo and Name -->
-        <div class="chairman-photo-section">
-            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752641792/pp_oigmrs.png"
-                alt="Brig Gen Md Zahid Hossain, PhD (Retd)" class="chairman-photo" />
-            <div class="chairman-name">Brig Gen Md Zahid Hossain, PhD (Retd)</div>
-            <div class="chairman-title"> <b class="text-success">President</b>
-                <br />Sector 13 Welfare Society
+@if (Model != null && Model.Any())
+{
+    @foreach (var message in Model)
+    {
+        <section class="chairman-intro">
+            <div class="chairman-container">
+                <!-- Left: Chairman Photo and Name -->
+                <div class="chairman-photo-section">
+                    @if (!string.IsNullOrEmpty(message.ImageUrl))
+                    {
+                        <img src="@message.ImageUrl" alt="@message.Name" class="chairman-photo" />
+                    }
+                    else
+                    {
+                        <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752641792/pp_oigmrs.png" alt="@message.Name" class="chairman-photo" />
+                    }
+                    <div class="chairman-name">@message.Name</div>
+                    <div class="chairman-title">
+                        <b class="text-success">@message.Designation</b>
+                        <br />Sector 13 Welfare Society
+                    </div>
+                </div>
+                <!-- Right: Message Intro -->
+                <div class="message-intro">
+                    <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                    <div class="greeting">Assalamu Alaikum and warm greetings,</div>
+                    <div class="intro-text">
+                        @Html.Raw(message.Message.Replace("\n", "<br>"))
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        @if (message != Model.Last())
+        {
+            <hr>
+        }
+    }
+}
+else
+{
+    <!-- Fallback content if no dynamic data is available -->
+    <section class="chairman-intro">
+        <div class="chairman-container">
+            <div class="chairman-photo-section">
+                <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752641792/pp_oigmrs.png"
+                    alt="Brig Gen Md Zahid Hossain, PhD (Retd)" class="chairman-photo" />
+                <div class="chairman-name">Brig Gen Md Zahid Hossain, PhD (Retd)</div>
+                <div class="chairman-title"> <b class="text-success">President</b>
+                    <br />Sector 13 Welfare Society
+                </div>
+            </div>
+            <div class="message-intro">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <div class="greeting">Assalamu Alaikum and warm greetings,</div>
+                <div class="intro-text">
+                    সেক্টর ১৩ ওয়েলফেয়ার সোসাইটির সভাপতি হিসেবে দায়িত্ব পালন করা আমার জন্য এক গর্বের বিষয় এবং একটি মহান
+                    দায়িত্বও বটে।
+                    আমাদের লক্ষ্য হলো একটি নিরাপদ, পরিচ্ছন্ন, সুপরিকল্পিত ও মানবিক সমাজ গঠন করা—যেখানে সকলে সম্মিলিতভাবে
+                    বসবাস করবেন এবং আধুনিক নাগরিক সুযোগ-সুবিধা উপভোগ করবেন। স্বচ্ছতা, স্বেচ্ছাসেবা ও সক্রিয় অংশগ্রহণের
+                    মাধ্যমে আমরা অংশগ্রহণমূলক উন্নয়নে বিশ্বাস করি।
+                    সেক্টর ১৩ একটি সচেতন ও সংগঠিত সমাজের প্রতিচ্ছবি, যা অন্যদের জন্য অনুকরণীয় হতে পারে। ঐক্য, সহমর্মিতা ও
+                    উদ্ভাবনের মাধ্যমে আমরা একটি উদাহরণ স্থাপন করতে পারি—এটি আমাদের বিশ্বাস।
+                    আসুন, আমরা সবাই মিলে সততা ও সম্মানের ভিত্তিতে একটি আদর্শ সমাজ গড়ে তুলি, যা গোটা দেশের জন্য অনুপ্রেরণার
+                    উৎস হবে। <br>
+
+                    <span style="font-style: italic; color: #6a4bbf;"> শুভেচ্ছান্তে, <br>
+                        ব্রিগেডিয়ার জেনারেল মোঃ জাহিদ হোসেন, পিএইচ.ডি (অব.)
+                    </span> <br>
+
+                    <b> সভাপতি, 
+                        সেক্টর ১৩ ওয়েলফেয়ার সোসাইটি </b>
+                </div>
             </div>
         </div>
-        <!-- Right: Message Intro -->
-        <div class="message-intro">
-            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-            <div class="greeting">Assalamu Alaikum and warm greetings,</div>
-            <div class="intro-text">
-                সেক্টর ১৩ ওয়েলফেয়ার সোসাইটির সভাপতি হিসেবে দায়িত্ব পালন করা আমার জন্য এক গর্বের বিষয় এবং একটি মহান
-                দায়িত্বও বটে।
-                আমাদের লক্ষ্য হলো একটি নিরাপদ, পরিচ্ছন্ন, সুপরিকল্পিত ও মানবিক সমাজ গঠন করা—যেখানে সকলে সম্মিলিতভাবে
-                বসবাস করবেন এবং আধুনিক নাগরিক সুযোগ-সুবিধা উপভোগ করবেন। স্বচ্ছতা, স্বেচ্ছাসেবা ও সক্রিয় অংশগ্রহণের
-                মাধ্যমে আমরা অংশগ্রহণমূলক উন্নয়নে বিশ্বাস করি।
-                সেক্টর ১৩ একটি সচেতন ও সংগঠিত সমাজের প্রতিচ্ছবি, যা অন্যদের জন্য অনুকরণীয় হতে পারে। ঐক্য, সহমর্মিতা ও
-                উদ্ভাবনের মাধ্যমে আমরা একটি উদাহরণ স্থাপন করতে পারি—এটি আমাদের বিশ্বাস।
-                আসুন, আমরা সবাই মিলে সততা ও সম্মানের ভিত্তিতে একটি আদর্শ সমাজ গড়ে তুলি, যা গোটা দেশের জন্য অনুপ্রেরণার
-                উৎস হবে। <br>
-
-                <span style="font-style: italic; color: #6a4bbf;"> শুভেচ্ছান্তে, <br>
-                    ব্রিগেডিয়ার জেনারেল মোঃ জাহিদ হোসেন, পিএইচ.ডি (অব.)
-                </span> <br>
-
-                <b> সভাপতি, 
-                    সেক্টর ১৩ ওয়েলফেয়ার সোসাইটি </b>
-            </div>
-        </div>
-    </div>
-</section>
-
-<hr>
-
-<section class="chairman-intro">
-    <div class="chairman-container">
-        <!-- Left: Chairman Photo and Name -->
-        <div class="chairman-photo-section">
-            <img src="https://res.cloudinary.com/ddl4hnmnz/image/upload/v1752468732/2_aa5u5c.jpg"
-                alt="Brig Gen Md Zahid Hossain, PhD (Retd)" class="chairman-photo" />
-            <div class="chairman-name">Engr. Mohammad Abdul Latif</div>
-            <div class="chairman-title"> <b class="text-success">Vice President</b>
-                <br/> Sector 13 Welfare Society
-            </div>
-        </div>
-        <!-- Right: Message Intro -->
-        <div class="message-intro">
-            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-            <div class="greeting">Assalamu Alaikum and warm greetings,</div>
-            <div class="intro-text">
-               আমরা ঐক্য, সহযোগিতা ও পরিকল্পিত অগ্রগতির পক্ষে। সম্মিলিতভাবে সেক্টর ১৩-কে একটি দায়িত্বশীল ও মর্যাদাপূর্ণ নাগরিক নেতৃত্বের প্রতীক হিসেবে গড়ে তুলবো। <br>
-
-                <span style="font-style: italic; color: #6a4bbf;"> শুভেচ্ছান্তে, <br>
-                    ইঞ্জিনিয়ার মোঃ আব্দুল লতিফ
-                </span> <br>
-
-                <b> সহ-সভাপতি, 
-                    সেক্টর ১৩ ওয়েলফেয়ার সোসাইটি </b>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
+    </section>
+}

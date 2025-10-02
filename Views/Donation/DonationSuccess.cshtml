@@ -4,24 +4,28 @@
     Layout = "_Layout";
 }
 
-<div class="container-fluid" style="margin-top: 100px; margin-bottom: 20px;">
+<div class="container-fluid" style="margin-top: 50px; margin-bottom: 20px;">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <!-- Thank You Hero Section -->
-            <div class="success-card text-center">
+        <div class="col-12 col-lg-10">
+            <div class="row g-4 align-items-stretch">
+                <!-- Thank You Hero Section -->
+                <div class="col-12 col-lg-4">
+                    <div class="success-card text-center h-100 p-4">
                 <div class="success-icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <h1 class="success-title">Thank You!</h1>
                 <p class="success-message">Your generous donation has been successfully processed and will make a real difference in our community.</p>
                 <div class="donation-amount">
-                    <span class="amount-label">Donation Amount:</span>
+                    <span class="amount-label">Donation Amount</span>
                     <span class="amount-value">৳@Model.Amount.ToString("N2")</span>
                 </div>
-            </div>
+                    </div>
+                </div>
 
-            <!-- Simple Receipt Card -->
-            <div class="card border-0 shadow-lg">
+                <!-- Simple Receipt Card -->
+                <div class="col-12 col-lg-8">
+                    <div class="card border-0 shadow-lg h-100">
                 <div class="card-header bg-success text-white text-center py-4">
                     <h3 class="mb-0">
                         <i class="fas fa-receipt me-2"></i>
@@ -31,7 +35,7 @@
                 </div>
                 <div class="card-body p-4">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-12 col-md-6 mb-4 mb-md-0">
                             <div class="receipt-details">
                                 <h5 class="text-primary mb-3">
                                     <i class="fas fa-info-circle me-2"></i>Transaction Details
@@ -54,7 +58,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-12 col-md-6">
                             <div class="donor-details">
                                 <h5 class="text-primary mb-3">
                                     <i class="fas fa-user me-2"></i>Donor Information
@@ -81,22 +85,24 @@
 
                     <!-- Action Buttons -->
                     <div class="action-buttons text-center mt-4 mb-4">
-                        <button class="btn btn-primary btn-lg me-2 mb-2" id="downloadReceiptBtn">
+                        <button class="btn btn-primary btn-lg me-2 mb-2 action-btn" id="downloadReceiptBtn">
                             <i class="fas fa-download me-2"></i>
                             Download Receipt
                         </button>
-                        <button class="btn btn-secondary btn-lg me-2 mb-2" id="printReceiptBtn">
+                        <button class="btn btn-secondary btn-lg me-2 mb-2 action-btn" id="printReceiptBtn">
                             <i class="fas fa-print me-2"></i>
                             Print Receipt
                         </button>
-                        <a href="/Home/donate" class="btn btn-success btn-lg me-2 mb-2">
+                        <a href="/Home/donate" class="btn btn-success btn-lg me-2 mb-2 action-btn">
                             <i class="fas fa-heart me-2"></i>
                             Donate Again
                         </a>
-                        <a href="/" class="btn btn-outline-secondary btn-lg mb-2">
+                        <a href="/" class="btn btn-outline-secondary btn-lg mb-2 action-btn">
                             <i class="fas fa-home me-2"></i>
                             Go to Home
                         </a>
+                    </div>
+                </div>
                     </div>
                 </div>
             </div>
@@ -119,3 +125,29 @@
 </div>
 
 <!-- Styles and scripts are now properly separated in external files --> 
+
+<style>
+    .success-card {
+        border-radius: 16px;
+        background: linear-gradient(145deg, #2ca5a5 0%, #1f8a8a 100%);
+        color: #ffffff;
+    }
+    .success-card .success-icon { font-size: 48px; margin-bottom: 12px; }
+    .success-card .success-title { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
+    .success-card .success-message { line-height: 1.6; }
+    .success-card .donation-amount { margin-top: 16px; padding: 12px; background: rgba(255,255,255,.1); border-radius: 10px; }
+    .success-card .amount-label { display:block; opacity:.9; }
+    .success-card .amount-value { font-weight:700; font-size: 24px; }
+
+    @@media (max-width: 576px) {
+        .container-fluid { margin-top: -40px; }
+        .success-card { padding: 20px !important; }
+        margin-top: 2px;
+        .success-card .success-title { font-size: 28px; }
+        .success-card .success-icon { font-size: 40px; }
+        .action-buttons .action-btn { width: 100%; }
+    }
+    @@media (max-width: 992px) {
+        .action-buttons .action-btn { width: 100%; }
+    }
+</style>
